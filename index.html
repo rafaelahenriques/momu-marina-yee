@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Marina Yee — MoMu Antwerp</title>
+    <meta
+      name="description"
+      content="An interactive longread on Belgian designer Marina Yee, part of MoMu Antwerp's series on the Antwerp Six."
+    />
+
+    <!--
+      Progressive enhancement switch.
+      This runs before paint, so CSS can style the JS and no-JS versions
+      differently without a flash. Everything below must still be readable
+      if this script never runs.
+    -->
+    <script>
+      document.documentElement.classList.remove('no-js');
+      document.documentElement.classList.add('js');
+    </script>
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main">Skip to the story</a>
+
+    <header class="site-header">
+      <p class="site-header__client">MoMu Antwerp</p>
+      <p class="site-header__series">Antwerp Six — Story 1 of 6</p>
+    </header>
+
+    <main id="main">
+      <!-- ============================================================
+           HERO
+           Your opening thesis. Replace this with whatever the most
+           characteristic thing in Yee's world turns out to be.
+      ============================================================= -->
+      <section class="hero" data-section="hero">
+        <h1 class="hero__title">Marina Yee</h1>
+        <p class="hero__standfirst">
+          Your one-sentence angle goes here — the specific claim this longread
+          makes about her work.
+        </p>
+      </section>
+
+      <!-- ============================================================
+           CHAPTER — duplicate this block per chapter
+      ============================================================= -->
+      <section class="chapter" data-section="chapter" id="chapter-1">
+        <h2 class="chapter__title" data-reveal>Chapter title</h2>
+
+        <div class="chapter__body">
+          <p data-reveal>
+            Longread body copy. Keep paragraphs short enough to read on a phone
+            and let the measure do the work — around 60–70 characters per line.
+          </p>
+          <p data-reveal>
+            A second paragraph, so you can see the reveal stagger working before
+            you write the real thing.
+          </p>
+        </div>
+
+        <!-- Responsive image pattern. Put your files in /public/images/.
+             Ship AVIF/WebP first and a JPEG as the fallback. -->
+        <figure class="figure" data-reveal>
+          <picture>
+            <source
+              type="image/avif"
+              srcset="
+                /images/placeholder-640.avif   640w,
+                /images/placeholder-1280.avif 1280w,
+                /images/placeholder-1920.avif 1920w
+              "
+              sizes="(min-width: 60rem) 50rem, 100vw"
+            />
+            <source
+              type="image/webp"
+              srcset="
+                /images/placeholder-640.webp   640w,
+                /images/placeholder-1280.webp 1280w,
+                /images/placeholder-1920.webp 1920w
+              "
+              sizes="(min-width: 60rem) 50rem, 100vw"
+            />
+            <img
+              src="/images/placeholder-1280.jpg"
+              alt="Describe what is actually in the image, for someone who cannot see it."
+              width="1280"
+              height="853"
+              loading="lazy"
+              decoding="async"
+            />
+          </picture>
+          <figcaption>Caption. Credit the archive or collection here.</figcaption>
+        </figure>
+      </section>
+
+      <!-- ============================================================
+           INTERACTIVE MOMENT
+           The graded core: the user should LEARN by doing something.
+           This is a working placeholder — a before/after comparison
+           slider. Swap it for whatever your angle needs (draping,
+           pattern pieces, deconstruction, material sampling…).
+      ============================================================= -->
+      <section class="chapter" data-section="interactive" id="interactive-1">
+        <h2 class="chapter__title" data-reveal>Try it yourself</h2>
+
+        <p class="chapter__body" data-reveal>
+          One sentence telling the user what to do and what they will learn by
+          doing it.
+        </p>
+
+        <!-- Works without JS: both images are simply visible and stacked.
+             With JS, it becomes a draggable comparison. -->
+        <div class="compare" data-compare>
+          <div class="compare__pane compare__pane--before">
+            <img
+              src="/images/placeholder-1280.jpg"
+              alt="Before."
+              width="1280"
+              height="853"
+            />
+          </div>
+          <div class="compare__pane compare__pane--after">
+            <img
+              src="/images/placeholder-1280.jpg"
+              alt="After."
+              width="1280"
+              height="853"
+            />
+          </div>
+
+          <label class="compare__control">
+            <span class="visually-hidden">Reveal the second image</span>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+              step="1"
+              data-compare-range
+            />
+          </label>
+        </div>
+      </section>
+    </main>
+
+    <!-- ============================================================
+         SERIES NAVIGATION
+         The brief asks for the six one-pagers to be interconnected.
+    ============================================================= -->
+    <nav class="series" aria-label="Other stories in this series">
+      <h2 class="series__title">The rest of the Six</h2>
+      <ul class="series__list">
+        <li><a href="#">Next story — coming soon</a></li>
+      </ul>
+    </nav>
+
+    <footer class="site-footer">
+      <p>
+        A student project for MoMu Antwerp — Devine, Howest. Images courtesy of
+        their respective archives.
+      </p>
+    </footer>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

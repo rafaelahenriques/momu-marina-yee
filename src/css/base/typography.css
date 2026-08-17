@@ -1,0 +1,57 @@
+body {
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: var(--leading-body);
+  color: var(--color-ink);
+  background-color: var(--color-bg);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  line-height: var(--leading-tight);
+  font-weight: 400;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--step-4);
+}
+h2 {
+  font-size: var(--step-3);
+}
+h3 {
+  font-size: var(--step-2);
+}
+
+p {
+  max-width: var(--measure);
+  text-wrap: pretty;
+}
+
+p + p {
+  margin-top: var(--space-s);
+}
+
+a {
+  color: inherit;
+  text-underline-offset: 0.15em;
+}
+
+figcaption,
+.site-header p {
+  font-family: var(--font-utility);
+  font-size: var(--step--1);
+  color: var(--color-ink-muted);
+}
+
+/* Available to screen readers, invisible on screen. */
+.visually-hidden:not(:focus):not(:active) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

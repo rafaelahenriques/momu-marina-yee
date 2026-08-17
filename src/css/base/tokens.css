@@ -1,0 +1,57 @@
+/* ============================================================
+   DESIGN TOKENS
+
+   These are deliberately plain. The visual language is yours to
+   define and defend — replace every value below once your
+   moodboard is settled, and keep the names, not the greys.
+
+   Rule of thumb: if a hex code or a font name appears anywhere
+   outside this file, it belongs in here instead.
+============================================================ */
+
+:root {
+  /* --- Colour ------------------------------------------------ */
+  --color-bg: #ffffff;
+  --color-surface: #f4f4f4;
+  --color-ink: #141414;
+  --color-ink-muted: #5a5a5a;
+  --color-accent: #141414;
+  --color-rule: #d8d8d8;
+
+  /* --- Type -------------------------------------------------- */
+  --font-display: Georgia, 'Times New Roman', serif;
+  --font-body: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-utility: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  /* Fluid scale: grows with the viewport between roughly 320px and 1400px. */
+  --step--1: clamp(0.83rem, 0.79rem + 0.2vw, 0.94rem);
+  --step-0: clamp(1rem, 0.95rem + 0.25vw, 1.13rem);
+  --step-1: clamp(1.2rem, 1.11rem + 0.45vw, 1.5rem);
+  --step-2: clamp(1.44rem, 1.28rem + 0.8vw, 2rem);
+  --step-3: clamp(1.73rem, 1.45rem + 1.4vw, 2.67rem);
+  --step-4: clamp(2.07rem, 1.6rem + 2.35vw, 3.55rem);
+
+  --leading-tight: 1.1;
+  --leading-body: 1.6;
+
+  /* --- Space ------------------------------------------------- */
+  --space-3xs: 0.25rem;
+  --space-2xs: 0.5rem;
+  --space-xs: 0.75rem;
+  --space-s: 1rem;
+  --space-m: 1.5rem;
+  --space-l: 2.5rem;
+  --space-xl: 4rem;
+  --space-2xl: 6rem;
+
+  /* --- Layout ------------------------------------------------ */
+  --measure: 65ch; /* comfortable reading width for body copy */
+  --width-content: 42rem;
+  --width-wide: 72rem;
+  --gutter: var(--space-m);
+
+  /* --- Motion ------------------------------------------------ */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 150ms;
+  --duration-base: 350ms;
+}

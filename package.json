@@ -1,0 +1,18 @@
+{
+  "name": "momu-marina-yee",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Interactive longread on Marina Yee for MoMu Antwerp — Devine ENG INT3",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "gsap": "^3.13.0"
+  },
+  "devDependencies": {
+    "vite": "^7.0.0"
+  }
+}

@@ -1,0 +1,11 @@
+/* Order matters: reset first, then tokens, then type, then layout, then components.
+   Anything you add later goes at the bottom of the relevant group, never above it. */
+
+@import './base/reset.css';
+@import './base/tokens.css';
+@import './base/typography.css';
+
+@import './layout/layout.css';
+
+@import './components/figure.css';
+@import './components/compare.css';

@@ -1,0 +1,13 @@
+.figure {
+  max-width: var(--width-wide);
+  margin-inline: auto;
+}
+
+.figure img {
+  width: 100%;
+}
+
+.figure figcaption {
+  margin-top: var(--space-2xs);
+  max-width: var(--measure);
+}
