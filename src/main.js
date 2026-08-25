@@ -16,9 +16,13 @@ async function init() {
   // largest dependency here, so it stays out of the initial bundle and is
   // never downloaded at all by reduced-motion visitors.
   if (!prefersReducedMotion()) {
-    const { initScrollReveal } = await import('./js/scroll-reveal.js');
-    initScrollReveal();
-  }
+  const [{ initScrollReveal }, { initSpotlight }] = await Promise.all([
+    import('./js/scroll-reveal.js'),
+    import('./js/spotlight.js'),
+  ]);
+  initScrollReveal();
+  initSpotlight();
+}
 }
 
 if (document.readyState === 'loading') {
