@@ -251,3 +251,61 @@
 .js .picker__panel + .picker__panel {
   margin-top: 0;
 }
+
+/* ============================================================
+   SPOTLIGHT STATEMENT
+
+   Two stacked copies of the same line. The base copy (always in
+   the DOM, always readable) is what no-JS and reduced-motion
+   visitors get — plain type, nothing hidden.
+
+   The second copy is decorative and aria-hidden: a dark layer
+   clipped to a circle via clip-path. spotlight.js scrubs that
+   circle across the section on scroll, then shrinks it to
+   nothing — the "torch" recedes and the base copy is all that's
+   left, readable, in the section's normal colours.
+
+   The overlay's display is set by JavaScript itself (not a .js
+   class), so it can never appear unless the animation that
+   removes it is actually going to run.
+============================================================ */
+
+.statement--spotlight {
+  position: relative;
+  overflow: hidden; /* keeps the overlay's dark background contained
+                        to this section — this is what stops it
+                        bleeding into the sections below */
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-inline: var(--gutter);
+}
+
+.statement--spotlight .statement__text {
+  max-width: 20ch;
+  text-align: center;
+}
+.spotlight-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-inline: var(--gutter);
+  background: var(--color-ink);
+  pointer-events: none;
+  opacity: 1;
+  /* 0% by default: with no JS, this never opens and the overlay
+     is simply invisible — no-JS/reduced-motion visitors only ever
+     see the plain base text underneath. */
+  clip-path: circle(
+    var(--spot-r, 0%) at var(--spot-x, 50%) var(--spot-y, 50%)
+  );
+  transition: opacity var(--duration-base) var(--ease-out);
+}
+
+.spotlight-overlay .statement__text {
+  color: var(--color-bg);
+}

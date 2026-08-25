@@ -105,11 +105,17 @@
 
       <!-- Spotlight statement. The circle is decorative and lives in CSS,
            not in the markup — nothing here should exist only to be animated. -->
-      <section class="statement statement--spotlight" data-section="spotlight">
-        <p class="statement__text">
-          Move away from the spotlight, and her practice becomes easier to see.
-        </p>
-      </section>
+ <section class="statement statement--spotlight" data-section="spotlight" data-spotlight id="spotlight">
+  <p class="statement__text">
+    Move away from the spotlight, and her practice becomes easier to see.
+  </p>
+
+  <div class="spotlight-overlay" aria-hidden="true">
+    <p class="statement__text">
+      Move away from the spotlight, and her practice becomes easier to see.
+    </p>
+  </div>
+</section>
 
       <section class="chapter" data-section="reconstruction">
         <h2 class="visually-hidden">Working from existing garments</h2>
