@@ -201,6 +201,13 @@ figcaption {
   margin-bottom: var(--space-l);
 }
 
+/* Dark palette for interrupting sections. Applied via class rather than
+   a data attribute, since it's purely presentational. */
+.chapter--dark {
+  background: var(--color-dark-bg);
+  color: var(--color-dark-ink);
+}
+
 .visit {
   padding: var(--space-2xl) var(--gutter);
   background: var(--color-surface);

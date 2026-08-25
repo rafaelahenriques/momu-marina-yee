@@ -309,3 +309,62 @@
 .spotlight-overlay .statement__text {
   color: var(--color-bg);
 }
+
+/* ============================================================
+   HORIZONTAL SCROLL
+   Default: a plain stacked block, read top to bottom — this is
+   what no-JS and reduced-motion visitors get, no different from
+   any other section.
+
+   Enhanced (.is-enhanced, added only by horizontal-scroll.js,
+   only when motion is allowed): the track becomes a flex row and
+   the section is pinned while GSAP translates it sideways,
+   driven by ordinary vertical scroll.
+============================================================ */
+
+.horizontal {
+  padding-block: var(--space-2xl);
+}
+
+.horizontal__track {
+  display: block;
+}
+
+.horizontal__panel {
+  max-width: var(--width-content);
+  margin-inline: auto;
+  padding: var(--space-l) var(--gutter);
+}
+
+.horizontal__panel + .horizontal__panel {
+  border-top: 1px solid var(--color-dark-muted);
+}
+
+.horizontal.is-enhanced {
+  overflow: hidden;
+}
+
+.horizontal.is-enhanced .horizontal__track {
+  display: flex;
+  flex-wrap: nowrap;
+  height: 100dvh;
+}
+
+.horizontal.is-enhanced .horizontal__panel {
+  flex: 0 0 100vw;
+  max-width: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.horizontal.is-enhanced .horizontal__panel + .horizontal__panel {
+  border-top: 0;
+}
+
+.horizontal.is-enhanced .horizontal__panel p,
+.horizontal.is-enhanced .horizontal__panel .beat,
+.horizontal.is-enhanced .horizontal__panel .question {
+  max-width: 32ch;
+  font-size: var(--step-1);
+}

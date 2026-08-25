@@ -15,13 +15,16 @@ async function init() {
   // Decorative motion is opt-out, and loaded on demand: GSAP is by far the
   // largest dependency here, so it stays out of the initial bundle and is
   // never downloaded at all by reduced-motion visitors.
-  if (!prefersReducedMotion()) {
-  const [{ initScrollReveal }, { initSpotlight }] = await Promise.all([
-    import('./js/scroll-reveal.js'),
-    import('./js/spotlight.js'),
-  ]);
+ if (!prefersReducedMotion()) {
+  const [{ initScrollReveal }, { initSpotlight }, { initHorizontalScroll }] =
+    await Promise.all([
+      import('./js/scroll-reveal.js'),
+      import('./js/spotlight.js'),
+      import('./js/horizontal-scroll.js'),
+    ]);
   initScrollReveal();
   initSpotlight();
+  initHorizontalScroll();
 }
 }
 
