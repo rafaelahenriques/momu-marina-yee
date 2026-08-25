@@ -1,5 +1,5 @@
-/* Order matters: reset first, then tokens, then type, then layout, then components.
-   Anything you add later goes at the bottom of the relevant group, never above it. */
+/* Cascade order: reset, tokens, typography, layout, components.
+   Add new files at the bottom of their group, never above it. */
 
 @import './base/reset.css';
 @import './base/tokens.css';
@@ -7,5 +7,6 @@
 
 @import './layout/layout.css';
 
+@import './components/site-header.css';
 @import './components/figure.css';
 @import './components/compare.css';

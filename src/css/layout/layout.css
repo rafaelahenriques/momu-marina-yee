@@ -1,10 +1,11 @@
-/* Mobile first. Every rule here is the phone rule; anything wider is added
-   inside a min-width media query, never the other way round. */
+/* Mobile first. Every rule here is the phone rule; wider screens
+   are handled inside min-width queries, never the other way round. */
 
 .skip-link {
   position: absolute;
   top: var(--space-2xs);
   left: var(--space-2xs);
+  z-index: 10;
   padding: var(--space-2xs) var(--space-xs);
   background: var(--color-ink);
   color: var(--color-bg);
@@ -15,22 +16,19 @@
   transform: translateY(0);
 }
 
-.site-header {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2xs) var(--space-s);
-  justify-content: space-between;
-  padding: var(--space-s) var(--gutter);
-  border-bottom: 1px solid var(--color-rule);
-}
-
 .hero {
   padding: var(--space-2xl) var(--gutter) var(--space-xl);
 }
 
+.hero__inner {
+  max-width: var(--width-content);
+  margin-inline: auto;
+}
+
 .hero__standfirst {
   margin-top: var(--space-m);
-  font-size: var(--step-1);
+  font-family: var(--font-display);
+  font-size: var(--step-2);
   color: var(--color-ink-muted);
 }
 
@@ -38,21 +36,56 @@
   padding: var(--space-xl) var(--gutter);
 }
 
-.chapter > * + * {
-  margin-top: var(--space-m);
+.chapter + .chapter {
+  border-top: 1px solid var(--color-rule);
 }
 
-.chapter__body,
 .chapter__title,
-.hero__title,
-.hero__standfirst {
+.chapter__body {
   max-width: var(--width-content);
   margin-inline: auto;
 }
 
+.chapter__title {
+  margin-bottom: var(--space-l);
+}
+
+.visit {
+  padding: var(--space-2xl) var(--gutter);
+  background: var(--color-surface);
+}
+
+.visit__inner {
+  max-width: var(--width-content);
+  margin-inline: auto;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target);
+  margin-top: var(--space-l);
+  padding-inline: var(--space-m);
+  background: var(--color-ink);
+  color: var(--color-bg);
+  text-decoration: none;
+  font-family: var(--font-utility);
+  font-size: var(--step--1);
+  transition: background var(--duration-fast) var(--ease-out);
+}
+
+.button:hover {
+  background: var(--color-ink-muted);
+}
+
 .series {
   padding: var(--space-xl) var(--gutter);
-  background: var(--color-surface);
+  border-top: 1px solid var(--color-rule);
+}
+
+.series__inner {
+  max-width: var(--width-content);
+  margin-inline: auto;
 }
 
 .series__title {
@@ -60,25 +93,21 @@
 }
 
 .series__list {
+  list-style: none;
   margin-top: var(--space-m);
   padding: 0;
-  list-style: none;
   display: grid;
-  gap: var(--space-xs);
+  gap: var(--space-2xs);
 }
 
 .site-footer {
   padding: var(--space-l) var(--gutter);
+  border-top: 1px solid var(--color-rule);
   font-size: var(--step--1);
   color: var(--color-ink-muted);
 }
 
-@media (min-width: 48rem) {
-  :root {
-    --gutter: var(--space-l);
-  }
-
-  .chapter {
-    padding-block: var(--space-2xl);
-  }
+.site-footer p {
+  max-width: var(--width-content);
+  margin-inline: auto;
 }

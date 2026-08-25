@@ -1,12 +1,12 @@
 /* ============================================================
    DESIGN TOKENS
 
-   These are deliberately plain. The visual language is yours to
-   define and defend — replace every value below once your
-   moodboard is settled, and keep the names, not the greys.
+   The single source of truth for colour, type, space and motion.
+   If a hex code, font name or shadow appears anywhere outside
+   this file, it belongs in here instead.
 
-   Rule of thumb: if a hex code or a font name appears anywhere
-   outside this file, it belongs in here instead.
+   These values are deliberately plain — the visual direction is
+   yours to define. Replace the values, keep the names.
 ============================================================ */
 
 :root {
@@ -14,18 +14,18 @@
   --color-bg: #ffffff;
   --color-surface: #f4f4f4;
   --color-ink: #141414;
-  --color-ink-muted: #5a5a5a;
-  --color-accent: #141414;
-  --color-rule: #d8d8d8;
+  --color-ink-muted: #5a5a5a; /* 7.0:1 on --color-bg */
+  --color-rule: #d8d8d8; /* hairlines only, never text */
+
+  --shadow-pill: 0 1px 3px rgb(0 0 0 / 0.12);
 
   /* --- Type -------------------------------------------------- */
   --font-display: Georgia, 'Times New Roman', serif;
   --font-body: system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-utility: ui-monospace, 'SFMono-Regular', Menlo, monospace;
 
-  /* Fluid scale: grows with the viewport between roughly 320px and 1400px. */
   --step--1: clamp(0.83rem, 0.79rem + 0.2vw, 0.94rem);
-  --step-0: clamp(1rem, 0.95rem + 0.25vw, 1.13rem);
+  --step-0: clamp(1.0625rem, 1rem + 0.25vw, 1.25rem);
   --step-1: clamp(1.2rem, 1.11rem + 0.45vw, 1.5rem);
   --step-2: clamp(1.44rem, 1.28rem + 0.8vw, 2rem);
   --step-3: clamp(1.73rem, 1.45rem + 1.4vw, 2.67rem);
@@ -45,13 +45,22 @@
   --space-2xl: 6rem;
 
   /* --- Layout ------------------------------------------------ */
-  --measure: 65ch; /* comfortable reading width for body copy */
+  --measure: 65ch;
   --width-content: 42rem;
   --width-wide: 72rem;
   --gutter: var(--space-m);
 
   /* --- Motion ------------------------------------------------ */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --duration-fast: 150ms;
+  --duration-fast: 160ms;
   --duration-base: 350ms;
+
+  /* Minimum comfortable touch target. */
+  --target: 2.75rem;
+}
+
+@media (min-width: 48rem) {
+  :root {
+    --gutter: var(--space-l);
+  }
 }

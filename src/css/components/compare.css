@@ -1,9 +1,10 @@
-/* Without JS: the two panes simply stack and both are readable.
-   With JS (.is-enhanced): they overlap and the range input wipes between them. */
+/* Without JS: the two panes stack and both are visible.
+   With JS (.is-enhanced): they overlap and the range wipes between them. */
 
 .compare {
   max-width: var(--width-wide);
   margin-inline: auto;
+  margin-block: var(--space-xl);
   display: grid;
   gap: var(--space-s);
 }
@@ -35,5 +36,7 @@
 
 .compare__control input {
   width: 100%;
+  min-height: var(--target);
   cursor: ew-resize;
+  accent-color: var(--color-ink);
 }

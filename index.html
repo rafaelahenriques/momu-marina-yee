@@ -10,6 +10,11 @@
       content="Marina Yee worked through reconstruction, reuse and alteration. An interactive longread from MoMu Antwerp on what she kept, what she changed, and why both stay visible."
     />
 
+    <!--
+      Progressive enhancement switch. Runs before paint, so CSS can style
+      the JS and no-JS versions differently without a flash. Everything
+      below must stay usable if this never runs.
+    -->
     <script>
       document.documentElement.classList.remove('no-js');
       document.documentElement.classList.add('js');
@@ -21,21 +26,84 @@
   <body>
     <a class="skip-link" href="#main">Skip to the story</a>
 
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="https://www.momu.be/en/">Home</a></li>
+        <li><a href="https://www.momu.be/en/stories">Stories</a></li>
+        <li aria-current="page">Marina Yee</li>
+      </ol>
+    </nav>
+
     <header class="site-header">
-      <p class="site-header__client">MoMu Antwerp</p>
-      <p class="site-header__series">Antwerp Six — Story 1 of 6</p>
+      <a class="site-header__logo" href="https://www.momu.be/en/">
+        <img
+          src="/momu-logo.svg"
+          alt="MoMu — Fashion Museum Antwerp"
+          width="120"
+          height="40"
+        />
+      </a>
+
+      <div class="site-header__controls">
+        <a class="pill" href="https://www.momu.be/en/visit">Tickets</a>
+
+        <a class="pill pill--uppercase pill--secondary" href="#series">
+          All designers stories
+        </a>
+
+        <button
+          class="pill pill--uppercase menu-toggle"
+          type="button"
+          aria-expanded="true"
+          aria-controls="menu-panel"
+          data-menu-toggle
+        >
+          Menu
+        </button>
+      </div>
     </header>
 
+    <!--
+      Ships open: without JavaScript the links are simply visible and the
+      Menu button is hidden by CSS. js/menu.js closes it on load.
+    -->
+    <nav
+      class="menu-panel"
+      id="menu-panel"
+      aria-label="Sections of this story"
+      data-menu-panel
+    >
+      <ul class="menu-panel__list">
+        <li><a href="#introduction">Away from the spotlight</a></li>
+        <li>
+          <a href="#starting-with-what-already-existed">
+            Starting with what already existed
+          </a>
+        </li>
+        <li><a href="#originality">Originality without newness</a></li>
+        <li><a href="#one-corner-off">One Corner Off</a></li>
+        <li><a href="#visit">Look Closer at MoMu</a></li>
+      </ul>
+    </nav>
+
     <main id="main">
+      <!-- ============================================================
+           HERO
+      ============================================================= -->
       <section class="hero" data-section="hero">
         <hgroup class="hero__inner">
-          <h1 class="hero__title">Marina Yee</h1>
+          <h1>Marina Yee</h1>
           <p class="hero__standfirst">One Corner Off</p>
         </hgroup>
       </section>
 
+      <!-- ============================================================
+           AWAY FROM THE SPOTLIGHT
+           Heading invented — your text has none here. Rewrite it.
+      ============================================================= -->
       <section class="chapter" data-section="intro" id="introduction">
-        
+        <h2 class="chapter__title" data-reveal>Away from the spotlight</h2>
+
         <div class="chapter__body">
           <p data-reveal>
             Marina Yee’s place within the Antwerp Six is usually the first fact
@@ -62,6 +130,9 @@
         </div>
       </section>
 
+      <!-- ============================================================
+           STARTING WITH WHAT ALREADY EXISTED
+      ============================================================= -->
       <section
         class="chapter"
         data-section="starting"
@@ -80,6 +151,8 @@
           </p>
         </div>
 
+        <!-- Responsive image pattern. Files go in /public/images/.
+             AVIF and WebP first, JPEG as the fallback. -->
         <figure class="figure" data-reveal>
           <picture>
             <source
@@ -102,7 +175,7 @@
             />
             <img
               src="/images/patchwork-1280.jpg"
-              alt="Describe the garment and the visible denim patchwork."
+              alt="Describe the garment and where the denim patchwork sits."
               width="1280"
               height="853"
               loading="lazy"
@@ -130,6 +203,10 @@
         </div>
       </section>
 
+      <!-- ============================================================
+           ORIGINALITY WITHOUT NEWNESS
+           Heading invented — rewrite it.
+      ============================================================= -->
       <section class="chapter" data-section="originality" id="originality">
         <h2 class="chapter__title" data-reveal>Originality without newness</h2>
 
@@ -206,7 +283,14 @@
         </div>
       </section>
 
-      <section class="chapter" data-section="one-corner-off" id="one-corner-off">
+      <!-- ============================================================
+           ONE CORNER OFF
+      ============================================================= -->
+      <section
+        class="chapter"
+        data-section="one-corner-off"
+        id="one-corner-off"
+      >
         <h2 class="chapter__title" data-reveal>One Corner Off</h2>
 
         <div class="chapter__body">
@@ -253,10 +337,13 @@
       </section>
     </main>
 
+    <!-- ============================================================
+         LOOK CLOSER AT MOMU
+    ============================================================= -->
     <section class="visit" data-section="visit" id="visit">
-      <h2 class="chapter__title" data-reveal>Look Closer at MoMu</h2>
+      <div class="visit__inner">
+        <h2 data-reveal>Look Closer at MoMu</h2>
 
-      <div class="chapter__body">
         <p data-reveal>
           The clearest evidence of Yee’s approach remains in the garments.
           Reused materials, alterations and traces of earlier construction make
@@ -268,18 +355,21 @@
           At MoMu, those details show how reuse, reconstruction and the idea of
           “one corner off” operated as parts of the same design process.
         </p>
-      </div>
 
-      <a class="button" href="https://www.momu.be/en/" data-reveal>
-        Plan your visit
-      </a>
+        <a class="button" href="https://www.momu.be/en/visit" data-reveal>
+          Plan your visit
+        </a>
+      </div>
     </section>
 
-    <nav class="series" aria-label="Other stories in this series">
-      <h2 class="series__title">The rest of the Six</h2>
-      <ul class="series__list">
-        <li><a href="#">Next story — coming soon</a></li>
-      </ul>
+    <!-- The brief asks for the six one-pagers to be interconnected. -->
+    <nav class="series" id="series" aria-label="Other stories in this series">
+      <div class="series__inner">
+        <h2 class="series__title">The rest of the Six</h2>
+        <ul class="series__list">
+          <li><a href="#">02 — Next story, coming soon</a></li>
+        </ul>
+      </div>
     </nav>
 
     <footer class="site-footer">
