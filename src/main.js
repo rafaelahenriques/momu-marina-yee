@@ -5,11 +5,12 @@ import './css/main.css';
 import { prefersReducedMotion } from './js/reduced-motion.js';
 import { initMenu } from './js/menu.js';
 import { initCompare } from './js/compare.js';
-
+import { initPicker } from './js/picker.js';
 async function init() {
   // Behaviour runs regardless — these are how the page works.
   initMenu();
   initCompare();
+  initPicker();
 
   // Decorative motion is opt-out, and loaded on demand: GSAP is by far the
   // largest dependency here, so it stays out of the initial bundle and is
