@@ -1,6 +1,7 @@
 .figure {
   max-width: var(--width-wide);
   margin-inline: auto;
+  margin-block: var(--space-xl);
 }
 
 .figure img {

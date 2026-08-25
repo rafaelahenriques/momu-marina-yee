@@ -7,22 +7,19 @@ body {
 }
 
 h1,
-h2,
-h3 {
+h2 {
   font-family: var(--font-display);
-  line-height: var(--leading-tight);
   font-weight: 400;
+  line-height: var(--leading-tight);
   text-wrap: balance;
 }
 
 h1 {
   font-size: var(--step-4);
 }
+
 h2 {
   font-size: var(--step-3);
-}
-h3 {
-  font-size: var(--step-2);
 }
 
 p {
@@ -39,11 +36,32 @@ a {
   text-underline-offset: 0.15em;
 }
 
-figcaption,
-.site-header p {
+figcaption {
   font-family: var(--font-utility);
   font-size: var(--step--1);
   color: var(--color-ink-muted);
+}
+
+/* ------------------------------------------------------------
+   BEAT
+   The single-sentence paragraphs the text uses as turning
+   points. A distinct register, not ordinary body copy.
+------------------------------------------------------------ */
+.beat {
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  line-height: 1.3;
+  max-width: 26ch;
+  margin-block: var(--space-l);
+}
+
+/* The pivot line before "One Corner Off". */
+.question {
+  font-family: var(--font-display);
+  font-size: var(--step-3);
+  line-height: var(--leading-tight);
+  max-width: 20ch;
+  margin-block: var(--space-2xl);
 }
 
 /* Available to screen readers, invisible on screen. */

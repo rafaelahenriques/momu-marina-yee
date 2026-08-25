@@ -12,7 +12,6 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
-/* Only smooth-scroll for people who did not ask for less motion. */
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;
@@ -20,7 +19,6 @@ html {
 }
 
 body {
-  min-height: 100vh;
   min-height: 100dvh;
   -webkit-font-smoothing: antialiased;
 }
@@ -46,18 +44,17 @@ select {
 p,
 h1,
 h2,
-h3,
-h4 {
+h3 {
   overflow-wrap: break-word;
 }
 
-/* Visible keyboard focus everywhere. Do not remove this; restyle it if you must. */
+/* Visible keyboard focus everywhere. Restyle if you must, but
+   never remove. */
 :focus-visible {
-  outline: 2px solid currentColor;
+  outline: 3px solid currentColor;
   outline-offset: 3px;
 }
 
-/* Turn off decorative motion at the source, as a safety net behind the JS check. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
