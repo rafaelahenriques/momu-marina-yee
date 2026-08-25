@@ -368,3 +368,76 @@
   max-width: 32ch;
   font-size: var(--step-1);
 }
+
+/* Flat placeholder rectangle standing in for a real photo, until
+   archive images are sourced. */
+.placeholder-img {
+  display: block;
+  width: 100%;
+  aspect-ratio: var(--ratio, 3 / 2);
+  background: repeating-linear-gradient(
+    45deg,
+    var(--color-rule),
+    var(--color-rule) 1px,
+    var(--color-surface) 1px,
+    var(--color-surface) 10px
+  );
+}
+
+/* ============================================================
+   HERO SCATTER
+   Three images positioned around the title, each at a fixed
+   angle and offset. Static by default — this is what no-JS and
+   reduced-motion visitors see. hero-scatter.js only animates
+   *into* these positions; it never depends on JS to look right.
+============================================================ */
+
+.hero__scatter {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.hero__image {
+  position: absolute;
+  width: clamp(8rem, 18vw, 16rem);
+}
+
+.hero__image--1 {
+  top: 8%;
+  right: 8%;
+  transform: rotate(-4deg);
+}
+
+.hero__image--2 {
+  bottom: 12%;
+  left: 6%;
+  width: clamp(7rem, 15vw, 13rem);
+  transform: rotate(6deg);
+}
+
+.hero__image--3 {
+  top: 45%;
+  right: 20%;
+  width: clamp(6rem, 12vw, 10rem);
+  transform: rotate(-8deg);
+}
+
+@media (max-width: 47.99rem) {
+  /* On narrow screens, scatter fights the title for space —
+     pull the images out toward the edges and shrink them rather
+     than removing them, so the composition survives. */
+  .hero__image--1 {
+    top: 4%;
+    right: 2%;
+    width: 6rem;
+  }
+  .hero__image--2 {
+    bottom: 6%;
+    left: 2%;
+    width: 5.5rem;
+  }
+  .hero__image--3 {
+    display: none;
+  }
+}
