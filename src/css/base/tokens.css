@@ -4,58 +4,70 @@
    The single source of truth for colour, type, space and motion.
    If a hex code, font name or shadow appears anywhere outside
    this file, it belongs in here instead.
-
-   These values are deliberately plain — the visual direction is
-   yours to define. Replace the values, keep the names.
 ============================================================ */
 
 :root {
-  /* --- Colour ------------------------------------------------ */
+  /* --- Colour --------------------------------------------------
+     Pure white base. Warm paper is reserved for the horizontal
+     scroll sections — see .sequence in components.css — so the
+     shift in tone marks "a different kind of space" rather than
+     being the page's resting state. */
   --color-bg: #ffffff;
-  --color-surface: #f4f4f4;
-  --color-ink: #141414;
-  --color-ink-muted: #5a5a5a; /* 7.0:1 on --color-bg */
-  --color-rule: #d8d8d8; /* hairlines only, never text */
+  --color-surface: #f4f2ec; /* warm paper, horizontal scroll only */
+  --color-ink: #141210;
+  --color-ink-muted: #5c584f; /* 8.4:1 on --color-bg */
+  --color-rule: #dcdcdc;
+
+  /* The dark section (sustainability/originality). Not pure
+     black — sits slightly warm to match the paper it interrupts. */
+  --color-dark-bg: #2b2926;
+  --color-dark-ink: #f6f4ef;
+  --color-dark-muted: #a39d90;
 
   --shadow-pill: 0 1px 3px rgb(0 0 0 / 0.12);
 
-  /* --- Type -------------------------------------------------- */
-  --font-display: Georgia, 'Times New Roman', serif;
-  --font-body: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* --- Type ------------------------------------------------- */
+  --font-display: 'Reckless Wide', Georgia, 'Times New Roman', serif;
+  --font-body: 'Roobert', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-utility: ui-monospace, 'SFMono-Regular', Menlo, monospace;
 
-  --step--1: clamp(0.83rem, 0.79rem + 0.2vw, 0.94rem);
-  --step-0: clamp(1.0625rem, 1rem + 0.25vw, 1.25rem);
-  --step-1: clamp(1.2rem, 1.11rem + 0.45vw, 1.5rem);
-  --step-2: clamp(1.44rem, 1.28rem + 0.8vw, 2rem);
-  --step-3: clamp(1.73rem, 1.45rem + 1.4vw, 2.67rem);
-  --step-4: clamp(2.07rem, 1.6rem + 2.35vw, 3.55rem);
+  /* Fluid scale. The PDF's section titles run large on desktop —
+     --step-4 is sized for those, not for a normal h1. */
+  --step--1: clamp(0.83rem, 0.8rem + 0.15vw, 0.94rem);
+  --step-0: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+  --step-1: clamp(1.3rem, 1.15rem + 0.7vw, 1.75rem);
+  --step-2: clamp(1.6rem, 1.3rem + 1.4vw, 2.4rem);
+  --step-3: clamp(2rem, 1.5rem + 2.4vw, 3.5rem);
+  --step-4: clamp(2.6rem, 1.7rem + 4.2vw, 5.5rem);
 
-  --leading-tight: 1.1;
+  --leading-tight: 1.08;
   --leading-body: 1.6;
 
-  /* --- Space ------------------------------------------------- */
+  /* --- Space -------------------------------------------------- */
   --space-3xs: 0.25rem;
   --space-2xs: 0.5rem;
   --space-xs: 0.75rem;
   --space-s: 1rem;
   --space-m: 1.5rem;
   --space-l: 2.5rem;
-  --space-xl: 4rem;
-  --space-2xl: 6rem;
+  --space-xl: 4.5rem;
+  --space-2xl: 7rem;
 
-  /* --- Layout ------------------------------------------------ */
-  --measure: 65ch;
-  --width-content: 42rem;
+  /* --- Layout --------------------------------------------------
+     --measure only bounds line length; layout.css positions the
+     columns. */
+  --measure: 60ch;
+  --width-content: 38rem;
   --width-wide: 72rem;
   --gutter: var(--space-m);
 
-  /* --- Motion ------------------------------------------------ */
+  /* --- Motion --------------------------------------------------
+     Fabric settles, it does not bounce — no elastic/back eases
+     anywhere on this page. */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --duration-fast: 160ms;
-  --duration-base: 350ms;
+  --duration-base: 400ms;
 
-  /* Minimum comfortable touch target. */
   --target: 2.75rem;
 }
 

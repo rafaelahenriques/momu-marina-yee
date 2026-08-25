@@ -1,0 +1,41 @@
+/* ============================================================
+   FONTS
+
+   Files live in /public/fonts/. Convert any future additions to
+   .woff2 first — trial fonts often ship as .otf at 2-3x the size.
+
+   Only the weights actually used are loaded. Every extra weight
+   is another blocking download on mobile.
+============================================================ */
+
+@font-face {
+  font-family: 'Reckless Wide';
+  src: url('/fonts/RecklessWideM-TRIAL-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Reckless Wide';
+  src: url('/fonts/RecklessWideM-TRIAL-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Roobert';
+  src: url('/fonts/Roobert-TRIAL-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Roobert';
+  src: url('/fonts/Roobert-TRIAL-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}

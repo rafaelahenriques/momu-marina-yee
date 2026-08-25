@@ -1,12 +1,8 @@
-/* Cascade order: reset, tokens, typography, layout, components.
-   Add new files at the bottom of their group, never above it. */
+/* Cascade order: fonts, tokens, base, components.
+   Add new rules to whichever file they belong in. */
 
-@import './base/reset.css';
+@import './base/fonts.css';
 @import './base/tokens.css';
-@import './base/typography.css';
 
-@import './layout/layout.css';
-
-@import './components/site-header.css';
-@import './components/figure.css';
-@import './components/compare.css';
+@import './base.css';
+@import './components.css';

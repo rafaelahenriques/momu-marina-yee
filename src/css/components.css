@@ -1,0 +1,253 @@
+/* ============================================================
+   SITE HEADER
+   MoMu's institutional chrome: breadcrumb, logo, pill controls.
+============================================================ */
+
+.breadcrumb {
+  padding: var(--space-xs) var(--gutter) 0;
+}
+
+.breadcrumb ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-utility);
+  font-size: var(--step--1);
+  color: var(--color-ink-muted);
+}
+
+.breadcrumb li + li::before {
+  content: '/';
+  margin-inline-end: var(--space-2xs);
+}
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-m);
+  padding: var(--space-s) var(--gutter);
+}
+
+.site-header__logo {
+  flex-shrink: 0;
+}
+
+.site-header__logo img {
+  height: 2.5rem;
+  width: auto;
+}
+
+.site-header__controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target);
+  padding-inline: var(--space-m);
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: var(--color-bg);
+  box-shadow: var(--shadow-pill);
+  font-family: var(--font-utility);
+  font-size: var(--step--1);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-out);
+}
+
+.pill:hover {
+  background: var(--color-surface);
+}
+
+.pill--uppercase {
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* SAFE ONLY BECAUSE the same destination is in .menu-panel — if
+   removed from the panel, remove this rule too. */
+.pill--secondary {
+  display: none;
+}
+
+@media (min-width: 48rem) {
+  .pill--secondary {
+    display: inline-flex;
+  }
+}
+
+.menu-toggle {
+  display: none;
+}
+
+.js .menu-toggle {
+  display: inline-flex;
+}
+
+.menu-panel {
+  padding: var(--space-m) var(--gutter);
+  border-block: 1px solid var(--color-rule);
+  background: var(--color-surface);
+}
+
+.menu-panel__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-2xs);
+  max-width: var(--width-wide);
+}
+
+.menu-panel__list a {
+  display: inline-block;
+  padding-block: var(--space-3xs);
+  font-family: var(--font-utility);
+  font-size: var(--step--1);
+}
+
+/* ============================================================
+   FIGURE
+============================================================ */
+
+.figure {
+  max-width: var(--width-wide);
+  margin-inline: auto;
+  margin-block: var(--space-xl);
+}
+
+.figure img {
+  width: 100%;
+}
+
+.figure figcaption {
+  margin-top: var(--space-2xs);
+  max-width: var(--measure);
+}
+
+/* ============================================================
+   COMPARE
+   Without JS the two panes stack and both are visible.
+   With JS (.is-enhanced) they overlap and the range wipes
+   between them.
+============================================================ */
+
+.compare {
+  max-width: var(--width-wide);
+  margin-inline: auto;
+  margin-block: var(--space-xl);
+  display: grid;
+  gap: var(--space-s);
+}
+
+.compare.is-enhanced {
+  --compare-position: 50%;
+  position: relative;
+  gap: 0;
+}
+
+.compare.is-enhanced .compare__pane {
+  grid-area: 1 / 1;
+}
+
+.compare.is-enhanced .compare__pane--after {
+  clip-path: inset(0 0 0 var(--compare-position));
+}
+
+.compare__control {
+  display: block;
+}
+
+.compare.is-enhanced .compare__control {
+  position: absolute;
+  inset-inline: 0;
+  bottom: var(--space-s);
+  padding-inline: var(--space-s);
+}
+
+.compare__control input {
+  width: 100%;
+  min-height: var(--target);
+  cursor: ew-resize;
+  accent-color: var(--color-ink);
+}
+
+/* ============================================================
+   GARMENT PICKER
+   Radio group + panels. Without JS every panel is visible and
+   stacked, so the content is complete before enhancement.
+============================================================ */
+
+.picker {
+  padding: var(--space-xl) var(--gutter);
+}
+
+.picker__choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+  border: 0;
+  padding: 0;
+  margin: 0 auto var(--space-l);
+  max-width: var(--width-content);
+}
+
+.picker__choice {
+  display: inline-flex;
+}
+
+.picker__choice input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.picker__label {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target);
+  padding-inline: var(--space-m);
+  border: 1px solid var(--color-rule);
+  cursor: pointer;
+  font-family: var(--font-utility);
+  font-size: var(--step--1);
+  transition: background var(--duration-fast) var(--ease-out);
+}
+
+.picker__choice input:checked + .picker__label {
+  background: var(--color-ink);
+  border-color: var(--color-ink);
+  color: var(--color-bg);
+}
+
+.picker__choice input:focus-visible + .picker__label {
+  outline: 3px solid currentColor;
+  outline-offset: 3px;
+}
+
+.picker__panels {
+  max-width: var(--width-content);
+  margin-inline: auto;
+}
+
+.picker__panel + .picker__panel {
+  margin-top: var(--space-l);
+}
+
+.js .picker__panel[hidden] {
+  display: none;
+}
+
+.js .picker__panel + .picker__panel {
+  margin-top: 0;
+}
