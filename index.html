@@ -4,18 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Marina Yee — MoMu Antwerp</title>
+    <title>Marina Yee: One Corner Off — MoMu Antwerp</title>
     <meta
       name="description"
-      content="An interactive longread on Belgian designer Marina Yee, part of MoMu Antwerp's series on the Antwerp Six."
+      content="Marina Yee worked through reconstruction, reuse and alteration. An interactive longread from MoMu Antwerp on what she kept, what she changed, and why both stay visible."
     />
 
-    <!--
-      Progressive enhancement switch.
-      This runs before paint, so CSS can style the JS and no-JS versions
-      differently without a flash. Everything below must still be readable
-      if this script never runs.
-    -->
     <script>
       document.documentElement.classList.remove('no-js');
       document.documentElement.classList.add('js');
@@ -33,61 +27,82 @@
     </header>
 
     <main id="main">
-      <!-- ============================================================
-           HERO
-           Your opening thesis. Replace this with whatever the most
-           characteristic thing in Yee's world turns out to be.
-      ============================================================= -->
       <section class="hero" data-section="hero">
-        <h1 class="hero__title">Marina Yee</h1>
-        <p class="hero__standfirst">
-          Your one-sentence angle goes here — the specific claim this longread
-          makes about her work.
-        </p>
+        <hgroup class="hero__inner">
+          <h1 class="hero__title">Marina Yee</h1>
+          <p class="hero__standfirst">One Corner Off</p>
+        </hgroup>
       </section>
 
-      <!-- ============================================================
-           CHAPTER — duplicate this block per chapter
-      ============================================================= -->
-      <section class="chapter" data-section="chapter" id="chapter-1">
-        <h2 class="chapter__title" data-reveal>Chapter title</h2>
+      <section class="chapter" data-section="intro" id="introduction">
+        
+        <div class="chapter__body">
+          <p data-reveal>
+            Marina Yee’s place within the Antwerp Six is usually the first fact
+            attached to her name. It is important history, but it does not
+            explain the way she approached design.
+          </p>
+
+          <p class="beat" data-reveal>
+            Move away from the spotlight, and her practice becomes easier to
+            see.
+          </p>
+
+          <p data-reveal>
+            Much of Yee’s work developed through reconstruction, reuse and
+            alteration rather than custom production. Existing garments gave her
+            a starting point: something already constructed that could be taken
+            apart, reconsidered and made into something else.
+          </p>
+
+          <p class="beat" data-reveal>
+            She was doing this long before repair, reuse and upcycling became
+            common language in contemporary fashion.
+          </p>
+        </div>
+      </section>
+
+      <section
+        class="chapter"
+        data-section="starting"
+        id="starting-with-what-already-existed"
+      >
+        <h2 class="chapter__title" data-reveal>
+          Starting with what already existed
+        </h2>
 
         <div class="chapter__body">
           <p data-reveal>
-            Longread body copy. Keep paragraphs short enough to read on a phone
-            and let the measure do the work — around 60–70 characters per line.
-          </p>
-          <p data-reveal>
-            A second paragraph, so you can see the reveal stagger working before
-            you write the real thing.
+            Yee described using this approach in Marie, where old jeans were cut
+            into patchwork and incorporated by hand into bomber jackets. The
+            used denim remained visibly used rather than being transformed into
+            something that concealed its previous life.
           </p>
         </div>
 
-        <!-- Responsive image pattern. Put your files in /public/images/.
-             Ship AVIF/WebP first and a JPEG as the fallback. -->
         <figure class="figure" data-reveal>
           <picture>
             <source
               type="image/avif"
               srcset="
-                /images/placeholder-640.avif   640w,
-                /images/placeholder-1280.avif 1280w,
-                /images/placeholder-1920.avif 1920w
+                /images/patchwork-640.avif   640w,
+                /images/patchwork-1280.avif 1280w,
+                /images/patchwork-1920.avif 1920w
               "
               sizes="(min-width: 60rem) 50rem, 100vw"
             />
             <source
               type="image/webp"
               srcset="
-                /images/placeholder-640.webp   640w,
-                /images/placeholder-1280.webp 1280w,
-                /images/placeholder-1920.webp 1920w
+                /images/patchwork-640.webp   640w,
+                /images/patchwork-1280.webp 1280w,
+                /images/patchwork-1920.webp 1920w
               "
               sizes="(min-width: 60rem) 50rem, 100vw"
             />
             <img
-              src="/images/placeholder-1280.jpg"
-              alt="Describe what is actually in the image, for someone who cannot see it."
+              src="/images/patchwork-1280.jpg"
+              alt="Describe the garment and the visible denim patchwork."
               width="1280"
               height="853"
               loading="lazy"
@@ -96,62 +111,170 @@
           </picture>
           <figcaption>Caption. Credit the archive or collection here.</figcaption>
         </figure>
+
+        <div class="chapter__body">
+          <p data-reveal>
+            There were also practical limits to working this way. The available
+            fabric had already been determined, the pieces had already been cut
+            once, and the material could arrive faded, repaired or worn. Unlike
+            designing from a new length of fabric, Yee could not control every
+            condition from the start.
+          </p>
+
+          <p data-reveal>
+            Rather than treating those restrictions as problems, she allowed
+            them to influence the result. Her process became a matter of
+            deciding what the garment already offered, what deserved to remain
+            and where an intervention was actually necessary.
+          </p>
+        </div>
       </section>
 
-      <!-- ============================================================
-           INTERACTIVE MOMENT
-           The graded core: the user should LEARN by doing something.
-           This is a working placeholder — a before/after comparison
-           slider. Swap it for whatever your angle needs (draping,
-           pattern pieces, deconstruction, material sampling…).
-      ============================================================= -->
-      <section class="chapter" data-section="interactive" id="interactive-1">
-        <h2 class="chapter__title" data-reveal>Try it yourself</h2>
+      <section class="chapter" data-section="originality" id="originality">
+        <h2 class="chapter__title" data-reveal>Originality without newness</h2>
 
-        <p class="chapter__body" data-reveal>
-          One sentence telling the user what to do and what they will learn by
-          doing it.
-        </p>
+        <div class="chapter__body">
+          <p data-reveal>
+            Seen from the present, it is natural to describe Yee’s practice
+            through sustainability. Reuse is clearly part of the story, but it
+            does not account for everything her work was doing.
+          </p>
 
-        <!-- Works without JS: both images are simply visible and stacked.
-             With JS, it becomes a draggable comparison. -->
+          <p data-reveal>
+            It also complicates the relationship between originality and
+            newness. Fashion often treats the creation of something new as the
+            basis of originality. Yee’s reconstructed garments suggest that the
+            two do not have to mean the same thing. She could retain enough of
+            an existing piece for its earlier form to remain legible while still
+            producing a different result.
+          </p>
+        </div>
+
+        <!-- Interaction: seeing both at once. Placed here because the
+             paragraph below argues exactly this — the viewer registers
+             what was already there alongside what Yee did with it. -->
         <div class="compare" data-compare>
           <div class="compare__pane compare__pane--before">
             <img
               src="/images/placeholder-1280.jpg"
-              alt="Before."
+              alt="The garment before Yee's intervention."
               width="1280"
               height="853"
+              loading="lazy"
+              decoding="async"
             />
           </div>
           <div class="compare__pane compare__pane--after">
             <img
               src="/images/placeholder-1280.jpg"
-              alt="After."
+              alt="The same garment after reconstruction."
               width="1280"
               height="853"
+              loading="lazy"
+              decoding="async"
             />
           </div>
 
           <label class="compare__control">
-            <span class="visually-hidden">Reveal the second image</span>
+            <span class="visually-hidden">Reveal the reconstructed garment</span>
             <input
               type="range"
               min="0"
               max="100"
               value="50"
               step="1"
+              aria-valuetext="Reconstructed garment 50% revealed"
               data-compare-range
             />
           </label>
         </div>
+
+        <div class="chapter__body">
+          <p data-reveal>
+            That recognition is important because it allows the change itself to
+            be understood. The viewer can register what was already there
+            alongside what Yee chooses to do with it. Her originality,
+            therefore, did not depend on removing all evidence of the starting
+            point. It could come from examining something familiar closely
+            enough to identify where a change would matter.
+          </p>
+
+          <p class="question" data-reveal>
+            The question becomes not how much can be changed, but how much needs
+            to be changed.
+          </p>
+        </div>
+      </section>
+
+      <section class="chapter" data-section="one-corner-off" id="one-corner-off">
+        <h2 class="chapter__title" data-reveal>One Corner Off</h2>
+
+        <div class="chapter__body">
+          <p data-reveal>
+            Yee has used the Flemish expression “one corner off” when speaking
+            about her creative process: the idea of making something appear
+            complete, then deliberately disturbing it.
+          </p>
+
+          <p data-reveal>
+            The expression helps explain a recurring quality in her work. Her
+            interventions did not have to overwhelm what was already there. A
+            familiar garment could remain recognisable while a deliberate
+            alteration changed the way it was read.
+          </p>
+
+          <p data-reveal>
+            It also gives context to the imperfections that appear in her work.
+            They were not simply signs that a garment had been left unresolved
+            or that technical control was missing. The disruption could be
+            intentional, made possible by first understanding the construction
+            or convention being altered.
+          </p>
+
+          <p data-reveal>
+            Seen alongside her reconstructed garments, the expression becomes
+            particularly useful. Yee could preserve much of an existing piece
+            while changing a specific part of its construction, proportion or
+            material. What already existed and what she introduced remained
+            visible at the same time.
+          </p>
+
+          <p class="beat" data-reveal>
+            In that sense, “one corner off” offers a way of understanding more
+            than the physical act of reconstruction.
+          </p>
+
+          <p data-reveal>
+            It points towards a broader tendency in Yee’s practice:
+            understanding what already exists, retaining what continues to
+            matter, and intervening where a change can shift the whole.
+          </p>
+        </div>
       </section>
     </main>
 
-    <!-- ============================================================
-         SERIES NAVIGATION
-         The brief asks for the six one-pagers to be interconnected.
-    ============================================================= -->
+    <section class="visit" data-section="visit" id="visit">
+      <h2 class="chapter__title" data-reveal>Look Closer at MoMu</h2>
+
+      <div class="chapter__body">
+        <p data-reveal>
+          The clearest evidence of Yee’s approach remains in the garments.
+          Reused materials, alterations and traces of earlier construction make
+          it possible to see how the original object and the later intervention
+          exist together.
+        </p>
+
+        <p data-reveal>
+          At MoMu, those details show how reuse, reconstruction and the idea of
+          “one corner off” operated as parts of the same design process.
+        </p>
+      </div>
+
+      <a class="button" href="https://www.momu.be/en/" data-reveal>
+        Plan your visit
+      </a>
+    </section>
+
     <nav class="series" aria-label="Other stories in this series">
       <h2 class="series__title">The rest of the Six</h2>
       <ul class="series__list">
