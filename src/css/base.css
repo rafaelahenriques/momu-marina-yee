@@ -168,10 +168,17 @@ figcaption {
 }
 
 .hero {
-  padding: var(--space-2xl) var(--gutter) var(--space-xl);
+  position: relative;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  padding: var(--space-2xl) var(--gutter);
+  overflow: hidden;
 }
 
 .hero__inner {
+  position: relative;
+  z-index: 2;
   max-width: var(--width-content);
   margin-inline: auto;
 }
