@@ -529,3 +529,177 @@
 .sequence-wrap:has(.sequence.is-marquee) .sequence__toggle {
   display: inline-flex;
 }
+
+/* ============================================================
+   PICKER — two-column layout
+
+   Left: heading, intro, choices, text panels — the fully
+   accessible baseline, unchanged mechanism from before.
+
+   Right: a collage of four images, pre-positioned overlapping at
+   rest via CSS alone. This is what no-JS and reduced-motion
+   visitors see — already collage-like, nothing hidden, nothing
+   waiting on JavaScript to look intentional.
+============================================================ */
+
+.picker {
+  display: grid;
+  gap: var(--space-xl);
+  padding: var(--space-xl) var(--gutter);
+}
+
+.picker__intro {
+  max-width: var(--width-content);
+}
+
+.picker__choices {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  border: 0;
+  padding: 0;
+  margin: var(--space-l) 0;
+  max-width: 20rem;
+}
+
+/* Alternating offsets so the choices read as placed, not lined up. */
+.picker__choice:nth-child(2) {
+  margin-left: var(--space-l);
+}
+.picker__choice:nth-child(3) {
+  margin-left: var(--space-2xs);
+}
+.picker__choice:nth-child(4) {
+  margin-left: var(--space-m);
+}
+
+.picker__choice input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.picker__label {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target);
+  padding-inline: var(--space-m);
+  border: 1px solid var(--color-rule);
+  cursor: pointer;
+  font-family: var(--font-utility);
+  font-size: var(--step--1);
+  transition:
+    background var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+}
+
+/* Underline draw, CSS-only baseline — the JS magnetic pull in
+   picker-motion.js layers a translate on top of this same label. */
+.picker__label::after {
+  content: '';
+  position: absolute;
+  left: var(--space-m);
+  right: var(--space-m);
+  bottom: 0.4em;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.picker__label:hover::after,
+.picker__label:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.picker__choice input:checked + .picker__label {
+  background: var(--color-ink);
+  border-color: var(--color-ink);
+  color: var(--color-bg);
+}
+
+.picker__choice input:active + .picker__label {
+  transform: scale(0.96);
+}
+
+.picker__choice input:focus-visible + .picker__label {
+  outline: 3px solid currentColor;
+  outline-offset: 3px;
+}
+
+.picker__panels {
+  max-width: 28rem;
+}
+
+.picker__panel + .picker__panel {
+  margin-top: var(--space-l);
+}
+
+.js .picker__panel[hidden] {
+  display: none;
+}
+
+.js .picker__panel + .picker__panel {
+  margin-top: 0;
+}
+
+/* --- Collage stage --------------------------------------------- */
+
+.picker__stage {
+  position: relative;
+  min-height: 26rem;
+}
+
+.picker__stage-img {
+  position: absolute;
+  width: 60%;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.15);
+}
+
+.picker__stage-img[data-stage-img='menswear'] {
+  top: 0;
+  left: 4%;
+  width: 55%;
+  transform: rotate(-4deg);
+  z-index: 1;
+}
+
+.picker__stage-img[data-stage-img='military'] {
+  top: 8%;
+  right: 2%;
+  width: 48%;
+  transform: rotate(3deg);
+  z-index: 2;
+}
+
+.picker__stage-img[data-stage-img='workwear'] {
+  bottom: 4%;
+  left: 22%;
+  width: 40%;
+  transform: rotate(-2deg);
+  z-index: 3;
+}
+
+.picker__stage-img[data-stage-img='denim'] {
+  bottom: 0;
+  right: 8%;
+  width: 46%;
+  transform: rotate(5deg);
+  z-index: 1;
+}
+
+@media (min-width: 64rem) {
+  .picker {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .picker__stage {
+    min-height: 40rem;
+    position: sticky;
+    top: var(--space-xl);
+  }
+}
