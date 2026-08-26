@@ -783,3 +783,153 @@
   .my-project-grid__item--3 { grid-column: 2 / 3; grid-row: 3 / 5; }
   .my-project-grid__item--4 { grid-column: 1 / 3; grid-row: 5 / 7; }
 }
+/* ============================================================
+   TEXT LINE REVEAL
+============================================================ */
+
+.text-reveal {
+  position: relative;
+  overflow: clip;
+}
+
+.text-reveal__hint {
+  display: none;
+}
+
+.text-reveal__pin {
+  position: relative;
+}
+
+.text-reveal__stage {
+  min-height: 100dvh;
+  display: grid;
+  grid-template-columns: minmax(7rem, 0.35fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(2rem, 7vw, 8rem);
+  padding: var(--space-2xl) var(--gutter);
+}
+
+/* ---------------- Figure ---------------- */
+
+.text-reveal__fig {
+  align-self: center;
+  color: var(--color-ink-muted);
+}
+
+.text-reveal__fig-label {
+  display: block;
+  margin-bottom: var(--space-2xs);
+  font-family: var(--font-utility);
+  font-size: var(--step--1);
+}
+
+.text-reveal__fig .placeholder-img {
+  width: min(100%, 8rem);
+}
+
+/* ---------------- Text ---------------- */
+
+.text-reveal__text {
+  width: min(100%, 44rem);
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--step-3);
+  line-height: 1.15;
+}
+
+/* ---------------- Scroll hint ---------------- */
+
+.text-reveal.is-pinned .text-reveal__hint {
+  display: block;
+  position: fixed;
+  z-index: 20;
+  bottom: var(--space-l);
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-utility);
+  font-size: var(--step--1);
+  color: var(--color-ink-muted);
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease-out);
+  pointer-events: none;
+}
+
+.text-reveal.is-pinned.is-in-view .text-reveal__hint {
+  opacity: 1;
+}
+
+/* ---------------- Individual lines ---------------- */
+
+.text-reveal__line {
+  display: block;
+  overflow: hidden;
+}
+
+.text-reveal__line-cover {
+  position: absolute;
+  inset: 0;
+  background: var(--color-bg);
+  transform-origin: right center;
+  will-change: transform;
+}
+
+.text-reveal {
+  position: relative;
+  overflow: clip;
+  padding-bottom: var(--space-2xl);
+}
+
+/* ---------------- Mobile ---------------- */
+
+@media (max-width: 47.99rem) {
+  .text-reveal__stage {
+    grid-template-columns: 1fr;
+    align-content: center;
+  }
+
+  .text-reveal__fig .placeholder-img {
+    width: 6rem;
+  }
+
+  .text-reveal__text {
+    font-size: var(--step-2);
+  }
+}
+
+/* ============================================================
+   TEXT MARQUEE
+
+   Default: the existing centered, wrapped .statement__text — no
+   different from any other statement section. This is what
+   no-JS and reduced-motion visitors get.
+
+   Enhanced (.is-enhanced, added only by text-marquee.js, only
+   when motion is allowed): the sentence renders as one oversized
+   non-wrapping line and slides horizontally across the screen as
+   the section pins to vertical scroll.
+============================================================ */
+
+.statement--marquee__pin {
+  position: relative;
+}
+
+.statement--marquee.is-enhanced .statement--marquee__pin {
+  height: 250vh;
+}
+
+.statement--marquee__stage {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.statement--marquee.is-enhanced .statement--marquee__text {
+  max-width: none;
+  width: max-content;
+  white-space: nowrap;
+  font-size: max(2.5rem, 8vw);
+  font-weight: 400;
+  padding-inline: 100vw;
+  will-change: transform;
+}
