@@ -125,8 +125,26 @@
 
         <div class="chapter__body chapter__body--standalone" data-reveal>
           <p>
-            Marina Yee’s place within the <strong>Antwerp Six</strong> is
-            usually the first fact attached to her name. It is important
+            Marina Yee’s place within the
+            <!-- The label the page is about to set aside: scribbled out,
+                 then dropped out of the sentence. The words stay in the
+                 markup and in the accessibility tree — only their painted
+                 position changes. -->
+            <span class="scatter" data-scatter>
+              <strong>Antwerp Six</strong>
+              <img
+                class="scribble scribble--strike"
+                src="/images/objects/doodle-scribble.png"
+                alt=""
+                width="571"
+                height="639"
+                aria-hidden="true"
+                loading="lazy"
+                decoding="async"
+                data-scribble="left"
+              />
+            </span>
+            is usually the first fact attached to her name. It is important
             history, but it does not explain the way she approached design.
           </p>
         </div>
@@ -184,7 +202,20 @@
               Yee worked with garments that already had a form, a function and,
               often, visible signs of previous use.
             </p>
-            <p>Choose a garment to look closer.</p>
+            <p class="picker__cue">
+              Choose a garment to look closer.
+              <img
+                class="scribble scribble--cue"
+                src="/images/objects/arrow-scribble.png"
+                alt=""
+                width="219"
+                height="244"
+                aria-hidden="true"
+                loading="lazy"
+                decoding="async"
+                data-scribble="down"
+              />
+            </p>
           </div>
 
           <fieldset class="picker__choices" data-picker data-reveal>
@@ -192,22 +223,22 @@
 
             <label class="picker__choice">
               <input type="radio" name="garment" value="menswear" checked />
-              <span class="picker__label">Vintage menswear</span>
+              <span class="picker__label" data-magnetic>Vintage menswear</span>
             </label>
 
             <label class="picker__choice">
               <input type="radio" name="garment" value="military" />
-              <span class="picker__label">Military</span>
+              <span class="picker__label" data-magnetic>Military</span>
             </label>
 
             <label class="picker__choice">
               <input type="radio" name="garment" value="workwear" />
-              <span class="picker__label">Workwear</span>
+              <span class="picker__label" data-magnetic>Workwear</span>
             </label>
 
             <label class="picker__choice">
               <input type="radio" name="garment" value="denim" />
-              <span class="picker__label">Second-hand denim</span>
+              <span class="picker__label" data-magnetic>Second-hand denim</span>
             </label>
           </fieldset>
 
@@ -260,48 +291,93 @@
         </div>
 
         <!-- Decorative collage: the text panels above already carry this
-             content, so nothing here is information a screen reader needs. -->
+             content, so nothing here is information a screen reader needs.
+             Each piece is a wrapper holding the resting position, angle and
+             scroll drift, with the image inside left free for poke.js. -->
         <div class="picker__stage" data-picker-stage aria-hidden="true">
-          <img
-            class="picker__stage-img"
+          <div
+            class="picker__stage-item"
             data-stage-img="menswear"
-            src="/images/trench.jpg"
-            alt=""
-            width="640"
-            height="426"
-            loading="lazy"
-            decoding="async"
-          />
-          <img
-            class="picker__stage-img"
+            data-poke-item
+          >
+            <img
+              src="/images/trench.jpg"
+              alt=""
+              width="640"
+              height="426"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+
+          <div
+            class="picker__stage-item"
             data-stage-img="military"
-            src="/images/bomber.jpg"
-            alt=""
-            width="640"
-            height="1216"
-            loading="lazy"
-            decoding="async"
-          />
-          <img
-            class="picker__stage-img"
+            data-poke-item
+          >
+            <img
+              src="/images/bomber.jpg"
+              alt=""
+              width="640"
+              height="1216"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+
+          <div
+            class="picker__stage-item"
             data-stage-img="workwear"
-            src="/images/atelier.jpg"
-            alt=""
-            width="640"
-            height="587"
-            loading="lazy"
-            decoding="async"
-          />
-          <img
-            class="picker__stage-img"
-            data-stage-img="denim"
-            src="/images/denim-jacket.jpg"
-            alt=""
-            width="640"
-            height="960"
-            loading="lazy"
-            decoding="async"
-          />
+            data-poke-item
+          >
+            <img
+              src="/images/atelier.jpg"
+              alt=""
+              width="640"
+              height="587"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+
+          <div class="picker__stage-item" data-stage-img="denim" data-poke-item>
+            <img
+              src="/images/denim-jacket.jpg"
+              alt=""
+              width="640"
+              height="960"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+
+          <div
+            class="picker__stage-item picker__stage-item--cloth-a"
+            data-poke-item
+          >
+            <img
+              src="/images/objects/cloth-folded.png"
+              alt=""
+              width="398"
+              height="702"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+
+          <div
+            class="picker__stage-item picker__stage-item--cloth-b"
+            data-poke-item
+          >
+            <img
+              src="/images/objects/cloth-stack.png"
+              alt=""
+              width="380"
+              height="710"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
         </div>
       </section>
 
@@ -317,24 +393,46 @@
         </div>
       </section>
 
-      <section class="chapter" id="starting-with-what-already-existed">
-        <h2 class="chapter__title">Starting With What Already Existed</h2>
+      <section
+        class="chapter text-swap"
+        id="starting-with-what-already-existed"
+        data-text-swap
+      >
+        <h2 class="chapter__title text-swap__title">
+          Starting With What Already Existed
+          <img
+            class="scribble scribble--alter"
+            src="/images/objects/alter-scribble.png"
+            alt=""
+            width="385"
+            height="228"
+            aria-hidden="true"
+            loading="lazy"
+            decoding="async"
+            data-scribble="left"
+          />
+        </h2>
 
-        <div class="chapter__body">
-          <p data-reveal>
-            Working this way meant accepting limits. The fabric had already
-            been chosen, the pieces had already been cut once, and the
-            material could arrive faded, repaired or worn. Unlike working from
-            a new length of fabric, Yee could not determine every condition
-            from the start.
-          </p>
+        <!-- Two ordinary stacked paragraphs by default. text-swap.js turns
+             them over into one another line by line once motion is allowed;
+             see .text-swap.is-enhanced in components.css. -->
+        <div class="text-swap__pin" data-text-swap-pin>
+          <div class="chapter__body text-swap__stage" data-text-swap-stage>
+            <p class="text-swap__text" data-text-swap-text>
+              Working this way meant accepting limits. The fabric had already
+              been chosen, the pieces had already been cut once, and the
+              material could arrive faded, repaired or worn. Unlike working
+              from a new length of fabric, Yee could not determine every
+              condition from the start.
+            </p>
 
-          <p data-reveal>
-            Instead of treating those restrictions as problems, she let them
-            shape the result. Her process became a matter of deciding what the
-            garment already offered, what deserved to remain and where an
-            intervention was actually necessary.
-          </p>
+            <p class="text-swap__text" data-text-swap-text>
+              Instead of treating those restrictions as problems, she let them
+              shape the result. Her process became a matter of deciding what
+              the garment already offered, what deserved to remain and where an
+              intervention was actually necessary.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -560,25 +658,42 @@
           </button>
         </div>
 
-        <div class="chapter__body chapter__body--standalone" data-reveal>
-          <p>
-            Seen alongside her reconstructed garments, the expression became
-            particularly useful. Yee could preserve much of an existing piece
-            while changing a specific part of its construction, proportion or
-            material.
-            <strong>
-              What already existed and what she introduced remained visible at
-              the same time.
-            </strong>
-          </p>
+        <!-- The block is set as a sheet with its corner already cut, and the
+             cut piece lying loose beside it — both states visible at once,
+             which is what the paragraph describes. The piece is decoration
+             with nothing written on it and nothing behind it; corner-off.js
+             only makes it possible to pick up. -->
+        <div
+          class="chapter__body chapter__body--standalone corner-off"
+          data-corner-off
+          data-reveal
+        >
+          <div class="corner-off__sheet">
+            <p>
+              Seen alongside her reconstructed garments, the expression became
+              particularly useful. Yee could preserve much of an existing piece
+              while changing a specific part of its construction, proportion or
+              material.
+              <strong>
+                What already existed and what she introduced remained visible
+                at the same time.
+              </strong>
+            </p>
 
-          <p>
-            In that sense, “one corner off” offered a way of understanding more
-            than the physical act of reconstruction. It pointed towards a
-            broader tendency in Yee’s practice: understanding what already
-            existed, retaining what continued to matter, and intervening where
-            a change could shift the whole.
-          </p>
+            <p>
+              In that sense, “one corner off” offered a way of understanding
+              more than the physical act of reconstruction. It pointed towards
+              a broader tendency in Yee’s practice: understanding what already
+              existed, retaining what continued to matter, and intervening
+              where a change could shift the whole.
+            </p>
+          </div>
+
+          <span
+            class="corner-off__piece"
+            data-corner-off-piece
+            aria-hidden="true"
+          ></span>
         </div>
       </section>
 
@@ -598,9 +713,60 @@
             of “one corner off” operated as parts of the same design process.
           </p>
 
-          <a class="button" href="https://www.momu.be/en/visit">
-            Plan your visit
-          </a>
+          <p class="visit__cta">
+            <a class="button" href="https://www.momu.be/en/visit" data-magnetic>
+              Plan your visit
+            </a>
+            <img
+              class="scribble scribble--here"
+              src="/images/objects/here-scribble.png"
+              alt=""
+              width="272"
+              height="152"
+              aria-hidden="true"
+              loading="lazy"
+              decoding="async"
+              data-scribble="left"
+            />
+          </p>
+        </div>
+
+        <!-- The loose things from a workroom, laid out beside the invitation.
+             Decorative: the copy above already says what is worth going to
+             see, so nothing here is information a screen reader needs. -->
+        <div class="visit__objects" data-object-pop aria-hidden="true">
+          <div class="visit__object visit__object--tape" data-poke-item>
+            <img
+              src="/images/objects/measuring-tape.png"
+              alt=""
+              width="535"
+              height="422"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+
+          <div class="visit__object visit__object--needle" data-poke-item>
+            <img
+              src="/images/objects/needle-thread.png"
+              alt=""
+              width="425"
+              height="242"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+
+          <div class="visit__object visit__object--swatch" data-poke-item>
+            <img
+              src="/images/objects/cloth-swatch.png"
+              alt=""
+              width="265"
+              height="420"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
         </div>
       </section>
     </main>

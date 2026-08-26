@@ -24,6 +24,12 @@ html {
 body {
   min-height: 100dvh;
   -webkit-font-smoothing: antialiased;
+
+  /* Loose objects get knocked sideways and letters get thrown off the
+     sentence, and either can end up past the right edge. clip rather than
+     hidden: hidden would make the body a scroll container and break every
+     pinned section on the page. */
+  overflow-x: clip;
 }
 
 img,

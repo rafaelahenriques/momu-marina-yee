@@ -1,15 +1,19 @@
 import { gsap, ScrollTrigger } from './motion.js';
 
 /**
- * Two-column picker: collage stage reacts to selection, choices get a
- * magnetic hover pull, whole section enters on scroll with a parallax drift
- * on the collage images.
+ * Two-column picker: the collage stage reacts to the selection, the whole
+ * section settles in on scroll, and the pieces drift at slightly different
+ * rates on the way past.
  *
  * Only ever called when motion is allowed. picker.js (unconditional) is the
  * real accessibility layer — it toggles [hidden] on the text panels and is
- * exactly what a reduced-motion or no-JS visitor gets. The collage images
- * are aria-hidden decoration; their CSS resting positions already form a
- * collage with nothing missing if this module never runs.
+ * exactly what a reduced-motion or no-JS visitor gets. The collage is
+ * aria-hidden decoration; its CSS resting positions already form a collage
+ * with nothing missing if this module never runs.
+ *
+ * Everything here moves the .picker__stage-item wrapper. The <img> inside
+ * it is left alone for poke.js, so the drift and the poke never end up
+ * writing to the same transform.
  */
 export function initPickerMotion() {
   const section = document.querySelector('.picker');
@@ -17,15 +21,23 @@ export function initPickerMotion() {
   const stage = document.querySelector('[data-picker-stage]');
   if (!section || !group || !stage) return;
 
-  const stageImages = stage.querySelectorAll('[data-stage-img]');
+  const items = stage.querySelectorAll('.picker__stage-item');
+  const garments = stage.querySelectorAll('[data-stage-img]');
+  const selected = () => group.querySelector('input:checked')?.value;
 
-  const bringForward = (value) => {
-    stageImages.forEach((img) => {
-      const active = img.dataset.stageImg === value;
-      gsap.to(img, {
-        scale: active ? 1.08 : 0.94,
-        opacity: active ? 1 : 0.55,
-        zIndex: active ? 10 : 1,
+  // The loose objects are not choices, so they stay at full strength
+  // whatever is selected.
+  const restingScale = (item) =>
+    !item.dataset.stageImg || item.dataset.stageImg === selected() ? 1.08 : 0.94;
+  const restingOpacity = (item) =>
+    !item.dataset.stageImg || item.dataset.stageImg === selected() ? 1 : 0.55;
+
+  const bringForward = () => {
+    garments.forEach((item) => {
+      gsap.to(item, {
+        scale: restingScale(item),
+        opacity: restingOpacity(item),
+        zIndex: item.dataset.stageImg === selected() ? 10 : 1,
         duration: 0.6,
         ease: 'power3.out',
       });
@@ -49,19 +61,11 @@ export function initPickerMotion() {
       );
 
       gsap.fromTo(
-        stageImages,
+        items,
         { opacity: 0, scale: 0.85, y: 30 },
         {
-          opacity: (i, target) =>
-            target.dataset.stageImg ===
-            group.querySelector('input:checked')?.value
-              ? 1
-              : 0.55,
-          scale: (i, target) =>
-            target.dataset.stageImg ===
-            group.querySelector('input:checked')?.value
-              ? 1.08
-              : 0.94,
+          opacity: (i, target) => restingOpacity(target),
+          scale: (i, target) => restingScale(target),
           y: 0,
           duration: 0.7,
           ease: 'power3.out',
@@ -71,14 +75,30 @@ export function initPickerMotion() {
     },
   });
 
-  // Selection change: bring the matching image forward.
-  group.addEventListener('change', (event) => bringForward(event.target.value));
-  bringForward(group.querySelector('input:checked')?.value);
+  // picker.js has already flipped [hidden] by the time this runs — it is
+  // registered first in main.js — so the panel being animated is the one
+  // now on screen.
+  group.addEventListener('change', () => {
+    bringForward();
 
-  // Slow independent parallax drift as the reader scrolls past the section —
-  // each image moves at a slightly different rate for a hand-placed feel.
-  stageImages.forEach((img, i) => {
-    gsap.to(img, {
+    const panel = document.querySelector(`[data-panel="${selected()}"]`);
+    if (!panel) return;
+
+    gsap.from(panel.children, {
+      y: 16,
+      opacity: 0,
+      duration: 0.45,
+      ease: 'power3.out',
+      stagger: 0.07,
+    });
+  });
+
+  bringForward();
+
+  // Slow independent parallax as the reader scrolls past the section — each
+  // piece moves at a slightly different rate for a hand-placed feel.
+  items.forEach((item, i) => {
+    gsap.to(item, {
       y: (i % 2 === 0 ? -1 : 1) * (24 + i * 6),
       ease: 'none',
       scrollTrigger: {
@@ -87,28 +107,6 @@ export function initPickerMotion() {
         end: 'bottom top',
         scrub: 0.8,
       },
-    });
-  });
-
-  // Magnetic hover: labels pull slightly toward the cursor within a small
-  // radius, then spring back on leave. quickTo avoids spawning a new tween
-  // on every mousemove event.
-  const labels = document.querySelectorAll('.picker__label');
-  labels.forEach((label) => {
-    const moveX = gsap.quickTo(label, 'x', { duration: 0.3, ease: 'power3.out' });
-    const moveY = gsap.quickTo(label, 'y', { duration: 0.3, ease: 'power3.out' });
-
-    label.addEventListener('mousemove', (event) => {
-      const rect = label.getBoundingClientRect();
-      const relX = event.clientX - rect.left - rect.width / 2;
-      const relY = event.clientY - rect.top - rect.height / 2;
-      moveX(relX * 0.25);
-      moveY(relY * 0.4);
-    });
-
-    label.addEventListener('mouseleave', () => {
-      moveX(0);
-      moveY(0);
     });
   });
 }

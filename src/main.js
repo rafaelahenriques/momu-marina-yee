@@ -23,6 +23,13 @@ async function init() {
     { initTextLineReveal },
     { initTextMarquee },
     { initTextLetterReveal },
+    { initTextSwap },
+    { initTextScatter },
+    { initScribble },
+    { initPoke },
+    { initMagnetic },
+    { initCornerOff },
+    { initObjectPop },
   ] = await Promise.all([
     import('./js/motion.js'),
     import('./js/scroll-reveal.js'),
@@ -36,35 +43,47 @@ async function init() {
     import('./js/text-line-reveal.js'),
     import('./js/text-marquee.js'),
     import('./js/text-letter-reveal.js'),
+    import('./js/text-swap.js'),
+    import('./js/text-scatter.js'),
+    import('./js/scribble.js'),
+    import('./js/poke.js'),
+    import('./js/magnetic.js'),
+    import('./js/corner-off.js'),
+    import('./js/object-pop.js'),
   ]);
 
   /*
-   * Non-pinned / normal animations.
+   * Pointer interactions and non-pinned animations. Nothing here measures
+   * the page, so the order is free.
    */
   initHeroScatter();
   initSpotlight();
   initPickerMotion();
+  initPoke();
+  initMagnetic();
 
   /*
    * IMPORTANT:
    * Create pinned sections in DOM order.
    *
-   * 1. reconstruction line reveal   (refreshPriority 4)
-   * 2. upcycling marquee            (refreshPriority 3)
-   * 3. M.Y. Project depth flight    (refreshPriority 2)
-   * 4. sustainability horizontal    (refreshPriority 1)
+   * 1. reconstruction line reveal   (refreshPriority 5)
+   * 2. upcycling marquee            (refreshPriority 4)
+   * 3. limits/method line swap      (refreshPriority 3)
+   * 4. M.Y. Project depth flight    (refreshPriority 2)
+   * 5. sustainability horizontal    (refreshPriority 1)
    *
    * Every pin adds its own scroll distance to the page, so a pin created
    * before one that sits above it measures its start against a page height
    * that then changes — it engages early and covers the section above.
    *
-   * The first two only build their triggers once document.fonts.ready has
+   * The first three only build their triggers once document.fonts.ready has
    * resolved, so they have to be awaited: without that, the horizontal pin
    * below is created first and starts ~3000px too early, on top of
    * M.Y. Project. Each also sets a refreshPriority as a second guard.
    */
   await initTextLineReveal();
   await initTextMarquee();
+  await initTextSwap();
   initMyProjectDepth();
   initHorizontalScroll();
 
@@ -75,7 +94,11 @@ async function init() {
   initScrollReveal();
   initHeadingTracking();
   initSequenceMarquee();
+  initScribble();
+  initObjectPop();
+  initCornerOff();
   await initTextLetterReveal();
+  await initTextScatter();
 
   // Fonts have settled and every trigger now exists: measure once against
   // the final page height.
