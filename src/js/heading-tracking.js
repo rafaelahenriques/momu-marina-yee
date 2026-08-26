@@ -1,4 +1,4 @@
-import { gsap } from './motion.js';
+import { gsap, SCRUB } from './motion.js';
 
 /**
  * Letter-spacing pull-apart on "One Corner Off".
@@ -22,7 +22,7 @@ export function initHeadingTracking() {
         trigger: heading,
         start: 'top 75%',
         end: 'top 20%',
-        scrub: 0.6,
+        scrub: SCRUB,
       },
     }
   );

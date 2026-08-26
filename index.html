@@ -75,6 +75,7 @@
         </li>
         <li><a href="#my-project">M.Y. Project, 2018</a></li>
         <li><a href="#one-corner-off">One Corner Off</a></li>
+        <li><a href="#your-turn">Take One Corner Off</a></li>
         <li><a href="#visit">Look Closer at MoMu</a></li>
       </ul>
     </nav>
@@ -100,6 +101,16 @@
               alt=""
               width="640"
               height="828"
+              fetchpriority="low"
+              decoding="async"
+            />
+          </div>
+          <div class="hero__image hero__image--3" data-poke-item>
+            <img
+              src="/images/objects/hanger-objects.png"
+              alt=""
+              width="371"
+              height="539"
               fetchpriority="low"
               decoding="async"
             />
@@ -192,12 +203,13 @@
       </section>
 
       <section class="picker" id="picker">
+        <!-- No data-reveal in this section: picker-motion.js runs its own
+             entrance for the title, the copy and the choices together, and
+             two modules animating one element fight over its opacity. -->
         <div class="picker__intro">
-          <h2 class="chapter__title" data-reveal>
-            Working With What Was Already There
-          </h2>
+          <h2 class="chapter__title">Working With What Was Already There</h2>
 
-          <div class="chapter__body" data-reveal>
+          <div class="chapter__body">
             <p>
               Yee worked with garments that already had a form, a function and,
               often, visible signs of previous use.
@@ -217,77 +229,76 @@
               />
             </p>
           </div>
+        </div>
 
-          <fieldset class="picker__choices" data-picker data-reveal>
-            <legend class="visually-hidden">Choose a garment</legend>
+        <fieldset class="picker__choices" data-picker>
+          <legend class="visually-hidden">Choose a garment</legend>
 
-            <label class="picker__choice">
-              <input type="radio" name="garment" value="menswear" checked />
-              <span class="picker__label" data-magnetic>Vintage menswear</span>
-            </label>
+          <label class="picker__choice">
+            <input type="radio" name="garment" value="menswear" checked />
+            <span class="picker__label" data-magnetic>Vintage menswear</span>
+          </label>
 
-            <label class="picker__choice">
-              <input type="radio" name="garment" value="military" />
-              <span class="picker__label" data-magnetic>Military</span>
-            </label>
+          <label class="picker__choice">
+            <input type="radio" name="garment" value="military" />
+            <span class="picker__label" data-magnetic>Military</span>
+          </label>
 
-            <label class="picker__choice">
-              <input type="radio" name="garment" value="workwear" />
-              <span class="picker__label" data-magnetic>Workwear</span>
-            </label>
+          <label class="picker__choice">
+            <input type="radio" name="garment" value="workwear" />
+            <span class="picker__label" data-magnetic>Workwear</span>
+          </label>
 
-            <label class="picker__choice">
-              <input type="radio" name="garment" value="denim" />
-              <span class="picker__label" data-magnetic>Second-hand denim</span>
-            </label>
-          </fieldset>
+          <label class="picker__choice">
+            <input type="radio" name="garment" value="denim" />
+            <span class="picker__label" data-magnetic>Second-hand denim</span>
+          </label>
+        </fieldset>
 
-          <div class="picker__panels" aria-live="polite">
-            <article class="picker__panel" data-panel="menswear">
-              <h3>Vintage menswear</h3>
-              <p>
-                Tailored menswear came with an established structure: lapels,
-                collars, pockets, linings and carefully constructed shoulders.
-                Reconstruction meant working within — or against — decisions
-                that had already been made.
-              </p>
-            </article>
+        <div class="picker__panels" aria-live="polite">
+          <article class="picker__panel" data-panel="menswear">
+            <h3>Vintage menswear</h3>
+            <p>
+              Tailored menswear came with an established structure: lapels,
+              collars, pockets, linings and carefully constructed shoulders.
+              Reconstruction meant working within — or against — decisions that
+              had already been made.
+            </p>
+          </article>
 
-            <article class="picker__panel" data-panel="military">
-              <h3>Military garments</h3>
-              <p>
-                Military clothing was designed around function. Pockets had a
-                purpose, seams were reinforced where necessary, and
-                construction followed the demands of use. Those functional
-                details remained part of the garment even when its original
-                purpose changed.
-              </p>
-            </article>
+          <article class="picker__panel" data-panel="military">
+            <h3>Military garments</h3>
+            <p>
+              Military clothing was designed around function. Pockets had a
+              purpose, seams were reinforced where necessary, and construction
+              followed the demands of use. Those functional details remained
+              part of the garment even when its original purpose changed.
+            </p>
+          </article>
 
-            <article class="picker__panel" data-panel="workwear">
-              <h3>Workwear</h3>
-              <p>
-                Workwear could carry its history on its surface. Fading,
-                reinforced seams, topstitching, repairs and areas of wear
-                recorded how a garment had been made and used.
-              </p>
-            </article>
+          <article class="picker__panel" data-panel="workwear">
+            <h3>Workwear</h3>
+            <p>
+              Workwear could carry its history on its surface. Fading,
+              reinforced seams, topstitching, repairs and areas of wear
+              recorded how a garment had been made and used.
+            </p>
+          </article>
 
-            <article class="picker__panel" data-panel="denim">
-              <h3>Second-hand denim</h3>
-              <p>
-                Denim makes wear particularly visible. Colour fades unevenly,
-                creases settle into the fabric and repeated use leaves marks
-                specific to the person who wore it.
-              </p>
-              <p>
-                In Marie, Yee cut old jeans into patchwork and incorporated the
-                pieces by hand into bomber jackets. Rather than disguising the
-                fact that the denim had been used before, its different washes
-                and traces of wear remained visible.
-              </p>
-            </article>
-          </div>
+          <article class="picker__panel" data-panel="denim">
+            <h3>Second-hand denim</h3>
+            <p>
+              Denim makes wear particularly visible. Colour fades unevenly,
+              creases settle into the fabric and repeated use leaves marks
+              specific to the person who wore it.
+            </p>
+            <p>
+              In Marie, Yee cut old jeans into patchwork and incorporated the
+              pieces by hand into bomber jackets. Rather than disguising the
+              fact that the denim had been used before, its different washes
+              and traces of wear remained visible.
+            </p>
+          </article>
         </div>
 
         <!-- Decorative collage: the text panels above already carry this
@@ -356,7 +367,7 @@
             data-poke-item
           >
             <img
-              src="/images/objects/cloth-folded.png"
+              src="/images/objects/cloth-drape.png"
               alt=""
               width="398"
               height="702"
@@ -374,6 +385,20 @@
               alt=""
               width="380"
               height="710"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+
+          <div
+            class="picker__stage-item picker__stage-item--hanger"
+            data-poke-item
+          >
+            <img
+              src="/images/objects/hanger-objects.png"
+              alt=""
+              width="371"
+              height="539"
               loading="lazy"
               decoding="async"
             />
@@ -525,17 +550,45 @@
       <section class="horizontal chapter--dark" data-horizontal>
         <h2 class="visually-hidden">Beyond sustainability</h2>
 
+        <!-- Three decorative layers behind the panels, each given its own
+             travel rate by horizontal-scroll.js so the section has depth
+             rather than one flat sheet of text sliding past. Enhanced only:
+             stacked over a plain vertical read they would only obscure it. -->
+        <div class="horizontal__drift" aria-hidden="true">
+          <img
+            class="horizontal__drift-item horizontal__drift-item--collage"
+            src="/images/marina-yee-collage.png"
+            alt=""
+            width="800"
+            height="1053"
+            loading="lazy"
+            decoding="async"
+            data-drift="1.2"
+          />
+          <img
+            class="horizontal__drift-item horizontal__drift-item--cloth"
+            src="/images/objects/cloth-drape.png"
+            alt=""
+            width="620"
+            height="681"
+            loading="lazy"
+            decoding="async"
+            data-drift="1.8"
+          />
+        </div>
+
         <div class="horizontal__track">
           <div class="horizontal__panel">
+            <p class="horizontal__index" aria-hidden="true">01</p>
             <p>
-              Seen from the present, it is natural to describe Yee’s
-              practice through sustainability. Reuse was clearly part of the
-              story, but it did not account for everything her work was
-              doing.
+              Seen from the present, it is natural to describe Yee’s practice
+              through sustainability. Reuse was clearly part of the story, but
+              it did not account for everything her work was doing.
             </p>
           </div>
 
           <div class="horizontal__panel">
+            <p class="horizontal__index" aria-hidden="true">02</p>
             <p class="beat">
               It also complicated the relationship between originality and
               newness.
@@ -543,42 +596,94 @@
           </div>
 
           <div class="horizontal__panel">
+            <p class="horizontal__index" aria-hidden="true">03</p>
             <p>
-              Fashion often treats the creation of something new as the
-              basis of originality. Yee’s reconstructed garments suggested
-              that the two did not have to mean the same thing. She could
-              retain enough of an existing piece for its earlier form to
-              remain legible while still producing a different result.
+              Fashion often treats the creation of something new as the basis
+              of originality. Yee’s reconstructed garments suggested that the
+              two did not have to mean the same thing. She could retain enough
+              of an existing piece for its earlier form to remain legible while
+              still producing a different result.
             </p>
           </div>
 
           <div class="horizontal__panel">
+            <p class="horizontal__index" aria-hidden="true">04</p>
             <p>
               That recognition was important because it allowed the change
               itself to be understood. The viewer could register what was
               already there alongside what Yee chose to do with it. Her
-              originality, therefore, did not depend on removing all
-              evidence of the starting point. It could come from examining
-              something familiar closely enough to identify where a change
-              would matter.
+              originality, therefore, did not depend on removing all evidence
+              of the starting point. It could come from examining something
+              familiar closely enough to identify where a change would matter.
             </p>
           </div>
 
           <div class="horizontal__panel">
-            <p class="question">
-              The question became not how much could be changed, but how
-              much needed to be changed.
+            <p class="horizontal__index" aria-hidden="true">05</p>
+            <p class="question horizontal__question">
+              The question became not how much could be changed, but how much
+              <span class="circled">
+                needed
+                <img
+                  class="scribble scribble--circle"
+                  src="/images/objects/circle-scribble.png"
+                  alt=""
+                  width="257"
+                  height="295"
+                  aria-hidden="true"
+                  loading="lazy"
+                  decoding="async"
+                  data-scribble="left"
+                />
+              </span>
+              to be changed.
             </p>
           </div>
         </div>
+
+        <!-- How far through the sideways run the reader is. Decorative:
+             it reports the scroll position, which the scrollbar already
+             does for anyone not seeing the pin. -->
+        <div class="horizontal__progress" aria-hidden="true">
+          <span class="horizontal__progress-bar" data-horizontal-bar></span>
+        </div>
       </section>
 
-      <section class="chapter" id="one-corner-off">
+      <section class="chapter one-corner" id="one-corner-off">
         <h2 class="chapter__title" data-tracking-heading>
           <span>One Corner Off</span>
         </h2>
 
-        <div class="chapter__body">
+        <!-- The loose things from the workroom, laid beside the phrase they
+             describe. Decorative — the copy carries the meaning. -->
+        <div class="one-corner__objects" data-object-pop aria-hidden="true">
+          <div class="one-corner__object one-corner__object--tape" data-poke-item>
+            <img
+              src="/images/objects/measuring-tape.png"
+              alt=""
+              width="535"
+              height="422"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+
+          <div
+            class="one-corner__object one-corner__object--swatch"
+            data-poke-item
+          >
+            <img
+              src="/images/objects/cloth-swatch.png"
+              alt=""
+              width="265"
+              height="420"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        </div>
+
+        <div class="chapter__body" data-lines-rise>
           <p>
             Yee used the Flemish expression “one corner off” when speaking
             about her creative process: the idea of making something appear
@@ -599,6 +704,45 @@
             disruption could be intentional, made possible by first
             understanding the construction or convention being altered.
           </p>
+        </div>
+
+        <!-- The block is set as a sheet with its corner already cut, and the
+             cut piece lying loose beside it — both states visible at once,
+             which is what the paragraph describes. The piece is decoration
+             with nothing written on it and nothing behind it; corner-off.js
+             only makes the cut happen on arrival and the piece possible to
+             pick up afterwards. -->
+        <div
+          class="chapter__body chapter__body--standalone corner-off"
+          data-corner-off
+          data-reveal
+        >
+          <div class="corner-off__sheet">
+            <p>
+              Seen alongside her reconstructed garments, the expression became
+              particularly useful. Yee could preserve much of an existing piece
+              while changing a specific part of its construction, proportion or
+              material.
+              <strong>
+                What already existed and what she introduced remained visible
+                at the same time.
+              </strong>
+            </p>
+
+            <p>
+              In that sense, “one corner off” offered a way of understanding
+              more than the physical act of reconstruction. It pointed towards
+              a broader tendency in Yee’s practice: understanding what already
+              existed, retaining what continued to matter, and intervening
+              where a change could shift the whole.
+            </p>
+          </div>
+
+          <span
+            class="corner-off__piece"
+            data-corner-off-piece
+            aria-hidden="true"
+          ></span>
         </div>
 
         <div class="sequence-wrap">
@@ -657,49 +801,127 @@
             Pause animation
           </button>
         </div>
+      </section>
 
-        <!-- The block is set as a sheet with its corner already cut, and the
-             cut piece lying loose beside it — both states visible at once,
-             which is what the paragraph describes. The piece is decoration
-             with nothing written on it and nothing behind it; corner-off.js
-             only makes it possible to pick up. -->
-        <div
-          class="chapter__body chapter__body--standalone corner-off"
-          data-corner-off
-          data-reveal
-        >
-          <div class="corner-off__sheet">
-            <p>
-              Seen alongside her reconstructed garments, the expression became
-              particularly useful. Yee could preserve much of an existing piece
-              while changing a specific part of its construction, proportion or
-              material.
-              <strong>
-                What already existed and what she introduced remained visible
-                at the same time.
-              </strong>
-            </p>
+      <!-- ============================================================
+           TAKE ONE CORNER OFF — the reader's turn.
 
+           A length of cloth and something to mark it with. Nothing in the
+           story depends on using it, which is what makes it safe to build
+           on a canvas: doodle.js inserts the canvas and reveals the tools
+           only once it has, so without JavaScript this section is a piece
+           of cloth and a paragraph explaining what Yee did to one.
+      ============================================================ -->
+      <section class="doodle" id="your-turn" data-doodle>
+        <div class="doodle__intro">
+          <h2 class="chapter__title" data-reveal>Take One Corner Off</h2>
+
+          <div class="chapter__body" data-reveal>
             <p>
-              In that sense, “one corner off” offered a way of understanding
-              more than the physical act of reconstruction. It pointed towards
-              a broader tendency in Yee’s practice: understanding what already
-              existed, retaining what continued to matter, and intervening
-              where a change could shift the whole.
+              Every garment Yee started from was already finished. The work was
+              deciding where to interfere with it — and then living with the
+              mark.
             </p>
+            <p>Here is a length of gauze. Draw on it, then take it back.</p>
+          </div>
+        </div>
+
+        <!-- Flat, not nested: the cloth, the tools and the needle are each
+             placed by name in the section's grid (see components.css), so
+             the cloth can sit beside its own controls on a wide screen
+             instead of above them. DOM order is still the reading order —
+             draw on the cloth, then reach for a tool. -->
+        <div class="doodle__surface" data-doodle-surface>
+          <img
+            class="doodle__cloth"
+            src="/images/objects/cloth-drape.png"
+            alt="A length of gauze, photographed and pulled out of shape."
+            width="620"
+            height="681"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+
+        <!-- Revealed by doodle.js once the canvas exists. Buttons that
+             operate a surface which was never built are worse than no
+             buttons at all. -->
+        <div class="doodle__tools" data-doodle-tools hidden>
+          <fieldset class="doodle__marks" data-doodle-marks>
+            <legend>Mark</legend>
+
+            <label class="doodle__mark">
+              <input type="radio" name="mark" value="ink" checked />
+              <span class="doodle__mark-label" data-magnetic>Ink</span>
+            </label>
+
+            <label class="doodle__mark">
+              <input type="radio" name="mark" value="chalk" />
+              <span class="doodle__mark-label" data-magnetic>Chalk</span>
+            </label>
+
+            <label class="doodle__mark">
+              <input type="radio" name="mark" value="thread" />
+              <span class="doodle__mark-label" data-magnetic>Thread</span>
+            </label>
+          </fieldset>
+
+          <div class="doodle__actions">
+            <button class="doodle__action" type="button" data-doodle-undo>
+              Undo
+            </button>
+            <button class="doodle__action" type="button" data-doodle-clear>
+              Take it back
+            </button>
+            <button class="doodle__action" type="button" data-doodle-keep>
+              Keep it
+            </button>
           </div>
 
-          <span
-            class="corner-off__piece"
-            data-corner-off-piece
-            aria-hidden="true"
-          ></span>
+          <p class="doodle__status" data-doodle-status role="status"></p>
+        </div>
+
+        <!-- Outside the toolbar: the toolbar is a narrow column of pills,
+             and a sentence set in the display face needs more measure than
+             that. -->
+        <p class="doodle__note" data-doodle-note hidden>
+          That is the whole method. Something was already there, you decided
+          where to change it, and both are still visible.
+        </p>
+
+        <div class="doodle__objects" data-object-pop aria-hidden="true">
+          <div class="doodle__object doodle__object--needle" data-poke-item>
+            <img
+              src="/images/objects/needle-thread.png"
+              alt=""
+              width="425"
+              height="242"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
         </div>
       </section>
 
       <section class="visit" id="visit">
         <div class="visit__inner">
-          <h2>Look Closer at MoMu</h2>
+          <h2>
+            <span class="circled">
+              Look Closer
+              <img
+                class="scribble scribble--circle"
+                src="/images/objects/circle-scribble.png"
+                alt=""
+                width="257"
+                height="295"
+                aria-hidden="true"
+                loading="lazy"
+                decoding="async"
+                data-scribble="left"
+              />
+            </span>
+            at MoMu
+          </h2>
 
           <p>
             The clearest evidence of Yee’s approach remains in the garments.

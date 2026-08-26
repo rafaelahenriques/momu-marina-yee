@@ -3,10 +3,19 @@ import './css/main.css';
 import { prefersReducedMotion } from './js/reduced-motion.js';
 import { initMenu } from './js/menu.js';
 import { initPicker } from './js/picker.js';
+import { initDoodle } from './js/doodle.js';
 
 async function init() {
+  /*
+   * Interactions, not animations — everything above the reduced-motion
+   * check is something the reader operates, so it runs for everybody. The
+   * doodle in particular has no GSAP in it for exactly this reason: it is
+   * a surface to draw on, and asking for less motion should not take that
+   * away.
+   */
   initMenu();
   initPicker();
+  initDoodle();
 
   if (prefersReducedMotion()) return;
 
@@ -23,6 +32,7 @@ async function init() {
     { initTextLineReveal },
     { initTextMarquee },
     { initTextLetterReveal },
+    { initTextLinesRise },
     { initTextSwap },
     { initTextScatter },
     { initScribble },
@@ -43,6 +53,7 @@ async function init() {
     import('./js/text-line-reveal.js'),
     import('./js/text-marquee.js'),
     import('./js/text-letter-reveal.js'),
+    import('./js/text-lines-rise.js'),
     import('./js/text-swap.js'),
     import('./js/text-scatter.js'),
     import('./js/scribble.js'),
@@ -98,6 +109,7 @@ async function init() {
   initObjectPop();
   initCornerOff();
   await initTextLetterReveal();
+  await initTextLinesRise();
   await initTextScatter();
 
   // Fonts have settled and every trigger now exists: measure once against

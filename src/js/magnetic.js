@@ -1,4 +1,4 @@
-import { gsap } from './motion.js';
+import { gsap, canHover } from './motion.js';
 
 /**
  * Magnetic hover.
@@ -13,7 +13,7 @@ import { gsap } from './motion.js';
 export function initMagnetic() {
   // A touch device has no hovering cursor to lean toward, so there is
   // nothing to attach.
-  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  if (!canHover()) return;
 
   document.querySelectorAll('[data-magnetic]').forEach((element) => {
     const moveX = gsap.quickTo(element, 'x', {

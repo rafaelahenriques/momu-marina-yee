@@ -1,4 +1,4 @@
-import { gsap } from './motion.js';
+import { gsap, SCRUB } from './motion.js';
 
 /**
  * Pinned depth fly-through for the M.Y. Project photographs.
@@ -46,8 +46,13 @@ export function initMyProjectDepth() {
           // Without this the "from" scale would be applied at build time,
           // shrinking every image before the reader ever gets here.
           immediateRender: false,
-          ease: 'elastic.out(2, 0.6)',
-          duration: 0.5,
+          // A softer bounce than it used to have. These photographs are now
+          // roughly half the width of the screen rather than a quarter, and
+          // an overshoot that read as a pop at 22rem reads as a wobble at
+          // twice the size — the bigger the object, the less it should
+          // spring.
+          ease: 'back.out(1.7)',
+          duration: 0.6,
         },
         '<'
       )
@@ -58,7 +63,11 @@ export function initMyProjectDepth() {
       trigger: section,
       start: 'top top',
       end: 'bottom bottom',
-      scrub: true,
+      // scrub: true welds the flight to the scrollbar, so a trackpad flick
+      // teleports four photographs across the screen in one frame. A
+      // number instead lets them catch up over that fraction of a second,
+      // which is the whole difference between a flight and a jump cut.
+      scrub: SCRUB,
       pin: stage,
       invalidateOnRefresh: true,
       // Fourth of the five pins, top to bottom — see main.js.
@@ -85,7 +94,7 @@ export function initMyProjectDepth() {
       z: () => -window.innerWidth,
       rotation: angle,
       duration: 1,
-      ease: 'power1.inOut',
+      ease: 'power2.inOut',
     }).to(
       item,
       {

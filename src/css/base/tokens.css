@@ -71,6 +71,17 @@
   --target: 2.75rem;
 }
 
+/* Animating a corner off a sheet means interpolating a length inside a
+   clip-path. Declared here so the browser knows --corner-size is a length
+   and can tween it, rather than swapping one opaque string for another —
+   and so getComputedStyle hands corner-off.js a resolved pixel value
+   instead of the literal clamp() it was authored as. */
+@property --corner-size {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0px;
+}
+
 @media (min-width: 48rem) {
   :root {
     --gutter: var(--space-l);
