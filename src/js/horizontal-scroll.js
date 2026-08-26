@@ -33,7 +33,7 @@ export function initHorizontalScroll() {
       scrub: 0.6,
       pin: true,
       invalidateOnRefresh: true,
-      // Last of the four pins, top to bottom — see main.js.
+      // Last of the five pins, top to bottom — see main.js.
       refreshPriority: 1,
     },
   });

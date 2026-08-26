@@ -407,6 +407,11 @@
   max-width: var(--width-content);
 }
 
+/* Anchors the arrow that points from this line down to the choices. */
+.picker__cue {
+  position: relative;
+}
+
 .picker__choices {
   display: flex;
   flex-direction: column;
@@ -501,20 +506,34 @@
   margin-top: 0;
 }
 
-/* --- Collage stage --------------------------------------------- */
+/* --- Collage stage ---------------------------------------------
+   Each piece is a wrapper holding the resting position and angle,
+   with the image inside it. That split is what lets the scroll
+   drift (on the wrapper) and the poke (on the image) coexist —
+   see picker-motion.js and poke.js. */
 
 .picker__stage {
   position: relative;
   min-height: 26rem;
 }
 
-.picker__stage-img {
+.picker__stage-item {
   position: absolute;
   width: 60%;
+}
+
+.picker__stage-item img {
+  width: 100%;
+}
+
+/* Only the garment photographs are rectangles, so only they can carry a
+   rectangular shadow — on a cut-out object it would draw a box around
+   nothing. */
+.picker__stage-item[data-stage-img] img {
   box-shadow: 0 4px 12px rgb(0 0 0 / 0.15);
 }
 
-.picker__stage-img[data-stage-img='menswear'] {
+.picker__stage-item[data-stage-img='menswear'] {
   top: 0;
   left: 4%;
   width: 55%;
@@ -522,7 +541,7 @@
   z-index: 1;
 }
 
-.picker__stage-img[data-stage-img='military'] {
+.picker__stage-item[data-stage-img='military'] {
   top: 8%;
   right: 2%;
   width: 48%;
@@ -530,7 +549,7 @@
   z-index: 2;
 }
 
-.picker__stage-img[data-stage-img='workwear'] {
+.picker__stage-item[data-stage-img='workwear'] {
   bottom: 4%;
   left: 22%;
   width: 40%;
@@ -538,12 +557,30 @@
   z-index: 3;
 }
 
-.picker__stage-img[data-stage-img='denim'] {
+.picker__stage-item[data-stage-img='denim'] {
   bottom: 0;
   right: 8%;
   width: 46%;
   transform: rotate(5deg);
   z-index: 1;
+}
+
+/* Two swatches tucked into the collage — the material itself, sitting
+   among the garments made from it. */
+.picker__stage-item--cloth-a {
+  top: 44%;
+  left: -2%;
+  width: 22%;
+  transform: rotate(-12deg);
+  z-index: 4;
+}
+
+.picker__stage-item--cloth-b {
+  bottom: 24%;
+  right: 4%;
+  width: 17%;
+  transform: rotate(10deg);
+  z-index: 4;
 }
 
 @media (min-width: 64rem) {
@@ -846,4 +883,308 @@
   padding-inline: 100vw;
 
   will-change: transform;
+}
+
+/* ============================================================
+   SCRIBBLES
+   Hand-drawn marks, scanned. Every one of them is decoration
+   that repeats something the copy beside it already says, so
+   they are all alt="" and aria-hidden.
+
+   They are fully drawn in CSS. scribble.js only wipes them on
+   as they arrive, so a no-JS or reduced-motion visitor sees the
+   same annotated page, already marked up.
+============================================================ */
+
+.scribble {
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Struck through "Antwerp Six". The source is a loose square of loops;
+   cropping it to a wide band here rather than in the file keeps the whole
+   drawing available and the framing adjustable. */
+.scribble--strike {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -60%;
+  rotate: -3deg;
+  width: 124%;
+  height: 2.1em;
+  object-fit: cover;
+  object-position: 50% 14%;
+}
+
+/* Arrow from the instruction down to the choices it refers to. */
+.scribble--cue {
+  position: absolute;
+  top: 100%;
+  left: 58%;
+  width: 3.25rem;
+  rotate: 6deg;
+}
+
+/* The word "alter", written under the section title. */
+.scribble--alter {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: clamp(4.5rem, 11vw, 7.5rem);
+  rotate: -5deg;
+}
+
+/* The word "here", pointing back at the invitation. */
+.scribble--here {
+  width: clamp(3.5rem, 9vw, 5.5rem);
+  rotate: -8deg;
+}
+
+/* ============================================================
+   SCATTER
+   The .scatter__* elements are built by SplitText at runtime,
+   so none of this matches for no-JS or reduced-motion visitors —
+   they read the phrase in place, in the sentence.
+============================================================ */
+
+.scatter {
+  position: relative;
+  display: inline-block;
+  /* The phrase is about to be taken apart letter by letter; a line break
+     through the middle of it would leave half behind. */
+  white-space: nowrap;
+}
+
+.scatter__char {
+  /* The box stays where it is and keeps the sentence's layout. Only the
+     glyph inside it flies, so nothing reflows into the gap. */
+  display: inline-block;
+}
+
+.scatter__char > span {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* ============================================================
+   TEXT SWAP
+   Default: two ordinary stacked paragraphs, read one after the
+   other — what no-JS and reduced-motion visitors get.
+
+   Enhanced (.is-enhanced, added only by text-swap.js): the two
+   are stacked on one another in a pinned, perspective stage and
+   turned over line by line as the reader scrolls.
+============================================================ */
+
+.text-swap__title {
+  position: relative;
+}
+
+.text-swap.is-enhanced {
+  /* Lines swing wide of the column on their way round. */
+  overflow: clip;
+}
+
+/* This is the speed control: the stage is pinned for this height minus one
+   viewport, and the turn takes exactly that distance. Enhanced only —
+   with no JS the section is two paragraphs and must not reserve empty
+   screens of scroll. */
+.text-swap.is-enhanced .text-swap__pin {
+  height: 250vh;
+}
+
+.text-swap.is-enhanced .text-swap__stage {
+  max-width: none;
+  min-height: 100dvh;
+  display: grid;
+  perspective: 300vw;
+
+  /* The block is centred in the viewport, but the two paragraphs inside it
+     are aligned to the same top edge, not to each other's centres. They are
+     different lengths, and centring them would offset their lines by half a
+     line — so a row would turn over and come back showing text from the
+     middle of a different sentence. Aligned at the top, each row turns over
+     into the row that replaces it. */
+  place-content: center;
+  justify-items: center;
+  align-items: start;
+}
+
+.text-swap.is-enhanced .text-swap__text {
+  /* Both paragraphs occupy the same cell, one facing the reader and one
+     edge-on. */
+  grid-area: 1 / 1;
+
+  max-width: none;
+  width: min(100%, 32rem);
+  margin: 0;
+
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  line-height: 1.15;
+
+  transform-style: preserve-3d;
+}
+
+.text-swap__line {
+  transform-style: preserve-3d;
+}
+
+.text-swap__line-inner {
+  display: block;
+
+  /* Carries the line forward of the hinge, so the turn reads as a panel
+     with depth rather than as text flattening against the page. */
+  transform: translate3d(0, 0, 20vw);
+
+  /* Past 90 degrees the line is facing away; without this it would be
+     painted mirrored for the rest of the turn. */
+  backface-visibility: hidden;
+
+  will-change: transform;
+}
+
+/* ============================================================
+   CORNER OFF
+   A sheet with its corner already cut, and the cut piece lying
+   loose beside it — the two states the paragraph describes,
+   visible at the same time.
+
+   All of it is CSS. corner-off.js only makes the loose piece
+   possible to pick up and throw, which is why it is safe to
+   leave as a pointer-only affordance: nothing is written on it
+   and nothing hides behind it.
+============================================================ */
+
+.corner-off {
+  --corner-size: clamp(2.25rem, 7vw, 3.5rem);
+
+  position: relative;
+  margin-block: var(--space-l);
+}
+
+.corner-off__sheet {
+  padding: var(--space-l) var(--space-m);
+  background: var(--color-surface);
+
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--corner-size)) 0,
+    100% var(--corner-size),
+    100% 100%,
+    0 100%
+  );
+}
+
+.corner-off__piece {
+  position: absolute;
+  top: calc(var(--corner-size) * -0.5);
+  right: calc(var(--corner-size) * -0.4);
+
+  width: var(--corner-size);
+  aspect-ratio: 1;
+
+  background: var(--color-surface);
+
+  /* The same right triangle the sheet is missing. */
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+
+  /* A rectangular box-shadow would draw a box around the empty half. */
+  filter: drop-shadow(0 2px 3px rgb(0 0 0 / 0.22));
+
+  rotate: 20deg;
+}
+
+/* No cursor rule here on purpose: Draggable sets `grab` on the element
+   itself, so the piece only ever looks pickup-able once it actually is. */
+
+/* ============================================================
+   VISIT OBJECTS
+   Mobile first: a row of objects laid out under the invitation,
+   in flow, where they cannot land on top of the copy. Only once
+   there is empty surface either side of the column do they move
+   out into it.
+============================================================ */
+
+.visit__cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--space-m);
+  max-width: none;
+}
+
+.visit__objects {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--space-m);
+
+  max-width: var(--width-content);
+  margin: var(--space-xl) auto 0;
+}
+
+/* Widths are per object rather than shared: these are three different
+   shapes, and at one width the tall swatch reads twice the size of the
+   others. */
+.visit__object {
+  width: 28%;
+}
+
+.visit__object--swatch {
+  width: 18%;
+}
+
+.visit__object img {
+  width: 100%;
+}
+
+@media (min-width: 64rem) {
+  .visit {
+    position: relative;
+    /* A hard poke sends an object a long way; this keeps it from widening
+       the page. */
+    overflow: clip;
+  }
+
+  .visit__objects {
+    position: absolute;
+    inset: 0;
+
+    display: block;
+    max-width: none;
+    margin: 0;
+
+    /* The container spans the whole section, including the column of text
+       under it — only the objects themselves take the pointer. */
+    pointer-events: none;
+  }
+
+  .visit__object {
+    position: absolute;
+    width: auto;
+    pointer-events: auto;
+  }
+
+  .visit__object--tape {
+    top: 14%;
+    right: 4%;
+    width: clamp(9rem, 15vw, 15rem);
+    rotate: -6deg;
+  }
+
+  .visit__object--needle {
+    bottom: 16%;
+    left: 3%;
+    width: clamp(8rem, 13vw, 13rem);
+    rotate: 9deg;
+  }
+
+  .visit__object--swatch {
+    top: 20%;
+    left: 6%;
+    width: clamp(5rem, 8vw, 8rem);
+    rotate: -14deg;
+  }
 }
