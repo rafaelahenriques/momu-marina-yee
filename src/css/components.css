@@ -1,7 +1,6 @@
 /* ============================================================
    CONTROLS
-   Every operable label shares this base; only the skin differs,
-   and only the skin is set per component below.
+   Shared base for every operable label; only the skin differs.
 ============================================================ */
 
 .pill,
@@ -20,8 +19,7 @@
 }
 
 /* ============================================================
-   SITE HEADER
-   MoMu's institutional chrome: breadcrumb, logo, pill controls.
+   SITE NAVIGATION
 ============================================================ */
 
 .breadcrumb {
@@ -45,17 +43,65 @@
   margin-inline-end: var(--space-2xs);
 }
 
+/* Padded to the 24px minimum target: the text alone is about 15px tall. */
+.breadcrumb a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.5rem;
+}
+
+/* Sticky only under .js: without script the panel below ships open and
+   cannot be closed, and a stuck bar carrying it would eat the screen. */
+.js .site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--color-bg);
+  transition:
+    transform var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out);
+}
+
+/* A shadow rather than a border: this is the containing block for the
+   panel, and a border would shift where the panel's top edge lands. */
+.js .site-nav--scrolled {
+  box-shadow: 0 1px 0 var(--color-rule);
+}
+
+/* Rolls out of the way while reading forward. nav.js brings it straight
+   back on any upward scroll, so the menu is always one flick away. */
+.js .site-nav--hidden {
+  transform: translateY(-100%);
+}
+
+/* Ordered after --hidden deliberately: equal specificity, so this wins and
+   a keyboard reader tabbing to the bar never lands on something off-screen. */
+.js .site-nav:focus-within {
+  transform: none;
+}
+
+/* How much of the story is behind you. nav.js writes --progress; the bar
+   is scaled rather than resized so it stays off the layout path. */
+.js .site-nav__progress {
+  position: absolute;
+  inset-inline: 0;
+  bottom: -1px;
+  height: 2px;
+  background: var(--color-ink);
+  transform: scaleX(var(--progress, 0));
+  transform-origin: left center;
+}
+
 .site-header {
   display: flex;
 
-  /* Below about 360px the logo and two pills no longer fit on one line.
-     Wrapping drops the controls under the logo rather than letting them
-     run off the right edge. */
+  /* Only a minimum — space-between opens it up when there is room — so it is
+     tight enough that a 320px screen still fits everything on one line. */
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-m);
-  padding: var(--space-s) var(--gutter);
+  gap: var(--space-2xs);
+  padding: var(--space-2xs) var(--gutter);
 }
 
 /* The link, not just the image, is the target. */
@@ -67,8 +113,39 @@
 }
 
 .site-header__logo img {
-  height: 2.5rem;
+  height: 2rem;
   width: auto;
+}
+
+/* Room to breathe once the bar is no longer the scarcest thing on screen. */
+@media (min-width: 48rem) {
+  .site-header {
+    gap: var(--space-s) var(--space-m);
+    padding-block: var(--space-s);
+  }
+
+  .site-header__logo img {
+    height: 2.5rem;
+  }
+}
+
+/* Which section you are in. Needs room the narrow layout has not got. */
+.site-header__current {
+  display: none;
+  min-width: 0;
+  margin-inline-end: auto;
+  font-family: var(--font-utility);
+  font-size: var(--step--1);
+  color: var(--color-ink-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (min-width: 64rem) {
+  .site-header__current {
+    display: block;
+  }
 }
 
 .site-header__controls {
@@ -79,6 +156,9 @@
 }
 
 .pill {
+  /* Narrower than the shared control padding: three of these sit beside the
+     logo on a phone. */
+  padding-inline: var(--space-s);
   border: 1px solid transparent;
   border-radius: 999px;
   background: var(--color-bg);
@@ -86,6 +166,12 @@
   text-decoration: none;
   white-space: nowrap;
   transition: background var(--duration-fast) var(--ease-out);
+}
+
+@media (min-width: 48rem) {
+  .pill {
+    padding-inline: var(--space-m);
+  }
 }
 
 .pill:hover {
@@ -97,9 +183,8 @@
   letter-spacing: 0.04em;
 }
 
-/* A shortcut, not the only route: #designer-stories is the footer nav,
-   which stays reachable by scrolling. Hidden on narrow screens purely
-   because three pills do not fit next to the logo. */
+/* A shortcut, not the only route: the same link sits inside the menu
+   panel, which is where narrow screens get it. */
 .pill--secondary {
   display: none;
 }
@@ -114,16 +199,68 @@
    only exists once there is script to run it. */
 .menu-toggle {
   display: none;
+  gap: var(--space-2xs);
 }
 
 .js .menu-toggle {
   display: inline-flex;
 }
 
+.js .menu-toggle[aria-expanded='true'] {
+  background: var(--color-surface);
+}
+
+.menu-toggle__icon {
+  position: relative;
+  flex: none;
+  width: 0.875rem;
+  height: 0.75rem;
+}
+
+.menu-toggle__icon::before,
+.menu-toggle__icon::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  top: 50%;
+  height: 1px;
+  background: currentcolor;
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+/* Both anchored to the same 50% so they rotate in place into a cross. */
+.menu-toggle__icon::before {
+  transform: translateY(-0.1875rem);
+}
+
+.menu-toggle__icon::after {
+  transform: translateY(0.1875rem);
+}
+
+.menu-toggle[aria-expanded='true'] .menu-toggle__icon::before {
+  transform: rotate(45deg);
+}
+
+.menu-toggle[aria-expanded='true'] .menu-toggle__icon::after {
+  transform: rotate(-45deg);
+}
+
 .menu-panel {
-  padding: var(--space-m) var(--gutter);
+  padding: var(--space-2xs) var(--gutter) var(--space-m);
   border-block: 1px solid var(--color-rule);
   background: var(--color-surface);
+}
+
+/* Out of flow once there is script to close it again: in flow it grows the
+   document from the top, so opening the menu halfway down the story would
+   shove the paragraph you were reading off screen. */
+.js .menu-panel {
+  position: absolute;
+  inset-inline: 0;
+  top: 100%;
+  max-height: calc(100dvh - var(--nav-height, 4.5rem));
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .menu-panel__list {
@@ -131,15 +268,66 @@
   margin: 0;
   padding: 0;
   display: grid;
-  gap: var(--space-2xs);
   max-width: var(--width-wide);
 }
 
+@media (min-width: 48rem) {
+  .menu-panel__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--space-l);
+  }
+}
+
 .menu-panel__list a {
-  display: inline-block;
-  padding-block: var(--space-3xs);
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
+  min-height: var(--target);
+  padding-block: var(--space-2xs);
+  border-bottom: 1px solid var(--color-rule);
   font-family: var(--font-utility);
   font-size: var(--step--1);
+  color: var(--color-ink-muted);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.menu-panel__list a:hover,
+.menu-panel__list a:focus-visible {
+  color: var(--color-ink);
+}
+
+.menu-panel__index {
+  flex: none;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Underlined as well as darkened, so the marker is not colour alone. */
+.menu-panel__list a[aria-current] {
+  color: var(--color-ink);
+}
+
+.menu-panel__list a[aria-current] .menu-panel__label {
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+}
+
+.menu-panel__aside {
+  margin-top: var(--space-m);
+  font-family: var(--font-utility);
+  font-size: var(--step--1);
+}
+
+.menu-panel__aside a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target);
+}
+
+@media (min-width: 48rem) {
+  .menu-panel__aside {
+    display: none;
+  }
 }
 
 /* ============================================================
@@ -163,9 +351,8 @@
 
 /* ============================================================
    SPOTLIGHT STATEMENT
-   The base line is always readable. spotlight.js adds the
-   aria-hidden dark copy, so it only exists when the animation
-   that removes it is going to run.
+   The base line is always readable; spotlight.js adds the
+   aria-hidden dark copy that the animation removes.
 ============================================================ */
 
 .statement--spotlight {
@@ -198,9 +385,8 @@
   pointer-events: none;
   opacity: 1;
 
-  /* Declared as lengths rather than left to a var() fallback: spotlight.js
-     tweens the radius in rem, and interpolating a percentage to a rem is
-     not something the browser or GSAP can do meaningfully. */
+  /* Lengths, not a var() fallback: spotlight.js tweens the radius in rem, and
+     a percentage cannot be interpolated to a rem. */
   --spot-r: 0rem;
   --spot-x: 50%;
   --spot-y: 50%;
@@ -215,9 +401,8 @@
 
 /* ============================================================
    HORIZONTAL SCROLL
-   Default: a stacked block, read top to bottom. Enhanced
-   (.is-enhanced, from horizontal-scroll.js): a pinned flex row
-   translated sideways by vertical scroll.
+   Default: a stacked block. Enhanced (.is-enhanced): a pinned
+   flex row translated sideways by vertical scroll.
 ============================================================ */
 
 .horizontal {
@@ -257,9 +442,8 @@
 .horizontal.is-enhanced {
   overflow: hidden;
 
-  /* Pinned, the stacked read's padding is dead space at the top of the
-     viewport that cuts the first panel off — and it is scrolled through
-     before the pin engages. Sideways, the track is the section. */
+  /* Pinned, the stacked read's padding is dead space that cuts the first
+     panel off. Sideways, the track is the section. */
   padding-block: 0;
 }
 
@@ -268,17 +452,15 @@
   flex-wrap: nowrap;
   height: 100dvh;
 
-  /* GSAP's transform makes this a stacking context, which traps the panels'
-     z-index inside it. Without a z-index of its own the group paints below
-     the scrim and the scrim greys out every word it covers. */
+  /* GSAP's transform makes this a stacking context, trapping the panels'
+     z-index inside it — without one here the group paints below the scrim. */
   position: relative;
   z-index: 2;
 }
 
 /* A pale scan behind near-white type takes it from 12:1 to about 3:1. This
-   holds the left of the screen at close to the section's own background —
-   the band each panel's text sits in — and fades out well before the right,
-   so the collage stays visible where nothing is written over it. */
+   holds the left of the screen near the section's own background and fades
+   out before the right, so the collage stays visible where nothing covers it. */
 .horizontal.is-enhanced::before {
   content: '';
   position: absolute;
@@ -322,9 +504,8 @@
 }
 
 /* --- Drifting layers ------------------------------------------------
-   Children of the pinned section rather than of the track, so the track
-   slides past them. horizontal-scroll.js gives each its own travel rate
-   from [data-drift]; this is only their resting place. */
+   Children of the pinned section, not the track, so the track slides past
+   them. horizontal-scroll.js gives each its travel rate; this is the rest. */
 
 .horizontal.is-enhanced .horizontal__drift {
   display: block;
@@ -400,9 +581,8 @@
 
 /* ============================================================
    HERO SCATTER
-   Static by default — hero-scatter.js only animates *into* these
-   positions. On a phone the scatter fights the title for space,
-   so the base rules keep the images small and out at the edges.
+   Static by default; hero-scatter.js only animates *into* these
+   positions. On a phone they stay small and out at the edges.
 ============================================================ */
 
 .hero__scatter {
@@ -458,9 +638,8 @@
 
 /* ============================================================
    SEQUENCE
-   Default: native scroll-snap, swipeable, no JavaScript needed.
-   Enhanced (.is-marquee, from sequence-marquee.js): a continuous
-   loop, which is why it ships with a real pause button.
+   Default: native scroll-snap, swipeable. Enhanced (.is-marquee):
+   a continuous loop, which is why it ships a pause button.
 ============================================================ */
 
 .sequence-wrap {
@@ -511,8 +690,7 @@
   will-change: transform;
 }
 
-/* Hidden until JS confirms the marquee is running — a pause button with
-   nothing to pause is confusing, not helpful. */
+/* Hidden until JS confirms the marquee is running. */
 .sequence__toggle {
   display: none;
   margin-top: var(--space-2xs);
@@ -528,8 +706,7 @@
 /* ============================================================
    PICKER — choices, panel and collage in one view
    One grid, so the buttons, the paragraph they change and the
-   garment they describe stay on screen together. The mechanism
-   lives in picker.js; this only places it.
+   garment they describe stay on screen together.
 ============================================================ */
 
 .picker {
@@ -586,8 +763,7 @@
     transform var(--duration-fast) var(--ease-out);
 }
 
-/* Underline draw. The magnetic pull in picker-motion.js layers a translate
-   on top of this same label. */
+/* picker-motion.js layers a magnetic translate on top of this same label. */
 .picker__label::after {
   content: '';
   position: absolute;
@@ -635,9 +811,8 @@
   margin-top: 0;
 }
 
-/* Panels are different lengths, and without a floor the section resizes
-   under the reader on every choice — which on a pinned page means every
-   trigger below is measured against a height that just changed. */
+/* Panels differ in length; without a floor the section resizes on every
+   choice, and every trigger below is measured against a height that moved. */
 .js .picker__panels {
   min-height: 14rem;
 }
@@ -650,8 +825,8 @@
 
 /* --- Collage stage ---------------------------------------------
    Each piece is a wrapper holding the resting position and angle, with the
-   image inside it. That split is what lets the scroll drift (on the
-   wrapper) and the poke (on the image) coexist. */
+   image inside. That split lets the scroll drift (wrapper) and the poke
+   (image) coexist. */
 
 .picker__stage {
   grid-area: stage;
@@ -736,8 +911,7 @@
       'choices stage'
       'panels  stage';
 
-    /* The left column is three rows of content and the right is one tall
-       image; without this the rows stretch to fill the collage's height and
+    /* Without this the left column's rows stretch to the collage's height and
        the choices drift away from the paragraph they control. */
     grid-template-rows: auto auto 1fr;
     align-items: start;
@@ -803,18 +977,16 @@
 }
 
 /* --- Enhanced: depth fly-through ----------------------------
-   Added only by my-project-depth.js. The grid above stays exactly what
-   no-JS and reduced-motion visitors read, captions and all. Here the images
-   stack in the centre of a pinned perspective stage and fly away one by one
-   as the reader scrolls. */
+   Added only by my-project-depth.js; the grid above is what no-JS and
+   reduced-motion visitors read. Here the images stack in a pinned
+   perspective stage and fly away one by one. */
 
 .my-project-depth.is-enhanced {
   /* Pin distance: roughly one screen of scroll per image. Taller = slower. */
   height: 300vh;
   margin-top: var(--space-2xl);
 
-  /* The images travel outside the stage box on their way out of frame, so
-     nothing may clip them here. */
+  /* The images travel outside this box on their way out of frame. */
   overflow: visible;
 }
 
@@ -831,16 +1003,14 @@
 .my-project-depth.is-enhanced .my-project-depth__item {
   position: absolute;
 
-  /* Sized against the shorter viewport edge: these are 3:4 photographs
-     flying through a full-height stage, so on a phone the height runs out
-     first. */
+  /* Sized against the shorter viewport edge: 3:4 photographs in a
+     full-height stage run out of height first on a phone. */
   width: min(90vw, 56vh, 38rem);
   max-width: none;
 
   opacity: 0;
 
-  /* They stack and are mid-flight most of the time, so they should never
-     intercept a click meant for the page. */
+  /* Mid-flight most of the time, so they must never take a click. */
   pointer-events: none;
 
   will-change: transform;
@@ -850,9 +1020,8 @@
   object-fit: contain;
 }
 
-/* Stacked on one centre point, the captions would pile into a smudge. Each
-   <img> carries the same wording in its alt text, and the grid above still
-   shows every caption to no-JS and reduced-motion visitors. */
+/* Stacked on one centre point the captions would pile into a smudge. The
+   same wording is in each <img> alt, and the grid above still shows them. */
 .my-project-depth.is-enhanced .my-project-depth__item figcaption {
   display: none;
 }
@@ -937,8 +1106,8 @@
 
 /* ============================================================
    LINES RISE
-   Both selectors match elements SplitText builds at runtime, so
-   none of this applies unless text-lines-rise.js has run.
+   Matches elements SplitText builds at runtime, so none of it
+   applies unless text-lines-rise.js has run.
 ============================================================ */
 
 .lines-rise__line {
@@ -952,8 +1121,7 @@
 
 /* ============================================================
    LETTER REVEAL
-   Built by SplitText at runtime — no-JS and reduced-motion
-   visitors read plain, upright text.
+   Built by SplitText at runtime; without it, upright text.
 ============================================================ */
 
 .letter-reveal__word {
@@ -963,9 +1131,8 @@
 .letter-reveal__char {
   display: inline-block;
 
-  /* Clips to the letter's own box. The glyph pivots from below the
-     baseline, so swung down it lands outside this box and is simply not
-     painted — no opacity fade needed. */
+  /* Clips to the letter's own box: the glyph pivots from below the baseline,
+     so swung down it lands outside and is simply not painted. */
   clip-path: polygon(0 0, 0 100%, 100% 100%, 100% 0);
 }
 
@@ -987,11 +1154,9 @@
   position: relative;
 }
 
-/* The speed control: the stage is pinned for this height minus one
-   viewport, and the sentence covers its whole width in exactly that
-   distance, so taller means a slower pass. Enhanced only — with no JS the
-   section is one screen of wrapped text and must not reserve four empty
-   screens of scroll. */
+/* The speed control: pinned for this height minus one viewport, so taller
+   means a slower pass. Enhanced only — with no JS this must not reserve
+   four empty screens of scroll. */
 .marquee.is-enhanced .marquee__pin {
   height: 500vh;
 }
@@ -1016,10 +1181,9 @@
 
 /* ============================================================
    SCRIBBLES
-   Hand-drawn marks, scanned. Each repeats something the copy
-   beside it already says, so they are all alt="" and aria-hidden.
-   They are fully drawn in CSS; scribble.js only wipes them on as
-   they arrive.
+   Scanned hand-drawn marks. Each repeats what the copy beside it
+   says, so they are all alt="" and aria-hidden. Fully drawn in
+   CSS; scribble.js only wipes them on.
 ============================================================ */
 
 .scribble {
@@ -1039,10 +1203,9 @@
   object-position: 50% 14%;
 }
 
-/* Arrow from the instruction down to the choices. Set in the line rather
-   than positioned over it: the choices are a row that wraps differently at
-   every width, and an absolutely placed arrow landed on whichever button
-   happened to be under it. */
+/* Set in the line rather than positioned over it: the choices wrap
+   differently at every width, and an absolute arrow landed on whichever
+   button happened to be under it. */
 .scribble--cue {
   display: inline-block;
   width: clamp(2.5rem, 5vw, 3.5rem);
@@ -1084,22 +1247,20 @@
 
 /* ============================================================
    SCATTER
-   Built by SplitText at runtime — no-JS and reduced-motion
-   visitors read the phrase in place, in the sentence.
+   Built by SplitText at runtime; without it the phrase just sits
+   in the sentence.
 ============================================================ */
 
 .scatter {
   position: relative;
   display: inline-block;
 
-  /* The phrase is about to be taken apart letter by letter; a line break
-     through the middle of it would leave half behind. */
+  /* A line break through the phrase would leave half of it behind. */
   white-space: nowrap;
 }
 
 .scatter__char {
-  /* The box keeps the sentence's layout. Only the glyph inside it flies, so
-     nothing reflows into the gap. */
+  /* The box holds the sentence's layout; only the glyph inside flies. */
   display: inline-block;
 }
 
@@ -1110,10 +1271,9 @@
 
 /* ============================================================
    TEXT SWAP
-   Default: two stacked paragraphs, read one after the other.
-   Enhanced (.is-enhanced, added only by text-swap.js): the two
-   are stacked on one another in a pinned, perspective stage and
-   turned over line by line as the reader scrolls.
+   Default: two stacked paragraphs. Enhanced (.is-enhanced): the
+   two sit on one another in a pinned perspective stage and turn
+   over line by line as the reader scrolls.
 ============================================================ */
 
 .text-swap__title {
@@ -1124,9 +1284,8 @@
   overflow: clip;
 }
 
-/* The speed control: the stage is pinned for this height minus one
-   viewport, and the turn takes exactly that distance. Enhanced only — with
-   no JS the section is two paragraphs and must not reserve empty screens. */
+/* The speed control: pinned for this height minus one viewport, which is
+   exactly what the turn takes. Enhanced only. */
 .text-swap.is-enhanced .text-swap__pin {
   height: 250vh;
 }
@@ -1137,11 +1296,9 @@
   display: grid;
   perspective: 300vw;
 
-  /* The block is centred in the viewport, but the two paragraphs inside are
-     aligned to the same top edge rather than to each other's centres. They
-     are different lengths, and centring them would offset their lines by
-     half a line — so a row would turn over showing text from the middle of
-     a different sentence. */
+  /* Both paragraphs share a top edge rather than a centre: they differ in
+     length, and centring would offset their lines by half a line, so a row
+     would turn over showing the middle of a different sentence. */
   place-content: center;
   justify-items: center;
   align-items: start;
@@ -1171,8 +1328,7 @@
 
   transform: translate3d(0, 0, 20vw);
 
-  /* Past 90 degrees the line faces away; without this it would be painted
-     mirrored for the rest of the turn. */
+  /* Past 90 degrees the line faces away and would paint mirrored. */
   backface-visibility: hidden;
 
   will-change: transform;
@@ -1180,10 +1336,9 @@
 
 /* ============================================================
    CORNER OFF
-   A sheet with its corner already cut and the piece lying loose
-   beside it — the two states the paragraph describes, visible at
-   once. All of it is CSS; corner-off.js only makes the piece
-   possible to pick up.
+   A cut sheet and the loose piece beside it: both states the
+   paragraph describes, at once. All CSS; corner-off.js only
+   makes the piece possible to pick up.
 ============================================================ */
 
 .corner-off {
@@ -1221,19 +1376,18 @@
   /* A rectangular box-shadow would draw a box around the empty half. */
   filter: drop-shadow(0 2px 3px rgb(0 0 0 / 22%));
 
-  /* The resting angle for a no-JS or reduced-motion visitor. Once
-     corner-off.js has run it owns this instead — see REST_ANGLE there for
-     why the two cannot be combined. Keep the numbers in step. */
+  /* The resting angle without JS. Once corner-off.js runs it owns this
+     instead — see REST_ANGLE there. Keep the two numbers in step. */
   rotate: 20deg;
 }
 
-/* No cursor rule here on purpose: Draggable sets `grab` on the element
-   itself, so the piece only looks pickup-able once it actually is. */
+/* No cursor rule on purpose: Draggable sets `grab` itself, so the piece only
+   looks pickup-able once it is. */
 
 /* ============================================================
    ONE CORNER OFF — loose objects
-   In flow on a phone, out into the margins only once there is
-   empty surface to put them in.
+   In flow on a phone; out into the margins only once there is
+   empty surface for them.
 ============================================================ */
 
 .one-corner__objects {
@@ -1292,9 +1446,9 @@
 
 /* ============================================================
    VISIT
-   Mobile first: a row of objects under the invitation, in flow,
-   where they cannot land on top of the copy. Only once there is
-   empty surface either side do they move out into it.
+   Mobile first: objects in flow under the invitation, where they
+   cannot land on the copy. They move into the margins only once
+   there is surface either side.
 ============================================================ */
 
 .button {
@@ -1343,8 +1497,7 @@
   .visit {
     position: relative;
 
-    /* A hard poke sends an object a long way; this keeps it from widening
-       the page. */
+    /* A hard poke sends an object far enough to widen the page. */
     overflow: clip;
   }
 
@@ -1356,8 +1509,8 @@
     max-width: none;
     margin: 0;
 
-    /* The container spans the whole section, including the column of text
-       under it — only the objects themselves take the pointer. */
+    /* The container spans the text column too; only the objects take the
+       pointer. */
     pointer-events: none;
   }
 
@@ -1392,13 +1545,12 @@
 /* ============================================================
    DOODLE — take one corner off
    Without JavaScript: a photograph of gauze and a paragraph.
-   doodle.js inserts the <canvas> and only then unhides the
-   tools, so controls never appear without a surface to control.
+   doodle.js inserts the <canvas>, then unhides the tools.
 ============================================================ */
 
-/* Named areas, because the two arrangements are different shapes: stacked on
-   a phone, but side by side on a wide screen so the cloth and its tools stay
-   level — otherwise you scroll away from the thing you are drawing on. */
+/* Named areas: the two arrangements are different shapes. Side by side on a
+   wide screen keeps the cloth level with its tools, so you never scroll away
+   from the thing you are drawing on. */
 .doodle {
   display: grid;
   grid-template-areas:
@@ -1435,9 +1587,8 @@
   width: 100%;
   height: 100%;
 
-  /* Only this element opts out of native gestures. A swipe that starts
-     anywhere else — including the margin either side of the cloth — still
-     scrolls normally. */
+  /* Only this element opts out of native gestures; a swipe starting anywhere
+     else, including the margin beside the cloth, still scrolls. */
   touch-action: none;
   cursor: crosshair;
 }
@@ -1447,11 +1598,9 @@
   outline-offset: 4px;
 }
 
-/* Taking the marks back: the cloth is shaken out. doodle.js wipes the
-   pixels on animationend rather than on the click, so the two cannot get
-   out of step. The reduced-motion backstop in base.css cuts this to a
-   fraction of a millisecond — animationend still fires, so clearing still
-   works, it just does not perform. */
+/* doodle.js wipes the pixels on animationend rather than on the click, so the
+   two cannot get out of step. The reduced-motion backstop cuts this to a
+   fraction of a millisecond; animationend still fires. */
 .doodle__canvas.is-clearing {
   animation: doodle-shake 420ms var(--ease-out) forwards;
 }
@@ -1485,9 +1634,8 @@
   }
 }
 
-/* Where the keyboard pen is. Pointer users never see it; it appears only
-   once the canvas has focus, because it is the only way to know where a
-   keypress is about to draw. */
+/* Where the keyboard pen is. Shown only once the canvas has focus, since it
+   is the only way to know where a keypress will draw. */
 .doodle__pen {
   position: absolute;
   top: 0;
@@ -1589,8 +1737,7 @@
   background: var(--color-bg);
 }
 
-/* Undo, clear and keep have nothing to act on until a mark exists. Disabled
-   rather than hidden: a control that appears mid-interaction moves
+/* Disabled rather than hidden: a control that appears mid-interaction moves
    everything under it. */
 .doodle__action:disabled {
   opacity: 0.4;
@@ -1652,10 +1799,8 @@
     width: 100%;
   }
 
-  /* The needle is decoration in the margin, so it may overhang its cell —
-     but only upward and to the right, away from the canvas. Anything drawn
-     over the drawing surface would take the pointer with it and swallow the
-     start of a stroke. */
+  /* May overhang its cell, but only away from the canvas: anything over the
+     drawing surface would swallow the start of a stroke. */
   .doodle__objects {
     display: block;
     max-width: none;

@@ -2,13 +2,14 @@ import './css/main.css';
 
 import { prefersReducedMotion } from './js/reduced-motion.js';
 import { initMenu } from './js/menu.js';
+import { initNav } from './js/nav.js';
 import { initPicker } from './js/picker.js';
 import { initDoodle } from './js/doodle.js';
 
 async function init() {
-  // Interactions, not animations: everything above the reduced-motion check
-  // is something the reader operates, so it runs for everybody.
+
   initMenu();
+  initNav();
   initPicker();
   initDoodle();
 
@@ -58,8 +59,7 @@ async function init() {
     import('./js/object-pop.js'),
   ]);
 
-  // Pointer interactions and non-pinned animations. Nothing here measures
-  // the page, so the order is free.
+
   initHeroScatter();
   initSpotlight();
   initPickerMotion();
@@ -67,12 +67,12 @@ async function init() {
   initMagnetic();
 
   /*
-   * IMPORTANT: create pinned sections in DOM order, top to bottom
-   * (refreshPriority 5 → 1). Every pin adds its own scroll distance, so a
-   * pin created before one above it measures against a page height that
-   * then changes, and engages early over the section above. The first three
-   * must be awaited — without that the horizontal pin is created first and
-   * starts ~3000px too early, on top of M.Y. Project.
+   * Pinned sections must be created in DOM order, top to bottom
+   * (refreshPriority 5 → 1). Each pin adds scroll distance, so one created
+   * before a pin above it measures against a page height that then changes,
+   * and engages early over the section above. The first three must be
+   * awaited, or the horizontal pin is built first and starts ~3000px too
+   * early, on top of M.Y. Project.
    */
   await initTextLineReveal();
   await initTextMarquee();
@@ -80,8 +80,7 @@ async function init() {
   initMyProjectDepth();
   initHorizontalScroll();
 
-  // Elements whose positions depend on the final page geometry come AFTER
-  // all pinned sections.
+  // Anything positioned against the final page geometry comes after the pins.
   initScrollReveal();
   initHeadingTracking();
   initSequenceMarquee();
@@ -92,8 +91,8 @@ async function init() {
   await initTextLinesRise();
   await initTextScatter();
 
-  // Fonts have settled and every trigger now exists: measure once against
-  // the final page height.
+  // Fonts have settled and every trigger exists: measure once, against the
+  // final page height.
   ScrollTrigger.refresh();
 }
 

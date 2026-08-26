@@ -1,14 +1,12 @@
 import { gsap, ScrollTrigger, SCRUB, canHover } from './motion.js';
 
 /**
- * Spotlight reveal. The line itself is plain readable text in the markup;
- * this adds a second aria-hidden copy on a dark layer clipped to a circle,
- * so the sentence is authored once and the overlay only exists when the
- * animation that removes it will run. With a cursor the circle follows it;
- * on touch the scroll carries it instead.
+ * Spotlight reveal. The line is plain text in the markup; this adds an
+ * aria-hidden copy on a dark layer clipped to a circle, so the overlay only
+ * exists when the animation that removes it will run.
  */
 
-/** Radius, in rem, of the open circle. */
+// Radius, in rem, of the open circle.
 const OPEN = 14;
 
 export function initSpotlight() {
@@ -27,14 +25,9 @@ export function initSpotlight() {
 }
 
 function followCursor(section, overlay) {
-  /*
-   * The eased position is held on a plain object and written out to the two
-   * custom properties on each frame. quickTo hands its target a bare number
-   * and a clip-path circle needs a unit; it also reuses one tween per axis
-   * rather than building a new one for every pointermove, which is what
-   * gives the circle its lag behind the cursor instead of welding it to the
-   * tip.
-   */
+  // Eased on a plain object, then written out with units: quickTo hands its
+  // target a bare number and clip-path needs one. Reusing one tween per axis
+  // is also what gives the circle its lag behind the cursor.
   const spot = { x: 50, y: 50 };
 
   const write = () => {
@@ -85,13 +78,9 @@ function followCursor(section, overlay) {
 }
 
 function followScroll(section, overlay) {
-  /*
-   * Opens as the section arrives, sweeps across the line, closes as it
-   * leaves. Every position is given explicitly and the whole thing runs
-   * 0 → 1, so the sweep occupies the entire time the section is on screen.
-   * Left to append themselves, the two radius tweens would finish early and
-   * leave a stretch at the bottom where scrolling did nothing.
-   */
+  // Every tween is positioned explicitly so the sweep fills the whole time the
+  // section is on screen. Left to append themselves the radius tweens would
+  // finish early, leaving a stretch at the bottom where scrolling did nothing.
   gsap
     .timeline({
       defaults: { ease: 'none' },

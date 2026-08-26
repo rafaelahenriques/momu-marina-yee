@@ -2,12 +2,10 @@ import { gsap, canHover } from './motion.js';
 
 /**
  * Elements marked [data-magnetic] lean toward the cursor, then spring back.
- * quickTo rather than gsap.to: mousemove fires dozens of times a second and
- * this reuses one tween per axis instead of spawning one per event.
+ * quickTo, not gsap.to: mousemove fires dozens of times a second, and this
+ * reuses one tween per axis instead of spawning one per event.
  */
 export function initMagnetic() {
-  // A touch device has no hovering cursor to lean toward, so there is
-  // nothing to attach.
   if (!canHover()) return;
 
   document.querySelectorAll('[data-magnetic]').forEach((element) => {

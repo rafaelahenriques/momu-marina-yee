@@ -2,15 +2,12 @@ import { gsap } from './motion.js';
 
 /**
  * Sweep the cursor across a collage piece and it gets knocked along, then
- * swings back. Every pokeable thing is decoration the copy already accounts
- * for — which is why it can be the one interaction with no keyboard
- * equivalent. Only the inner <img> moves; its wrapper carries the resting
- * position and any scroll parallax, so the two never fight over a transform.
+ * swings back. Only the inner <img> moves; its wrapper carries the resting
+ * position and any parallax, so the two never fight over a transform.
  */
 
-// The cursor can jump a long way between two mousemove events — off-window
-// re-entry, a flick of a trackpad — and an unbounded velocity throws the
-// image clean off the page.
+// The cursor can jump a long way between two mousemove events, and an
+// unbounded velocity throws the image clean off the page.
 const clampVelocity = gsap.utils.clamp(-1400, 1400);
 
 // How much of the cursor's own speed the object picks up.
@@ -29,8 +26,8 @@ export function initPoke() {
       poke(image, velocity.x, velocity.y),
     );
 
-    // Touch and pen: no travel direction to inherit, so the tap itself
-    // supplies the nudge. Passive — this must never eat a scroll.
+    // Touch and pen have no travel direction to inherit, so the tap supplies
+    // the nudge. Passive: this must never eat a scroll.
     item.addEventListener(
       'pointerdown',
       (event) => {
@@ -42,13 +39,9 @@ export function initPoke() {
   });
 }
 
-/**
- * Tracked on the document rather than on the objects' container: the
- * cursor's speed has to be known *before* it arrives, and the moves that
- * carry it there land on whatever is underneath. A listener on the container
- * only sees moves already over an object, so the first one to arrive would
- * always read as standing still.
- */
+// Tracked on the document, not the objects: the cursor's speed has to be known
+// before it arrives. A listener on the container would only see moves already
+// over an object, so the first arrival would always read as standing still.
 function trackPointer() {
   const velocity = { x: 0, y: 0 };
   let previous = null;
@@ -56,8 +49,7 @@ function trackPointer() {
   document.addEventListener(
     'mousemove',
     (event) => {
-      // The first move has nothing to measure against; without this the
-      // delta would be the full distance from the top-left of the viewport.
+      // The first move has nothing to measure against.
       if (previous) {
         velocity.x = clampVelocity((event.clientX - previous.x) * PICKUP);
         velocity.y = clampVelocity((event.clientY - previous.y) * PICKUP);
@@ -67,9 +59,8 @@ function trackPointer() {
     { passive: true },
   );
 
-  // Leaving and re-entering the window elsewhere is not a movement across
-  // the page, and measuring it as one reads as a jump of several hundred
-  // pixels in a single frame.
+  // Re-entering the window elsewhere is not a movement across the page, and
+  // measuring it as one reads as a jump of hundreds of pixels in one frame.
   document.addEventListener('mouseleave', () => {
     previous = null;
     velocity.x = 0;

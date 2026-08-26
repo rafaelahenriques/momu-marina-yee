@@ -77,6 +77,7 @@ src/
     reduced-motion.js   the prefers-reduced-motion check
     motion.js           GSAP setup, plus the shared scrub and hover helpers
     menu.js             menu disclosure          (always runs)
+    nav.js              sticky bar, progress, scroll-spy  (always runs)
     picker.js           garment picker panels    (always runs)
     doodle.js           the drawing surface      (always runs)
     …                   everything else is motion-only, loaded on demand
@@ -97,7 +98,8 @@ Three conventions worth keeping:
   writing them down a second time.
 - **No JavaScript in `index.html`** beyond the two-line `no-js` → `js` switch.
 - **Interactions go above the reduced-motion check in `main.js`, animations
-  below it.** If a reader can operate it, it runs for everyone.
+  below it.** If a reader can operate it or navigate by it, it runs for
+  everyone.
 
 ## Progressive enhancement
 
@@ -111,7 +113,12 @@ The content survives without JavaScript:
   horizontal panels stack, the marquee wraps, the depth fly-through is a
   grid. Each gains `.is-enhanced` only once its module has actually run.
 - `prefers-reduced-motion` is respected twice: in `main.js`, which returns
-  before GSAP is even imported, and in CSS as a backstop.
+  before GSAP is even imported, and in CSS as a backstop. `nav.js` reads it
+  too: those readers keep the bar on screen instead of having it slide.
+
+- Both `.site-nav` and the menu panel are only sticky and only out of flow
+  under `.js`. Without script the panel ships open and cannot be closed, so a
+  stuck bar carrying it would eat the screen.
 - The auto-scrolling detail strip ships a real pause button (WCAG 2.2.2) and
   also pauses on hover and keyboard focus.
 - **Take One Corner Off** ships as a photograph of cloth and a paragraph.
@@ -119,6 +126,27 @@ The content survives without JavaScript:
   buttons can never appear without a surface to operate. It uses no GSAP on
   purpose — a reader who asked for less motion should still get something to
   draw on.
+
+## Navigation
+
+The page runs to roughly 29,000px of scroll with five pinned sections, so the
+chrome has to do more than link out. `nav.js` handles three things on one
+rAF-throttled scroll listener:
+
+- **A bar that gets out of the way.** It hides on a deliberate scroll down
+  past 200px and returns on any upward scroll, so the menu is always one flick
+  away. `.site-nav:focus-within` is ordered after `.site-nav--hidden` at equal
+  specificity, which is what stops a keyboard reader tabbing to a bar that is
+  parked off-screen.
+- **Progress**, as a scaled 2px rule along the bottom edge. `scaleX` on a
+  custom property, so it never touches layout.
+- **Which section you are in**, marked with `aria-current="location"` in the
+  panel and named in the bar above 64rem. The last section whose top has
+  crossed 35% of the viewport wins.
+
+`nav.js` also measures the bar into `--nav-height`, which `scroll-padding-top`
+uses to keep anchor targets clear of it and the panel uses for its
+`max-height`. A ResizeObserver keeps it right when the controls wrap.
 
 ## Motion
 

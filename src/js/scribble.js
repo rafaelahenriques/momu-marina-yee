@@ -1,15 +1,13 @@
 import { gsap } from './motion.js';
 
 /**
- * Draw-on for the hand-drawn marks. Each is a PNG of one pen stroke, and
- * wiping a clip-path across it in the direction it was drawn reads as the
- * mark being drawn now. The marks are fully visible in CSS; this only sets
- * their "from" state.
+ * Draw-on for the hand-drawn marks. Each is a PNG of one pen stroke; wiping a
+ * clip-path across it in the direction it was drawn reads as the mark being
+ * made now. CSS shows them in full — this only sets the "from" state.
  */
 
-// Which edge the stroke grows from. Both values of each pair are written as
-// full inset() shorthands so GSAP interpolates one number and leaves the
-// rest alone.
+// Which edge the stroke grows from. Both values of each pair are full inset()
+// shorthands, so GSAP interpolates one number and leaves the rest alone.
 const WIPES = {
   left: ['inset(0 100% 0 0)', 'inset(0 0% 0 0)'],
   right: ['inset(0 0 0 100%)', 'inset(0 0 0 0%)'],

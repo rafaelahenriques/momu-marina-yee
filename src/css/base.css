@@ -12,9 +12,13 @@
 }
 
 html {
-  /* Prefixed deliberately: Safari, which is the browser that inflates text
-     on rotation, only implements the prefixed property. */
+  /* Prefixed deliberately: Safari inflates text on rotation and only
+     implements the prefixed property. */
   -webkit-text-size-adjust: 100%;
+
+  /* Keeps an anchor target clear of the sticky bar. nav.js measures the bar
+     and writes --nav-height; the fallback covers the frame before it runs. */
+  scroll-padding-top: calc(var(--nav-height, 4.5rem) + var(--space-s));
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -32,10 +36,9 @@ body {
   color: var(--color-ink);
   background-color: var(--color-bg);
 
-  /* Loose objects get knocked sideways and letters get thrown off the
-     sentence, and either can end up past the right edge. clip rather than
-     hidden: hidden would make the body a scroll container and break every
-     pinned section on the page. */
+  /* Knocked objects and scattered letters can end up past the right edge.
+     clip, not hidden: hidden would make the body a scroll container and
+     break every pinned section on the page. */
   overflow-x: clip;
 }
 
@@ -191,10 +194,12 @@ figcaption {
 ============================================================ */
 
 .skip-link {
-  position: absolute;
+  position: fixed;
   top: var(--space-2xs);
   left: var(--space-2xs);
-  z-index: 10;
+
+  /* Above the sticky bar, which is 20. */
+  z-index: 30;
   display: inline-flex;
   align-items: center;
   min-height: var(--target);
@@ -323,18 +328,22 @@ figcaption {
   gap: var(--space-2xs);
 }
 
+/* text-decoration rather than a bottom border, so the box can be padded out
+   to the 24px minimum target without the rule drifting off the word. */
 .site-footer a {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.5rem;
   font-family: var(--font-utility);
   font-size: var(--step--1);
-  text-decoration: none;
-  border-bottom: 1px solid var(--color-rule);
-  padding-bottom: 1px;
-  transition: border-color var(--duration-fast) var(--ease-out);
+  text-decoration: underline;
+  text-decoration-color: var(--color-rule);
+  text-underline-offset: 0.25em;
+  transition: text-decoration-color var(--duration-fast) var(--ease-out);
 }
 
 .site-footer a:hover {
-  border-color: var(--color-ink);
+  text-decoration-color: currentcolor;
 }
 
 .site-footer__sources {

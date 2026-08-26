@@ -2,8 +2,8 @@ import { gsap } from './motion.js';
 
 /**
  * The loose workroom objects drop into their CSS resting positions as the
- * section arrives. Played, not scrubbed: a back ease dragged frame by frame
- * by the scrollbar reads as jitter rather than as a pop.
+ * section arrives. Played, not scrubbed: a back ease dragged by the scrollbar
+ * reads as jitter rather than as a pop.
  */
 export function initObjectPop() {
   document.querySelectorAll('[data-object-pop]').forEach((zone) => {
@@ -13,8 +13,8 @@ export function initObjectPop() {
     gsap.from(objects, {
       scale: 0.6,
       autoAlpha: 0,
-      // Each one comes in from its own direction, so they read as dropped
-      // onto the table rather than fading up off a grid.
+      // Each from its own direction, so they read as dropped onto the table
+      // rather than fading up off a grid.
       x: () => gsap.utils.random(-40, 40),
       y: () => gsap.utils.random(20, 70),
       rotate: () => gsap.utils.random(-20, 20),

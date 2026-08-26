@@ -1,10 +1,9 @@
 import { gsap, SCRUB, SCRUB_TIGHT } from './motion.js';
 
 /**
- * Pinned horizontal panel sequence. The default markup is a stacked block
- * read top to bottom. This makes the track a flex row, pins the section and
- * translates it sideways on vertical scroll — so wheel, trackpad, swipe and
- * arrow keys all drive it with nothing bespoke for keyboard or touch.
+ * Pinned horizontal panel sequence. Without this the markup is a stacked block
+ * read top to bottom. Driving it from vertical scroll means wheel, trackpad,
+ * swipe and arrow keys all work with nothing bespoke for keyboard or touch.
  */
 export function initHorizontalScroll() {
   const section = document.querySelector('[data-horizontal]');
@@ -39,16 +38,9 @@ export function initHorizontalScroll() {
     },
   });
 
-  /*
-   * The layers sit inside the pinned section but outside the track, so they
-   * only move by however much this moves them.
-   *
-   * Their travel is measured in viewport widths, not track widths: the
-   * track is five screens long, so a layer moved by even a fifth of it is
-   * off the left edge within the first panel and never seen again. Each
-   * starts off the right edge and crosses at its own rate, so they arrive
-   * and leave at different points rather than moving as one sheet.
-   */
+  // Travel is measured in viewport widths, not track widths: the track is five
+  // screens long, so a layer moved by even a fifth of it is off the left edge
+  // within the first panel and never seen again.
   drifters.forEach((layer) => {
     const rate = Number(layer.dataset.drift) || 1;
 
@@ -65,16 +57,9 @@ export function initHorizontalScroll() {
     });
   });
 
-  /*
-   * containerAnimation is what makes this honest: the panels are moved by
-   * `slide`, so their triggers are measured along that tween rather than
-   * against the page. 'left 85%' means "when this panel's left edge reaches
-   * 85% across the viewport".
-   *
-   * The first panel is already past 'left 45%' before the section is
-   * reached, so its copy is never hidden waiting for a scroll that has
-   * already happened.
-   */
+  // containerAnimation measures these triggers along `slide` rather than down
+  // the page, so 'left 85%' means "when this panel's left edge reaches 85%
+  // across the viewport".
   panels.forEach((panel) => {
     const parts = panel.children;
     if (!parts.length) return;

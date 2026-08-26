@@ -1,9 +1,7 @@
 /* ============================================================
    DESIGN TOKENS
-
    The single source of truth for colour, type, space and motion.
-   If a hex code, font name or shadow appears anywhere outside
-   this file, it belongs in here instead.
+   A hex code, font name or shadow anywhere else belongs in here.
 ============================================================ */
 
 :root {
@@ -14,8 +12,7 @@
   --color-ink-muted: #5c584f;
   --color-rule: #dcdcdc;
 
-  /* The dark section. Not pure black — slightly warm, to match the
-     paper it interrupts. */
+  /* Not pure black: slightly warm, to match the paper it interrupts. */
   --color-dark-bg: #2b2926;
   --color-dark-ink: #f6f4ef;
   --color-dark-muted: #a39d90;
@@ -47,9 +44,7 @@
   --space-xl: 6.5rem;
   --space-2xl: 10rem;
 
-  /* --- Layout --------------------------------------------------
-     --measure only bounds line length; the layout rules in
-     base.css position the columns. */
+  /* --- Layout -------------------------------------------------- */
   --measure: 60ch;
   --width-content: 38rem;
   --width-wide: 72rem;
@@ -63,17 +58,15 @@
   --target: 2.75rem;
 }
 
-/* Declared so the browser knows --corner-size is a length and can tween it
-   inside a clip-path, and so getComputedStyle hands corner-off.js a
-   resolved pixel value rather than the literal clamp() it was authored
-   as. */
+/* Declared so the browser can tween --corner-size inside a clip-path, and so
+   getComputedStyle hands corner-off.js a resolved pixel value rather than the
+   clamp() it was authored as. */
 @property --corner-size {
   syntax: '<length>';
   inherits: true;
 
-  /* The unit is required: initial-value has to parse as the registered
-     <length>, and a bare 0 is what makes the corner-off animation silently
-     stop interpolating. */
+  /* The unit is required: initial-value must parse as the registered
+     <length>, and a bare 0 silently stops the animation interpolating. */
   /* stylelint-disable-next-line length-zero-no-unit */
   initial-value: 0px;
 }

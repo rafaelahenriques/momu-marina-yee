@@ -29,49 +29,84 @@
       </ol>
     </nav>
 
-    <header class="site-header">
-      <a class="site-header__logo" href="https://www.momu.be/en/">
-        <img src="/momu-logo.svg" alt="MoMu — Fashion Museum Antwerp" width="120" height="40" />
-      </a>
-
-      <div class="site-header__controls">
-        <a class="pill" href="https://www.momu.be/en/visit">Tickets</a>
-
-        <a class="pill pill--uppercase pill--secondary" href="#designer-stories">
-          All designer stories
+    <div class="site-nav" data-site-nav>
+      <header class="site-header">
+        <a class="site-header__logo" href="https://www.momu.be/en/">
+          <img src="/momu-logo.svg" alt="MoMu — Fashion Museum Antwerp" width="120" height="40" />
         </a>
 
-        <button
-          class="pill pill--uppercase menu-toggle"
-          type="button"
-          aria-expanded="true"
-          aria-controls="menu-panel"
-          data-menu-toggle
-        >
-          Menu
-        </button>
-      </div>
-    </header>
+        <p class="site-header__current" aria-hidden="true" data-nav-current hidden></p>
 
-    <nav class="menu-panel" id="menu-panel" aria-label="Sections of this story" data-menu-panel>
-      <ul class="menu-panel__list">
-        <li>
-          <a href="#picker">Working With What Was Already There</a>
-        </li>
-        <li>
-          <a href="#starting-with-what-already-existed">Starting With What Already Existed</a>
-        </li>
-        <li><a href="#my-project">M.Y. Project, 2018</a></li>
-        <li><a href="#one-corner-off">One Corner Off</a></li>
-        <li><a href="#your-turn">Take One Corner Off</a></li>
-        <li><a href="#visit">Look Closer at MoMu</a></li>
-      </ul>
-    </nav>
+        <div class="site-header__controls">
+          <a class="pill" href="https://www.momu.be/en/visit">Tickets</a>
+
+          <a class="pill pill--uppercase pill--secondary" href="#designer-stories">
+            All designer stories
+          </a>
+
+          <button
+            class="pill pill--uppercase menu-toggle"
+            type="button"
+            aria-expanded="true"
+            aria-controls="menu-panel"
+            data-menu-toggle
+          >
+            <span class="menu-toggle__icon" aria-hidden="true"></span>
+            <span class="menu-toggle__label" data-menu-label>Menu</span>
+          </button>
+        </div>
+      </header>
+
+      <nav class="menu-panel" id="menu-panel" aria-label="Sections of this story" data-menu-panel>
+        <ul class="menu-panel__list" data-nav-links>
+          <li>
+            <a href="#picker">
+              <span class="menu-panel__index">01</span>
+              <span class="menu-panel__label">Working With What Was Already There</span>
+            </a>
+          </li>
+          <li>
+            <a href="#starting-with-what-already-existed">
+              <span class="menu-panel__index">02</span>
+              <span class="menu-panel__label">Starting With What Already Existed</span>
+            </a>
+          </li>
+          <li>
+            <a href="#my-project">
+              <span class="menu-panel__index">03</span>
+              <span class="menu-panel__label">M.Y. Project, 2018</span>
+            </a>
+          </li>
+          <li>
+            <a href="#one-corner-off">
+              <span class="menu-panel__index">04</span>
+              <span class="menu-panel__label">One Corner Off</span>
+            </a>
+          </li>
+          <li>
+            <a href="#your-turn">
+              <span class="menu-panel__index">05</span>
+              <span class="menu-panel__label">Take One Corner Off</span>
+            </a>
+          </li>
+          <li>
+            <a href="#visit">
+              <span class="menu-panel__index">06</span>
+              <span class="menu-panel__label">Look Closer at MoMu</span>
+            </a>
+          </li>
+        </ul>
+
+        <p class="menu-panel__aside">
+          <a href="#designer-stories">All designer stories</a>
+        </p>
+      </nav>
+
+      <div class="site-nav__progress" aria-hidden="true"></div>
+    </div>
 
     <main id="main">
       <section class="hero">
-        <!-- Decorative: the archive material is shown properly further down
-             the page. -->
         <div class="hero__scatter" aria-hidden="true">
           <div class="hero__image hero__image--1">
             <img
@@ -146,9 +181,8 @@
         <div class="chapter__body chapter__body--standalone" data-reveal>
           <p>
             Marina Yee’s place within the
-            <!-- Scribbled out, then dropped out of the sentence. The words
-                 stay in the markup and in the accessibility tree — only
-                 their painted position changes. -->
+            <!-- The words stay in the accessibility tree; only their painted
+                 position changes. -->
             <span class="scatter" data-scatter>
               <strong>Antwerp Six</strong>
               <img
@@ -176,8 +210,8 @@
         </div>
       </section>
 
-      <!-- spotlight.js clones this line onto a dark overlay it inserts
-           itself, so the sentence is only written once. -->
+      <!-- spotlight.js clones this line onto an overlay it inserts, so the
+           sentence is written once. -->
       <section class="statement statement--spotlight" data-spotlight>
         <p class="statement__text">
           Move away from the spotlight, and her practice becomes easier to see.
@@ -216,9 +250,8 @@
       </section>
 
       <section class="picker" id="picker">
-        <!-- No data-reveal here: picker-motion.js runs its own entrance for
-             the title, copy and choices together, and two modules animating
-             one element fight over its opacity. -->
+        <!-- No data-reveal: picker-motion.js runs its own entrance here, and
+             two modules animating one element fight over its opacity. -->
         <div class="picker__intro">
           <h2 class="chapter__title">Working With What Was Already There</h2>
 
@@ -315,9 +348,8 @@
           </article>
         </div>
 
-        <!-- Decorative collage: the panels above already carry this content.
-             Each piece is a wrapper holding the resting position, angle and
-             scroll drift, with the image inside left free for poke.js. -->
+        <!-- Each piece is a wrapper holding the resting position, angle and
+             drift; the image inside is left free for poke.js. -->
         <div class="picker__stage" data-picker-stage aria-hidden="true">
           <div class="picker__stage-item" data-stage-img="menswear" data-poke-item>
             <img
@@ -479,8 +511,8 @@
           />
         </h2>
 
-        <!-- Two stacked paragraphs by default; text-swap.js turns them over
-             into one another line by line once motion is allowed. -->
+        <!-- Two stacked paragraphs by default; text-swap.js turns them into
+             one another line by line once motion is allowed. -->
         <div class="text-swap__pin" data-text-swap-pin>
           <div class="chapter__body text-swap__stage" data-text-swap-stage>
             <p class="text-swap__text" data-text-swap-text>
@@ -622,9 +654,7 @@
       <section class="horizontal chapter--dark" data-horizontal>
         <h2 class="visually-hidden">Beyond sustainability</h2>
 
-        <!-- Decorative layers behind the panels, each given its own travel
-             rate by horizontal-scroll.js so the section has depth. Enhanced
-             only: over a plain vertical read they would just obscure it. -->
+        <!-- Enhanced only: over a plain vertical read these would obscure it. -->
         <div class="horizontal__drift" aria-hidden="true">
           <img
             class="horizontal__drift-item horizontal__drift-item--collage"
@@ -730,9 +760,6 @@
           </div>
         </div>
 
-        <!-- How far through the sideways run the reader is. Decorative: it
-             reports the scroll position, which the scrollbar already does
-             for anyone not seeing the pin. -->
         <div class="horizontal__progress" aria-hidden="true">
           <span class="horizontal__progress-bar" data-horizontal-bar></span>
         </div>
@@ -743,7 +770,6 @@
           <span>One Corner Off</span>
         </h2>
 
-        <!-- Decorative: the copy carries the meaning. -->
         <div class="one-corner__objects" data-object-pop aria-hidden="true">
           <div class="one-corner__object one-corner__object--tape" data-poke-item>
             <img
@@ -800,10 +826,9 @@
           </p>
         </div>
 
-        <!-- A sheet with its corner already cut and the cut piece lying
-             loose beside it — both states at once, which is what the
-             paragraph describes. corner-off.js only makes the cut happen on
-             arrival and the piece possible to pick up afterwards. -->
+        <!-- A cut sheet and the loose piece beside it: both states at once,
+             which is what the paragraph describes. corner-off.js only makes
+             the cut happen on arrival. -->
         <div class="chapter__body chapter__body--standalone corner-off" data-corner-off data-reveal>
           <div class="corner-off__sheet">
             <p>
@@ -904,10 +929,8 @@
         </div>
       </section>
 
-      <!-- Nothing in the story depends on using this, which is what makes
-           it safe to build on a canvas: doodle.js inserts the canvas and
-           only then reveals the tools, so without JavaScript the section is
-           a piece of cloth and a paragraph about what Yee did to one. -->
+      <!-- Without JavaScript this is a piece of cloth and a paragraph about
+           what Yee did to one. doodle.js inserts the canvas, then the tools. -->
       <section class="doodle" id="your-turn" data-doodle>
         <div class="doodle__intro">
           <h2 class="chapter__title" data-reveal>Take One Corner Off</h2>
@@ -921,10 +944,9 @@
           </div>
         </div>
 
-        <!-- Flat, not nested: the cloth, the tools and the needle are each
-             placed by name in the section's grid, so the cloth can sit
-             beside its own controls on a wide screen. DOM order is still the
-             reading order — draw on the cloth, then reach for a tool. -->
+        <!-- Flat, not nested: each part is placed by name in the section's
+             grid, so the cloth can sit beside its controls on a wide screen.
+             DOM order stays the reading order. -->
         <div class="doodle__surface" data-doodle-surface>
           <img
             class="doodle__cloth"
@@ -944,8 +966,7 @@
           />
         </div>
 
-        <!-- Revealed by doodle.js once the canvas exists: buttons that
-             operate a surface which was never built are worse than none. -->
+        <!-- Revealed by doodle.js once the canvas exists. -->
         <div class="doodle__tools" data-doodle-tools hidden>
           <fieldset class="doodle__marks" data-doodle-marks>
             <legend>Mark</legend>
@@ -975,8 +996,6 @@
           <p class="doodle__status" data-doodle-status role="status"></p>
         </div>
 
-        <!-- Outside the toolbar: that is a narrow column of pills, and a
-             sentence in the display face needs more measure than that. -->
         <p class="doodle__note" data-doodle-note hidden>
           That is the whole method. Something was already there, you decided where to change it, and
           both are still visible.
@@ -1059,7 +1078,6 @@
           </p>
         </div>
 
-        <!-- Decorative: the copy above already says what is worth seeing. -->
         <div class="visit__objects" data-object-pop aria-hidden="true">
           <div class="visit__object visit__object--tape" data-poke-item>
             <img

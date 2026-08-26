@@ -1,9 +1,9 @@
 import { gsap } from './motion.js';
 
 /**
- * Reveals [data-reveal] elements as they enter the viewport. They are
- * visible in CSS by default; this sets their "from" state at runtime, so if
- * the module never loads nothing is hidden.
+ * Reveals [data-reveal] elements as they enter the viewport. CSS shows them by
+ * default; this sets the "from" state at runtime, so a module that never loads
+ * leaves nothing hidden.
  */
 export function initScrollReveal() {
   const targets = document.querySelectorAll('[data-reveal]');
