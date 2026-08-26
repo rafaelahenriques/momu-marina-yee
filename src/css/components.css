@@ -703,86 +703,149 @@
     top: var(--space-xl);
   }
 }
-
 /* ============================================================
-   M.Y. PROJECT GRID
-
-   Six images in an asymmetric editorial grid, each resting at a
-   small independent tilt — "one corner off" made literal. Hover
-   or focus straightens the image to level; releasing lets it
-   settle back to its tilt.
-
-   Entirely CSS — no JavaScript required for the interaction
-   itself, so it behaves identically whether motion is allowed or
-   not. The only JS involved (my-project-grid.js) is an optional
-   scroll-entrance stagger layered on top.
+   M.Y. PROJECT — DEPTH IMAGE SEQUENCE
 ============================================================ */
 
-.my-project-grid {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  grid-auto-rows: 8rem;
-  gap: var(--space-s);
-  margin-top: var(--space-xl);
+.my-project-copy {
+  max-width: var(--width-content);
+  margin-inline: auto;
 }
 
-
-.my-project-grid__item {
+.my-project-depth {
   position: relative;
-  transition: transform var(--duration-base) var(--ease-out);
+
+  width: 100%;
+
+  margin-top: var(--space-xl);
+
+  overflow: clip;
 }
 
-.my-project-grid__item figcaption {
-  position: absolute;
-  bottom: var(--space-2xs);
-  left: var(--space-2xs);
-  right: var(--space-2xs);
-  opacity: 0;
-  font-family: var(--font-utility);
-  font-size: var(--step--1);
-  color: var(--color-bg);
-  text-shadow: 0 1px 4px rgb(0 0 0 / 0.6);
-  transition: opacity var(--duration-fast) var(--ease-out);
+.my-project-depth__stage {
+  position: relative;
+
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  justify-content: center;
+  align-items: start;
+  gap: var(--space-s);
+
+  overflow: visible;
 }
 
-.my-project-grid__item:hover figcaption,
-.my-project-grid__item:focus-within figcaption {
+/* ---------------- Images ---------------- */
+
+.my-project-depth__item {
+  position: relative;
+
+  width: 100%;
+
+  margin: 0;
+
   opacity: 1;
 }
 
+.my-project-depth__item img {
+  display: block;
 
-.my-project-grid__item--1 { grid-column: 1 / 4; grid-row: 1 / 6; transform: rotate(-2deg); }
-.my-project-grid__item--2 { grid-column: 4 / 7; grid-row: 1 / 3; transform: rotate(3deg); }
-.my-project-grid__item--3 { grid-column: 4 / 6; grid-row: 3 / 6; transform: rotate(-3deg); }
-.my-project-grid__item--4 { grid-column: 6 / 7; grid-row: 3 / 6; transform: rotate(4deg); }
-
-/* Hover/focus: straighten and lift slightly. Pure CSS — this is
-   what "looking closer" does, made physical. */
-.my-project-grid__item:hover,
-.my-project-grid__item:focus-within {
-  transform: rotate(0deg) scale(1.03);
-  z-index: 5;
-}
-
-.my-project-grid__item img,
-.my-project-grid__item .placeholder-img {
   width: 100%;
-  height: 100%;
+  height: auto;
+  aspect-ratio: 3 / 4;
   object-fit: cover;
-  box-shadow: 0 4px 14px rgb(0 0 0 / 0.18);
 }
+
+/* ---------------- Caption ---------------- */
+
+.my-project-depth__item figcaption {
+  margin-top: var(--space-2xs);
+
+  font-family: var(--font-utility);
+  font-size: var(--step--1);
+
+  color: var(--color-ink-muted);
+
+  opacity: 0;
+
+  transition:
+    opacity
+    var(--duration-fast)
+    var(--ease-out);
+}
+
+.my-project-depth__item:hover figcaption {
+  opacity: 1;
+}
+
+/* ---------------- Mobile ---------------- */
 
 @media (max-width: 47.99rem) {
-  .my-project-grid {
-    grid-template-columns: repeat(2, 1fr);
-    grid-auto-rows: 9rem;
+  .my-project-depth__stage {
+    grid-template-columns: 1fr;
   }
 
-  .my-project-grid__item--1 { grid-column: 1 / 3; grid-row: 1 / 3; }
-  .my-project-grid__item--2 { grid-column: 1 / 2; grid-row: 3 / 5; }
-  .my-project-grid__item--3 { grid-column: 2 / 3; grid-row: 3 / 5; }
-  .my-project-grid__item--4 { grid-column: 1 / 3; grid-row: 5 / 7; }
+  .my-project-depth__item {
+    width: 100%;
+  }
 }
+
+/* ---------------- Enhanced: depth fly-through ----------------
+   Added only by my-project-depth.js, only when motion is allowed. The
+   grid above stays exactly what no-JS and reduced-motion visitors read,
+   captions and all. Here the images stack in the centre of a pinned
+   perspective stage and are flown away one by one as the reader scrolls. */
+
+.my-project-depth.is-enhanced {
+  /* Pin distance: the stage is pinned for this height minus one viewport,
+     which is roughly one screen of scroll per image. Taller = slower. */
+  height: 300vh;
+  margin-top: var(--space-2xl);
+
+  /* The images deliberately travel outside the stage box on their way
+     out of frame, so nothing may clip them here. */
+  overflow: visible;
+}
+
+.my-project-depth.is-enhanced .my-project-depth__stage {
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+
+  /* Shallow perspective, so receding on z reads as real depth. */
+  perspective: 100vh;
+}
+
+.my-project-depth.is-enhanced .my-project-depth__item {
+  position: absolute;
+  width: clamp(11rem, 25vw, 22rem);
+
+  /* Each one is faded in by its own timeline as it starts moving. */
+  opacity: 0;
+
+  /* They stack on top of each other and are mid-flight most of the time,
+     so they should never intercept a click meant for the page. */
+  pointer-events: none;
+
+  will-change: transform;
+}
+
+.my-project-depth.is-enhanced .my-project-depth__item img {
+  /* contain, not cover: nothing should be cropped while it is in flight. */
+  object-fit: contain;
+}
+
+/* The four figures are stacked on the same centre point, so their captions
+   would pile up on top of each other and read as a smudge. Each <img>
+   carries the same wording in its alt text, so nothing is lost to a screen
+   reader, and the grid layout above still shows every caption to no-JS and
+   reduced-motion visitors. */
+.my-project-depth.is-enhanced .my-project-depth__item figcaption {
+  display: none;
+}
+
 /* ============================================================
    TEXT LINE REVEAL
 ============================================================ */
@@ -895,26 +958,57 @@
     font-size: var(--step-2);
   }
 }
+/* ============================================================
+   LETTER REVEAL
+   Every selector here targets an element SplitText builds at
+   runtime, so none of it matches unless text-letter-reveal.js
+   has run. No-JS and reduced-motion visitors read plain,
+   upright text — there is nothing to opt out of.
+============================================================ */
+
+.letter-reveal__word {
+  /* Keeps a word intact: without this the split letters would be
+     free to break across lines individually. */
+  display: inline-block;
+}
+
+.letter-reveal__char {
+  display: inline-block;
+
+  /* Clips to the letter's own box. The glyph inside pivots from below
+     the baseline, so when it swings down it lands outside this box and
+     is simply not painted — no opacity fade needed. */
+  clip-path: polygon(0 0, 0 100%, 100% 100%, 100% 0);
+}
+
+.letter-reveal__char > span {
+  display: inline-block;
+  transform-origin: 50% 120%;
+}
 
 /* ============================================================
    TEXT MARQUEE
-
-   Default: the existing centered, wrapped .statement__text — no
-   different from any other statement section. This is what
-   no-JS and reduced-motion visitors get.
-
-   Enhanced (.is-enhanced, added only by text-marquee.js, only
-   when motion is allowed): the sentence renders as one oversized
-   non-wrapping line and slides horizontally across the screen as
-   the section pins to vertical scroll.
 ============================================================ */
+
+.statement--marquee {
+  position: relative;
+  overflow: clip;
+}
 
 .statement--marquee__pin {
   position: relative;
 }
 
+/* This is the speed control. The stage is pinned for this wrapper's height
+   minus one viewport, and the sentence covers its whole width in exactly
+   that distance — so taller here means a slower, more readable pass.
+   Without a height the wrapper is one viewport tall, start and end land on
+   the same scroll position, and the text jumps across in a single frame.
+
+   Enhanced only: with no JS the section stays one screen of ordinary
+   wrapped text and must not reserve four empty screens of scroll. */
 .statement--marquee.is-enhanced .statement--marquee__pin {
-  height: 250vh;
+  height: 500vh;
 }
 
 .statement--marquee__stage {
@@ -927,9 +1021,15 @@
 .statement--marquee.is-enhanced .statement--marquee__text {
   max-width: none;
   width: max-content;
+
+  margin: 0;
+
   white-space: nowrap;
+
   font-size: max(2.5rem, 8vw);
   font-weight: 400;
+
   padding-inline: 100vw;
+
   will-change: transform;
 }
