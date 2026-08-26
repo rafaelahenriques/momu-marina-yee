@@ -1,4 +1,4 @@
-import { gsap, SplitText } from './motion.js';
+import { gsap, SplitText, SCRUB, nextFrame } from './motion.js';
 
 // Seconds between one line starting its turn and the next one starting.
 const STAGGER = 0.015;
@@ -33,12 +33,7 @@ export function initTextSwap() {
     // .is-enhanced re-lays the paragraphs out on top of each other at a
     // different width. Splitting in the same frame would record line breaks
     // from the layout being replaced, so wait for the next one.
-    return new Promise((resolve) => {
-      requestAnimationFrame(() => {
-        build(pin, stage, paragraphs);
-        resolve();
-      });
-    });
+    return nextFrame().then(() => build(pin, stage, paragraphs));
   });
 }
 
@@ -72,7 +67,7 @@ function build(pin, stage, paragraphs) {
       trigger: pin,
       start: 'top top',
       end: 'bottom bottom',
-      scrub: 0.3,
+      scrub: SCRUB,
       pin: stage,
       invalidateOnRefresh: true,
       // Third of the five pins, top to bottom — see main.js.

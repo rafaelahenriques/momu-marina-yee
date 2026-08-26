@@ -1,4 +1,10 @@
-import { gsap, SplitText } from './motion.js';
+import { gsap, SplitText, SCRUB_TIGHT, isNarrow } from './motion.js';
+
+// Scroll distance spent uncovering one line. A phone fits fewer words per
+// line, so the same paragraph is half again as many lines there — at the
+// desktop spacing the section would hold a reader still for three screens
+// longer on the device with the least patience for it.
+const PER_LINE = { wide: 190, narrow: 120 };
 
 /**
  * Pinned, line-by-line reveal for standalone paragraphs.
@@ -47,11 +53,13 @@ export function initTextLineReveal() {
         scrollTrigger: {
           trigger: section,
           start: 'top top',
-          end: () =>
-            `+=${window.innerHeight * 0.8 + split.lines.length * 190}`,
+          end: () => {
+            const perLine = isNarrow() ? PER_LINE.narrow : PER_LINE.wide;
+            return `+=${window.innerHeight * 0.8 + split.lines.length * perLine}`;
+          },
           pin: stage,
           pinSpacing: true,
-          scrub: 0.25,
+          scrub: SCRUB_TIGHT,
           anticipatePin: 1,
           invalidateOnRefresh: true,
           // Highest of the five pins: this is the topmost one on the page,

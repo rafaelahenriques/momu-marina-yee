@@ -180,12 +180,20 @@
   background: var(--color-ink);
   pointer-events: none;
   opacity: 1;
-  /* 0% by default: with no JS, this never opens and the overlay
-     is simply invisible — no-JS/reduced-motion visitors only ever
-     see the plain base text underneath. */
-  clip-path: circle(
-    var(--spot-r, 0%) at var(--spot-x, 50%) var(--spot-y, 50%)
-  );
+
+  /* Zero radius by default: with no JS this never opens and the overlay is
+     simply invisible — no-JS and reduced-motion visitors only ever see the
+     plain base text underneath.
+
+     Declared here rather than left to a var() fallback so the radius is
+     always a length. spotlight.js tweens it in rem, and interpolating from
+     a percentage to a rem is not a thing either the browser or GSAP can
+     do meaningfully. */
+  --spot-r: 0rem;
+  --spot-x: 50%;
+  --spot-y: 50%;
+
+  clip-path: circle(var(--spot-r) at var(--spot-x) var(--spot-y));
   transition: opacity var(--duration-base) var(--ease-out);
 }
 
@@ -206,6 +214,7 @@
 ============================================================ */
 
 .horizontal {
+  position: relative;
   padding-block: var(--space-2xl);
 }
 
@@ -223,22 +232,80 @@
   border-top: 1px solid var(--color-dark-muted);
 }
 
+/* A running number on each panel. In the stacked read they are a quiet
+   index down the left; sideways they are the only fixed thing on screen
+   while the text moves, so they carry the sense of progress. */
+.horizontal__index {
+  margin-bottom: var(--space-m);
+  font-family: var(--font-utility);
+  font-size: var(--step--1);
+  letter-spacing: 0.14em;
+  color: var(--color-dark-muted);
+}
+
+/* The drifting layers and the progress rail only mean anything while the
+   section is pinned and moving sideways. Over a plain vertical read they
+   would be images stacked on top of the paragraphs. */
+.horizontal__drift,
+.horizontal__progress {
+  display: none;
+}
+
 .horizontal.is-enhanced {
   overflow: hidden;
+
+  /* The stacked read wants air above and below it. Pinned, that padding is
+     dead space at the top of the viewport that pushes the whole track down
+     and cuts the bottom of the first panel off — and it is scrolled through
+     before the pin engages, which is what made the section feel like it
+     started late. Sideways, the track is the section. */
+  padding-block: 0;
 }
 
 .horizontal.is-enhanced .horizontal__track {
   display: flex;
   flex-wrap: nowrap;
   height: 100dvh;
+
+  /* GSAP puts a transform on the track to slide it, and a transform makes
+     this element a stacking context — which traps the panels' z-index
+     inside it. Without a z-index of its own the whole group then paints as
+     an unpositioned element, i.e. underneath the scrim below, and the
+     scrim greys out every word it covers. This is what lifts the panels
+     back above it. */
+  position: relative;
+  z-index: 2;
+}
+
+/* The layers pass behind the copy, and a pale scan behind near-white type
+   takes it from 12:1 down to about 3:1 — readable-looking in a screenshot,
+   not readable on a laptop in daylight. This holds the left of the screen
+   at close to the section's own background, which is exactly the band each
+   panel's text sits in, and fades out well before the right-hand side so
+   the collage is still plainly visible where nothing is written over it. */
+.horizontal.is-enhanced::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    to right,
+    var(--color-dark-bg) 0%,
+    color-mix(in srgb, var(--color-dark-bg) 88%, transparent) 34%,
+    transparent 58%
+  );
 }
 
 .horizontal.is-enhanced .horizontal__panel {
+  position: relative;
   flex: 0 0 100vw;
   max-width: none;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   justify-content: center;
+  padding-inline: max(var(--gutter), 8vw);
 }
 
 .horizontal.is-enhanced .horizontal__panel + .horizontal__panel {
@@ -248,8 +315,103 @@
 .horizontal.is-enhanced .horizontal__panel p,
 .horizontal.is-enhanced .horizontal__panel .beat,
 .horizontal.is-enhanced .horizontal__panel .question {
-  max-width: 32ch;
+  max-width: 30ch;
+  margin-block: 0;
   font-size: var(--step-1);
+}
+
+.horizontal.is-enhanced .horizontal__panel .question {
+  font-size: var(--step-2);
+  max-width: 16ch;
+}
+
+/* --- Drifting layers ------------------------------------------------
+   Children of the pinned section rather than of the track, so the track
+   slides past them. horizontal-scroll.js gives each one its own travel
+   rate from [data-drift]; everything here is only their resting place. */
+
+.horizontal.is-enhanced .horizontal__drift {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Each one starts off the right edge and is carried left by
+   horizontal-scroll.js. The left offsets are percentages of the pinned
+   section, which is exactly one viewport wide — the same unit the travel
+   is measured in, so how far into the run a layer appears is fixed rather
+   than something that changes with the width of the screen. */
+.horizontal__drift-item {
+  position: absolute;
+  max-width: none;
+  will-change: transform;
+}
+
+.horizontal__drift-item--collage {
+  top: -8%;
+  left: 100%;
+  width: min(46vw, 30rem);
+  opacity: 0.28;
+  rotate: 4deg;
+}
+
+.horizontal__drift-item--cloth {
+  bottom: -14%;
+  left: 130%;
+  width: min(34vw, 22rem);
+  opacity: 0.24;
+  rotate: -8deg;
+}
+
+
+/* --- Progress rail --------------------------------------------------- */
+
+.horizontal.is-enhanced .horizontal__progress {
+  display: block;
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: var(--space-m);
+  z-index: 3;
+  height: 2px;
+  background: color-mix(in srgb, var(--color-dark-ink) 22%, transparent);
+}
+
+.horizontal__progress-bar {
+  display: block;
+  height: 100%;
+  background: var(--color-dark-ink);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+/* The panels are a screen wide each, so on a phone the copy needs the
+   full width and the decoration needs to stay out of the way of it. */
+@media (max-width: 47.999rem) {
+  /* A 30ch column is a third of a desktop screen but five sixths of a
+     phone, so the copy runs well past where the scrim had faded out.
+     Wider and softer here: it has to cover almost the full width, and at
+     these opacities the layers behind it still read. */
+  .horizontal.is-enhanced::before {
+    background: linear-gradient(
+      to right,
+      var(--color-dark-bg) 0%,
+      color-mix(in srgb, var(--color-dark-bg) 92%, transparent) 70%,
+      color-mix(in srgb, var(--color-dark-bg) 60%, transparent) 100%
+    );
+  }
+
+  .horizontal__drift-item--collage {
+    width: 62vw;
+    opacity: 0.16;
+  }
+
+  .horizontal__drift-item--cloth {
+    width: 46vw;
+    opacity: 0.14;
+  }
 }
 
 /* ============================================================
@@ -288,6 +450,15 @@
   transform: rotate(6deg);
 }
 
+/* A cut-out rather than a photograph, so it can sit closer to the title
+   without boxing it in. */
+.hero__image--3 {
+  top: 34%;
+  left: 4%;
+  width: 4.5rem;
+  transform: rotate(-7deg);
+}
+
 @media (min-width: 48rem) {
   .hero__image--1 {
     top: 8%;
@@ -299,6 +470,12 @@
     bottom: 12%;
     left: 6%;
     width: clamp(7rem, 15vw, 13rem);
+  }
+
+  .hero__image--3 {
+    top: 16%;
+    left: 12%;
+    width: clamp(6rem, 11vw, 10rem);
   }
 }
 
@@ -386,51 +563,76 @@
 }
 
 /* ============================================================
-   PICKER — two-column layout
+   PICKER — choices, panel and collage in one view
 
-   Left: heading, intro, choices, text panels — the fully
-   accessible baseline, unchanged mechanism from before.
+   The section is a single grid so the three things a reader is
+   using at once — the buttons, the paragraph they change, and
+   the garment they describe — stay on screen together. Stacked
+   in flow, the buttons scrolled away the moment you started
+   reading the panel, which made choosing a second garment a
+   matter of scrolling back up to find the controls again.
 
-   Right: a collage of four images, pre-positioned overlapping at
-   rest via CSS alone. This is what no-JS and reduced-motion
-   visitors see — already collage-like, nothing hidden, nothing
-   waiting on JavaScript to look intentional.
+   On a phone the collage sits between the choices and the panel:
+   tap a name, the garment is directly underneath it, the text
+   under that. On a wide screen the collage moves into the second
+   column and sticks, and the whole left column fits in one view.
+
+   The mechanism is unchanged and still lives in picker.js: a
+   radio group and four panels. This file only places them.
 ============================================================ */
 
 .picker {
   display: grid;
-  gap: var(--space-xl);
+  grid-template-areas:
+    'intro'
+    'choices'
+    'stage'
+    'panels';
+  gap: var(--space-m);
   padding: var(--space-xl) var(--gutter);
 }
 
 .picker__intro {
+  grid-area: intro;
   max-width: var(--width-content);
 }
 
-/* Anchors the arrow that points from this line down to the choices. */
-.picker__cue {
-  position: relative;
+.picker__choices {
+  grid-area: choices;
 }
 
+.picker__panels {
+  grid-area: panels;
+}
+
+.picker__stage {
+  grid-area: stage;
+}
+
+
+/* A wrapped row, not a column: four names stacked cost roughly a third of
+   a phone screen on their own, which is what pushed the panel out of view. */
 .picker__choices {
   display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
+  flex-wrap: wrap;
+  gap: var(--space-2xs) var(--space-xs);
   border: 0;
   padding: 0;
-  margin: var(--space-l) 0;
-  max-width: 20rem;
+  margin: var(--space-s) 0 0;
+  max-width: var(--width-content);
 }
 
-/* Alternating offsets so the choices read as placed, not lined up. */
-.picker__choice:nth-child(2) {
-  margin-left: var(--space-l);
-}
+/* Alternating vertical offsets so the row still reads as placed by hand
+   rather than set on a baseline. Kept off the first choice so the row has
+   a clear starting edge. */
 .picker__choice:nth-child(3) {
-  margin-left: var(--space-2xs);
+  translate: 0 var(--space-2xs);
 }
 .picker__choice:nth-child(4) {
-  margin-left: var(--space-m);
+  translate: 0 calc(var(--space-3xs) * -1);
+}
+.picker__choice:nth-child(5) {
+  translate: 0 var(--space-3xs);
 }
 
 .picker__choice input {
@@ -491,7 +693,7 @@
 }
 
 .picker__panels {
-  max-width: 28rem;
+  max-width: 32rem;
 }
 
 .picker__panel + .picker__panel {
@@ -504,6 +706,20 @@
 
 .js .picker__panel + .picker__panel {
   margin-top: 0;
+}
+
+/* Panels are different lengths, and without a floor the section resizes
+   under the reader every time they choose — which on a pinned page means
+   every trigger below here is measured against a height that just changed.
+   Sized to the longest panel so the layout holds still. */
+.js .picker__panels {
+  min-height: 14rem;
+}
+
+@media (min-width: 48rem) {
+  .js .picker__panels {
+    min-height: 11rem;
+  }
 }
 
 /* --- Collage stage ---------------------------------------------
@@ -583,10 +799,27 @@
   z-index: 4;
 }
 
+.picker__stage-item--hanger {
+  top: 30%;
+  right: 30%;
+  width: 15%;
+  transform: rotate(-6deg);
+  z-index: 5;
+}
+
 @media (min-width: 64rem) {
   .picker {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas:
+      'intro   stage'
+      'choices stage'
+      'panels  stage';
+    /* The left column is three rows of content and the right is one tall
+       image; without this the rows stretch to fill the collage's height
+       and the choices drift away from the paragraph they control. */
+    grid-template-rows: auto auto 1fr;
     align-items: start;
+    column-gap: var(--space-xl);
   }
 
   .picker__stage {
@@ -692,7 +925,12 @@
 
 .my-project-depth.is-enhanced .my-project-depth__item {
   position: absolute;
-  width: clamp(11rem, 25vw, 22rem);
+
+  /* Sized against the shorter viewport edge rather than the width: these
+     are 3:4 photographs flying through a full-height stage, so on a phone
+     it is the height that runs out first. */
+  width: min(90vw, 56vh, 38rem);
+  max-width: none;
 
   /* Each one is faded in by its own timeline as it starts moving. */
   opacity: 0;
@@ -810,6 +1048,24 @@
 }
 
 /* ============================================================
+   LINES RISE
+   Both selectors match elements SplitText builds at runtime, so
+   none of this applies unless text-lines-rise.js has run. No-JS
+   and reduced-motion visitors read the paragraphs as authored.
+============================================================ */
+
+.lines-rise__line {
+  /* Clips to the line's own box, so the copy inside is simply not painted
+     until it has risen into it. */
+  overflow: hidden;
+}
+
+.lines-rise__line-inner {
+  display: block;
+  will-change: transform;
+}
+
+/* ============================================================
    LETTER REVEAL
    Every selector here targets an element SplitText builds at
    runtime, so none of it matches unless text-letter-reveal.js
@@ -916,29 +1172,37 @@
   object-position: 50% 14%;
 }
 
-/* Arrow from the instruction down to the choices it refers to. */
+/* Arrow from the instruction down to the choices it refers to.
+
+   Set in the line rather than positioned over it. The choices used to be a
+   column, which left a reliable empty margin to hang this in; now they are
+   a row that wraps differently at every width, and an absolutely placed
+   arrow landed on top of whichever button happened to be under it. At the
+   end of the sentence it points at the row wherever the row ends up. */
 .scribble--cue {
-  position: absolute;
-  top: 100%;
-  left: 58%;
-  width: 3.25rem;
-  rotate: 6deg;
+  display: inline-block;
+  width: clamp(2.5rem, 5vw, 3.5rem);
+  margin-left: var(--space-2xs);
+  vertical-align: middle;
+  translate: 0 0.35em;
+  rotate: 24deg;
 }
 
 /* The word "alter", written under the section title. */
 .scribble--alter {
   position: absolute;
-  top: 100%;
+  top: 96%;
   left: 0;
-  width: clamp(4.5rem, 11vw, 7.5rem);
+  width: clamp(6rem, 15vw, 11rem);
   rotate: -5deg;
 }
 
 /* The word "here", pointing back at the invitation. */
 .scribble--here {
-  width: clamp(3.5rem, 9vw, 5.5rem);
+  width: clamp(5rem, 12vw, 8rem);
   rotate: -8deg;
 }
+
 
 /* ============================================================
    SCATTER
@@ -979,6 +1243,7 @@
 .text-swap__title {
   position: relative;
 }
+
 
 .text-swap.is-enhanced {
   /* Lines swing wide of the column on their way round. */
@@ -1093,11 +1358,74 @@
   /* A rectangular box-shadow would draw a box around the empty half. */
   filter: drop-shadow(0 2px 3px rgb(0 0 0 / 0.22));
 
+  /* The resting angle for a no-JS or reduced-motion visitor. Once
+     corner-off.js has run it owns this instead — see REST_ANGLE there for
+     why the two cannot be combined. Keep the numbers in step. */
   rotate: 20deg;
 }
 
 /* No cursor rule here on purpose: Draggable sets `grab` on the element
    itself, so the piece only ever looks pickup-able once it actually is. */
+
+/* ============================================================
+   ONE CORNER OFF — loose objects
+   Same pattern as the visit section: in flow on a phone, out into
+   the margins only once there is empty surface to put them in.
+============================================================ */
+
+.one-corner__objects {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: var(--space-l);
+
+  max-width: var(--width-content);
+  margin: 0 auto var(--space-l);
+}
+
+.one-corner__object {
+  width: 30%;
+}
+
+.one-corner__object--swatch {
+  width: 16%;
+}
+
+@media (min-width: 64rem) {
+  .one-corner {
+    position: relative;
+    overflow: clip;
+  }
+
+  .one-corner__objects {
+    position: absolute;
+    inset: 0;
+    display: block;
+    max-width: none;
+    margin: 0;
+    pointer-events: none;
+  }
+
+  .one-corner__object {
+    position: absolute;
+    width: auto;
+    pointer-events: auto;
+  }
+
+  .one-corner__object--tape {
+    top: 6%;
+    right: 5%;
+    width: clamp(8rem, 14vw, 14rem);
+    rotate: 8deg;
+  }
+
+  .one-corner__object--swatch {
+    top: 30%;
+    left: 4%;
+    width: clamp(4.5rem, 7vw, 7.5rem);
+    rotate: -12deg;
+  }
+}
 
 /* ============================================================
    VISIT OBJECTS
@@ -1168,9 +1496,9 @@
   }
 
   .visit__object--tape {
-    top: 14%;
-    right: 4%;
-    width: clamp(9rem, 15vw, 15rem);
+    top: 12%;
+    right: 2%;
+    width: clamp(14rem, 26vw, 26rem);
     rotate: -6deg;
   }
 
@@ -1186,5 +1514,335 @@
     left: 6%;
     width: clamp(5rem, 8vw, 8rem);
     rotate: -14deg;
+  }
+}
+/* ============================================================
+   DOODLE — take one corner off
+
+   Default: a photograph of a length of gauze and a paragraph
+   about what Yee did to one. That is the whole section without
+   JavaScript, and nothing about it looks unfinished.
+
+   Enhanced: doodle.js inserts a <canvas> over the cloth and
+   unhides the tools. Every rule below that depends on the canvas
+   is scoped to .is-ready, which only the module can add, so the
+   controls can never appear without a surface to control.
+============================================================ */
+
+/* Named areas rather than source order, because the two arrangements this
+   section needs are genuinely different shapes. Stacked on a phone you
+   read down: what this is, the cloth, the tools. Side by side on a wide
+   screen the cloth and the tools have to be level with each other — the
+   cloth is tall, and with the tools underneath it you had to scroll away
+   from the thing you were drawing on to change how you were drawing. */
+.doodle {
+  display: grid;
+  grid-template-areas:
+    'intro'
+    'surface'
+    'tools'
+    'note'
+    'objects';
+  gap: var(--space-m);
+  padding: var(--space-xl) var(--gutter);
+}
+
+.doodle__intro {
+  grid-area: intro;
+  max-width: var(--width-content);
+  margin-bottom: var(--space-m);
+}
+
+.doodle__surface {
+  grid-area: surface;
+}
+
+.doodle__tools {
+  grid-area: tools;
+}
+
+.doodle__note {
+  grid-area: note;
+}
+
+.doodle__objects {
+  grid-area: objects;
+}
+
+/* --- The cloth and the canvas over it ------------------------------
+   The image sizes the block and the canvas is stretched over it, so the
+   drawing surface is exactly the cloth however wide the screen is. */
+
+.doodle__surface {
+  position: relative;
+  width: min(100%, 30rem);
+}
+
+.doodle__cloth {
+  width: 100%;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.doodle__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+
+  /* Only this element opts out of native gestures. A swipe that starts
+     anywhere else on the page — including the margin either side of the
+     cloth — still scrolls normally. */
+  touch-action: none;
+  cursor: crosshair;
+}
+
+.doodle__canvas:focus-visible {
+  outline: 3px solid var(--color-ink);
+  outline-offset: 4px;
+}
+
+/* Taking the marks back: the cloth is shaken out, and doodle.js wipes the
+   pixels on animationend rather than on the click, so the two cannot get
+   out of step. The reduced-motion backstop in base.css cuts this to a
+   fraction of a millisecond — animationend still fires, so clearing still
+   works, it just does not perform. */
+.doodle__canvas.is-clearing {
+  animation: doodle-shake 420ms var(--ease-out) forwards;
+}
+
+@keyframes doodle-shake {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  15% {
+    transform: translateX(-8px);
+  }
+  30% {
+    transform: translateX(7px);
+  }
+  45% {
+    transform: translateX(-5px);
+  }
+  60% {
+    transform: translateX(4px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(22px);
+    opacity: 0;
+  }
+}
+
+/* Where the keyboard pen currently is. Pointer users never see it; it
+   appears only once the canvas has keyboard focus, because it is the only
+   way to know where a keypress is about to draw. */
+.doodle__pen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0.75rem;
+  height: 0.75rem;
+  margin: -0.375rem 0 0 -0.375rem;
+  border: 2px solid var(--color-ink);
+  border-radius: 50%;
+  background: var(--color-bg);
+  opacity: 0;
+  pointer-events: none;
+
+  /* The pen is moved by setting a transform in doodle.js; the glide
+     between one key press and the next is this transition, not a tween. */
+  transition:
+    transform var(--duration-fast) var(--ease-out),
+    opacity var(--duration-fast) var(--ease-out),
+    background var(--duration-fast) var(--ease-out);
+}
+
+.doodle__surface:focus-within .doodle__pen {
+  opacity: 1;
+}
+
+/* Pen down: filled in, so it is obvious which state the space bar left it
+   in without having to watch for a mark appearing. */
+.doodle__pen[data-drawing='true'] {
+  background: var(--color-ink);
+  scale: 1.3;
+}
+
+/* --- Tools ---------------------------------------------------------- */
+
+.doodle__tools {
+  display: grid;
+  align-content: start;
+  gap: var(--space-m);
+  max-width: 22rem;
+}
+
+.doodle__marks {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2xs) var(--space-xs);
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.doodle__marks legend {
+  float: left; /* a legend is not a flex item, so it cannot sit in the row */
+  width: 100%;
+  padding: 0;
+  margin-bottom: var(--space-2xs);
+  font-family: var(--font-utility);
+  font-size: var(--step--1);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+}
+
+.doodle__mark input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.doodle__mark-label {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target);
+  padding-inline: var(--space-m);
+  border: 1px solid var(--color-rule);
+  border-radius: 999px;
+  background: var(--color-bg);
+  cursor: pointer;
+  font-family: var(--font-utility);
+  font-size: var(--step--1);
+  transition:
+    background var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+.doodle__mark input:checked + .doodle__mark-label {
+  background: var(--color-ink);
+  border-color: var(--color-ink);
+  color: var(--color-bg);
+}
+
+.doodle__mark input:focus-visible + .doodle__mark-label {
+  outline: 3px solid currentColor;
+  outline-offset: 3px;
+}
+
+.doodle__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+}
+
+.doodle__action {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target);
+  padding-inline: var(--space-m);
+  border: 1px solid var(--color-rule);
+  background: none;
+  cursor: pointer;
+  font-family: var(--font-utility);
+  font-size: var(--step--1);
+  transition: background var(--duration-fast) var(--ease-out);
+}
+
+.doodle__action:hover:not(:disabled) {
+  background: var(--color-bg);
+}
+
+/* Undo, clear and keep have nothing to act on until a mark exists.
+   Disabled rather than hidden: a control that appears mid-interaction
+   moves everything under it. */
+.doodle__action:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.doodle__status,
+.doodle__note {
+  font-family: var(--font-utility);
+  font-size: var(--step--1);
+  color: var(--color-ink-muted);
+  min-height: 1.5em;
+}
+
+/* Arrives once the reader has made a couple of marks, and is not taken
+   back when they clear the cloth. Hidden by the `hidden` attribute until
+   then, so it is genuinely absent rather than transparent. */
+.doodle__note {
+  max-width: 34rem;
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  line-height: var(--leading-tight);
+  color: var(--color-ink);
+
+  opacity: 0;
+  translate: 0 var(--space-s);
+  transition:
+    opacity var(--duration-base) var(--ease-out),
+    translate var(--duration-base) var(--ease-out);
+}
+
+.doodle__note.is-shown {
+  opacity: 1;
+  translate: 0 0;
+}
+
+
+/* --- Objects -------------------------------------------------------- */
+
+.doodle__objects {
+  display: flex;
+  align-items: flex-end;
+  max-width: var(--width-content);
+}
+
+.doodle__object {
+  width: 70%;
+}
+
+@media (min-width: 64rem) {
+  /* The cloth on the left with its tools directly beside it, and the
+     needle up in the space next to the intro. The two used to be the other
+     way round, which put the mark you were choosing a screen below the
+     cloth you were choosing it for. */
+  .doodle {
+    overflow: clip;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    grid-template-areas:
+      'intro   objects'
+      'surface tools'
+      'surface note';
+    grid-template-rows: auto auto 1fr;
+    align-items: start;
+    column-gap: var(--space-xl);
+  }
+
+  .doodle__surface {
+    width: 100%;
+  }
+
+  /* The needle is decoration in the margin, so it is allowed to overhang
+     its cell — but only upward and to the right, away from the canvas.
+     Anything drawn over the drawing surface would take the pointer with
+     it and swallow the start of a stroke. */
+  .doodle__objects {
+    display: block;
+    max-width: none;
+    margin-top: calc(var(--space-l) * -1);
+  }
+
+  .doodle__object--needle {
+    width: min(100%, 30rem);
+    margin-left: auto;
+    rotate: -9deg;
   }
 }

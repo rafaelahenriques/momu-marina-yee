@@ -1,4 +1,4 @@
-import { gsap, SplitText } from './motion.js';
+import { gsap, SplitText, SCRUB, nextFrame } from './motion.js';
 
 /**
  * Pinned horizontal marquee for the "before upcycling" statement, with a
@@ -27,58 +27,56 @@ export function initTextMarquee() {
   return document.fonts.ready.then(() => {
     section.classList.add('is-enhanced');
 
-    return new Promise((resolve) => {
-      requestAnimationFrame(() => {
-        const split = SplitText.create(text, {
-          type: 'chars',
-          charsClass: 'statement--marquee__char',
-        });
+    // .is-enhanced resizes the sentence to 8vw and puts it on one line, so
+    // it has to be re-laid out before its characters can be measured.
+    return nextFrame().then(() => {
+      const split = SplitText.create(text, {
+        type: 'chars',
+        charsClass: 'statement--marquee__char',
+      });
 
-        gsap.set(split.chars, { fontWeight: 400 });
+      gsap.set(split.chars, { fontWeight: 400 });
 
-        // Measured on every refresh, not captured once: the text is sized
-        // in vw, so its travel changes with the viewport.
-        const distance = () => text.clientWidth - document.body.clientWidth;
+      // Measured on every refresh, not captured once: the text is sized
+      // in vw, so its travel changes with the viewport.
+      const distance = () => text.clientWidth - document.body.clientWidth;
 
-        gsap.to(text, {
-          x: () => -distance(),
-          ease: 'none',
-          scrollTrigger: {
-            trigger: pin,
-            start: 'top top',
-            end: 'bottom bottom',
-            scrub: 0.3,
-            pin: section.querySelector('.statement--marquee__stage'),
-            invalidateOnRefresh: true,
-            // Second of the five pins, top to bottom — see main.js.
-            refreshPriority: 4,
-          },
-        });
+      gsap.to(text, {
+        x: () => -distance(),
+        ease: 'none',
+        scrollTrigger: {
+          trigger: pin,
+          start: 'top top',
+          end: 'bottom bottom',
+          scrub: SCRUB,
+          pin: section.querySelector('.statement--marquee__stage'),
+          invalidateOnRefresh: true,
+          // Second of the five pins, top to bottom — see main.js.
+          refreshPriority: 4,
+        },
+      });
 
-        const master = gsap.timeline({
-          scrollTrigger: {
-            trigger: pin,
-            start: 'top top',
-            end: 'bottom bottom',
-            scrub: 0.3,
-          },
-        });
+      const master = gsap.timeline({
+        scrollTrigger: {
+          trigger: pin,
+          start: 'top top',
+          end: 'bottom bottom',
+          scrub: SCRUB,
+        },
+      });
 
-        const duration = 0.5;
-        const letterTotal = duration * 2;
-        const simultaneousLetters = 6;
-        const offset = letterTotal / simultaneousLetters;
+      const duration = 0.5;
+      const letterTotal = duration * 2;
+      const simultaneousLetters = 6;
+      const offset = letterTotal / simultaneousLetters;
 
-        split.chars.forEach((char, i) => {
-          const tl = gsap.timeline();
-          tl.to(char, { fontWeight: 700, duration, ease: 'power1.inOut' }).to(
-            char,
-            { fontWeight: 400, duration, ease: 'power1.inOut' }
-          );
-          master.add(tl, i * offset);
-        });
-
-        resolve();
+      split.chars.forEach((char, i) => {
+        const tl = gsap.timeline();
+        tl.to(char, { fontWeight: 700, duration, ease: 'power1.inOut' }).to(
+          char,
+          { fontWeight: 400, duration, ease: 'power1.inOut' }
+        );
+        master.add(tl, i * offset);
       });
     });
   });

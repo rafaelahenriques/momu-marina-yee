@@ -1,4 +1,4 @@
-import { gsap, ScrollTrigger } from './motion.js';
+import { gsap, ScrollTrigger, SCRUB } from './motion.js';
 
 /**
  * Two-column picker: the collage stage reacts to the selection, the whole
@@ -105,7 +105,7 @@ export function initPickerMotion() {
         trigger: section,
         start: 'top bottom',
         end: 'bottom top',
-        scrub: 0.8,
+        scrub: SCRUB,
       },
     });
   });

@@ -143,6 +143,28 @@ figcaption {
   margin-block: var(--space-2xl);
 }
 
+/* A word with a hand-drawn ring round it. The ring is a scanned PNG sized
+   off the word it wraps, so it grows with the type rather than being
+   positioned per heading. */
+.circled {
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/* Drawn over the word, not behind it — the way a ring round a word in a
+   printed catalogue sits on top of the ink. */
+.scribble--circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  width: 116%;
+  height: 155%;
+  max-width: none;
+  rotate: -2deg;
+}
+
 .visually-hidden:not(:focus):not(:active) {
   position: absolute;
   width: 1px;
