@@ -25,6 +25,7 @@ if (!prefersReducedMotion()) {
     { initHeadingTracking },
     { initSequenceMarquee },
     { initPickerMotion },
+    { initMyProjectGrid },
   ] = await Promise.all([
     import('./js/scroll-reveal.js'),
     import('./js/spotlight.js'),
@@ -33,6 +34,7 @@ if (!prefersReducedMotion()) {
     import('./js/heading-tracking.js'),
     import('./js/sequence-marquee.js'),
     import('./js/picker-motion.js'),
+    import('./js/my-project-grid.js'),
   ]);
   initScrollReveal();
   initSpotlight();
@@ -41,6 +43,7 @@ if (!prefersReducedMotion()) {
   initHeadingTracking();
   initSequenceMarquee();
   initPickerMotion();
+  initMyProjectGrid();
 }
 }
 
