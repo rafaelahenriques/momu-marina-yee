@@ -23,18 +23,21 @@ if (!prefersReducedMotion()) {
     { initHorizontalScroll },
     { initHeroScatter },
     { initHeadingTracking },
+    { initSequenceMarquee },
   ] = await Promise.all([
     import('./js/scroll-reveal.js'),
     import('./js/spotlight.js'),
     import('./js/horizontal-scroll.js'),
     import('./js/hero-scatter.js'),
     import('./js/heading-tracking.js'),
+    import('./js/sequence-marquee.js'),
   ]);
   initScrollReveal();
   initSpotlight();
   initHorizontalScroll();
   initHeroScatter();
   initHeadingTracking();
+  initSequenceMarquee();
 }
 }
 
