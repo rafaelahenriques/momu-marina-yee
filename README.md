@@ -1,7 +1,39 @@
 # Marina Yee — One Corner Off
 
-Interactive longread for MoMu Antwerp, story 1 of 6 on the Antwerp Six.
-Devine (Howest) — ENG INT3, *Dress to Impress*.
+An interactive longread about the Belgian fashion designer Marina Yee, built
+for **MoMu, the Fashion Museum in Antwerp**.
+
+University project for **Integration 3 (ENG INT3), Devine — Howest**.
+Assignment: _Dress to Impress_.
+
+## The brief
+
+MoMu holds the largest collection of contemporary Belgian fashion in the
+world. In 2026 the museum marks the 40th anniversary of the international
+breakthrough of the **Antwerp Six** with its first exhibition dedicated to
+them.
+
+As the start of MoMu's digital marketing plan, the museum wants a series of
+six interactive one-pagers — one per designer, published every two months —
+that turn static archive material into something you read, explore and play
+with. The stories are meant to build interest in the exhibition, reach people
+who had not considered visiting, and let MoMu act as a knowledge centre.
+
+Each student builds one story. **Mine is Marina Yee, and it is the first of
+the six**, so the footer links out to the ones that follow.
+
+The requirement was not to summarise a Wikipedia page but to find an angle.
+This one takes Yee's own phrase — _"one corner off"_, making something appear
+finished and then deliberately disturbing it — and uses it to read her whole
+practice of reconstruction, reuse and alteration. The page is built so the
+reader keeps doing the thing the story describes: crossing a label out,
+choosing a garment to look closer at, and finally marking a length of cloth
+themselves.
+
+Assessed on storytelling, design, interaction, and the development topics
+below: responsive mobile-first layout, progressive enhancement, deliberate
+animation choices (GSAP / ScrollTrigger), optimised responsive images, Vite,
+npm, and GitHub Flow.
 
 ## Running it
 
@@ -9,11 +41,25 @@ Devine (Howest) — ENG INT3, *Dress to Impress*.
 npm install
 npm run dev      # http://localhost:5173
 npm run build    # production build into /dist
-npm run preview  # serve the built version locally — test this before you deploy
+npm run preview  # serve the built version — do this before deploying
 ```
 
-`server.host` is on, so `npm run dev` also prints a network URL you can open on
-your phone. Test on a real device early; the brief is graded on mobile Safari.
+`server.host` is on, so `npm run dev` also prints a network URL you can open
+on your phone. Test on a real device early; this is graded on mobile Safari.
+
+### Quality gates
+
+`npm run check` runs all of them plus the build, and is what should pass
+before merging:
+
+```bash
+npm run lint         # ESLint
+npm run lint:css     # Stylelint — valid CSS and BEM naming
+npm run format       # Prettier, writes
+npm run format:check # Prettier, reports only
+npm run images       # regenerate responsive image variants
+npm run check        # all of the above (check-only) + build
+```
 
 ## Structure
 
@@ -34,8 +80,11 @@ src/
     picker.js           garment picker panels    (always runs)
     doodle.js           the drawing surface      (always runs)
     …                   everything else is motion-only, loaded on demand
+scripts/
+  generate-images.js    source images → responsive WebP variants
 public/
-  images/               served from /images/…
+  images/               source images, served from /images/…
+    responsive/         generated variants (committed)
     objects/            cut-out objects and scanned scribbles
   fonts/                served from /fonts/…
 ```
@@ -44,7 +93,7 @@ Three conventions worth keeping:
 
 - **No hex codes or font names outside `base/tokens.css`.** That file is the
   design system; everything else references it. `doodle.js` needs two colours
-  for the canvas and reads them out of the tokens at runtime rather than
+  for the canvas and reads them from the tokens at runtime rather than
   writing them down a second time.
 - **No JavaScript in `index.html`** beyond the two-line `no-js` → `js` switch.
 - **Interactions go above the reduced-motion check in `main.js`, animations
@@ -52,73 +101,93 @@ Three conventions worth keeping:
 
 ## Progressive enhancement
 
-The page is built so the content survives without JavaScript:
+The content survives without JavaScript:
 
-- `<html class="no-js">` is swapped to `js` before paint, so CSS can style both.
+- `<html class="no-js">` is swapped to `js` before paint, so CSS can style
+  both cases.
 - Nothing starts hidden in CSS. GSAP sets the "from" state at runtime, so a
-  failed script leaves the text visible rather than blank.
+  failed script leaves text visible rather than blank.
 - Every pinned or animated section has a plain, readable default: the
-  horizontal panels stack, the marquee wraps, the depth fly-through is a grid.
-  Each one only gains `.is-enhanced` once its module has actually run.
+  horizontal panels stack, the marquee wraps, the depth fly-through is a
+  grid. Each gains `.is-enhanced` only once its module has actually run.
 - `prefers-reduced-motion` is respected twice: in `main.js`, which returns
   before GSAP is even imported, and in CSS as a backstop.
 - The auto-scrolling detail strip ships a real pause button (WCAG 2.2.2) and
   also pauses on hover and keyboard focus.
 - **Take One Corner Off** ships as a photograph of cloth and a paragraph.
   `doodle.js` inserts the `<canvas>` and only then unhides the toolbar, so
-  the buttons can never appear without a surface to operate. It has no GSAP
-  in it on purpose — a reader who asked for less motion should still get
-  something to draw on — so its few moving parts are class toggles animated
-  in `components.css`, where the reduced-motion backstop already covers them.
+  buttons can never appear without a surface to operate. It uses no GSAP on
+  purpose — a reader who asked for less motion should still get something to
+  draw on.
 
 ## Motion
 
-`main.js` loads GSAP and the animation modules dynamically, so a reduced-motion
-visitor never downloads them. **The order of the five pinned sections in
-`main.js` is load-bearing** — each pin adds scroll distance to the page, so a
-pin created before one above it measures against a page height that then
-changes. The comments in `main.js` explain the ordering; keep it in DOM order
-and keep the `refreshPriority` values.
+`main.js` loads GSAP and the animation modules dynamically, so a
+reduced-motion visitor never downloads them.
+
+**The order of the five pinned sections in `main.js` is load-bearing.** Each
+pin adds scroll distance to the page, so a pin created before one above it
+measures against a page height that then changes. Keep them in DOM order and
+keep the `refreshPriority` values.
 
 `motion.js` holds what every module shares: the house ease, the two `scrub`
 values, `canHover()`, and `ScrollTrigger.config({ ignoreMobileResize: true })`
-— which is what stops a phone re-measuring all five pins every time the
-address bar slides away.
+— which stops a phone re-measuring all five pins every time the address bar
+slides away.
 
-Two things about the horizontal section are worth knowing before editing it:
-the panels' contents are revealed through ScrollTrigger's `containerAnimation`,
-so their `start`/`end` are horizontal (`'left 85%'`), measured along the slide
-rather than down the page; and the decorative layers behind them travel in
-multiples of the **viewport** width, not the track's — a fifth of a
-five-screen track puts a layer off the left edge inside the first panel.
+Two things about the horizontal section before editing it: the panels'
+contents are revealed through ScrollTrigger's `containerAnimation`, so their
+`start`/`end` are horizontal (`'left 85%'`), measured along the slide rather
+than down the page; and the decorative layers behind them travel in multiples
+of the **viewport** width, not the track's.
 
 ## Images
 
-Put source files in `public/images/`. Give every `<img>` explicit
-`width`/`height` matching the real file so nothing shifts as it loads, and
-`loading="lazy"` on everything below the fold.
+Source files go in `public/images/` at full size. They are the source of
+truth, not what ships.
 
-Images are resized to roughly 2× their largest CSS display size before being
-committed — there is no build-time image pipeline, so oversized files ship as-is:
+`scripts/generate-images.js` resizes each into a ladder of WebP variants under
+`public/images/responsive/`, and every `<img>` points its `srcset` at those.
+The variants are committed, so a deploy never has to run sharp:
 
 ```bash
-sips -s format jpeg -s formatOptions 80 --resampleWidth 900 source.jpg --out public/images/name.jpg
+npm run images   # after adding or replacing any source image
 ```
 
-Cut-out objects and scribbles keep their alpha, so they stay PNG. Crop the
-transparent margin off a scan before resizing it, or most of the file is
-empty page:
+It only rewrites variants whose source is newer, so re-running is cheap.
+
+Each `<img>` needs three things by hand:
+
+- `width`/`height` matching the **source** file, so the box is reserved
+  before anything loads;
+- `sizes` describing how wide the image is actually painted, per breakpoint —
+  get this wrong and the browser fetches the wrong variant;
+- `src` left pointing at the original, as the fallback for anything that
+  cannot do `srcset`.
+
+Copy the `sizes` from whichever image sits beside it in the same layout.
+
+Cut-out objects and scribbles keep their alpha; WebP carries transparency, so
+they go through the same pipeline. Crop the transparent margin off a scan
+before committing it, or most of the file is empty page:
 
 ```bash
 sips -c 2320 2110 --cropOffset 430 70 scan.png --out cropped.png   # H W, then Y X
-sips --resampleWidth 620 cropped.png --out public/images/objects/name.png
 ```
 
 ## Git
 
-GitHub Flow: `main` always works. Branch per feature
-(`feat/hero-animation`, `feat/pattern-interaction`), meaningful commit messages,
-merge back when it runs.
+GitHub Flow: `main` always works. A branch per feature
+(`feature/hero-animation`, `feature/responsive-images`), meaningful commit
+messages, merged back when it runs.
+
+## Credits
+
+Story and design by Rafaela Henriques. Archive material and garments from
+MoMu, Fashion Museum Antwerp. Sources are listed in the page footer.
+
+Typefaces are trial licences (Reckless Wide, Roobert) — replace them before
+any use beyond this assignment.
 
 ## Still to do
 

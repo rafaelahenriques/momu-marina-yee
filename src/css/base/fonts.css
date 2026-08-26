@@ -1,11 +1,7 @@
 /* ============================================================
    FONTS
-
-   Files live in /public/fonts/. Convert any future additions to
-   .woff2 first — trial fonts often ship as .otf at 2-3x the size.
-
-   Only the weights actually used are loaded. Every extra weight
-   is another blocking download on mobile.
+   Files live in /public/fonts/. Only the weights actually used
+   are loaded — every extra weight is another download on mobile.
 ============================================================ */
 
 @font-face {

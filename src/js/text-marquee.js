@@ -1,22 +1,12 @@
 import { gsap, SplitText, SCRUB, nextFrame } from './motion.js';
 
 /**
- * Pinned horizontal marquee for the "before upcycling" statement, with a
- * per-character weight pulse layered on top of the horizontal slide.
+ * Pinned horizontal marquee with a per-character weight pulse. Reckless Wide
+ * is two static faces under one family name, so the pulse snaps between 400
+ * and 700 rather than blending.
  *
- * Default markup is the normal centered, wrapped .statement__text — see
- * .statement--marquee in components.css. Only when this module runs
- * (motion allowed) does the section gain .is-enhanced.
- *
- * The weight pulse animates the numeric font-weight property between 400
- * and 700. Reckless Wide is registered as two static files under one
- * family name at those two weights (see base/fonts.css) — this is not a
- * variable font, so the browser's font-matching snaps to whichever static
- * face is closer at each frame rather than smoothly blending between them.
- *
- * Returns a Promise that resolves once setup (including the wait on
- * document.fonts.ready) has completed — see text-line-reveal.js for why
- * this matters for main.js's final refresh.
+ * Returns a Promise resolving once setup has completed — see
+ * text-line-reveal.js for why main.js awaits it.
  */
 export function initTextMarquee() {
   const section = document.querySelector('[data-text-marquee]');
@@ -32,7 +22,7 @@ export function initTextMarquee() {
     return nextFrame().then(() => {
       const split = SplitText.create(text, {
         type: 'chars',
-        charsClass: 'statement--marquee__char',
+        charsClass: 'marquee__char',
       });
 
       gsap.set(split.chars, { fontWeight: 400 });
@@ -49,7 +39,7 @@ export function initTextMarquee() {
           start: 'top top',
           end: 'bottom bottom',
           scrub: SCRUB,
-          pin: section.querySelector('.statement--marquee__stage'),
+          pin: section.querySelector('.marquee__stage'),
           invalidateOnRefresh: true,
           // Second of the five pins, top to bottom — see main.js.
           refreshPriority: 4,
@@ -74,7 +64,7 @@ export function initTextMarquee() {
         const tl = gsap.timeline();
         tl.to(char, { fontWeight: 700, duration, ease: 'power1.inOut' }).to(
           char,
-          { fontWeight: 400, duration, ease: 'power1.inOut' }
+          { fontWeight: 400, duration, ease: 'power1.inOut' },
         );
         master.add(tl, i * offset);
       });

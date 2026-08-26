@@ -1,26 +1,12 @@
 import { gsap, SplitText } from './motion.js';
 
 /**
- * Body copy that comes up a line at a time as it arrives.
- *
- * Used on the "One Corner Off" paragraphs, where the page has just spent a
- * pinned section flying photographs around and then drops the reader into
- * three plain paragraphs. They needed something, but not another pin: this
- * is the quietest thing that still reads as motion, and it costs no scroll
- * distance at all.
- *
- * Each line is set in a box that clips to it and slid up from below that
- * box's own edge, so the line arrives out of the space between the lines
- * rather than fading up out of nothing. Played rather than scrubbed —
- * three paragraphs of body copy scrubbed line by line would mean the
- * reader could park a half-risen sentence on screen and read it there.
- *
- * The .lines-rise__* elements are built by SplitText at runtime, so none of
- * this exists for a no-JS or reduced-motion visitor. They read the
- * paragraphs exactly as authored.
+ * Body copy that rises a line at a time. The quietest thing that still
+ * reads as motion, and it costs no scroll distance. Played rather than
+ * scrubbed — scrubbed, a reader could park a half-risen sentence on screen.
  *
  * Returns a Promise resolving once setup has completed — see
- * text-line-reveal.js for why main.js needs to await that.
+ * text-line-reveal.js for why main.js awaits it.
  */
 export function initTextLinesRise() {
   const targets = document.querySelectorAll('[data-lines-rise]');

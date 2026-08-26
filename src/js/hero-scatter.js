@@ -1,14 +1,9 @@
 import { gsap } from './motion.js';
 
 /**
- * Hero image entrance.
- *
- * Each image already sits in its final scattered position via CSS — that is
- * what no-JS and reduced-motion visitors see, a static composition with
- * nothing missing. This module only animates *into* that position: it reads
- * each image's resting place, offsets it further out and more rotated as a
- * starting point, then tweens back to 0, staggered slightly so they don't
- * all land at once.
+ * Hero image entrance. Each image already sits in its final position via
+ * CSS — that is what no-JS and reduced-motion visitors see. This only
+ * animates into it.
  */
 export function initHeroScatter() {
   const images = document.querySelectorAll('.hero__image');

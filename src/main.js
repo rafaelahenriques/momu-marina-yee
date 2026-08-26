@@ -6,13 +6,8 @@ import { initPicker } from './js/picker.js';
 import { initDoodle } from './js/doodle.js';
 
 async function init() {
-  /*
-   * Interactions, not animations — everything above the reduced-motion
-   * check is something the reader operates, so it runs for everybody. The
-   * doodle in particular has no GSAP in it for exactly this reason: it is
-   * a surface to draw on, and asking for less motion should not take that
-   * away.
-   */
+  // Interactions, not animations: everything above the reduced-motion check
+  // is something the reader operates, so it runs for everybody.
   initMenu();
   initPicker();
   initDoodle();
@@ -63,10 +58,8 @@ async function init() {
     import('./js/object-pop.js'),
   ]);
 
-  /*
-   * Pointer interactions and non-pinned animations. Nothing here measures
-   * the page, so the order is free.
-   */
+  // Pointer interactions and non-pinned animations. Nothing here measures
+  // the page, so the order is free.
   initHeroScatter();
   initSpotlight();
   initPickerMotion();
@@ -74,23 +67,12 @@ async function init() {
   initMagnetic();
 
   /*
-   * IMPORTANT:
-   * Create pinned sections in DOM order.
-   *
-   * 1. reconstruction line reveal   (refreshPriority 5)
-   * 2. upcycling marquee            (refreshPriority 4)
-   * 3. limits/method line swap      (refreshPriority 3)
-   * 4. M.Y. Project depth flight    (refreshPriority 2)
-   * 5. sustainability horizontal    (refreshPriority 1)
-   *
-   * Every pin adds its own scroll distance to the page, so a pin created
-   * before one that sits above it measures its start against a page height
-   * that then changes — it engages early and covers the section above.
-   *
-   * The first three only build their triggers once document.fonts.ready has
-   * resolved, so they have to be awaited: without that, the horizontal pin
-   * below is created first and starts ~3000px too early, on top of
-   * M.Y. Project. Each also sets a refreshPriority as a second guard.
+   * IMPORTANT: create pinned sections in DOM order, top to bottom
+   * (refreshPriority 5 → 1). Every pin adds its own scroll distance, so a
+   * pin created before one above it measures against a page height that
+   * then changes, and engages early over the section above. The first three
+   * must be awaited — without that the horizontal pin is created first and
+   * starts ~3000px too early, on top of M.Y. Project.
    */
   await initTextLineReveal();
   await initTextMarquee();
@@ -98,10 +80,8 @@ async function init() {
   initMyProjectDepth();
   initHorizontalScroll();
 
-  /*
-   * Elements whose positions depend on the final page geometry
-   * come AFTER all pinned sections.
-   */
+  // Elements whose positions depend on the final page geometry come AFTER
+  // all pinned sections.
   initScrollReveal();
   initHeadingTracking();
   initSequenceMarquee();

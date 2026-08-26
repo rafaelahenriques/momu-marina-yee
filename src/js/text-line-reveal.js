@@ -1,29 +1,21 @@
 import { gsap, SplitText, SCRUB_TIGHT, isNarrow } from './motion.js';
 
 // Scroll distance spent uncovering one line. A phone fits fewer words per
-// line, so the same paragraph is half again as many lines there — at the
-// desktop spacing the section would hold a reader still for three screens
-// longer on the device with the least patience for it.
+// line, so the same paragraph runs to half again as many lines there — at
+// the desktop spacing it would hold a phone reader still for three extra
+// screens.
 const PER_LINE = { wide: 190, narrow: 120 };
 
 /**
- * Pinned, line-by-line reveal for standalone paragraphs.
+ * Pinned, line-by-line reveal. Each split line gets an opaque cover that
+ * shrinks away via scaleX — compositor-only, so it stays smooth under the
+ * scrub. Pin distance is sized off the line count, so the reveal finishes
+ * exactly as the pin releases with no dead scroll at the end.
  *
- * Each split line gets an opaque cover positioned over it, which shrinks
- * away via scaleX as the reader scrolls. transform is compositor-only, so
- * this stays smooth during the scrub.
- *
- * Pin distance is sized directly off the line count (no artificial
- * minimum) so the reveal finishes right as the pin releases, with no dead
- * scroll space where the text sits fully revealed and nothing happens.
- * scrub is kept low so the motion tracks the scrollbar closely rather than
- * visibly catching up after the reader stops scrolling.
- *
- * Returns a Promise that resolves once every section's setup (including
- * the wait on document.fonts.ready) has completed. main.js awaits this
- * before doing one final ScrollTrigger.refresh(), so triggers created by
- * other, synchronous modules aren't measured against a page height that
- * later grows once fonts settle.
+ * Returns a Promise resolving once setup (including document.fonts.ready)
+ * has completed. main.js awaits this before its final
+ * ScrollTrigger.refresh(), so other modules' triggers are not measured
+ * against a page height that later grows once fonts settle.
  */
 export function initTextLineReveal() {
   const sections = document.querySelectorAll('[data-text-reveal]');
