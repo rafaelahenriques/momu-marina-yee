@@ -15,16 +15,22 @@ gsap.registerPlugin(SplitText);
  * scroll space where the text sits fully revealed and nothing happens.
  * scrub is kept low so the motion tracks the scrollbar closely rather than
  * visibly catching up after the reader stops scrolling.
+ *
+ * Returns a Promise that resolves once every section's setup (including
+ * the wait on document.fonts.ready) has completed. main.js awaits this
+ * before doing one final ScrollTrigger.refresh(), so triggers created by
+ * other, synchronous modules aren't measured against a page height that
+ * later grows once fonts settle.
  */
 export function initTextLineReveal() {
   const sections = document.querySelectorAll('[data-text-reveal]');
 
-  sections.forEach((section) => {
+  const ready = Array.from(sections).map((section) => {
     const stage = section.querySelector('.text-reveal__stage');
     const paragraph = section.querySelector('[data-text-reveal-text]');
-    if (!stage || !paragraph) return;
+    if (!stage || !paragraph) return Promise.resolve();
 
-    document.fonts.ready.then(() => {
+    return document.fonts.ready.then(() => {
       section.classList.add('is-pinned');
 
       const split = SplitText.create(paragraph, {
@@ -46,17 +52,16 @@ export function initTextLineReveal() {
         scrollTrigger: {
           trigger: section,
           start: 'top top',
-          // Distance scales with how much text there actually is, plus a
-          // small fixed settle amount — no forced minimum that outlasts
-          // the reveal itself.
-          end: () => `+=${window.innerHeight * 0.8 + split.lines.length * 190}`,
+          end: () =>
+            `+=${window.innerHeight * 0.8 + split.lines.length * 190}`,
           pin: stage,
           pinSpacing: true,
-          // Low scrub: motion tracks the scrollbar closely instead of
-          // visibly drifting after the reader stops.
           scrub: 0.25,
           anticipatePin: 1,
           invalidateOnRefresh: true,
+          // Highest of the four pins: this is the topmost one on the page,
+          // and ScrollTrigger measures in descending priority order.
+          refreshPriority: 4,
           onToggle: (self) => {
             section.classList.toggle('is-in-view', self.isActive);
           },
@@ -70,8 +75,8 @@ export function initTextLineReveal() {
           ease: 'none',
         });
       });
-
-      ScrollTrigger.refresh();
     });
   });
+
+  return Promise.all(ready);
 }

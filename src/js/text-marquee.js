@@ -16,66 +16,73 @@ gsap.registerPlugin(SplitText);
  * family name at those two weights (see base/fonts.css) — this is not a
  * variable font, so the browser's font-matching snaps to whichever static
  * face is closer at each frame rather than smoothly blending between them.
- * That's an intentional simplification of the reference this was adapted
- * from, which relied on a variable font's weight axis.
+ *
+ * Returns a Promise that resolves once setup (including the wait on
+ * document.fonts.ready) has completed — see text-line-reveal.js for why
+ * this matters for main.js's final refresh.
  */
 export function initTextMarquee() {
   const section = document.querySelector('[data-text-marquee]');
   const pin = section?.querySelector('[data-marquee-pin]');
   const text = section?.querySelector('[data-marquee-text]');
-  if (!section || !pin || !text) return;
+  if (!section || !pin || !text) return Promise.resolve();
 
-  document.fonts.ready.then(() => {
+  return document.fonts.ready.then(() => {
     section.classList.add('is-enhanced');
 
-    requestAnimationFrame(() => {
-      const split = SplitText.create(text, {
-        type: 'chars',
-        charsClass: 'statement--marquee__char',
+    return new Promise((resolve) => {
+      requestAnimationFrame(() => {
+        const split = SplitText.create(text, {
+          type: 'chars',
+          charsClass: 'statement--marquee__char',
+        });
+
+        gsap.set(split.chars, { fontWeight: 400 });
+
+        // Measured on every refresh, not captured once: the text is sized
+        // in vw, so its travel changes with the viewport.
+        const distance = () => text.clientWidth - document.body.clientWidth;
+
+        gsap.to(text, {
+          x: () => -distance(),
+          ease: 'none',
+          scrollTrigger: {
+            trigger: pin,
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 0.3,
+            pin: section.querySelector('.statement--marquee__stage'),
+            invalidateOnRefresh: true,
+            // Second of the four pins, top to bottom — see main.js.
+            refreshPriority: 3,
+          },
+        });
+
+        const master = gsap.timeline({
+          scrollTrigger: {
+            trigger: pin,
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 0.3,
+          },
+        });
+
+        const duration = 0.5;
+        const letterTotal = duration * 2;
+        const simultaneousLetters = 6;
+        const offset = letterTotal / simultaneousLetters;
+
+        split.chars.forEach((char, i) => {
+          const tl = gsap.timeline();
+          tl.to(char, { fontWeight: 700, duration, ease: 'power1.inOut' }).to(
+            char,
+            { fontWeight: 400, duration, ease: 'power1.inOut' }
+          );
+          master.add(tl, i * offset);
+        });
+
+        resolve();
       });
-
-      gsap.set(split.chars, { fontWeight: 400 });
-
-      const distance = text.clientWidth - document.body.clientWidth;
-
-      // Horizontal slide, same as before.
-      gsap.to(text, {
-        x: -distance,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: pin,
-          start: 'top top',
-          end: 'bottom bottom',
-          scrub: 0.3,
-          pin: section.querySelector('.statement--marquee__stage'),
-        },
-      });
-
-      // Per-character weight pulse, scrubbed against the same scroll range.
-      const master = gsap.timeline({
-        scrollTrigger: {
-          trigger: pin,
-          start: 'top top',
-          end: 'bottom bottom',
-          scrub: 0.3,
-        },
-      });
-
-      const duration = 0.5;
-      const letterTotal = duration * 2;
-      const simultaneousLetters = 6;
-      const offset = letterTotal / simultaneousLetters;
-
-      split.chars.forEach((char, i) => {
-        const tl = gsap.timeline();
-        tl.to(char, { fontWeight: 700, duration, ease: 'power1.inOut' }).to(
-          char,
-          { fontWeight: 400, duration, ease: 'power1.inOut' }
-        );
-        master.add(tl, i * offset);
-      });
-
-      ScrollTrigger.refresh();
     });
   });
 }
