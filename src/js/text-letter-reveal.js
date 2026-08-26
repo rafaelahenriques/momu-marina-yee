@@ -2,18 +2,17 @@ import { gsap, ScrollTrigger, SplitText } from './motion.js';
 
 /**
  * Per-letter rotation reveal. Each letter sits in a box clipped to its own
- * bounds with the glyph pivoting from below the baseline, so swung down it
+ * bounds, with the glyph pivoting from below the baseline: swung down, it
  * falls outside the clip and is simply not drawn.
  *
- * Returns a Promise resolving once setup (including document.fonts.ready)
- * has completed — see text-line-reveal.js for why main.js awaits it.
+ * Resolves once setup completes — see text-line-reveal.js for why that matters.
  */
 export function initTextLetterReveal() {
   const targets = document.querySelectorAll('[data-letter-reveal]');
   if (!targets.length) return Promise.resolve();
 
-  // Splitting before the webfont has loaded measures line breaks against
-  // the fallback face, so the lines would be wrong once it swaps in.
+  // Splitting before the webfont lands measures the fallback face, so the line
+  // breaks would be wrong once it swaps in.
   return document.fonts.ready.then(() => {
     targets.forEach((element) => {
       const split = SplitText.create(element, {
@@ -23,9 +22,8 @@ export function initTextLetterReveal() {
         charsClass: 'letter-reveal__char',
       });
 
-      // Two nested elements per letter: the outer one clips, the inner one
-      // rotates. Built with DOM APIs rather than innerHTML so the copy is
-      // never re-parsed as markup.
+      // Outer element clips, inner one rotates. Built with DOM APIs, not
+      // innerHTML, so the copy is never re-parsed as markup.
       split.chars.forEach((char) => {
         const glyph = document.createElement('span');
         glyph.textContent = char.textContent;
@@ -39,8 +37,8 @@ export function initTextLetterReveal() {
 
         gsap.set(glyphs, { rotate: -80 });
 
-        // Played rather than scrubbed: the back eases need real time to
-        // read as a settle, and a scrub would just smear them.
+        // Played, not scrubbed: the back eases need real time to read as a
+        // settle, and a scrub would smear them.
         const timeline = gsap.timeline({ paused: true });
 
         timeline

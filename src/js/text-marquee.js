@@ -1,12 +1,11 @@
 import { gsap, SplitText, SCRUB, nextFrame } from './motion.js';
 
 /**
- * Pinned horizontal marquee with a per-character weight pulse. Reckless Wide
- * is two static faces under one family name, so the pulse snaps between 400
- * and 700 rather than blending.
+ * Pinned horizontal marquee with a per-character weight pulse. Reckless Wide is
+ * two static faces under one family name, so the pulse snaps between 400 and
+ * 700 rather than blending.
  *
- * Returns a Promise resolving once setup has completed — see
- * text-line-reveal.js for why main.js awaits it.
+ * Resolves once setup completes — see text-line-reveal.js for why that matters.
  */
 export function initTextMarquee() {
   const section = document.querySelector('[data-text-marquee]');
@@ -17,8 +16,8 @@ export function initTextMarquee() {
   return document.fonts.ready.then(() => {
     section.classList.add('is-enhanced');
 
-    // .is-enhanced resizes the sentence to 8vw and puts it on one line, so
-    // it has to be re-laid out before its characters can be measured.
+    // .is-enhanced resizes the sentence to 8vw on one line, so it must be
+    // re-laid out before its characters can be measured.
     return nextFrame().then(() => {
       const split = SplitText.create(text, {
         type: 'chars',
@@ -27,8 +26,8 @@ export function initTextMarquee() {
 
       gsap.set(split.chars, { fontWeight: 400 });
 
-      // Measured on every refresh, not captured once: the text is sized
-      // in vw, so its travel changes with the viewport.
+      // Re-measured on every refresh: the text is sized in vw, so its travel
+      // changes with the viewport.
       const distance = () => text.clientWidth - document.body.clientWidth;
 
       gsap.to(text, {

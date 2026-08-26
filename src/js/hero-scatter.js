@@ -1,10 +1,7 @@
 import { gsap } from './motion.js';
 
-/**
- * Hero image entrance. Each image already sits in its final position via
- * CSS — that is what no-JS and reduced-motion visitors see. This only
- * animates into it.
- */
+// Hero image entrance. CSS already puts each image in its final position;
+// this only animates into it.
 export function initHeroScatter() {
   const images = document.querySelectorAll('.hero__image');
   if (!images.length) return;

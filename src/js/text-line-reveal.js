@@ -1,21 +1,19 @@
 import { gsap, SplitText, SCRUB_TIGHT, isNarrow } from './motion.js';
 
 // Scroll distance spent uncovering one line. A phone fits fewer words per
-// line, so the same paragraph runs to half again as many lines there — at
-// the desktop spacing it would hold a phone reader still for three extra
-// screens.
+// line, so the same paragraph runs to half again as many lines; at the desktop
+// spacing it would hold a phone reader still for three extra screens.
 const PER_LINE = { wide: 190, narrow: 120 };
 
 /**
- * Pinned, line-by-line reveal. Each split line gets an opaque cover that
- * shrinks away via scaleX — compositor-only, so it stays smooth under the
- * scrub. Pin distance is sized off the line count, so the reveal finishes
- * exactly as the pin releases with no dead scroll at the end.
+ * Pinned, line-by-line reveal. Each line gets an opaque cover that shrinks
+ * away via scaleX — compositor-only, so it stays smooth under the scrub. Pin
+ * distance is sized off the line count, so the reveal finishes exactly as the
+ * pin releases.
  *
- * Returns a Promise resolving once setup (including document.fonts.ready)
- * has completed. main.js awaits this before its final
- * ScrollTrigger.refresh(), so other modules' triggers are not measured
- * against a page height that later grows once fonts settle.
+ * Resolves once setup, including document.fonts.ready, has completed. main.js
+ * awaits this before its final ScrollTrigger.refresh() so other modules are
+ * not measured against a page height that grows once fonts settle.
  */
 export function initTextLineReveal() {
   const sections = document.querySelectorAll('[data-text-reveal]');
@@ -54,8 +52,8 @@ export function initTextLineReveal() {
           scrub: SCRUB_TIGHT,
           anticipatePin: 1,
           invalidateOnRefresh: true,
-          // Highest of the five pins: this is the topmost one on the page,
-          // and ScrollTrigger measures in descending priority order.
+          // Highest of the five pins: topmost on the page, and ScrollTrigger
+          // measures in descending priority order.
           refreshPriority: 5,
         },
       });

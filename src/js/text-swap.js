@@ -4,12 +4,11 @@ import { gsap, SplitText, SCRUB, nextFrame } from './motion.js';
 const STAGGER = 0.015;
 
 /**
- * Pinned line-by-line swap between two paragraphs on a horizontal axis: the
- * same lines turn over and show a different face, like a row of cards being
- * flipped. The default markup is two ordinary stacked paragraphs.
+ * Pinned line-by-line swap between two paragraphs: the same lines turn over
+ * and show a different face, like a row of cards being flipped. Without it
+ * they are two ordinary stacked paragraphs.
  *
- * Returns a Promise resolving once setup has completed — see
- * text-line-reveal.js for why main.js awaits it.
+ * Resolves once setup completes — see text-line-reveal.js for why that matters.
  */
 export function initTextSwap() {
   const section = document.querySelector('[data-text-swap]');
@@ -23,9 +22,8 @@ export function initTextSwap() {
   return document.fonts.ready.then(() => {
     section.classList.add('is-enhanced');
 
-    // .is-enhanced re-lays the paragraphs out on top of each other at a
-    // different width. Splitting in the same frame would record line breaks
-    // from the layout being replaced, so wait for the next one.
+    // .is-enhanced re-lays the paragraphs out at a different width, so
+    // splitting this frame would record line breaks from the old layout.
     return nextFrame().then(() => build(pin, stage, paragraphs));
   });
 }
@@ -37,10 +35,9 @@ function build(pin, stage, paragraphs) {
       linesClass: 'text-swap__line',
     });
 
-    // The line element is the hinge; a child inside it carries the text
-    // forward in z so the turn pivots around something with depth rather
-    // than flattening against the page. Moved with DOM APIs rather than
-    // innerHTML so the copy is never re-parsed as markup.
+    // The line is the hinge; an inner child carries the text forward in z so
+    // the turn has depth. Moved with DOM APIs, not innerHTML, so the copy is
+    // never re-parsed as markup.
     split.lines.forEach((line) => {
       const inner = document.createElement('span');
       inner.className = 'text-swap__line-inner';
@@ -72,16 +69,10 @@ function build(pin, stage, paragraphs) {
     const next = splits[i + 1];
     if (!next) return;
 
-    // Both halves of the turn run together, and on the same stagger: line 3
-    // of the old paragraph and line 3 of the new one share a row, so they
-    // have to turn as one hinge. Give them different staggers and the two
-    // sides of the row drift apart, which reads as two paragraphs printed
-    // over each other rather than as one turning over.
-    //
-    // The stagger is short for the same reason. These are ten-line
-    // paragraphs, and at the spacing a three-line pull-quote can carry, the
-    // top of the new paragraph stands upright while the bottom of the old
-    // one still does too. Tight enough, and the cascade stays a cascade.
+    // Both halves turn together on the same stagger: line 3 of each paragraph
+    // shares a row and has to move as one hinge. Different staggers, or a
+    // longer one, and the row's two faces drift apart — which reads as two
+    // paragraphs printed over each other rather than one turning over.
     const turn = {
       stagger: STAGGER,
       duration: 1,

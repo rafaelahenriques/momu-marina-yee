@@ -1,25 +1,19 @@
 /**
  * Take one corner off — the reader's turn.
  *
- * No GSAP in here, deliberately: this is an interaction, not an animation,
- * and main.js does not load the animation modules for a visitor who asked
- * for reduced motion. Building it on GSAP would have meant those readers got
- * a picture of some cloth and nothing to do with it. What motion it has is a
- * couple of class toggles animated in components.css, where the
- * reduced-motion backstop already applies to them.
+ * No GSAP here on purpose: this is an interaction, not an animation, and
+ * main.js skips the animation modules for a reduced-motion visitor, who
+ * should still get something to draw on.
  *
- * Progressive enhancement: the markup is a photograph of cloth, a paragraph,
- * and a toolbar carrying `hidden`. This inserts the canvas and only then
- * unhides the tools, so buttons never appear without a surface to operate.
+ * The markup ships as a photograph of cloth and a toolbar carrying `hidden`.
+ * This inserts the canvas and only then unhides the tools, so buttons can
+ * never appear without a surface to operate.
  *
- * Strokes are kept as arrays of points rather than as pixels, because pixels
- * cannot be undone and do not survive a resize. Redrawing from the points
- * keeps the marks on the same part of the cloth after a rotation, and "undo"
- * is dropping the last array.
+ * Strokes are stored as arrays of points, not pixels: pixels cannot be undone
+ * and do not survive a resize.
  */
 
-// Which mark each choice makes. Colours are read from the design tokens at
-// runtime rather than written here — see readToken().
+// Colours are read from the design tokens at runtime — see readToken().
 const MARKS = {
   ink: { token: '--color-ink', width: 3, alpha: 1, dash: [] },
   chalk: { token: '--color-bg', width: 16, alpha: 0.75, dash: [] },
@@ -29,9 +23,8 @@ const MARKS = {
 // A mark is worth keeping once it is longer than an accidental tap.
 const MIN_POINTS = 3;
 
-// How far one arrow key moves the keyboard pen, as a fraction of the
-// canvas — so it crosses the cloth in about the same number of presses
-// whatever size the cloth is.
+// How far one arrow key moves the keyboard pen, as a fraction of the canvas,
+// so it crosses the cloth in the same number of presses at any size.
 const KEY_STEP = 0.022;
 
 const ARROWS = {
@@ -62,8 +55,7 @@ export function initDoodle() {
   );
   surface.append(canvas);
 
-  // Where a keypress is about to draw. Pointer users never see it — it is
-  // shown only while the canvas has focus.
+  // Where a keypress is about to draw. Only shown while the canvas has focus.
   const pen = document.createElement('span');
   pen.className = 'doodle__pen';
   surface.append(pen);
@@ -84,14 +76,14 @@ export function initDoodle() {
 
   // --- Painting --------------------------------------------------------
 
-  // Points are stored 0–1 rather than in pixels: the cloth is fluid, so a
-  // mark recorded at "38% across" is still on the same fold after a resize.
+  // Points are stored 0–1, not in pixels: the cloth is fluid, so a mark at
+  // "38% across" is still on the same fold after a resize.
   function measure() {
     const rect = canvas.getBoundingClientRect();
     if (!rect.width || !rect.height) return;
 
-    // Cap the backing store at 2×: past that a phone is spending memory on
-    // detail nobody can see, and a large canvas is what makes drawing lag.
+    // Cap the backing store at 2×; past that a phone spends memory on detail
+    // nobody can see, and a large canvas is what makes drawing lag.
     const ratio = Math.min(window.devicePixelRatio || 1, 2);
 
     view.width = rect.width;
@@ -135,8 +127,8 @@ export function initDoodle() {
     }
 
     // Each segment curves through the midpoint between two samples, with the
-    // sample itself as the control point. Joining raw samples with straight
-    // lines leaves a visible corner wherever the hand changed direction.
+    // sample as the control point. Straight lines between raw samples leave a
+    // visible corner wherever the hand changed direction.
     for (let i = 1; i < points.length; i += 1) {
       const from = points[i - 1];
       const to = points[i];
@@ -183,8 +175,7 @@ export function initDoodle() {
   }
 
   canvas.addEventListener('pointerdown', (event) => {
-    // Ignore a second finger mid-stroke: two pointers on one canvas draw a
-    // line between them, which is not what anybody means by it.
+    // Two pointers on one canvas would draw a line between them.
     if (current) return;
 
     canvas.setPointerCapture(event.pointerId);
@@ -194,12 +185,9 @@ export function initDoodle() {
   canvas.addEventListener('pointermove', (event) => {
     if (!current) return;
 
-    /*
-     * The samples the browser batched into this frame keep a fast stroke a
-     * curve, rather than the three or four points a 60Hz callback would see
-     * of it. It can come back empty — a synthesised event has nothing to
-     * coalesce — so fall back to the event itself.
-     */
+    // The samples batched into this frame keep a fast stroke curved, rather
+    // than the three or four points a 60Hz callback would see. A synthesised
+    // event has nothing to coalesce, so fall back to the event itself.
     const coalesced = event.getCoalescedEvents?.();
     const samples = coalesced?.length ? coalesced : [event];
     samples.forEach((sample) => extend(positionOf(sample)));
@@ -210,9 +198,8 @@ export function initDoodle() {
 
   // --- Keyboard --------------------------------------------------------
 
-  // Arrow keys move a pen, space puts it down and lifts it again. Not a
-  // substitute for a hand, but a real way through the interaction — the
-  // alternative was a section a keyboard visitor could only read about.
+  // Arrow keys move a pen, space puts it down and lifts it again, so a
+  // keyboard visitor can work the section rather than just read about it.
   function movePen() {
     pen.style.transform = `translate(${keyPen.x * view.width}px, ${
       keyPen.y * view.height
@@ -252,8 +239,8 @@ export function initDoodle() {
     }
   });
 
-  // Tabbing away mid-stroke would otherwise leave the pen down, and the
-  // next arrow key would carry on a mark from wherever it was abandoned.
+  // Tabbing away mid-stroke would leave the pen down, and the next arrow key
+  // would carry on a mark from wherever it was abandoned.
   canvas.addEventListener('blur', () => {
     if (!keyPen.down) return;
     keyPen.down = false;
@@ -278,14 +265,10 @@ export function initDoodle() {
   clear?.addEventListener('click', () => {
     if (!strokes.length || canvas.classList.contains('is-clearing')) return;
 
-    /*
-     * The pixels go when the animation ends, not on the click, so the two
-     * cannot get out of step. Whichever of animationend and the timeout
-     * arrives first wins: a hidden tab suspends CSS animations, which would
-     * otherwise leave the cloth invisible and the button dead. The fallback
-     * is read off the animation rather than written down twice, so
-     * reduced motion clears the cloth in a single frame.
-     */
+    // The pixels go when the animation ends, not on the click. Whichever of
+    // animationend and the timeout arrives first wins: a hidden tab suspends
+    // CSS animations, which would leave the cloth blank and the button dead.
+    // The fallback is read off the animation so reduced motion clears at once.
     let settled = false;
 
     const finish = () => {
@@ -316,7 +299,7 @@ export function initDoodle() {
     link.click();
   });
 
-  /** Counts, enables and announces. The one place that reads `strokes`. */
+  // Counts, enables and announces. The one place that reads `strokes`.
   function report() {
     const count = strokes.length;
 
@@ -330,9 +313,8 @@ export function initDoodle() {
         : 'Nothing on it yet.';
     }
 
-    // The closing line only arrives once the reader has done the thing it
-    // describes. Revealed, then left alone — clearing the cloth does not
-    // take back the point.
+    // Revealed once, then left alone: clearing the cloth does not take the
+    // closing line back.
     if (count >= 2 && note?.hidden) {
       note.hidden = false;
       requestAnimationFrame(() => note.classList.add('is-shown'));
@@ -345,25 +327,21 @@ export function initDoodle() {
   report();
   measure();
 
-  // The cloth is fluid and the tools wrap, so the canvas changes size for
-  // reasons that are not window resizes. Watching the element itself
-  // catches all of them, including the first layout after the image loads.
+  // The canvas changes size for reasons that are not window resizes, including
+  // the first layout after the image loads.
   new ResizeObserver(measure).observe(canvas);
 }
 
-/** Reads a colour from the design tokens, so no hex code lives in here. */
+// Reads a colour from the design tokens, so no hex code lives in here.
 function readToken(name) {
   return getComputedStyle(document.documentElement)
     .getPropertyValue(name)
     .trim();
 }
 
-/**
- * Cloth plus marks on one canvas, as a PNG data URL. The marks live on a
- * transparent canvas over an <img>, so exporting the canvas alone would hand
- * back a drawing of nothing. Both are same-origin, so composing them does
- * not taint the result.
- */
+// Cloth plus marks on one canvas, as a PNG data URL: the marks live on a
+// transparent canvas over an <img>, so exporting the canvas alone would hand
+// back a drawing of nothing. Both are same-origin, so this does not taint.
 function flatten(cloth, canvas, view) {
   const output = document.createElement('canvas');
   output.width = canvas.width;
