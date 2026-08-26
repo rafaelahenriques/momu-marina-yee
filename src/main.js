@@ -26,6 +26,8 @@ if (!prefersReducedMotion()) {
     { initSequenceMarquee },
     { initPickerMotion },
     { initMyProjectGrid },
+    { initTextLineReveal },
+    { initTextMarquee },
   ] = await Promise.all([
     import('./js/scroll-reveal.js'),
     import('./js/spotlight.js'),
@@ -35,6 +37,8 @@ if (!prefersReducedMotion()) {
     import('./js/sequence-marquee.js'),
     import('./js/picker-motion.js'),
     import('./js/my-project-grid.js'),
+    import('./js/text-line-reveal.js'),
+    import('./js/text-marquee.js'),
   ]);
   initScrollReveal();
   initSpotlight();
@@ -44,6 +48,8 @@ if (!prefersReducedMotion()) {
   initSequenceMarquee();
   initPickerMotion();
   initMyProjectGrid();
+  initTextLineReveal();
+  initTextMarquee();
 }
 }
 
