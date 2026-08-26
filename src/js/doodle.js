@@ -1,28 +1,21 @@
 /**
  * Take one corner off — the reader's turn.
  *
- * A length of gauze and something to mark it with. The section argues that
- * Yee's method was to start from a surface that already existed and decide
- * where to interfere with it, so the last thing the page does is hand the
- * reader a surface that already exists.
- *
- * No GSAP in here, deliberately. This is an interaction, not an animation,
+ * No GSAP in here, deliberately: this is an interaction, not an animation,
  * and main.js does not load the animation modules for a visitor who asked
- * for reduced motion — building it on GSAP would have meant those readers
- * got a picture of some cloth and nothing to do with it. What motion it
- * does have is a handful of class toggles, animated in components.css,
- * where the reduced-motion backstop already applies to them.
+ * for reduced motion. Building it on GSAP would have meant those readers got
+ * a picture of some cloth and nothing to do with it. What motion it has is a
+ * couple of class toggles animated in components.css, where the
+ * reduced-motion backstop already applies to them.
  *
- * Progressive enhancement: the markup is a photograph of cloth, a
- * paragraph, and a toolbar carrying `hidden`. This module inserts the
- * canvas and only then unhides the tools, so buttons never appear without a
- * surface to operate. With no JavaScript the section is a picture and a
- * paragraph, and nothing about it looks like it failed to load.
+ * Progressive enhancement: the markup is a photograph of cloth, a paragraph,
+ * and a toolbar carrying `hidden`. This inserts the canvas and only then
+ * unhides the tools, so buttons never appear without a surface to operate.
  *
- * Strokes are kept as arrays of points rather than only as pixels, because
- * pixels cannot be undone and do not survive a resize. Redrawing from the
- * points means the marks are still on the same part of the cloth after a
- * rotation, and "undo" is dropping the last array.
+ * Strokes are kept as arrays of points rather than as pixels, because pixels
+ * cannot be undone and do not survive a resize. Redrawing from the points
+ * keeps the marks on the same part of the cloth after a rotation, and "undo"
+ * is dropping the last array.
  */
 
 // Which mark each choice makes. Colours are read from the design tokens at
@@ -65,7 +58,7 @@ export function initDoodle() {
   canvas.setAttribute(
     'aria-label',
     'A length of gauze you can draw on. Drag across it to make a mark, ' +
-      'or move the pen with the arrow keys and press space to draw.'
+      'or move the pen with the arrow keys and press space to draw.',
   );
   surface.append(canvas);
 
@@ -91,11 +84,8 @@ export function initDoodle() {
 
   // --- Painting --------------------------------------------------------
 
-  /*
-   * Points are stored 0–1 rather than in pixels. The cloth is fluid, so a
-   * mark recorded at "38% across" is still on the same fold after a resize;
-   * a mark recorded at "184px across" is not.
-   */
+  // Points are stored 0–1 rather than in pixels: the cloth is fluid, so a
+  // mark recorded at "38% across" is still on the same fold after a resize.
   function measure() {
     const rect = canvas.getBoundingClientRect();
     if (!rect.width || !rect.height) return;
@@ -144,12 +134,9 @@ export function initDoodle() {
       context.lineTo(px(points[0]), py(points[0]));
     }
 
-    /*
-     * Each segment curves through the midpoint between two samples, with
-     * the sample itself as the control point. Joining raw pointer samples
-     * with straight lines leaves a visible corner everywhere the hand
-     * changed direction between one frame and the next.
-     */
+    // Each segment curves through the midpoint between two samples, with the
+    // sample itself as the control point. Joining raw samples with straight
+    // lines leaves a visible corner wherever the hand changed direction.
     for (let i = 1; i < points.length; i += 1) {
       const from = points[i - 1];
       const to = points[i];
@@ -157,7 +144,7 @@ export function initDoodle() {
         px(from),
         py(from),
         (px(from) + px(to)) / 2,
-        (py(from) + py(to)) / 2
+        (py(from) + py(to)) / 2,
       );
     }
 
@@ -208,13 +195,10 @@ export function initDoodle() {
     if (!current) return;
 
     /*
-     * The samples the browser batched into this frame. Using them keeps a
-     * fast stroke a curve, rather than the three or four points a 60Hz
-     * callback would have seen of it.
-     *
-     * It can come back empty — a synthesised event has nothing to coalesce,
-     * and neither does a pointer that has not moved since the last frame —
-     * so fall back to the event itself rather than dropping the sample.
+     * The samples the browser batched into this frame keep a fast stroke a
+     * curve, rather than the three or four points a 60Hz callback would see
+     * of it. It can come back empty — a synthesised event has nothing to
+     * coalesce — so fall back to the event itself.
      */
     const coalesced = event.getCoalescedEvents?.();
     const samples = coalesced?.length ? coalesced : [event];
@@ -226,12 +210,9 @@ export function initDoodle() {
 
   // --- Keyboard --------------------------------------------------------
 
-  /*
-   * Arrow keys move a pen, space puts it down and lifts it again. Not a
-   * substitute for a hand, but it is a real way through the interaction,
-   * and the alternative was a section a keyboard visitor could only read
-   * about.
-   */
+  // Arrow keys move a pen, space puts it down and lifts it again. Not a
+  // substitute for a hand, but a real way through the interaction — the
+  // alternative was a section a keyboard visitor could only read about.
   function movePen() {
     pen.style.transform = `translate(${keyPen.x * view.width}px, ${
       keyPen.y * view.height
@@ -298,18 +279,12 @@ export function initDoodle() {
     if (!strokes.length || canvas.classList.contains('is-clearing')) return;
 
     /*
-     * Shaken out, not switched off — the marks leave the way the letters
-     * leave the "Antwerp Six" sentence further up the page. The pixels go
-     * when the animation ends rather than on the click, so the two cannot
-     * get out of step.
-     *
-     * Whichever of animationend and the timeout arrives first wins.
-     * animationend on its own is not enough: a browser suspends CSS
-     * animations in a hidden tab, so switching away mid-shake would leave
-     * the cloth invisible and the button dead until the reader came back.
-     * The fallback is read off the animation itself rather than written
-     * down twice — which also means prefers-reduced-motion, which cuts the
-     * duration to near zero, clears the cloth in a single frame.
+     * The pixels go when the animation ends, not on the click, so the two
+     * cannot get out of step. Whichever of animationend and the timeout
+     * arrives first wins: a hidden tab suspends CSS animations, which would
+     * otherwise leave the cloth invisible and the button dead. The fallback
+     * is read off the animation rather than written down twice, so
+     * reduced motion clears the cloth in a single frame.
      */
     let settled = false;
 
@@ -384,11 +359,10 @@ function readToken(name) {
 }
 
 /**
- * Cloth plus marks on one canvas, as a PNG data URL.
- *
- * The marks live on a transparent canvas over an <img>, so exporting the
- * canvas on its own would hand back a drawing of nothing. Both are
- * same-origin, so composing them does not taint the result.
+ * Cloth plus marks on one canvas, as a PNG data URL. The marks live on a
+ * transparent canvas over an <img>, so exporting the canvas alone would hand
+ * back a drawing of nothing. Both are same-origin, so composing them does
+ * not taint the result.
  */
 function flatten(cloth, canvas, view) {
   const output = document.createElement('canvas');

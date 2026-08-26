@@ -1,25 +1,13 @@
 import { gsap, ScrollTrigger, SplitText } from './motion.js';
 
 /**
- * Scatters a short phrase away as the reader passes it.
- *
- * Used on "Antwerp Six": the label is the first fact anyone attaches to
- * Yee's name, so the page crosses it out and lets it drop out of the
- * sentence. The scribble that strikes it through is a separate mark handled
- * by scribble.js, triggered slightly earlier so the two read as one gesture
- * — cross out, then discard.
- *
- * Each letter is split into an outer box that keeps its place in the line
- * and an inner glyph that actually moves, so the sentence never reflows
- * around the gap. The gap is the point: the words leave, the scribble
- * stays.
- *
- * Physics2DPlugin (bundled with GSAP) handles the arc. Scroll back up and
- * the letters return, because a reader who scrolls back to check what a
- * sentence said should find it intact.
+ * Scatters a short phrase away as the reader passes it. Each letter is split
+ * into an outer box that keeps its place in the line and an inner glyph that
+ * moves, so the sentence never reflows around the gap. The gap is the point:
+ * the words leave, the scribble stays. Scrolling back up gathers them again.
  *
  * Returns a Promise resolving once setup has completed — see
- * text-line-reveal.js for why main.js needs to await that.
+ * text-line-reveal.js for why main.js awaits it.
  */
 export function initTextScatter() {
   const targets = document.querySelectorAll('[data-scatter]');

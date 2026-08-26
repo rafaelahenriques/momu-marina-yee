@@ -4,19 +4,12 @@ import { gsap, SplitText, SCRUB, nextFrame } from './motion.js';
 const STAGGER = 0.015;
 
 /**
- * Pinned line-by-line swap between two paragraphs, on a horizontal axis.
- *
- * The section argues that Yee's restrictions turned into her method, so the
- * first paragraph does not fade out and the second in — the same lines turn
- * over and show a different face, one after another, like a row of cards
- * being flipped.
- *
- * Default markup is two ordinary stacked paragraphs, read one after the
- * other. That is what no-JS and reduced-motion visitors get; only when this
- * module runs does the section gain .is-enhanced and stack them.
+ * Pinned line-by-line swap between two paragraphs on a horizontal axis: the
+ * same lines turn over and show a different face, like a row of cards being
+ * flipped. The default markup is two ordinary stacked paragraphs.
  *
  * Returns a Promise resolving once setup has completed — see
- * text-line-reveal.js for why main.js needs to await that.
+ * text-line-reveal.js for why main.js awaits it.
  */
 export function initTextSwap() {
   const section = document.querySelector('[data-text-swap]');

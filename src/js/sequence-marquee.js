@@ -1,20 +1,11 @@
 import { gsap } from './motion.js';
 
 /**
- * Continuous looping strip for the One Corner Off detail gallery.
- *
- * Default markup is the static scroll-snap strip built earlier — that
- * remains exactly what no-JS and reduced-motion visitors get, since this
- * module is only called when motion is allowed.
- *
- * The track's children are duplicated once, with the duplicate marked
- * aria-hidden, so a screen reader only ever hears the three real images —
- * the seamless loop is a visual trick, not new content.
- *
- * Because this moves indefinitely, it ships with a real pause button
- * (required by WCAG 2.2.2 for any auto-moving content lasting more than a
- * few seconds) and also pauses on hover or keyboard focus, so a reader
- * looking closely at one image isn't fighting the animation.
+ * Continuous looping strip for the detail gallery. The default markup is a
+ * static scroll-snap strip. The track's children are duplicated once, the
+ * copy marked aria-hidden, so a screen reader hears only the three real
+ * images. Because it moves indefinitely it ships with a pause button (WCAG
+ * 2.2.2) and also pauses on hover and focus.
  */
 export function initSequenceMarquee() {
   const container = document.querySelector('[data-sequence]');
@@ -32,7 +23,8 @@ export function initSequenceMarquee() {
   // keyboard user needs to reach — the toggle button is the operable control.
   container.setAttribute('tabindex', '-1');
 
-  const distance = track.scrollWidth + parseFloat(getComputedStyle(track).gap || 0);
+  const distance =
+    track.scrollWidth + parseFloat(getComputedStyle(track).gap || 0);
 
   const tween = gsap.to([track, clone], {
     x: -distance,

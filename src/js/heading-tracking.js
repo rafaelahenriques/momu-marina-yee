@@ -1,12 +1,8 @@
 import { gsap, SCRUB } from './motion.js';
 
 /**
- * Letter-spacing pull-apart on "One Corner Off".
- *
- * Default state in CSS is normal tracking — exactly what no-JS and
- * reduced-motion visitors read, no different from any other heading. This
- * only widens the spacing as the section scrolls through view, echoing the
- * phrase itself: something whole, deliberately disturbed.
+ * Letter-spacing pull-apart on "One Corner Off". Default tracking is normal;
+ * this only widens it as the section scrolls through view.
  */
 export function initHeadingTracking() {
   const heading = document.querySelector('[data-tracking-heading] span');
@@ -24,6 +20,6 @@ export function initHeadingTracking() {
         end: 'top 20%',
         scrub: SCRUB,
       },
-    }
+    },
   );
 }

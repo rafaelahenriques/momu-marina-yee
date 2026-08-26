@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="no-js">
   <head>
     <meta charset="UTF-8" />
@@ -31,19 +31,14 @@
 
     <header class="site-header">
       <a class="site-header__logo" href="https://www.momu.be/en/">
-        <img
-          src="/momu-logo.svg"
-          alt="MoMu — Fashion Museum Antwerp"
-          width="120"
-          height="40"
-        />
+        <img src="/momu-logo.svg" alt="MoMu — Fashion Museum Antwerp" width="120" height="40" />
       </a>
 
       <div class="site-header__controls">
         <a class="pill" href="https://www.momu.be/en/visit">Tickets</a>
 
         <a class="pill pill--uppercase pill--secondary" href="#designer-stories">
-          All designers stories
+          All designer stories
         </a>
 
         <button
@@ -58,20 +53,13 @@
       </div>
     </header>
 
-    <nav
-      class="menu-panel"
-      id="menu-panel"
-      aria-label="Sections of this story"
-      data-menu-panel
-    >
+    <nav class="menu-panel" id="menu-panel" aria-label="Sections of this story" data-menu-panel>
       <ul class="menu-panel__list">
         <li>
           <a href="#picker">Working With What Was Already There</a>
         </li>
         <li>
-          <a href="#starting-with-what-already-existed">
-            Starting With What Already Existed
-          </a>
+          <a href="#starting-with-what-already-existed">Starting With What Already Existed</a>
         </li>
         <li><a href="#my-project">M.Y. Project, 2018</a></li>
         <li><a href="#one-corner-off">One Corner Off</a></li>
@@ -82,12 +70,19 @@
 
     <main id="main">
       <section class="hero">
-        <!-- Decorative only: the archive material is shown properly further
-             down the page, so nothing here is content a screen reader needs. -->
+        <!-- Decorative: the archive material is shown properly further down
+             the page. -->
         <div class="hero__scatter" aria-hidden="true">
           <div class="hero__image hero__image--1">
             <img
               src="/images/marie-invitation.jpg"
+              srcset="
+                /images/responsive/marie-invitation-160.webp 160w,
+                /images/responsive/marie-invitation-320.webp 320w,
+                /images/responsive/marie-invitation-480.webp 480w,
+                /images/responsive/marie-invitation-640.webp 640w
+              "
+              sizes="(min-width: 48rem) clamp(8rem, 18vw, 16rem), 6rem"
               alt=""
               width="640"
               height="863"
@@ -98,6 +93,13 @@
           <div class="hero__image hero__image--2">
             <img
               src="/images/marie-collection.jpg"
+              srcset="
+                /images/responsive/marie-collection-160.webp 160w,
+                /images/responsive/marie-collection-320.webp 320w,
+                /images/responsive/marie-collection-480.webp 480w,
+                /images/responsive/marie-collection-640.webp 640w
+              "
+              sizes="(min-width: 48rem) clamp(7rem, 15vw, 13rem), 5.5rem"
               alt=""
               width="640"
               height="828"
@@ -108,6 +110,12 @@
           <div class="hero__image hero__image--3" data-poke-item>
             <img
               src="/images/objects/hanger-objects.png"
+              srcset="
+                /images/responsive/objects/hanger-objects-160.webp 160w,
+                /images/responsive/objects/hanger-objects-320.webp 320w,
+                /images/responsive/objects/hanger-objects-371.webp 371w
+              "
+              sizes="(min-width: 48rem) clamp(6rem, 11vw, 10rem), 4.5rem"
               alt=""
               width="371"
               height="539"
@@ -125,6 +133,7 @@
               alt="Marina Yee"
               width="640"
               height="180"
+              fetchpriority="high"
             />
           </h1>
           <p class="hero__standfirst">One Corner Off</p>
@@ -137,15 +146,21 @@
         <div class="chapter__body chapter__body--standalone" data-reveal>
           <p>
             Marina Yee’s place within the
-            <!-- The label the page is about to set aside: scribbled out,
-                 then dropped out of the sentence. The words stay in the
-                 markup and in the accessibility tree — only their painted
-                 position changes. -->
+            <!-- Scribbled out, then dropped out of the sentence. The words
+                 stay in the markup and in the accessibility tree — only
+                 their painted position changes. -->
             <span class="scatter" data-scatter>
               <strong>Antwerp Six</strong>
               <img
                 class="scribble scribble--strike"
                 src="/images/objects/doodle-scribble.png"
+                srcset="
+                  /images/responsive/objects/doodle-scribble-160.webp 160w,
+                  /images/responsive/objects/doodle-scribble-320.webp 320w,
+                  /images/responsive/objects/doodle-scribble-480.webp 480w,
+                  /images/responsive/objects/doodle-scribble-571.webp 571w
+                "
+                sizes="12rem"
                 alt=""
                 width="571"
                 height="639"
@@ -155,24 +170,18 @@
                 data-scribble="left"
               />
             </span>
-            is usually the first fact attached to her name. It is important
-            history, but it does not explain the way she approached design.
+            is usually the first fact attached to her name. It is important history, but it does not
+            explain the way she approached design.
           </p>
         </div>
       </section>
 
+      <!-- spotlight.js clones this line onto a dark overlay it inserts
+           itself, so the sentence is only written once. -->
       <section class="statement statement--spotlight" data-spotlight>
         <p class="statement__text">
-          Move away from the spotlight, and her practice becomes easier to
-          see.
+          Move away from the spotlight, and her practice becomes easier to see.
         </p>
-
-        <div class="spotlight-overlay" aria-hidden="true">
-          <p class="statement__text">
-            Move away from the spotlight, and her practice becomes easier to
-            see.
-          </p>
-        </div>
       </section>
 
       <section class="chapter text-reveal" data-text-reveal>
@@ -184,6 +193,11 @@
               <figcaption class="text-reveal__fig-label">Fig. 01</figcaption>
               <img
                 src="/images/studio.jpg"
+                srcset="
+                  /images/responsive/studio-160.webp 160w,
+                  /images/responsive/studio-320.webp 320w
+                "
+                sizes="(min-width: 48rem) 8rem, 6rem"
                 alt="A corner of Marina Yee's studio: pinned collages, a wire hanger with a handwritten tag, dried branches."
                 width="320"
                 height="400"
@@ -193,32 +207,36 @@
             </figure>
 
             <p class="text-reveal__text" data-text-reveal-text>
-              Much of Yee’s work developed through reconstruction, reuse and
-              alteration rather than custom production. Existing garments gave
-              her a starting point: something already constructed that could be
-              taken apart, reconsidered and made into something else.
+              Much of Yee’s work developed through reconstruction, reuse and alteration rather than
+              custom production. Existing garments gave her a starting point: something already
+              constructed that could be taken apart, reconsidered and made into something else.
             </p>
           </div>
         </div>
       </section>
 
       <section class="picker" id="picker">
-        <!-- No data-reveal in this section: picker-motion.js runs its own
-             entrance for the title, the copy and the choices together, and
-             two modules animating one element fight over its opacity. -->
+        <!-- No data-reveal here: picker-motion.js runs its own entrance for
+             the title, copy and choices together, and two modules animating
+             one element fight over its opacity. -->
         <div class="picker__intro">
           <h2 class="chapter__title">Working With What Was Already There</h2>
 
           <div class="chapter__body">
             <p>
-              Yee worked with garments that already had a form, a function and,
-              often, visible signs of previous use.
+              Yee worked with garments that already had a form, a function and, often, visible signs
+              of previous use.
             </p>
             <p class="picker__cue">
               Choose a garment to look closer.
               <img
                 class="scribble scribble--cue"
                 src="/images/objects/arrow-scribble.png"
+                srcset="
+                  /images/responsive/objects/arrow-scribble-160.webp 160w,
+                  /images/responsive/objects/arrow-scribble-219.webp 219w
+                "
+                sizes="clamp(2.5rem, 5vw, 3.5rem)"
                 alt=""
                 width="219"
                 height="244"
@@ -259,60 +277,58 @@
           <article class="picker__panel" data-panel="menswear">
             <h3>Vintage menswear</h3>
             <p>
-              Tailored menswear came with an established structure: lapels,
-              collars, pockets, linings and carefully constructed shoulders.
-              Reconstruction meant working within — or against — decisions that
-              had already been made.
+              Tailored menswear came with an established structure: lapels, collars, pockets,
+              linings and carefully constructed shoulders. Reconstruction meant working within — or
+              against — decisions that had already been made.
             </p>
           </article>
 
           <article class="picker__panel" data-panel="military">
             <h3>Military garments</h3>
             <p>
-              Military clothing was designed around function. Pockets had a
-              purpose, seams were reinforced where necessary, and construction
-              followed the demands of use. Those functional details remained
-              part of the garment even when its original purpose changed.
+              Military clothing was designed around function. Pockets had a purpose, seams were
+              reinforced where necessary, and construction followed the demands of use. Those
+              functional details remained part of the garment even when its original purpose
+              changed.
             </p>
           </article>
 
           <article class="picker__panel" data-panel="workwear">
             <h3>Workwear</h3>
             <p>
-              Workwear could carry its history on its surface. Fading,
-              reinforced seams, topstitching, repairs and areas of wear
-              recorded how a garment had been made and used.
+              Workwear could carry its history on its surface. Fading, reinforced seams,
+              topstitching, repairs and areas of wear recorded how a garment had been made and used.
             </p>
           </article>
 
           <article class="picker__panel" data-panel="denim">
             <h3>Second-hand denim</h3>
             <p>
-              Denim makes wear particularly visible. Colour fades unevenly,
-              creases settle into the fabric and repeated use leaves marks
-              specific to the person who wore it.
+              Denim makes wear particularly visible. Colour fades unevenly, creases settle into the
+              fabric and repeated use leaves marks specific to the person who wore it.
             </p>
             <p>
-              In Marie, Yee cut old jeans into patchwork and incorporated the
-              pieces by hand into bomber jackets. Rather than disguising the
-              fact that the denim had been used before, its different washes
-              and traces of wear remained visible.
+              In Marie, Yee cut old jeans into patchwork and incorporated the pieces by hand into
+              bomber jackets. Rather than disguising the fact that the denim had been used before,
+              its different washes and traces of wear remained visible.
             </p>
           </article>
         </div>
 
-        <!-- Decorative collage: the text panels above already carry this
-             content, so nothing here is information a screen reader needs.
+        <!-- Decorative collage: the panels above already carry this content.
              Each piece is a wrapper holding the resting position, angle and
              scroll drift, with the image inside left free for poke.js. -->
         <div class="picker__stage" data-picker-stage aria-hidden="true">
-          <div
-            class="picker__stage-item"
-            data-stage-img="menswear"
-            data-poke-item
-          >
+          <div class="picker__stage-item" data-stage-img="menswear" data-poke-item>
             <img
               src="/images/trench.jpg"
+              srcset="
+                /images/responsive/trench-160.webp 160w,
+                /images/responsive/trench-320.webp 320w,
+                /images/responsive/trench-480.webp 480w,
+                /images/responsive/trench-640.webp 640w
+              "
+              sizes="(min-width: 64rem) 22vw, 50vw"
               alt=""
               width="640"
               height="426"
@@ -321,13 +337,16 @@
             />
           </div>
 
-          <div
-            class="picker__stage-item"
-            data-stage-img="military"
-            data-poke-item
-          >
+          <div class="picker__stage-item" data-stage-img="military" data-poke-item>
             <img
               src="/images/bomber.jpg"
+              srcset="
+                /images/responsive/bomber-160.webp 160w,
+                /images/responsive/bomber-320.webp 320w,
+                /images/responsive/bomber-480.webp 480w,
+                /images/responsive/bomber-640.webp 640w
+              "
+              sizes="(min-width: 64rem) 20vw, 45vw"
               alt=""
               width="640"
               height="1216"
@@ -336,13 +355,16 @@
             />
           </div>
 
-          <div
-            class="picker__stage-item"
-            data-stage-img="workwear"
-            data-poke-item
-          >
+          <div class="picker__stage-item" data-stage-img="workwear" data-poke-item>
             <img
               src="/images/atelier.jpg"
+              srcset="
+                /images/responsive/atelier-160.webp 160w,
+                /images/responsive/atelier-320.webp 320w,
+                /images/responsive/atelier-480.webp 480w,
+                /images/responsive/atelier-640.webp 640w
+              "
+              sizes="(min-width: 64rem) 17vw, 38vw"
               alt=""
               width="640"
               height="587"
@@ -354,6 +376,13 @@
           <div class="picker__stage-item" data-stage-img="denim" data-poke-item>
             <img
               src="/images/denim-jacket.jpg"
+              srcset="
+                /images/responsive/denim-jacket-160.webp 160w,
+                /images/responsive/denim-jacket-320.webp 320w,
+                /images/responsive/denim-jacket-480.webp 480w,
+                /images/responsive/denim-jacket-640.webp 640w
+              "
+              sizes="(min-width: 64rem) 19vw, 43vw"
               alt=""
               width="640"
               height="960"
@@ -362,12 +391,16 @@
             />
           </div>
 
-          <div
-            class="picker__stage-item picker__stage-item--cloth-a"
-            data-poke-item
-          >
+          <div class="picker__stage-item picker__stage-item--cloth-a" data-poke-item>
             <img
               src="/images/objects/cloth-drape.png"
+              srcset="
+                /images/responsive/objects/cloth-drape-160.webp 160w,
+                /images/responsive/objects/cloth-drape-320.webp 320w,
+                /images/responsive/objects/cloth-drape-480.webp 480w,
+                /images/responsive/objects/cloth-drape-620.webp 620w
+              "
+              sizes="(min-width: 64rem) 10vw, 21vw"
               alt=""
               width="398"
               height="702"
@@ -376,12 +409,15 @@
             />
           </div>
 
-          <div
-            class="picker__stage-item picker__stage-item--cloth-b"
-            data-poke-item
-          >
+          <div class="picker__stage-item picker__stage-item--cloth-b" data-poke-item>
             <img
               src="/images/objects/cloth-stack.png"
+              srcset="
+                /images/responsive/objects/cloth-stack-160.webp 160w,
+                /images/responsive/objects/cloth-stack-320.webp 320w,
+                /images/responsive/objects/cloth-stack-380.webp 380w
+              "
+              sizes="(min-width: 64rem) 8vw, 16vw"
               alt=""
               width="380"
               height="710"
@@ -390,12 +426,15 @@
             />
           </div>
 
-          <div
-            class="picker__stage-item picker__stage-item--hanger"
-            data-poke-item
-          >
+          <div class="picker__stage-item picker__stage-item--hanger" data-poke-item>
             <img
               src="/images/objects/hanger-objects.png"
+              srcset="
+                /images/responsive/objects/hanger-objects-160.webp 160w,
+                /images/responsive/objects/hanger-objects-320.webp 320w,
+                /images/responsive/objects/hanger-objects-371.webp 371w
+              "
+              sizes="(min-width: 64rem) 7vw, 14vw"
               alt=""
               width="371"
               height="539"
@@ -406,28 +445,30 @@
         </div>
       </section>
 
-      <section class="statement statement--marquee" data-text-marquee>
-        <div class="statement--marquee__pin" data-marquee-pin>
-          <div class="statement--marquee__stage">
-            <p class="statement__text statement--marquee__text" data-marquee-text>
+      <section class="statement marquee" data-text-marquee>
+        <div class="marquee__pin" data-marquee-pin>
+          <div class="marquee__stage">
+            <p class="statement__text marquee__text" data-marquee-text>
               She was doing this long before repair, reuse and
-              <strong>upcycling</strong> became common language in contemporary
-              fashion.
+              <strong>upcycling</strong>
+              became common language in contemporary fashion.
             </p>
           </div>
         </div>
       </section>
 
-      <section
-        class="chapter text-swap"
-        id="starting-with-what-already-existed"
-        data-text-swap
-      >
+      <section class="chapter text-swap" id="starting-with-what-already-existed" data-text-swap>
         <h2 class="chapter__title text-swap__title">
           Starting With What Already Existed
           <img
             class="scribble scribble--alter"
             src="/images/objects/alter-scribble.png"
+            srcset="
+              /images/responsive/objects/alter-scribble-160.webp 160w,
+              /images/responsive/objects/alter-scribble-320.webp 320w,
+              /images/responsive/objects/alter-scribble-385.webp 385w
+            "
+            sizes="clamp(6rem, 15vw, 11rem)"
             alt=""
             width="385"
             height="228"
@@ -438,24 +479,21 @@
           />
         </h2>
 
-        <!-- Two ordinary stacked paragraphs by default. text-swap.js turns
-             them over into one another line by line once motion is allowed;
-             see .text-swap.is-enhanced in components.css. -->
+        <!-- Two stacked paragraphs by default; text-swap.js turns them over
+             into one another line by line once motion is allowed. -->
         <div class="text-swap__pin" data-text-swap-pin>
           <div class="chapter__body text-swap__stage" data-text-swap-stage>
             <p class="text-swap__text" data-text-swap-text>
-              Working this way meant accepting limits. The fabric had already
-              been chosen, the pieces had already been cut once, and the
-              material could arrive faded, repaired or worn. Unlike working
-              from a new length of fabric, Yee could not determine every
+              Working this way meant accepting limits. The fabric had already been chosen, the
+              pieces had already been cut once, and the material could arrive faded, repaired or
+              worn. Unlike working from a new length of fabric, Yee could not determine every
               condition from the start.
             </p>
 
             <p class="text-swap__text" data-text-swap-text>
-              Instead of treating those restrictions as problems, she let them
-              shape the result. Her process became a matter of deciding what
-              the garment already offered, what deserved to remain and where an
-              intervention was actually necessary.
+              Instead of treating those restrictions as problems, she let them shape the result. Her
+              process became a matter of deciding what the garment already offered, what deserved to
+              remain and where an intervention was actually necessary.
             </p>
           </div>
         </div>
@@ -466,39 +504,47 @@
           <h2 class="chapter__title">M.Y. Project, 2018</h2>
 
           <div class="chapter__body">
-      <p>
-        In 2018, Yee presented M.Y. Project, a small collection of coats and
-        shirts developed from familiar menswear forms.
-      </p>
+            <p>
+              In 2018, Yee presented M.Y. Project, a small collection of coats and shirts developed
+              from familiar menswear forms.
+            </p>
 
-      <p>
-        Rather than designing from a blank page, she returned to garments
-        such as trench coats, sailor coats and military parkas, altering
-        them through asymmetry, hand stitching and changes to their
-        construction.
-      </p>
+            <p>
+              Rather than designing from a blank page, she returned to garments such as trench
+              coats, sailor coats and military parkas, altering them through asymmetry, hand
+              stitching and changes to their construction.
+            </p>
 
-      <p class="beat" data-letter-reveal>
-        The original garment remained recognisable. What changed was the
-        way it was read.
-      </p>
+            <p class="beat" data-letter-reveal>
+              The original garment remained recognisable. What changed was the way it was read.
+            </p>
 
-      <p>
-        M.Y. Project showed that, decades later, Yee was still working
-        through the same principle:
-        <strong>
-          begin with what already exists, keep what matters, and change
-          only what needs to change.
-        </strong>
-      </p>
-    </div>
-  </div>
+            <p>
+              M.Y. Project showed that, decades later, Yee was still working through the same
+              principle:
+              <strong>
+                begin with what already exists, keep what matters, and change only what needs to
+                change.
+              </strong>
+            </p>
+          </div>
+        </div>
 
         <div class="my-project-depth" data-my-project-depth>
           <div class="my-project-depth__stage" data-my-project-depth-stage>
             <figure class="my-project-depth__item">
               <img
                 src="/images/My_jacket.jpg"
+                srcset="
+                  /images/responsive/My_jacket-160.webp   160w,
+                  /images/responsive/My_jacket-320.webp   320w,
+                  /images/responsive/My_jacket-480.webp   480w,
+                  /images/responsive/My_jacket-640.webp   640w,
+                  /images/responsive/My_jacket-768.webp   768w,
+                  /images/responsive/My_jacket-960.webp   960w,
+                  /images/responsive/My_jacket-1080.webp 1080w
+                "
+                sizes="(min-width: 48rem) min(45vw, 38rem), 90vw"
                 alt="A checked wool jacket worn open over a bodice pieced together from raw-edged patches, joined with visible zigzag hand stitching."
                 width="1080"
                 height="1350"
@@ -511,6 +557,12 @@
             <figure class="my-project-depth__item">
               <img
                 src="/images/MY_jackets.jpeg"
+                srcset="
+                  /images/responsive/MY_jackets-160.webp 160w,
+                  /images/responsive/MY_jackets-320.webp 320w,
+                  /images/responsive/MY_jackets-387.webp 387w
+                "
+                sizes="(min-width: 48rem) min(45vw, 38rem), 90vw"
                 alt="Two belted coats on mannequins; the left one carries pale patchwork panels stitched over dark wool."
                 width="387"
                 height="516"
@@ -523,6 +575,16 @@
             <figure class="my-project-depth__item">
               <img
                 src="/images/My_pants.jpg"
+                srcset="
+                  /images/responsive/My_pants-160.webp   160w,
+                  /images/responsive/My_pants-320.webp   320w,
+                  /images/responsive/My_pants-480.webp   480w,
+                  /images/responsive/My_pants-640.webp   640w,
+                  /images/responsive/My_pants-768.webp   768w,
+                  /images/responsive/My_pants-960.webp   960w,
+                  /images/responsive/My_pants-1080.webp 1080w
+                "
+                sizes="(min-width: 48rem) min(45vw, 38rem), 90vw"
                 alt="Close-up of black tailoring: a raw-edged opening with painted, patched fabric showing through beneath."
                 width="1080"
                 height="1350"
@@ -535,6 +597,16 @@
             <figure class="my-project-depth__item">
               <img
                 src="/images/My_shirt.jpg"
+                srcset="
+                  /images/responsive/My_shirt-160.webp   160w,
+                  /images/responsive/My_shirt-320.webp   320w,
+                  /images/responsive/My_shirt-480.webp   480w,
+                  /images/responsive/My_shirt-640.webp   640w,
+                  /images/responsive/My_shirt-768.webp   768w,
+                  /images/responsive/My_shirt-960.webp   960w,
+                  /images/responsive/My_shirt-1280.webp 1280w
+                "
+                sizes="(min-width: 48rem) min(45vw, 38rem), 90vw"
                 alt="A cream cotton toile on a hanger, marked all over with drafting lines and construction points in ink."
                 width="1280"
                 height="960"
@@ -550,14 +622,22 @@
       <section class="horizontal chapter--dark" data-horizontal>
         <h2 class="visually-hidden">Beyond sustainability</h2>
 
-        <!-- Three decorative layers behind the panels, each given its own
-             travel rate by horizontal-scroll.js so the section has depth
-             rather than one flat sheet of text sliding past. Enhanced only:
-             stacked over a plain vertical read they would only obscure it. -->
+        <!-- Decorative layers behind the panels, each given its own travel
+             rate by horizontal-scroll.js so the section has depth. Enhanced
+             only: over a plain vertical read they would just obscure it. -->
         <div class="horizontal__drift" aria-hidden="true">
           <img
             class="horizontal__drift-item horizontal__drift-item--collage"
             src="/images/marina-yee-collage.png"
+            srcset="
+              /images/responsive/marina-yee-collage-160.webp 160w,
+              /images/responsive/marina-yee-collage-320.webp 320w,
+              /images/responsive/marina-yee-collage-480.webp 480w,
+              /images/responsive/marina-yee-collage-640.webp 640w,
+              /images/responsive/marina-yee-collage-768.webp 768w,
+              /images/responsive/marina-yee-collage-800.webp 800w
+            "
+            sizes="(min-width: 48rem) min(46vw, 30rem), 62vw"
             alt=""
             width="800"
             height="1053"
@@ -568,6 +648,13 @@
           <img
             class="horizontal__drift-item horizontal__drift-item--cloth"
             src="/images/objects/cloth-drape.png"
+            srcset="
+              /images/responsive/objects/cloth-drape-160.webp 160w,
+              /images/responsive/objects/cloth-drape-320.webp 320w,
+              /images/responsive/objects/cloth-drape-480.webp 480w,
+              /images/responsive/objects/cloth-drape-620.webp 620w
+            "
+            sizes="(min-width: 48rem) min(34vw, 22rem), 46vw"
             alt=""
             width="620"
             height="681"
@@ -581,27 +668,25 @@
           <div class="horizontal__panel">
             <p class="horizontal__index" aria-hidden="true">01</p>
             <p>
-              Seen from the present, it is natural to describe Yee’s practice
-              through sustainability. Reuse was clearly part of the story, but
-              it did not account for everything her work was doing.
+              Seen from the present, it is natural to describe Yee’s practice through
+              sustainability. Reuse was clearly part of the story, but it did not account for
+              everything her work was doing.
             </p>
           </div>
 
           <div class="horizontal__panel">
             <p class="horizontal__index" aria-hidden="true">02</p>
             <p class="beat">
-              It also complicated the relationship between originality and
-              newness.
+              It also complicated the relationship between originality and newness.
             </p>
           </div>
 
           <div class="horizontal__panel">
             <p class="horizontal__index" aria-hidden="true">03</p>
             <p>
-              Fashion often treats the creation of something new as the basis
-              of originality. Yee’s reconstructed garments suggested that the
-              two did not have to mean the same thing. She could retain enough
-              of an existing piece for its earlier form to remain legible while
+              Fashion often treats the creation of something new as the basis of originality. Yee’s
+              reconstructed garments suggested that the two did not have to mean the same thing. She
+              could retain enough of an existing piece for its earlier form to remain legible while
               still producing a different result.
             </p>
           </div>
@@ -609,12 +694,11 @@
           <div class="horizontal__panel">
             <p class="horizontal__index" aria-hidden="true">04</p>
             <p>
-              That recognition was important because it allowed the change
-              itself to be understood. The viewer could register what was
-              already there alongside what Yee chose to do with it. Her
-              originality, therefore, did not depend on removing all evidence
-              of the starting point. It could come from examining something
-              familiar closely enough to identify where a change would matter.
+              That recognition was important because it allowed the change itself to be understood.
+              The viewer could register what was already there alongside what Yee chose to do with
+              it. Her originality, therefore, did not depend on removing all evidence of the
+              starting point. It could come from examining something familiar closely enough to
+              identify where a change would matter.
             </p>
           </div>
 
@@ -627,6 +711,11 @@
                 <img
                   class="scribble scribble--circle"
                   src="/images/objects/circle-scribble.png"
+                  srcset="
+                    /images/responsive/objects/circle-scribble-160.webp 160w,
+                    /images/responsive/objects/circle-scribble-257.webp 257w
+                  "
+                  sizes="10rem"
                   alt=""
                   width="257"
                   height="295"
@@ -641,9 +730,9 @@
           </div>
         </div>
 
-        <!-- How far through the sideways run the reader is. Decorative:
-             it reports the scroll position, which the scrollbar already
-             does for anyone not seeing the pin. -->
+        <!-- How far through the sideways run the reader is. Decorative: it
+             reports the scroll position, which the scrollbar already does
+             for anyone not seeing the pin. -->
         <div class="horizontal__progress" aria-hidden="true">
           <span class="horizontal__progress-bar" data-horizontal-bar></span>
         </div>
@@ -654,12 +743,18 @@
           <span>One Corner Off</span>
         </h2>
 
-        <!-- The loose things from the workroom, laid beside the phrase they
-             describe. Decorative — the copy carries the meaning. -->
+        <!-- Decorative: the copy carries the meaning. -->
         <div class="one-corner__objects" data-object-pop aria-hidden="true">
           <div class="one-corner__object one-corner__object--tape" data-poke-item>
             <img
               src="/images/objects/measuring-tape.png"
+              srcset="
+                /images/responsive/objects/measuring-tape-160.webp 160w,
+                /images/responsive/objects/measuring-tape-320.webp 320w,
+                /images/responsive/objects/measuring-tape-480.webp 480w,
+                /images/responsive/objects/measuring-tape-535.webp 535w
+              "
+              sizes="(min-width: 64rem) clamp(8rem, 14vw, 14rem), 30vw"
               alt=""
               width="535"
               height="422"
@@ -668,12 +763,14 @@
             />
           </div>
 
-          <div
-            class="one-corner__object one-corner__object--swatch"
-            data-poke-item
-          >
+          <div class="one-corner__object one-corner__object--swatch" data-poke-item>
             <img
               src="/images/objects/cloth-swatch.png"
+              srcset="
+                /images/responsive/objects/cloth-swatch-160.webp 160w,
+                /images/responsive/objects/cloth-swatch-265.webp 265w
+              "
+              sizes="(min-width: 64rem) clamp(4.5rem, 7vw, 7.5rem), 16vw"
               alt=""
               width="265"
               height="420"
@@ -685,64 +782,48 @@
 
         <div class="chapter__body" data-lines-rise>
           <p>
-            Yee used the Flemish expression “one corner off” when speaking
-            about her creative process: the idea of making something appear
-            complete, then deliberately disturbing it.
+            Yee used the Flemish expression “one corner off” when speaking about her creative
+            process: the idea of making something appear complete, then deliberately disturbing it.
           </p>
 
           <p>
-            The expression helped explain a recurring quality in her work.
-            Her interventions did not have to overwhelm what was already
-            there. A familiar garment could remain recognisable while a
-            deliberate alteration changed the way it was read.
+            The expression helped explain a recurring quality in her work. Her interventions did not
+            have to overwhelm what was already there. A familiar garment could remain recognisable
+            while a deliberate alteration changed the way it was read.
           </p>
 
           <p>
-            It also gave context to the imperfections that appeared in her
-            work. They were not simply signs that a garment had been left
-            unresolved or that technical control was missing. The
-            disruption could be intentional, made possible by first
-            understanding the construction or convention being altered.
+            It also gave context to the imperfections that appeared in her work. They were not
+            simply signs that a garment had been left unresolved or that technical control was
+            missing. The disruption could be intentional, made possible by first understanding the
+            construction or convention being altered.
           </p>
         </div>
 
-        <!-- The block is set as a sheet with its corner already cut, and the
-             cut piece lying loose beside it — both states visible at once,
-             which is what the paragraph describes. The piece is decoration
-             with nothing written on it and nothing behind it; corner-off.js
-             only makes the cut happen on arrival and the piece possible to
-             pick up afterwards. -->
-        <div
-          class="chapter__body chapter__body--standalone corner-off"
-          data-corner-off
-          data-reveal
-        >
+        <!-- A sheet with its corner already cut and the cut piece lying
+             loose beside it — both states at once, which is what the
+             paragraph describes. corner-off.js only makes the cut happen on
+             arrival and the piece possible to pick up afterwards. -->
+        <div class="chapter__body chapter__body--standalone corner-off" data-corner-off data-reveal>
           <div class="corner-off__sheet">
             <p>
-              Seen alongside her reconstructed garments, the expression became
-              particularly useful. Yee could preserve much of an existing piece
-              while changing a specific part of its construction, proportion or
-              material.
+              Seen alongside her reconstructed garments, the expression became particularly useful.
+              Yee could preserve much of an existing piece while changing a specific part of its
+              construction, proportion or material.
               <strong>
-                What already existed and what she introduced remained visible
-                at the same time.
+                What already existed and what she introduced remained visible at the same time.
               </strong>
             </p>
 
             <p>
-              In that sense, “one corner off” offered a way of understanding
-              more than the physical act of reconstruction. It pointed towards
-              a broader tendency in Yee’s practice: understanding what already
-              existed, retaining what continued to matter, and intervening
-              where a change could shift the whole.
+              In that sense, “one corner off” offered a way of understanding more than the physical
+              act of reconstruction. It pointed towards a broader tendency in Yee’s practice:
+              understanding what already existed, retaining what continued to matter, and
+              intervening where a change could shift the whole.
             </p>
           </div>
 
-          <span
-            class="corner-off__piece"
-            data-corner-off-piece
-            aria-hidden="true"
-          ></span>
+          <span class="corner-off__piece" data-corner-off-piece aria-hidden="true"></span>
         </div>
 
         <div class="sequence-wrap">
@@ -757,6 +838,15 @@
               <figure class="figure">
                 <img
                   src="/images/workshop-collage.jpg"
+                  srcset="
+                    /images/responsive/workshop-collage-160.webp 160w,
+                    /images/responsive/workshop-collage-320.webp 320w,
+                    /images/responsive/workshop-collage-480.webp 480w,
+                    /images/responsive/workshop-collage-640.webp 640w,
+                    /images/responsive/workshop-collage-768.webp 768w,
+                    /images/responsive/workshop-collage-900.webp 900w
+                  "
+                  sizes="(min-width: 48rem) min(38vw, 26rem), min(75vw, 22rem)"
                   alt="A scanned collage: a photographed face and figure painted over in broad white brushstrokes, with darker cut-outs pasted alongside."
                   width="900"
                   height="1273"
@@ -768,6 +858,15 @@
               <figure class="figure">
                 <img
                   src="/images/invitation-spring.jpg"
+                  srcset="
+                    /images/responsive/invitation-spring-160.webp 160w,
+                    /images/responsive/invitation-spring-320.webp 320w,
+                    /images/responsive/invitation-spring-480.webp 480w,
+                    /images/responsive/invitation-spring-640.webp 640w,
+                    /images/responsive/invitation-spring-768.webp 768w,
+                    /images/responsive/invitation-spring-900.webp 900w
+                  "
+                  sizes="(min-width: 48rem) min(38vw, 26rem), min(75vw, 22rem)"
                   alt="A show invitation built from torn paper and red board, hand-lettered in white paint."
                   width="900"
                   height="1243"
@@ -779,62 +878,64 @@
               <figure class="figure">
                 <img
                   src="/images/invitation-autumn.jpg"
+                  srcset="
+                    /images/responsive/invitation-autumn-160.webp 160w,
+                    /images/responsive/invitation-autumn-320.webp 320w,
+                    /images/responsive/invitation-autumn-480.webp 480w,
+                    /images/responsive/invitation-autumn-640.webp 640w,
+                    /images/responsive/invitation-autumn-768.webp 768w,
+                    /images/responsive/invitation-autumn-900.webp 900w
+                  "
+                  sizes="(min-width: 48rem) min(38vw, 26rem), min(75vw, 22rem)"
                   alt="An invitation card showing a solid black silhouette, taped down over fabric swatches and a stitched hem."
                   width="900"
                   height="1120"
                   loading="lazy"
                   decoding="async"
                 />
-                <figcaption>
-                  M.Y. showroom invitation, Paris, autumn/winter 2025–26
-                </figcaption>
+                <figcaption>M.Y. showroom invitation, Paris, autumn/winter 2025–26</figcaption>
               </figure>
             </div>
           </div>
 
-          <button
-            class="sequence__toggle"
-            type="button"
-            data-sequence-toggle
-            aria-pressed="false"
-          >
+          <button class="sequence__toggle" type="button" data-sequence-toggle aria-pressed="false">
             Pause animation
           </button>
         </div>
       </section>
 
-      <!-- ============================================================
-           TAKE ONE CORNER OFF — the reader's turn.
-
-           A length of cloth and something to mark it with. Nothing in the
-           story depends on using it, which is what makes it safe to build
-           on a canvas: doodle.js inserts the canvas and reveals the tools
-           only once it has, so without JavaScript this section is a piece
-           of cloth and a paragraph explaining what Yee did to one.
-      ============================================================ -->
+      <!-- Nothing in the story depends on using this, which is what makes
+           it safe to build on a canvas: doodle.js inserts the canvas and
+           only then reveals the tools, so without JavaScript the section is
+           a piece of cloth and a paragraph about what Yee did to one. -->
       <section class="doodle" id="your-turn" data-doodle>
         <div class="doodle__intro">
           <h2 class="chapter__title" data-reveal>Take One Corner Off</h2>
 
           <div class="chapter__body" data-reveal>
             <p>
-              Every garment Yee started from was already finished. The work was
-              deciding where to interfere with it — and then living with the
-              mark.
+              Every garment Yee started from was already finished. The work was deciding where to
+              interfere with it — and then living with the mark.
             </p>
             <p>Here is a length of gauze. Draw on it, then take it back.</p>
           </div>
         </div>
 
         <!-- Flat, not nested: the cloth, the tools and the needle are each
-             placed by name in the section's grid (see components.css), so
-             the cloth can sit beside its own controls on a wide screen
-             instead of above them. DOM order is still the reading order —
-             draw on the cloth, then reach for a tool. -->
+             placed by name in the section's grid, so the cloth can sit
+             beside its own controls on a wide screen. DOM order is still the
+             reading order — draw on the cloth, then reach for a tool. -->
         <div class="doodle__surface" data-doodle-surface>
           <img
             class="doodle__cloth"
             src="/images/objects/cloth-drape.png"
+            srcset="
+              /images/responsive/objects/cloth-drape-160.webp 160w,
+              /images/responsive/objects/cloth-drape-320.webp 320w,
+              /images/responsive/objects/cloth-drape-480.webp 480w,
+              /images/responsive/objects/cloth-drape-620.webp 620w
+            "
+            sizes="min(90vw, 30rem)"
             alt="A length of gauze, photographed and pulled out of shape."
             width="620"
             height="681"
@@ -843,9 +944,8 @@
           />
         </div>
 
-        <!-- Revealed by doodle.js once the canvas exists. Buttons that
-             operate a surface which was never built are worse than no
-             buttons at all. -->
+        <!-- Revealed by doodle.js once the canvas exists: buttons that
+             operate a surface which was never built are worse than none. -->
         <div class="doodle__tools" data-doodle-tools hidden>
           <fieldset class="doodle__marks" data-doodle-marks>
             <legend>Mark</legend>
@@ -867,32 +967,31 @@
           </fieldset>
 
           <div class="doodle__actions">
-            <button class="doodle__action" type="button" data-doodle-undo>
-              Undo
-            </button>
-            <button class="doodle__action" type="button" data-doodle-clear>
-              Take it back
-            </button>
-            <button class="doodle__action" type="button" data-doodle-keep>
-              Keep it
-            </button>
+            <button class="doodle__action" type="button" data-doodle-undo>Undo</button>
+            <button class="doodle__action" type="button" data-doodle-clear>Take it back</button>
+            <button class="doodle__action" type="button" data-doodle-keep>Keep it</button>
           </div>
 
           <p class="doodle__status" data-doodle-status role="status"></p>
         </div>
 
-        <!-- Outside the toolbar: the toolbar is a narrow column of pills,
-             and a sentence set in the display face needs more measure than
-             that. -->
+        <!-- Outside the toolbar: that is a narrow column of pills, and a
+             sentence in the display face needs more measure than that. -->
         <p class="doodle__note" data-doodle-note hidden>
-          That is the whole method. Something was already there, you decided
-          where to change it, and both are still visible.
+          That is the whole method. Something was already there, you decided where to change it, and
+          both are still visible.
         </p>
 
         <div class="doodle__objects" data-object-pop aria-hidden="true">
           <div class="doodle__object doodle__object--needle" data-poke-item>
             <img
               src="/images/objects/needle-thread.png"
+              srcset="
+                /images/responsive/objects/needle-thread-160.webp 160w,
+                /images/responsive/objects/needle-thread-320.webp 320w,
+                /images/responsive/objects/needle-thread-425.webp 425w
+              "
+              sizes="(min-width: 64rem) 30rem, 70vw"
               alt=""
               width="425"
               height="242"
@@ -911,6 +1010,11 @@
               <img
                 class="scribble scribble--circle"
                 src="/images/objects/circle-scribble.png"
+                srcset="
+                  /images/responsive/objects/circle-scribble-160.webp 160w,
+                  /images/responsive/objects/circle-scribble-257.webp 257w
+                "
+                sizes="(min-width: 48rem) 24rem, 14rem"
                 alt=""
                 width="257"
                 height="295"
@@ -924,24 +1028,26 @@
           </h2>
 
           <p>
-            The clearest evidence of Yee’s approach remains in the garments.
-            Reused materials, alterations and traces of earlier construction
-            make it possible to see how the original object and the later
-            intervention exist together.
+            The clearest evidence of Yee’s approach remains in the garments. Reused materials,
+            alterations and traces of earlier construction make it possible to see how the original
+            object and the later intervention exist together.
           </p>
 
           <p>
-            At MoMu, those details show how reuse, reconstruction and the idea
-            of “one corner off” operated as parts of the same design process.
+            At MoMu, those details show how reuse, reconstruction and the idea of “one corner off”
+            operated as parts of the same design process.
           </p>
 
           <p class="visit__cta">
-            <a class="button" href="https://www.momu.be/en/visit" data-magnetic>
-              Plan your visit
-            </a>
+            <a class="button" href="https://www.momu.be/en/visit" data-magnetic>Plan your visit</a>
             <img
               class="scribble scribble--here"
               src="/images/objects/here-scribble.png"
+              srcset="
+                /images/responsive/objects/here-scribble-160.webp 160w,
+                /images/responsive/objects/here-scribble-272.webp 272w
+              "
+              sizes="clamp(5rem, 12vw, 8rem)"
               alt=""
               width="272"
               height="152"
@@ -953,13 +1059,18 @@
           </p>
         </div>
 
-        <!-- The loose things from a workroom, laid out beside the invitation.
-             Decorative: the copy above already says what is worth going to
-             see, so nothing here is information a screen reader needs. -->
+        <!-- Decorative: the copy above already says what is worth seeing. -->
         <div class="visit__objects" data-object-pop aria-hidden="true">
           <div class="visit__object visit__object--tape" data-poke-item>
             <img
               src="/images/objects/measuring-tape.png"
+              srcset="
+                /images/responsive/objects/measuring-tape-160.webp 160w,
+                /images/responsive/objects/measuring-tape-320.webp 320w,
+                /images/responsive/objects/measuring-tape-480.webp 480w,
+                /images/responsive/objects/measuring-tape-535.webp 535w
+              "
+              sizes="(min-width: 64rem) clamp(14rem, 26vw, 26rem), 28vw"
               alt=""
               width="535"
               height="422"
@@ -971,6 +1082,12 @@
           <div class="visit__object visit__object--needle" data-poke-item>
             <img
               src="/images/objects/needle-thread.png"
+              srcset="
+                /images/responsive/objects/needle-thread-160.webp 160w,
+                /images/responsive/objects/needle-thread-320.webp 320w,
+                /images/responsive/objects/needle-thread-425.webp 425w
+              "
+              sizes="(min-width: 64rem) clamp(8rem, 13vw, 13rem), 28vw"
               alt=""
               width="425"
               height="242"
@@ -982,6 +1099,11 @@
           <div class="visit__object visit__object--swatch" data-poke-item>
             <img
               src="/images/objects/cloth-swatch.png"
+              srcset="
+                /images/responsive/objects/cloth-swatch-160.webp 160w,
+                /images/responsive/objects/cloth-swatch-265.webp 265w
+              "
+              sizes="(min-width: 64rem) clamp(5rem, 8vw, 8rem), 18vw"
               alt=""
               width="265"
               height="420"
@@ -1008,12 +1130,14 @@
         <section class="site-footer__col">
           <h3>Visit MoMu</h3>
           <address>
-            MoMu Fashion Museum Antwerp<br />
-            Nationalestraat 28<br />
+            MoMu Fashion Museum Antwerp
+            <br />
+            Nationalestraat 28
+            <br />
             2000 Antwerp, Belgium
           </address>
           <p>
-            <a 
+            <a
               href="https://www.google.com/maps/search/?api=1&query=MoMu+Fashion+Museum+Antwerp+Nationalestraat+28"
             >
               View map
@@ -1021,14 +1145,14 @@
           </p>
 
           <h3>Opening hours</h3>
-          <p>Tuesday – Sunday: 10:00 – 18:00<br />Closed Mondays</p>
+          <p>
+            Tuesday – Sunday: 10:00 – 18:00
+            <br />
+            Closed Mondays
+          </p>
         </section>
 
-        <nav
-          class="site-footer__col"
-          id="designer-stories"
-          aria-label="Other designer stories"
-        >
+        <nav class="site-footer__col" id="designer-stories" aria-label="Other designer stories">
           <h3>Designer stories</h3>
           <ul>
             <li><a href="#">Ann Demeulemeester</a></li>
@@ -1044,7 +1168,13 @@
           <p><a href="https://www.instagram.com/momuantwerp/">Instagram</a></p>
 
           <h3>Share this story</h3>
-          <p>#MarinaYee<br />#OneCornerOff<br />#MoMu</p>
+          <p>
+            #MarinaYee
+            <br />
+            #OneCornerOff
+            <br />
+            #MoMu
+          </p>
         </section>
       </div>
 
@@ -1052,7 +1182,7 @@
         <h3>Sources</h3>
         <ul class="site-footer__sources-list">
           <li>
-            <a 
+            <a
               href="https://www.vogue.com/article/remembering-marina-yee-a-member-of-the-antwerp-six"
             >
               Remembering Marina Yee, a Member of the Antwerp Six — Vogue
@@ -1069,9 +1199,7 @@
             </a>
           </li>
           <li>
-            <a 
-              href="https://vein.es/marina-yee-fashion-as-an-act-of-silence-and-resistance/"
-            >
+            <a href="https://vein.es/marina-yee-fashion-as-an-act-of-silence-and-resistance/">
               Marina Yee: Fashion as an Act of Silence and Resistance — Vein
             </a>
           </li>

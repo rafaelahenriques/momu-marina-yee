@@ -1,17 +1,10 @@
 import { gsap } from './motion.js';
 
 /**
- * Draw-on for the hand-drawn marks.
- *
- * Each mark is a PNG of a single pen stroke. Wiping a clip-path across it in
- * the direction the stroke was drawn reads as the mark being drawn now,
- * which is all this needs to do — the alternative (inline SVG plus
- * DrawSVGPlugin) would mean re-authoring nine images as paths for a result
- * nobody could tell apart.
- *
- * The marks are plain, fully visible images in CSS. This only sets their
- * "from" state at runtime, so if the module never loads, every scribble is
- * simply there, drawn.
+ * Draw-on for the hand-drawn marks. Each is a PNG of one pen stroke, and
+ * wiping a clip-path across it in the direction it was drawn reads as the
+ * mark being drawn now. The marks are fully visible in CSS; this only sets
+ * their "from" state.
  */
 
 // Which edge the stroke grows from. Both values of each pair are written as
@@ -43,7 +36,7 @@ export function initScribble() {
           start: 'top 85%',
           once: true,
         },
-      }
+      },
     );
   });
 }

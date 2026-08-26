@@ -1,19 +1,9 @@
 import { gsap } from './motion.js';
 
 /**
- * Objects arriving one after another.
- *
- * Used where the page lays out the loose things from a workroom — cloth,
- * tape, needle and thread. They drop into their CSS resting positions in
- * quick succession as the section arrives, rather than being there all
- * along.
- *
- * Played, not scrubbed: the pop is a back ease, and a back ease dragged
- * frame by frame by the scrollbar reads as jitter rather than as a pop.
- *
- * Every object is already in place in CSS, so this only animates *into*
- * that arrangement — nothing here is needed for the section to look
- * finished.
+ * The loose workroom objects drop into their CSS resting positions as the
+ * section arrives. Played, not scrubbed: a back ease dragged frame by frame
+ * by the scrollbar reads as jitter rather than as a pop.
  */
 export function initObjectPop() {
   document.querySelectorAll('[data-object-pop]').forEach((zone) => {

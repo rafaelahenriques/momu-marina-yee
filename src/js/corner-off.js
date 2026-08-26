@@ -1,54 +1,22 @@
 import { gsap, ScrollTrigger, Draggable, canHover } from './motion.js';
 
 /**
- * The corner the reader takes off.
- *
- * The closing block is set as a sheet of paper with its top corner cut, and
- * the cut piece lying loose beside it — both states visible at once, which
- * is what the paragraph next to it describes.
- *
- * Two things happen here, in that order:
- *
- *   1. The cut. As the block arrives, --corner-size is tweened from zero to
- *      its resting length, so the corner is taken off the sheet while the
- *      reader is looking at it, and the loose piece lifts away from the
- *      notch it came out of. The property is registered as a <length> in
- *      tokens.css — that is what makes it interpolable, and what makes
- *      getComputedStyle return a resolved pixel value here rather than the
- *      literal clamp() it was authored as.
- *
- *   2. The pickup. Afterwards the piece can be dragged and thrown; where it
- *      lands is up to the reader.
- *
- * The sheet and its cut corner are CSS, so the composition is complete
- * without this module — a no-JS or reduced-motion visitor sees the same
- * still life, already cut, it just does not move. Nothing is written on the
- * piece and nothing hides behind it, which is why it is safe to leave the
- * drag as a pointer-only affordance with no keyboard equivalent.
+ * The corner the reader takes off: the cut, then the pickup. The sheet and
+ * its cut corner are CSS, so the composition is complete without this — a
+ * no-JS or reduced-motion visitor sees the same still life, it just does not
+ * move. Nothing is written on the piece and nothing hides behind it, which
+ * is why the drag can be pointer-only with no keyboard equivalent.
  */
 
-/*
- * The angle the cut piece lies at once it has come away, in degrees.
- *
- * It is also written on .corner-off__piece as a CSS `rotate`, which is what
- * a no-JS or reduced-motion visitor sees. The two have to agree, and they
- * cannot be read from one another: the moment GSAP puts a transform on this
- * element it also writes `rotate: none` alongside it, to stop the standalone
- * rotate property composing on top of the transform it is now managing. So
- * once anything here has run, the stylesheet's angle is gone and every
- * rotation below is the real angle rather than an offset from it.
- */
+// Also written on .corner-off__piece as a CSS `rotate` for the no-JS case;
+// keep the two in step. They cannot read each other: the moment GSAP puts a
+// transform on the element it writes `rotate: none` alongside it.
 const REST_ANGLE = 20;
 
-/*
- * How far the piece may be thrown, in pixels either side of where it was
- * cut. Deliberately a box around the piece rather than the section it sits
- * in: that section also holds the image strip, so bounding to it let a hard
- * throw park the piece a couple of thousand pixels away in the middle of
- * unrelated content — and let Draggable's own bounds check pin it to the
- * section's top corner, where it read as a stray graphic rather than as
- * something the reader had put there.
- */
+// How far the piece may be thrown, either side of where it was cut. A box
+// around the piece, not the section — the section also holds the image
+// strip, so bounding to it let a hard throw park the piece thousands of
+// pixels away in unrelated content.
 const REACH = { minX: -170, maxX: 170, minY: -80, maxY: 240 };
 
 export function initCornerOff() {
@@ -69,11 +37,11 @@ export function initCornerOff() {
 }
 
 /**
- * The cut itself: the notch opens and the piece lifts out of it. Returns
- * the timeline, so the nudge that follows can wait for it to finish.
+ * The cut itself: the notch opens and the piece lifts out of it. Returns the
+ * timeline, so the nudge that follows can wait for it to finish.
  *
- * Read the resting length before anything is tweened — once GSAP has put an
- * inline --corner-size on the element, getComputedStyle returns that
+ * The resting length is read before anything is tweened — once GSAP has put
+ * an inline --corner-size on the element, getComputedStyle returns that
  * instead of the authored value.
  */
 function cutTheCorner(block, piece) {
@@ -96,7 +64,7 @@ function cutTheCorner(block, piece) {
     .fromTo(
       block,
       { '--corner-size': '0px' },
-      { '--corner-size': size, duration: 0.7, ease: 'power2.inOut' }
+      { '--corner-size': size, duration: 0.7, ease: 'power2.inOut' },
     )
     .fromTo(
       piece,
@@ -112,7 +80,7 @@ function cutTheCorner(block, piece) {
       },
       // Overlapped rather than sequential: the piece is already coming away
       // as the last of the notch opens, the way a cut corner does.
-      '-=0.35'
+      '-=0.35',
     );
 
   return timeline;
@@ -146,9 +114,8 @@ function makeThrowable(block, piece, cut) {
     once: true,
     // The two triggers are 20% of a viewport apart, which a fast scroll
     // covers in a couple of frames — so the cut can still be lifting the
-    // piece out of the notch when this fires, and both tweens would be
-    // writing x at once. Awaiting the cut's timeline resolves immediately
-    // if it has already finished, and waits if it has not.
+    // piece when this fires, and both tweens would be writing x at once.
+    // Awaiting the cut resolves immediately if it has already finished.
     onEnter: () => (cut ? cut.then(() => invite.play()) : invite.play()),
   });
 

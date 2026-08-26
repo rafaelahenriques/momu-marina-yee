@@ -1,22 +1,12 @@
 import { gsap, ScrollTrigger, SplitText } from './motion.js';
 
 /**
- * Per-letter rotation reveal for a single standalone line.
+ * Per-letter rotation reveal. Each letter sits in a box clipped to its own
+ * bounds with the glyph pivoting from below the baseline, so swung down it
+ * falls outside the clip and is simply not drawn.
  *
- * Each letter sits in a box that clips to its own bounds, with the glyph
- * inside pivoting from below the baseline. Swung down it falls outside the
- * clip and simply is not drawn; swung upright it settles into place. Lines
- * are staggered letter by letter as they cross the viewport, and swing back
- * out once the line has travelled far enough up.
- *
- * The .letter-reveal__* elements are created by SplitText at runtime, so
- * none of the CSS for this effect matches for no-JS or reduced-motion
- * visitors — they read the paragraph exactly as it is authored, upright.
- *
- * Returns a Promise that resolves once setup (including the wait on
- * document.fonts.ready) has completed. main.js awaits it before the final
- * ScrollTrigger.refresh(), since these triggers sit below every pinned
- * section and can only be measured against the finished page height.
+ * Returns a Promise resolving once setup (including document.fonts.ready)
+ * has completed — see text-line-reveal.js for why main.js awaits it.
  */
 export function initTextLetterReveal() {
   const targets = document.querySelectorAll('[data-letter-reveal]');

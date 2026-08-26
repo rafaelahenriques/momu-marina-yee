@@ -1,9 +1,7 @@
 /**
- * Garment picker.
- *
- * The radio group is the source of truth — this only shows the panel that
- * matches the checked input. Without it, every panel is visible and the page
- * still reads correctly.
+ * Garment picker. The radio group is the source of truth; this only shows
+ * the panel matching the checked input. Without it every panel is visible
+ * and the page still reads correctly.
  */
 export function initPicker() {
   const group = document.querySelector('[data-picker]');

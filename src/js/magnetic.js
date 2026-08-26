@@ -1,14 +1,9 @@
 import { gsap, canHover } from './motion.js';
 
 /**
- * Magnetic hover.
- *
- * Elements marked [data-magnetic] lean a little way toward the cursor while
- * it is over them, then spring back. Shared by the garment choices and the
- * visit button so the two feel like the same page.
- *
+ * Elements marked [data-magnetic] lean toward the cursor, then spring back.
  * quickTo rather than gsap.to: mousemove fires dozens of times a second and
- * this reuses one tween per axis instead of spawning a new one each event.
+ * this reuses one tween per axis instead of spawning one per event.
  */
 export function initMagnetic() {
   // A touch device has no hovering cursor to lean toward, so there is

@@ -12,6 +12,8 @@
 }
 
 html {
+  /* Prefixed deliberately: Safari, which is the browser that inflates text
+     on rotation, only implements the prefixed property. */
   -webkit-text-size-adjust: 100%;
 }
 
@@ -24,12 +26,23 @@ html {
 body {
   min-height: 100dvh;
   -webkit-font-smoothing: antialiased;
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: var(--leading-body);
+  color: var(--color-ink);
+  background-color: var(--color-bg);
 
   /* Loose objects get knocked sideways and letters get thrown off the
      sentence, and either can end up past the right edge. clip rather than
      hidden: hidden would make the body a scroll container and break every
      pinned section on the page. */
   overflow-x: clip;
+}
+
+/* A component that sets its own display (.doodle__tools is a grid) would
+   otherwise outrank the browser's [hidden] rule and stay on screen. */
+[hidden] {
+  display: none !important;
 }
 
 img,
@@ -76,14 +89,6 @@ h3 {
 /* ============================================================
    TYPOGRAPHY
 ============================================================ */
-body {
-  font-family: var(--font-body);
-  font-size: var(--step-0);
-  line-height: var(--leading-body);
-  color: var(--color-ink);
-  background-color: var(--color-bg);
-}
-
 h1,
 h2 {
   font-family: var(--font-display);
@@ -143,28 +148,6 @@ figcaption {
   margin-block: var(--space-2xl);
 }
 
-/* A word with a hand-drawn ring round it. The ring is a scanned PNG sized
-   off the word it wraps, so it grows with the type rather than being
-   positioned per heading. */
-.circled {
-  position: relative;
-  display: inline-block;
-  white-space: nowrap;
-}
-
-/* Drawn over the word, not behind it — the way a ring round a word in a
-   printed catalogue sits on top of the ink. */
-.scribble--circle {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  translate: -50% -50%;
-  width: 116%;
-  height: 155%;
-  max-width: none;
-  rotate: -2deg;
-}
-
 .visually-hidden:not(:focus):not(:active) {
   position: absolute;
   width: 1px;
@@ -174,14 +157,6 @@ figcaption {
   white-space: nowrap;
 }
 
-/* ============================================================
-   STANDALONE TEXT
-   A reusable modifier for chapter__body blocks that should read
-   as a single centered statement rather than flowing body copy —
-   same register as .statement__text, sized for a full sentence
-   or two instead of a short pull-line.
-============================================================ */
-
 .chapter__body--standalone {
   max-width: 34rem;
   margin-inline: auto;
@@ -189,8 +164,7 @@ figcaption {
 }
 
 .chapter__body--standalone p {
-  max-width: none; /* override the default measure clamp; the
-                       container width already bounds line length */
+  max-width: none;
   font-family: var(--font-display);
   font-weight: 400;
   font-size: var(--step-1);
@@ -202,14 +176,11 @@ figcaption {
 }
 
 .chapter__body--standalone strong {
-  font-weight: 700; /* resolves to Reckless Wide Bold */
+  font-weight: 700;
 }
 
-/* Extra vertical breathing room for sections built around a single
-   centered standalone statement — they read better with more air
-   than a normal multi-paragraph chapter. */
 .chapter:has(.chapter__body--standalone),
-.statement--marquee {
+.marquee {
   padding-block: var(--space-2xl);
 }
 
@@ -224,6 +195,9 @@ figcaption {
   top: var(--space-2xs);
   left: var(--space-2xs);
   z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target);
   padding: var(--space-2xs) var(--space-xs);
   background: var(--color-ink);
   color: var(--color-bg);
@@ -264,7 +238,6 @@ figcaption {
   height: auto;
 }
 
-
 .chapter {
   padding: var(--space-xl) var(--gutter);
 }
@@ -283,8 +256,6 @@ figcaption {
   margin-bottom: var(--space-l);
 }
 
-/* Dark palette for interrupting sections. Applied via class rather than
-   a data attribute, since it's purely presentational. */
 .chapter--dark {
   background: var(--color-dark-bg);
   color: var(--color-dark-ink);
@@ -298,24 +269,6 @@ figcaption {
 .visit__inner {
   max-width: var(--width-content);
   margin-inline: auto;
-}
-
-.button {
-  display: inline-flex;
-  align-items: center;
-  min-height: var(--target);
-  margin-top: var(--space-l);
-  padding-inline: var(--space-m);
-  background: var(--color-ink);
-  color: var(--color-bg);
-  text-decoration: none;
-  font-family: var(--font-utility);
-  font-size: var(--step--1);
-  transition: background var(--duration-fast) var(--ease-out);
-}
-
-.button:hover {
-  background: var(--color-ink-muted);
 }
 
 .site-footer {
@@ -336,7 +289,8 @@ figcaption {
   margin-inline: auto;
 }
 
-.site-footer__col h3 {
+.site-footer__col h3,
+.site-footer__sources h3 {
   font-family: var(--font-utility);
   font-size: var(--step--1);
   font-weight: 500;
@@ -369,9 +323,6 @@ figcaption {
   gap: var(--space-2xs);
 }
 
-/* Footer links share the mono/utility voice used everywhere else on
-   the page for labels and captions, rather than defaulting to plain
-   body-text blue-underline links. */
 .site-footer a {
   display: inline-block;
   font-family: var(--font-utility);
@@ -392,15 +343,6 @@ figcaption {
   border-top: 1px solid var(--color-rule);
   max-width: var(--width-wide);
   margin-inline: auto;
-}
-
-.site-footer__sources h3 {
-  font-family: var(--font-utility);
-  font-size: var(--step--1);
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--color-ink-muted);
 }
 
 .site-footer__sources-list {

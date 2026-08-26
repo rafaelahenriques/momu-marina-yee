@@ -1,19 +1,10 @@
 import { gsap, SCRUB } from './motion.js';
 
 /**
- * Pinned depth fly-through for the M.Y. Project photographs.
- *
- * Default markup is the plain two-column grid in components.css — that is
- * what no-JS and reduced-motion visitors get, every caption in place and
- * nothing hidden. Only when this module runs does the section gain
- * .is-enhanced: the images stack in the centre of a pinned, perspective
- * stage, then recede, tilt and lift out of frame one after another as the
- * reader scrolls.
- *
- * Each image gets its own paused reveal timeline that the scrubbed master
- * *plays* rather than scrubs. That distinction matters: an elastic ease
- * dragged frame-by-frame by the scrollbar just looks like jitter, whereas
- * played at real time it reads as the intended pop.
+ * Pinned depth fly-through for the M.Y. Project photographs. The default is
+ * the plain grid in components.css, captions and all. Each image gets a
+ * paused reveal timeline that the scrubbed master *plays* rather than
+ * scrubs: an elastic ease dragged by the scrollbar just looks like jitter.
  */
 
 // Fixed tilts rather than Math.random(): with only four images a chosen
@@ -27,35 +18,29 @@ export function initMyProjectDepth() {
   if (!section || !stage) return;
 
   const items = gsap.utils.toArray(
-    section.querySelectorAll('.my-project-depth__item')
+    section.querySelectorAll('.my-project-depth__item'),
   );
   if (!items.length) return;
 
   section.classList.add('is-enhanced');
 
   const reveals = items.map((item) =>
-    gsap
-      .timeline({ paused: true })
-      .set(item, { autoAlpha: 1 })
-      .fromTo(
-        item,
-        { scaleX: 0.9, scaleY: 0.9 },
-        {
-          scaleX: 1,
-          scaleY: 1,
-          // Without this the "from" scale would be applied at build time,
-          // shrinking every image before the reader ever gets here.
-          immediateRender: false,
-          // A softer bounce than it used to have. These photographs are now
-          // roughly half the width of the screen rather than a quarter, and
-          // an overshoot that read as a pop at 22rem reads as a wobble at
-          // twice the size — the bigger the object, the less it should
-          // spring.
-          ease: 'back.out(1.7)',
-          duration: 0.6,
-        },
-        '<'
-      )
+    gsap.timeline({ paused: true }).set(item, { autoAlpha: 1 }).fromTo(
+      item,
+      { scaleX: 0.9, scaleY: 0.9 },
+      {
+        scaleX: 1,
+        scaleY: 1,
+        // Without this the "from" scale would be applied at build time,
+        // shrinking every image before the reader ever gets here.
+        immediateRender: false,
+        // The bigger the object, the less it should spring: an overshoot
+        // that reads as a pop at 22rem reads as a wobble at twice that.
+        ease: 'back.out(1.7)',
+        duration: 0.6,
+      },
+      '<',
+    ),
   );
 
   const master = gsap.timeline({
@@ -64,9 +49,8 @@ export function initMyProjectDepth() {
       start: 'top top',
       end: 'bottom bottom',
       // scrub: true welds the flight to the scrollbar, so a trackpad flick
-      // teleports four photographs across the screen in one frame. A
-      // number instead lets them catch up over that fraction of a second,
-      // which is the whole difference between a flight and a jump cut.
+      // teleports four photographs across the screen in one frame. A number
+      // lets them catch up — the difference between a flight and a jump cut.
       scrub: SCRUB,
       pin: stage,
       invalidateOnRefresh: true,
@@ -103,7 +87,7 @@ export function initMyProjectDepth() {
         duration: 0.6,
         ease: 'power1.in',
       },
-      '<+=0.4'
+      '<+=0.4',
     );
 
     master.add(tl, 0.1 * i);

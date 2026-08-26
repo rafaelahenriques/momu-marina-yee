@@ -7,32 +7,26 @@
 ============================================================ */
 
 :root {
-  /* --- Colour --------------------------------------------------
-     Pure white base. Warm paper is reserved for the horizontal
-     scroll sections — see .sequence in components.css — so the
-     shift in tone marks "a different kind of space" rather than
-     being the page's resting state. */
-  --color-bg: #ffffff;
-  --color-surface: #f4f2ec; /* warm paper, horizontal scroll only */
+  /* --- Colour ------------------------------------------------- */
+  --color-bg: #fff;
+  --color-surface: #f4f2ec;
   --color-ink: #141210;
-  --color-ink-muted: #5c584f; /* 8.4:1 on --color-bg */
+  --color-ink-muted: #5c584f;
   --color-rule: #dcdcdc;
 
-  /* The dark section (sustainability/originality). Not pure
-     black — sits slightly warm to match the paper it interrupts. */
+  /* The dark section. Not pure black — slightly warm, to match the
+     paper it interrupts. */
   --color-dark-bg: #2b2926;
   --color-dark-ink: #f6f4ef;
   --color-dark-muted: #a39d90;
 
-  --shadow-pill: 0 1px 3px rgb(0 0 0 / 0.12);
+  --shadow-pill: 0 1px 3px rgb(0 0 0 / 12%);
 
-  /* --- Type ------------------------------------------------- */
+  /* --- Type --------------------------------------------------- */
   --font-display: 'Reckless Wide', Georgia, 'Times New Roman', serif;
   --font-body: 'Roobert', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-utility: ui-monospace, 'SFMono-Regular', Menlo, monospace;
 
-  /* Fluid scale. The PDF's section titles run large on desktop —
-     --step-4 is sized for those, not for a normal h1. */
   --step--1: clamp(0.83rem, 0.8rem + 0.15vw, 0.94rem);
   --step-0: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
   --step-1: clamp(1.3rem, 1.15rem + 0.7vw, 1.75rem);
@@ -54,16 +48,14 @@
   --space-2xl: 10rem;
 
   /* --- Layout --------------------------------------------------
-     --measure only bounds line length; layout.css positions the
-     columns. */
+     --measure only bounds line length; the layout rules in
+     base.css position the columns. */
   --measure: 60ch;
   --width-content: 38rem;
   --width-wide: 72rem;
   --gutter: var(--space-m);
 
-  /* --- Motion --------------------------------------------------
-     Fabric settles, it does not bounce — no elastic/back eases
-     anywhere on this page. */
+  /* --- Motion ------------------------------------------------- */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --duration-fast: 160ms;
   --duration-base: 400ms;
@@ -71,14 +63,18 @@
   --target: 2.75rem;
 }
 
-/* Animating a corner off a sheet means interpolating a length inside a
-   clip-path. Declared here so the browser knows --corner-size is a length
-   and can tween it, rather than swapping one opaque string for another —
-   and so getComputedStyle hands corner-off.js a resolved pixel value
-   instead of the literal clamp() it was authored as. */
+/* Declared so the browser knows --corner-size is a length and can tween it
+   inside a clip-path, and so getComputedStyle hands corner-off.js a
+   resolved pixel value rather than the literal clamp() it was authored
+   as. */
 @property --corner-size {
   syntax: '<length>';
   inherits: true;
+
+  /* The unit is required: initial-value has to parse as the registered
+     <length>, and a bare 0 is what makes the corner-off animation silently
+     stop interpolating. */
+  /* stylelint-disable-next-line length-zero-no-unit */
   initial-value: 0px;
 }
 

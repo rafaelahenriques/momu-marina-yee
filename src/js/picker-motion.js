@@ -1,19 +1,10 @@
 import { gsap, ScrollTrigger, SCRUB } from './motion.js';
 
 /**
- * Two-column picker: the collage stage reacts to the selection, the whole
- * section settles in on scroll, and the pieces drift at slightly different
- * rates on the way past.
- *
- * Only ever called when motion is allowed. picker.js (unconditional) is the
- * real accessibility layer — it toggles [hidden] on the text panels and is
- * exactly what a reduced-motion or no-JS visitor gets. The collage is
- * aria-hidden decoration; its CSS resting positions already form a collage
- * with nothing missing if this module never runs.
- *
- * Everything here moves the .picker__stage-item wrapper. The <img> inside
- * it is left alone for poke.js, so the drift and the poke never end up
- * writing to the same transform.
+ * Collage stage reacts to the selection and drifts on scroll. picker.js is
+ * the accessibility layer and runs unconditionally; this is decoration only.
+ * Everything here moves the .picker__stage-item wrapper — the <img> inside
+ * is left for poke.js so the two never write the same transform.
  */
 export function initPickerMotion() {
   const section = document.querySelector('.picker');
@@ -28,7 +19,9 @@ export function initPickerMotion() {
   // The loose objects are not choices, so they stay at full strength
   // whatever is selected.
   const restingScale = (item) =>
-    !item.dataset.stageImg || item.dataset.stageImg === selected() ? 1.08 : 0.94;
+    !item.dataset.stageImg || item.dataset.stageImg === selected()
+      ? 1.08
+      : 0.94;
   const restingOpacity = (item) =>
     !item.dataset.stageImg || item.dataset.stageImg === selected() ? 1 : 0.55;
 
@@ -57,7 +50,7 @@ export function initPickerMotion() {
           group,
         ],
         { y: 24, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out', stagger: 0.1 }
+        { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out', stagger: 0.1 },
       );
 
       gsap.fromTo(
@@ -70,7 +63,7 @@ export function initPickerMotion() {
           duration: 0.7,
           ease: 'power3.out',
           stagger: 0.08,
-        }
+        },
       );
     },
   });
