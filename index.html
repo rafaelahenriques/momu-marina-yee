@@ -339,64 +339,60 @@
         <!-- Three-frame sequence. Native horizontal scroll with snapping:
              keyboard, touch and trackpad all work, and it degrades to a
              plain scrollable row if JS never runs. -->
-        <div
-          class="sequence"
-          tabindex="0"
-          role="group"
-          aria-label="Details from reconstructed garments, scroll horizontally"
-        >
-          <figure class="figure">
-            <img
-              src="/images/detail-01.jpg"
-              alt=""
-              width="800"
-              height="1000"
-              loading="lazy"
-              decoding="async"
-            />
-            <figcaption>Detail 01</figcaption>
-          </figure>
-          <figure class="figure">
-            <img
-              src="/images/detail-02.jpg"
-              alt=""
-              width="800"
-              height="1000"
-              loading="lazy"
-              decoding="async"
-            />
-            <figcaption>Detail 02</figcaption>
-          </figure>
-          <figure class="figure">
-            <img
-              src="/images/detail-03.jpg"
-              alt=""
-              width="800"
-              height="1000"
-              loading="lazy"
-              decoding="async"
-            />
-            <figcaption>Detail 03</figcaption>
-          </figure>
-        </div>
+        <div class="sequence-wrap">
+  <div
+    class="sequence"
+    data-sequence
+    tabindex="0"
+    role="group"
+    aria-label="Details from reconstructed garments, scroll horizontally"
+  >
+    <div class="sequence__track" data-sequence-track>
+      <figure class="figure">
+        <img
+          src="/images/detail-01.jpg"
+          alt=""
+          width="800"
+          height="1000"
+          loading="lazy"
+          decoding="async"
+        />
+        <figcaption>Detail 01</figcaption>
+      </figure>
+      <figure class="figure">
+        <img
+          src="/images/detail-02.jpg"
+          alt=""
+          width="800"
+          height="1000"
+          loading="lazy"
+          decoding="async"
+        />
+        <figcaption>Detail 02</figcaption>
+      </figure>
+      <figure class="figure">
+        <img
+          src="/images/detail-03.jpg"
+          alt=""
+          width="800"
+          height="1000"
+          loading="lazy"
+          decoding="async"
+        />
+        <figcaption>Detail 03</figcaption>
+      </figure>
+    </div>
+  </div>
 
-        <div class="chapter__body">
-          <p>
-            Seen alongside her reconstructed garments, the expression becomes
-            particularly useful. Yee could preserve much of an existing piece
-            while changing a specific part of its construction, proportion or
-            material. What already existed and what she introduced remained
-            visible at the same time.
-          </p>
-
-          <p>
-            In that sense, “one corner off” offers a way of understanding more
-            than the physical act of reconstruction. It points towards a
-            broader tendency in Yee’s practice: understanding what already
-            exists, retaining what continues to matter, and intervening where a
-            change can shift the whole.
-          </p>
-        </div>
+  <button
+    class="sequence__toggle"
+    type="button"
+    data-sequence-toggle
+    aria-pressed="false"
+  >
+    Pause animation
+  </button>
+</div>
       </section>
     </main>
 

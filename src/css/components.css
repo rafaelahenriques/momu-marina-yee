@@ -441,3 +441,91 @@
     display: none;
   }
 }
+
+/* ============================================================
+   SEQUENCE
+   Default: native CSS scroll-snap, manually swipeable — this is
+   what no-JS and reduced-motion visitors get, and it needs no
+   JavaScript to work correctly.
+
+   Enhanced (.is-marquee, added only by sequence-marquee.js, only
+   when motion is allowed): the track loops continuously via
+   GSAP. Because it moves on its own indefinitely, it ships with
+   a real pause button — required, not optional, for anything
+   that auto-moves for more than a few seconds.
+============================================================ */
+
+.sequence-wrap {
+  margin-block: var(--space-m);
+}
+
+.sequence {
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: var(--gutter);
+  padding-inline: var(--gutter);
+  margin-inline: calc(var(--gutter) * -1);
+  padding-block: var(--space-m);
+  -webkit-overflow-scrolling: touch;
+}
+
+.sequence__track {
+  display: flex;
+  gap: var(--space-s);
+}
+
+.sequence .figure {
+  flex: 0 0 auto;
+  width: min(75vw, 22rem);
+  scroll-snap-align: start;
+  margin-block: 0;
+}
+
+.sequence:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 4px;
+}
+
+@media (min-width: 48rem) {
+  .sequence .figure {
+    width: min(38vw, 26rem);
+  }
+}
+
+/* --- Enhanced: looping marquee -------------------------------- */
+
+.sequence.is-marquee {
+  overflow: hidden;
+  scroll-snap-type: none;
+}
+
+.sequence.is-marquee .sequence__track {
+  will-change: transform;
+}
+
+.sequence__toggle {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target);
+  margin-top: var(--space-2xs);
+  margin-inline: var(--gutter);
+  padding-inline: var(--space-m);
+  border: 1px solid var(--color-rule);
+  background: none;
+  cursor: pointer;
+  font-family: var(--font-utility);
+  font-size: var(--step--1);
+}
+
+/* Hidden until JS confirms the marquee is actually running —
+   a pause button with nothing to pause is confusing, not helpful. */
+.sequence__toggle {
+  display: none;
+}
+
+.sequence.is-marquee ~ .sequence__toggle,
+.sequence-wrap:has(.sequence.is-marquee) .sequence__toggle {
+  display: inline-flex;
+}
