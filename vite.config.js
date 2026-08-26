@@ -7,7 +7,9 @@ export default defineConfig({
 
   server: {
     host: true, // lets you open the dev server on your phone via your local IP
-    port: 5173,
+    // 5173 unless something assigns a PORT — that lets a second dev server
+    // run alongside the first instead of colliding with it.
+    port: Number(process.env.PORT) || 5173,
   },
 
   build: {

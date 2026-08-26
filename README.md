@@ -1,6 +1,6 @@
-# Marina Yee — MoMu Antwerp
+# Marina Yee — One Corner Off
 
-Interactive longread for MoMu, story 1 of 6 on the Antwerp Six.
+Interactive longread for MoMu Antwerp, story 1 of 6 on the Antwerp Six.
 Devine (Howest) — ENG INT3, *Dress to Impress*.
 
 ## Running it
@@ -18,28 +18,31 @@ your phone. Test on a real device early; the brief is graded on mobile Safari.
 ## Structure
 
 ```
-index.html            semantic longread skeleton
+index.html              the whole longread — one page, semantic sections
 src/
-  main.js             entry point — imports and inits, nothing else
-  js/
-    motion.js         registers GSAP + ScrollTrigger, reduced-motion check
-    scroll-reveal.js  the [data-reveal] scroll animation
-    compare.js        example interaction (before/after slider)
+  main.js               entry point: inits, and the pin ordering that matters
   css/
-    main.css          imports the partials in cascade order
-    base/             reset, design tokens, typography
-    layout/           page structure, mobile-first
-    components/       one file per component
+    main.css            imports the partials in cascade order
+    base/fonts.css      @font-face declarations
+    base/tokens.css     design tokens — colour, type, space, motion
+    base.css            reset, typography, page layout
+    components.css      one block per component
+  js/
+    reduced-motion.js   the prefers-reduced-motion check
+    motion.js           registers GSAP + ScrollTrigger + SplitText
+    menu.js             menu disclosure          (always runs)
+    picker.js           garment picker panels    (always runs)
+    …                   everything else is motion-only, loaded on demand
 public/
-  images/             your optimised images (served from /images/…)
+  images/               served from /images/…
+  fonts/                served from /fonts/…
 ```
 
 Two conventions worth keeping:
 
-- **No hex codes or font names outside `base/tokens.css`.** That file is your
+- **No hex codes or font names outside `base/tokens.css`.** That file is the
   design system; everything else references it.
 - **No JavaScript in `index.html`** beyond the two-line `no-js` → `js` switch.
-  Externalised JS is a hard requirement.
 
 ## Progressive enhancement
 
@@ -48,33 +51,37 @@ The page is built so the content survives without JavaScript:
 - `<html class="no-js">` is swapped to `js` before paint, so CSS can style both.
 - Nothing starts hidden in CSS. GSAP sets the "from" state at runtime, so a
   failed script leaves the text visible rather than blank.
-- The example interaction uses a real `<input type="range">`, which means
-  keyboard, touch and screen-reader support come for free.
-- `prefers-reduced-motion` is respected twice: in JS before animations are
-  registered, and in CSS as a backstop.
+- Every pinned or animated section has a plain, readable default: the
+  horizontal panels stack, the marquee wraps, the depth fly-through is a grid.
+  Each one only gains `.is-enhanced` once its module has actually run.
+- `prefers-reduced-motion` is respected twice: in `main.js`, which returns
+  before GSAP is even imported, and in CSS as a backstop.
+- The auto-scrolling detail strip ships a real pause button (WCAG 2.2.2) and
+  also pauses on hover and keyboard focus.
+
+## Motion
+
+`main.js` loads GSAP and the animation modules dynamically, so a reduced-motion
+visitor never downloads them. **The order of the four pinned sections in
+`main.js` is load-bearing** — each pin adds scroll distance to the page, so a
+pin created before one above it measures against a page height that then
+changes. The comments in `main.js` explain the ordering; keep it in DOM order
+and keep the `refreshPriority` values.
 
 ## Images
 
-Put source files in `public/images/`. Ship AVIF and WebP with a JPEG fallback,
-give every `<img>` explicit `width`/`height` to stop layout shift, and use
-`loading="lazy"` on everything below the fold. See the `<picture>` block in
-`index.html` for the pattern. A quick way to generate the sizes:
+Put source files in `public/images/`. Give every `<img>` explicit
+`width`/`height` matching the real file so nothing shifts as it loads, and
+`loading="lazy"` on everything below the fold.
+
+Images are resized to roughly 2× their largest CSS display size before being
+committed — there is no build-time image pipeline, so oversized files ship as-is:
 
 ```bash
-npx @squoosh/cli --resize '{"width":1280}' --avif auto --webp auto source.jpg
+sips -s format jpeg -s formatOptions 80 --resampleWidth 900 source.jpg --out public/images/name.jpg
 ```
 
 ## Git
-
-```bash
-git init
-git add .
-git commit -m "chore: set up Vite project with GSAP and base styles"
-```
-
-Then push to a **private** repo and invite `wouterverweirder` and
-`SimonVanherweghe` as collaborators. Check the day before the jury that both
-invitations were accepted.
 
 GitHub Flow: `main` always works. Branch per feature
 (`feat/hero-animation`, `feat/pattern-interaction`), meaningful commit messages,
@@ -82,12 +89,7 @@ merge back when it runs.
 
 ## Still to do
 
-- [ ] Define the angle — which period, collection or detail of Yee's work
-- [ ] Moodboard and type choices, then fill in `tokens.css`
-- [ ] Write the longread copy
-- [ ] Build the real interactive moment (the slider here is a placeholder)
-- [ ] Source and optimise archive images, with credits
-- [ ] Series navigation to the other five stories
+- [ ] Source remaining archive images, with credits
 - [ ] Test in Safari and Chrome, desktop and mobile
 - [ ] Deploy, verify the live URL, freeze the repo at the deadline
 - [ ] Process file (A4 PDF) + Toggl export

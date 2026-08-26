@@ -1,7 +1,4 @@
-import { gsap, ScrollTrigger } from './motion.js';
-import { SplitText } from 'gsap/SplitText';
-
-gsap.registerPlugin(SplitText);
+import { gsap, SplitText } from './motion.js';
 
 /**
  * Pinned, line-by-line reveal for standalone paragraphs.
@@ -31,8 +28,6 @@ export function initTextLineReveal() {
     if (!stage || !paragraph) return Promise.resolve();
 
     return document.fonts.ready.then(() => {
-      section.classList.add('is-pinned');
-
       const split = SplitText.create(paragraph, {
         type: 'lines',
         linesClass: 'text-reveal__line',
@@ -62,9 +57,6 @@ export function initTextLineReveal() {
           // Highest of the four pins: this is the topmost one on the page,
           // and ScrollTrigger measures in descending priority order.
           refreshPriority: 4,
-          onToggle: (self) => {
-            section.classList.toggle('is-in-view', self.isActive);
-          },
         },
       });
 

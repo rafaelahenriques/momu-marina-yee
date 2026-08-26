@@ -1,4 +1,4 @@
-import { gsap, ScrollTrigger } from './motion.js';
+import { gsap } from './motion.js';
 
 /**
  * Letter-spacing pull-apart on "One Corner Off".

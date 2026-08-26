@@ -12,7 +12,7 @@ import { gsap, ScrollTrigger } from './motion.js';
  * collage with nothing missing if this module never runs.
  */
 export function initPickerMotion() {
-  const section = document.querySelector('[data-section="picker"]');
+  const section = document.querySelector('.picker');
   const group = document.querySelector('[data-picker]');
   const stage = document.querySelector('[data-picker-stage]');
   if (!section || !group || !stage) return;

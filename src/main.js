@@ -2,12 +2,10 @@ import './css/main.css';
 
 import { prefersReducedMotion } from './js/reduced-motion.js';
 import { initMenu } from './js/menu.js';
-import { initCompare } from './js/compare.js';
 import { initPicker } from './js/picker.js';
 
 async function init() {
   initMenu();
-  initCompare();
   initPicker();
 
   if (prefersReducedMotion()) return;

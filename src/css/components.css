@@ -73,8 +73,9 @@
   letter-spacing: 0.04em;
 }
 
-/* SAFE ONLY BECAUSE the same destination is in .menu-panel — if
-   removed from the panel, remove this rule too. */
+/* A shortcut, not the only route: #designer-stories is the footer nav,
+   which stays reachable by scrolling. Hidden on narrow screens purely
+   because three pills do not fit next to the logo. */
 .pill--secondary {
   display: none;
 }
@@ -132,124 +133,6 @@
 .figure figcaption {
   margin-top: var(--space-2xs);
   max-width: var(--measure);
-}
-
-/* ============================================================
-   COMPARE
-   Without JS the two panes stack and both are visible.
-   With JS (.is-enhanced) they overlap and the range wipes
-   between them.
-============================================================ */
-
-.compare {
-  max-width: var(--width-wide);
-  margin-inline: auto;
-  margin-block: var(--space-xl);
-  display: grid;
-  gap: var(--space-s);
-}
-
-.compare.is-enhanced {
-  --compare-position: 50%;
-  position: relative;
-  gap: 0;
-}
-
-.compare.is-enhanced .compare__pane {
-  grid-area: 1 / 1;
-}
-
-.compare.is-enhanced .compare__pane--after {
-  clip-path: inset(0 0 0 var(--compare-position));
-}
-
-.compare__control {
-  display: block;
-}
-
-.compare.is-enhanced .compare__control {
-  position: absolute;
-  inset-inline: 0;
-  bottom: var(--space-s);
-  padding-inline: var(--space-s);
-}
-
-.compare__control input {
-  width: 100%;
-  min-height: var(--target);
-  cursor: ew-resize;
-  accent-color: var(--color-ink);
-}
-
-/* ============================================================
-   GARMENT PICKER
-   Radio group + panels. Without JS every panel is visible and
-   stacked, so the content is complete before enhancement.
-============================================================ */
-
-.picker {
-  padding: var(--space-xl) var(--gutter);
-}
-
-.picker__choices {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2xs);
-  border: 0;
-  padding: 0;
-  margin: 0 auto var(--space-l);
-  max-width: var(--width-content);
-}
-
-.picker__choice {
-  display: inline-flex;
-}
-
-.picker__choice input {
-  position: absolute;
-  opacity: 0;
-  width: 1px;
-  height: 1px;
-}
-
-.picker__label {
-  display: inline-flex;
-  align-items: center;
-  min-height: var(--target);
-  padding-inline: var(--space-m);
-  border: 1px solid var(--color-rule);
-  cursor: pointer;
-  font-family: var(--font-utility);
-  font-size: var(--step--1);
-  transition: background var(--duration-fast) var(--ease-out);
-}
-
-.picker__choice input:checked + .picker__label {
-  background: var(--color-ink);
-  border-color: var(--color-ink);
-  color: var(--color-bg);
-}
-
-.picker__choice input:focus-visible + .picker__label {
-  outline: 3px solid currentColor;
-  outline-offset: 3px;
-}
-
-.picker__panels {
-  max-width: var(--width-content);
-  margin-inline: auto;
-}
-
-.picker__panel + .picker__panel {
-  margin-top: var(--space-l);
-}
-
-.js .picker__panel[hidden] {
-  display: none;
-}
-
-.js .picker__panel + .picker__panel {
-  margin-top: 0;
 }
 
 /* ============================================================
@@ -369,27 +252,16 @@
   font-size: var(--step-1);
 }
 
-/* Flat placeholder rectangle standing in for a real photo, until
-   archive images are sourced. */
-.placeholder-img {
-  display: block;
-  width: 100%;
-  aspect-ratio: var(--ratio, 3 / 2);
-  background: repeating-linear-gradient(
-    45deg,
-    var(--color-rule),
-    var(--color-rule) 1px,
-    var(--color-surface) 1px,
-    var(--color-surface) 10px
-  );
-}
-
 /* ============================================================
    HERO SCATTER
-   Three images positioned around the title, each at a fixed
-   angle and offset. Static by default — this is what no-JS and
+   Two images positioned around the title, each at a fixed angle
+   and offset. Static by default — this is what no-JS and
    reduced-motion visitors see. hero-scatter.js only animates
    *into* these positions; it never depends on JS to look right.
+
+   On a phone the scatter fights the title for space, so the
+   base rules keep the images small and pushed out to the edges;
+   they grow and move inwards once there is room.
 ============================================================ */
 
 .hero__scatter {
@@ -400,45 +272,33 @@
 
 .hero__image {
   position: absolute;
-  width: clamp(8rem, 18vw, 16rem);
 }
 
 .hero__image--1 {
-  top: 8%;
-  right: 8%;
+  top: 4%;
+  right: 2%;
+  width: 6rem;
   transform: rotate(-4deg);
 }
 
 .hero__image--2 {
-  bottom: 12%;
-  left: 6%;
-  width: clamp(7rem, 15vw, 13rem);
+  bottom: 6%;
+  left: 2%;
+  width: 5.5rem;
   transform: rotate(6deg);
 }
 
-.hero__image--3 {
-  top: 45%;
-  right: 20%;
-  width: clamp(6rem, 12vw, 10rem);
-  transform: rotate(-8deg);
-}
-
-@media (max-width: 47.99rem) {
-  /* On narrow screens, scatter fights the title for space —
-     pull the images out toward the edges and shrink them rather
-     than removing them, so the composition survives. */
+@media (min-width: 48rem) {
   .hero__image--1 {
-    top: 4%;
-    right: 2%;
-    width: 6rem;
+    top: 8%;
+    right: 8%;
+    width: clamp(8rem, 18vw, 16rem);
   }
+
   .hero__image--2 {
-    bottom: 6%;
-    left: 2%;
-    width: 5.5rem;
-  }
-  .hero__image--3 {
-    display: none;
+    bottom: 12%;
+    left: 6%;
+    width: clamp(7rem, 15vw, 13rem);
   }
 }
 
@@ -505,8 +365,10 @@
   will-change: transform;
 }
 
+/* Hidden until JS confirms the marquee is actually running — a pause
+   button with nothing to pause is confusing, not helpful. */
 .sequence__toggle {
-  display: inline-flex;
+  display: none;
   align-items: center;
   min-height: var(--target);
   margin-top: var(--space-2xs);
@@ -519,14 +381,7 @@
   font-size: var(--step--1);
 }
 
-/* Hidden until JS confirms the marquee is actually running —
-   a pause button with nothing to pause is confusing, not helpful. */
-.sequence__toggle {
-  display: none;
-}
-
-.sequence.is-marquee ~ .sequence__toggle,
-.sequence-wrap:has(.sequence.is-marquee) .sequence__toggle {
+.sequence.is-marquee ~ .sequence__toggle {
   display: inline-flex;
 }
 
@@ -727,12 +582,17 @@
 
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  justify-content: center;
+  grid-template-columns: 1fr;
   align-items: start;
   gap: var(--space-s);
 
   overflow: visible;
+}
+
+@media (min-width: 48rem) {
+  .my-project-depth__stage {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 /* ---------------- Images ---------------- */
@@ -756,38 +616,13 @@
   object-fit: cover;
 }
 
-/* ---------------- Caption ---------------- */
+/* ---------------- Caption ----------------
+   Always visible. These are the only captions the reduced-motion and
+   no-JS grid ever shows, and a caption that needs a hover to appear is
+   a caption a touch or keyboard visitor never reads. */
 
 .my-project-depth__item figcaption {
   margin-top: var(--space-2xs);
-
-  font-family: var(--font-utility);
-  font-size: var(--step--1);
-
-  color: var(--color-ink-muted);
-
-  opacity: 0;
-
-  transition:
-    opacity
-    var(--duration-fast)
-    var(--ease-out);
-}
-
-.my-project-depth__item:hover figcaption {
-  opacity: 1;
-}
-
-/* ---------------- Mobile ---------------- */
-
-@media (max-width: 47.99rem) {
-  .my-project-depth__stage {
-    grid-template-columns: 1fr;
-  }
-
-  .my-project-depth__item {
-    width: 100%;
-  }
 }
 
 /* ---------------- Enhanced: depth fly-through ----------------
@@ -853,23 +688,35 @@
 .text-reveal {
   position: relative;
   overflow: clip;
-}
-
-.text-reveal__hint {
-  display: none;
+  padding-bottom: var(--space-2xl);
 }
 
 .text-reveal__pin {
   position: relative;
 }
 
+/* One column on a phone — the figure sits above the text. The second
+   column only appears once there is width for it to be worth having.
+
+   The stage is pinned, so anything taller than the viewport is simply
+   cut off rather than scrolled to. Block padding stays small here and
+   only opens up once there is height to spend. */
 .text-reveal__stage {
   min-height: 100dvh;
   display: grid;
-  grid-template-columns: minmax(7rem, 0.35fr) minmax(0, 1fr);
+  grid-template-columns: 1fr;
+  align-content: center;
   align-items: center;
-  gap: clamp(2rem, 7vw, 8rem);
-  padding: var(--space-2xl) var(--gutter);
+  gap: var(--space-m);
+  padding: var(--space-s) var(--gutter);
+}
+
+@media (min-width: 48rem) {
+  .text-reveal__stage {
+    grid-template-columns: minmax(7rem, 0.35fr) minmax(0, 1fr);
+    gap: clamp(2rem, 7vw, 8rem);
+    padding-block: var(--space-2xl);
+  }
 }
 
 /* ---------------- Figure ---------------- */
@@ -886,8 +733,8 @@
   font-size: var(--step--1);
 }
 
-.text-reveal__fig .placeholder-img {
-  width: min(100%, 8rem);
+.text-reveal__fig img {
+  width: 6rem;
 }
 
 /* ---------------- Text ---------------- */
@@ -896,29 +743,18 @@
   width: min(100%, 44rem);
   margin: 0;
   font-family: var(--font-display);
-  font-size: var(--step-3);
+  font-size: var(--step-2);
   line-height: 1.15;
 }
 
-/* ---------------- Scroll hint ---------------- */
+@media (min-width: 48rem) {
+  .text-reveal__fig img {
+    width: min(100%, 8rem);
+  }
 
-.text-reveal.is-pinned .text-reveal__hint {
-  display: block;
-  position: fixed;
-  z-index: 20;
-  bottom: var(--space-l);
-  left: 50%;
-  transform: translateX(-50%);
-  font-family: var(--font-utility);
-  font-size: var(--step--1);
-  color: var(--color-ink-muted);
-  opacity: 0;
-  transition: opacity var(--duration-base) var(--ease-out);
-  pointer-events: none;
-}
-
-.text-reveal.is-pinned.is-in-view .text-reveal__hint {
-  opacity: 1;
+  .text-reveal__text {
+    font-size: var(--step-3);
+  }
 }
 
 /* ---------------- Individual lines ---------------- */
@@ -936,28 +772,6 @@
   will-change: transform;
 }
 
-.text-reveal {
-  position: relative;
-  overflow: clip;
-  padding-bottom: var(--space-2xl);
-}
-
-/* ---------------- Mobile ---------------- */
-
-@media (max-width: 47.99rem) {
-  .text-reveal__stage {
-    grid-template-columns: 1fr;
-    align-content: center;
-  }
-
-  .text-reveal__fig .placeholder-img {
-    width: 6rem;
-  }
-
-  .text-reveal__text {
-    font-size: var(--step-2);
-  }
-}
 /* ============================================================
    LETTER REVEAL
    Every selector here targets an element SplitText builds at

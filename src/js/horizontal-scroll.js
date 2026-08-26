@@ -1,4 +1,4 @@
-import { gsap, ScrollTrigger } from './motion.js';
+import { gsap } from './motion.js';
 
 /**
  * Pinned horizontal panel sequence for "Beyond sustainability".
