@@ -80,17 +80,30 @@
     </nav>
 
     <main id="main">
-      <section class="hero" data-section="hero">
-        <div class="hero__scatter" data-hero-scatter aria-hidden="true">
-          <figure class="hero__image hero__image--1">
-            <span class="placeholder-img" style="--ratio: 3 / 4"></span>
-          </figure>
-          <figure class="hero__image hero__image--2">
-            <span class="placeholder-img" style="--ratio: 4 / 5"></span>
-          </figure>
-          <figure class="hero__image hero__image--3">
-            <span class="placeholder-img" style="--ratio: 1 / 1"></span>
-          </figure>
+      <section class="hero">
+        <!-- Decorative only: the archive material is shown properly further
+             down the page, so nothing here is content a screen reader needs. -->
+        <div class="hero__scatter" aria-hidden="true">
+          <div class="hero__image hero__image--1">
+            <img
+              src="/images/marie-invitation.jpg"
+              alt=""
+              width="640"
+              height="863"
+              fetchpriority="low"
+              decoding="async"
+            />
+          </div>
+          <div class="hero__image hero__image--2">
+            <img
+              src="/images/marie-collection.jpg"
+              alt=""
+              width="640"
+              height="828"
+              fetchpriority="low"
+              decoding="async"
+            />
+          </div>
         </div>
 
         <hgroup class="hero__inner">
@@ -107,23 +120,19 @@
         </hgroup>
       </section>
 
-     <section class="chapter" data-section="intro">
-  <h2 class="visually-hidden">Introduction</h2>
-  <div class="chapter__body chapter__body--standalone" data-reveal>
-    <p>
-      Marina Yee’s place within the <strong>Antwerp Six</strong> is usually
-      the first fact attached to her name. It is important history, but it
-      does not explain the way she approached design.
-    </p>
-  </div>
-</section>
+      <section class="chapter">
+        <h2 class="visually-hidden">Introduction</h2>
 
-      <section
-        class="statement statement--spotlight"
-        data-section="spotlight"
-        data-spotlight
-        id="spotlight"
-      >
+        <div class="chapter__body chapter__body--standalone" data-reveal>
+          <p>
+            Marina Yee’s place within the <strong>Antwerp Six</strong> is
+            usually the first fact attached to her name. It is important
+            history, but it does not explain the way she approached design.
+          </p>
+        </div>
+      </section>
+
+      <section class="statement statement--spotlight" data-spotlight>
         <p class="statement__text">
           Move away from the spotlight, and her practice becomes easier to
           see.
@@ -135,185 +144,205 @@
             see.
           </p>
         </div>
-      </section><section class="chapter text-reveal" data-section="reconstruction" data-text-reveal>
-  <h2 class="visually-hidden">Working from existing garments</h2>
+      </section>
 
-  <div class="text-reveal__pin" data-text-reveal-pin>
-    <div class="text-reveal__stage">
-      <figure class="text-reveal__fig">
-        <span class="text-reveal__fig-label">Fig. 01</span>
-        <span class="placeholder-img" style="--ratio: 3 / 4"></span>
-      </figure>
+      <section class="chapter text-reveal" data-text-reveal>
+        <h2 class="visually-hidden">Working from existing garments</h2>
 
-      <p class="text-reveal__text" data-text-reveal-text>
-        Much of Yee’s work developed through reconstruction, reuse and
-        alteration rather than custom production. Existing garments gave her
-        a starting point: something already constructed that could be taken
-        apart, reconsidered and made into something else.
-      </p>
-    </div>
-  </div>
-</section>
+        <div class="text-reveal__pin">
+          <div class="text-reveal__stage">
+            <figure class="text-reveal__fig">
+              <figcaption class="text-reveal__fig-label">Fig. 01</figcaption>
+              <img
+                src="/images/studio.jpg"
+                alt="A corner of Marina Yee's studio: pinned collages, a wire hanger with a handwritten tag, dried branches."
+                width="320"
+                height="400"
+                loading="lazy"
+                decoding="async"
+              />
+            </figure>
 
-<section class="picker" data-section="picker" id="picker">
-  <div class="picker__intro">
-    <h2 class="chapter__title" data-reveal>
-      Working With What Was Already There
-    </h2>
+            <p class="text-reveal__text" data-text-reveal-text>
+              Much of Yee’s work developed through reconstruction, reuse and
+              alteration rather than custom production. Existing garments gave
+              her a starting point: something already constructed that could be
+              taken apart, reconsidered and made into something else.
+            </p>
+          </div>
+        </div>
+      </section>
 
-    <div class="chapter__body" data-reveal>
-      <p>
-        Yee worked with garments that already had a form, a function and,
-        often, visible signs of previous use.
-      </p>
-      <p>Choose a garment to look closer.</p>
-    </div>
+      <section class="picker" id="picker">
+        <div class="picker__intro">
+          <h2 class="chapter__title" data-reveal>
+            Working With What Was Already There
+          </h2>
 
-    <fieldset class="picker__choices" data-picker data-reveal>
-      <legend class="visually-hidden">Choose a garment</legend>
+          <div class="chapter__body" data-reveal>
+            <p>
+              Yee worked with garments that already had a form, a function and,
+              often, visible signs of previous use.
+            </p>
+            <p>Choose a garment to look closer.</p>
+          </div>
 
-      <label class="picker__choice" data-choice="0">
-        <input type="radio" name="garment" value="menswear" checked />
-        <span class="picker__label">Vintage menswear</span>
-      </label>
+          <fieldset class="picker__choices" data-picker data-reveal>
+            <legend class="visually-hidden">Choose a garment</legend>
 
-      <label class="picker__choice" data-choice="1">
-        <input type="radio" name="garment" value="military" />
-        <span class="picker__label">Military</span>
-      </label>
+            <label class="picker__choice">
+              <input type="radio" name="garment" value="menswear" checked />
+              <span class="picker__label">Vintage menswear</span>
+            </label>
 
-      <label class="picker__choice" data-choice="2">
-        <input type="radio" name="garment" value="workwear" />
-        <span class="picker__label">Workwear</span>
-      </label>
+            <label class="picker__choice">
+              <input type="radio" name="garment" value="military" />
+              <span class="picker__label">Military</span>
+            </label>
 
-      <label class="picker__choice" data-choice="3">
-        <input type="radio" name="garment" value="denim" />
-        <span class="picker__label">Second-hand denim</span>
-      </label>
-    </fieldset>
+            <label class="picker__choice">
+              <input type="radio" name="garment" value="workwear" />
+              <span class="picker__label">Workwear</span>
+            </label>
 
-    <div class="picker__panels" aria-live="polite">
-      <article class="picker__panel" data-panel="menswear">
-        <h3>Vintage menswear</h3>
-        <p>
-          Tailored menswear came with an established structure: lapels,
-          collars, pockets, linings and carefully constructed shoulders.
-          Reconstruction meant working within — or against — decisions
-          that had already been made.
-        </p>
-      </article>
+            <label class="picker__choice">
+              <input type="radio" name="garment" value="denim" />
+              <span class="picker__label">Second-hand denim</span>
+            </label>
+          </fieldset>
 
-      <article class="picker__panel" data-panel="military">
-        <h3>Military garments</h3>
-        <p>
-          Military clothing was designed around function. Pockets had a
-          purpose, seams were reinforced where necessary, and
-          construction followed the demands of use. Those functional
-          details remained part of the garment even when its original
-          purpose changed.
-        </p>
-      </article>
+          <div class="picker__panels" aria-live="polite">
+            <article class="picker__panel" data-panel="menswear">
+              <h3>Vintage menswear</h3>
+              <p>
+                Tailored menswear came with an established structure: lapels,
+                collars, pockets, linings and carefully constructed shoulders.
+                Reconstruction meant working within — or against — decisions
+                that had already been made.
+              </p>
+            </article>
 
-      <article class="picker__panel" data-panel="workwear">
-        <h3>Workwear</h3>
-        <p>
-          Workwear could carry its history on its surface. Fading,
-          reinforced seams, topstitching, repairs and areas of wear
-          recorded how a garment had been made and used.
-        </p>
-      </article>
+            <article class="picker__panel" data-panel="military">
+              <h3>Military garments</h3>
+              <p>
+                Military clothing was designed around function. Pockets had a
+                purpose, seams were reinforced where necessary, and
+                construction followed the demands of use. Those functional
+                details remained part of the garment even when its original
+                purpose changed.
+              </p>
+            </article>
 
-      <article class="picker__panel" data-panel="denim">
-        <h3>Second-hand denim</h3>
-        <p>
-          Denim makes wear particularly visible. Colour fades unevenly,
-          creases settle into the fabric and repeated use leaves marks
-          specific to the person who wore it.
-        </p>
-        <p>
-          In Marie, Yee cut old jeans into patchwork and incorporated the
-          pieces by hand into bomber jackets. Rather than disguising the
-          fact that the denim had been used before, its different washes
-          and traces of wear remained visible.
-        </p>
-      </article>
-    </div>
-  </div>
+            <article class="picker__panel" data-panel="workwear">
+              <h3>Workwear</h3>
+              <p>
+                Workwear could carry its history on its surface. Fading,
+                reinforced seams, topstitching, repairs and areas of wear
+                recorded how a garment had been made and used.
+              </p>
+            </article>
 
-  <!-- Decorative collage. Images are duplicated visually here but the
-       text panels above already carry the actual content, so this is
-       aria-hidden — nothing here is information a screen reader needs. -->
-  <div class="picker__stage" data-picker-stage aria-hidden="true">
-    <span
-      class="placeholder-img picker__stage-img"
-      data-stage-img="menswear"
-      style="--ratio: 4 / 5"
-    ></span>
-    <span
-      class="placeholder-img picker__stage-img"
-      data-stage-img="military"
-      style="--ratio: 3 / 4"
-    ></span>
-    <span
-      class="placeholder-img picker__stage-img"
-      data-stage-img="workwear"
-      style="--ratio: 1 / 1"
-    ></span>
-    <span
-      class="placeholder-img picker__stage-img"
-      data-stage-img="denim"
-      style="--ratio: 4 / 5"
-    ></span>
-  </div>
-</section>
+            <article class="picker__panel" data-panel="denim">
+              <h3>Second-hand denim</h3>
+              <p>
+                Denim makes wear particularly visible. Colour fades unevenly,
+                creases settle into the fabric and repeated use leaves marks
+                specific to the person who wore it.
+              </p>
+              <p>
+                In Marie, Yee cut old jeans into patchwork and incorporated the
+                pieces by hand into bomber jackets. Rather than disguising the
+                fact that the denim had been used before, its different washes
+                and traces of wear remained visible.
+              </p>
+            </article>
+          </div>
+        </div>
 
-   <section class="statement statement--marquee" data-section="before-upcycling" data-text-marquee>
-  <p class="text-reveal__hint" data-marquee-hint>Scroll</p>
+        <!-- Decorative collage: the text panels above already carry this
+             content, so nothing here is information a screen reader needs. -->
+        <div class="picker__stage" data-picker-stage aria-hidden="true">
+          <img
+            class="picker__stage-img"
+            data-stage-img="menswear"
+            src="/images/trench.jpg"
+            alt=""
+            width="640"
+            height="426"
+            loading="lazy"
+            decoding="async"
+          />
+          <img
+            class="picker__stage-img"
+            data-stage-img="military"
+            src="/images/bomber.jpg"
+            alt=""
+            width="640"
+            height="1216"
+            loading="lazy"
+            decoding="async"
+          />
+          <img
+            class="picker__stage-img"
+            data-stage-img="workwear"
+            src="/images/atelier.jpg"
+            alt=""
+            width="640"
+            height="587"
+            loading="lazy"
+            decoding="async"
+          />
+          <img
+            class="picker__stage-img"
+            data-stage-img="denim"
+            src="/images/denim-jacket.jpg"
+            alt=""
+            width="640"
+            height="960"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      </section>
 
-  <div class="statement--marquee__pin" data-marquee-pin>
-    <div class="statement--marquee__stage">
-      <p class="statement__text statement--marquee__text" data-marquee-text>
-        She was doing this long before repair, reuse and
-        <strong>upcycling</strong> became common language in contemporary
-        fashion.
-      </p>
-    </div>
-  </div>
-</section>
-      <section
-  class="chapter"
-  data-section="starting"
-  id="starting-with-what-already-existed"
->
-  <h2 class="chapter__title">Starting With What Already Existed</h2>
+      <section class="statement statement--marquee" data-text-marquee>
+        <div class="statement--marquee__pin" data-marquee-pin>
+          <div class="statement--marquee__stage">
+            <p class="statement__text statement--marquee__text" data-marquee-text>
+              She was doing this long before repair, reuse and
+              <strong>upcycling</strong> became common language in contemporary
+              fashion.
+            </p>
+          </div>
+        </div>
+      </section>
 
-  <div class="chapter__body">
-    <p data-reveal>
-      Working this way meant accepting limits. The fabric had already
-      been chosen, the pieces had already been cut once, and the
-      material could arrive faded, repaired or worn. Unlike working
-      from a new length of fabric, Yee could not determine every
-      condition from the start.
-    </p>
+      <section class="chapter" id="starting-with-what-already-existed">
+        <h2 class="chapter__title">Starting With What Already Existed</h2>
 
-    <p data-reveal>
-      Instead of treating those restrictions as problems, she let them
-      shape the result. Her process became a matter of deciding what
-      the garment already offered, what deserved to remain and where an
-      intervention was actually necessary.
-    </p>
-  </div>
-</section>
+        <div class="chapter__body">
+          <p data-reveal>
+            Working this way meant accepting limits. The fabric had already
+            been chosen, the pieces had already been cut once, and the
+            material could arrive faded, repaired or worn. Unlike working from
+            a new length of fabric, Yee could not determine every condition
+            from the start.
+          </p>
 
-   <section class="chapter" data-section="my-project" id="my-project">
+          <p data-reveal>
+            Instead of treating those restrictions as problems, she let them
+            shape the result. Her process became a matter of deciding what the
+            garment already offered, what deserved to remain and where an
+            intervention was actually necessary.
+          </p>
+        </div>
+      </section>
 
-  <div class="my-project-copy">
-    <h2 class="chapter__title">
-      M.Y. Project, 2018
-    </h2>
+      <section class="chapter" id="my-project">
+        <div class="my-project-copy">
+          <h2 class="chapter__title">M.Y. Project, 2018</h2>
 
-    <div class="chapter__body">
+          <div class="chapter__body">
       <p>
         In 2018, Yee presented M.Y. Project, a small collection of coats and
         shirts developed from familiar menswear forms.
@@ -342,67 +371,60 @@
     </div>
   </div>
 
-  <div class="my-project-depth" data-my-project-depth>
-    <div class="my-project-depth__stage" data-my-project-depth-stage>
+        <div class="my-project-depth" data-my-project-depth>
+          <div class="my-project-depth__stage" data-my-project-depth-stage>
+            <figure class="my-project-depth__item">
+              <img
+                src="/images/My_jacket.jpg"
+                alt="A checked wool jacket worn open over a bodice pieced together from raw-edged patches, joined with visible zigzag hand stitching."
+                width="1080"
+                height="1350"
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption>Jacket, M.Y. Project 2018</figcaption>
+            </figure>
 
-      <figure class="my-project-depth__item">
-        <img
-          src="/images/My_jacket.jpg"
-          alt="Coat, M.Y. Project 2018"
-          width="960"
-          height="1280"
-          loading="lazy"
-          decoding="async"
-        />
-        <figcaption>Coat, M.Y. Project 2018</figcaption>
-      </figure>
+            <figure class="my-project-depth__item">
+              <img
+                src="/images/MY_jackets.jpeg"
+                alt="Two belted coats on mannequins; the left one carries pale patchwork panels stitched over dark wool."
+                width="387"
+                height="516"
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption>Coats, M.Y. Project 2018</figcaption>
+            </figure>
 
-      <figure class="my-project-depth__item">
-        <img
-          src="/images/MY_jackets.jpeg"
-          alt="Coat, M.Y. Project 2018"
-          width="960"
-          height="1280"
-          loading="lazy"
-          decoding="async"
-        />
-        <figcaption>Coat, M.Y. Project 2018</figcaption>
-      </figure>
+            <figure class="my-project-depth__item">
+              <img
+                src="/images/My_pants.jpg"
+                alt="Close-up of black tailoring: a raw-edged opening with painted, patched fabric showing through beneath."
+                width="1080"
+                height="1350"
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption>Trousers, M.Y. Project 2018</figcaption>
+            </figure>
 
-      <figure class="my-project-depth__item">
-        <img
-          src="/images/My_pants.jpg"
-          alt="Trousers, M.Y. Project 2018"
-          width="960"
-          height="1280"
-          loading="lazy"
-          decoding="async"
-        />
-        <figcaption>Trousers, M.Y. Project 2018</figcaption>
-      </figure>
+            <figure class="my-project-depth__item">
+              <img
+                src="/images/My_shirt.jpg"
+                alt="A cream cotton toile on a hanger, marked all over with drafting lines and construction points in ink."
+                width="1280"
+                height="960"
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption>Shirt, M.Y. Project 2018</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
 
-      <figure class="my-project-depth__item">
-        <img
-          src="/images/My_shirt.jpg"
-          alt="Shirt, M.Y. Project 2018"
-          width="960"
-          height="1280"
-          loading="lazy"
-          decoding="async"
-        />
-        <figcaption>Shirt, M.Y. Project 2018</figcaption>
-      </figure>
-
-    </div>
-  </div>
-
-</section>
-
-      <section
-        class="horizontal chapter--dark"
-        data-section="sustainability"
-        data-horizontal
-      >
+      <section class="horizontal chapter--dark" data-horizontal>
         <h2 class="visually-hidden">Beyond sustainability</h2>
 
         <div class="horizontal__track">
@@ -453,7 +475,7 @@
         </div>
       </section>
 
-      <section class="chapter" data-section="one-corner-off" id="one-corner-off">
+      <section class="chapter" id="one-corner-off">
         <h2 class="chapter__title" data-tracking-heading>
           <span>One Corner Off</span>
         </h2>
@@ -492,36 +514,38 @@
             <div class="sequence__track" data-sequence-track>
               <figure class="figure">
                 <img
-                  src="/images/detail-01.jpg"
-                  alt=""
-                  width="800"
-                  height="1000"
+                  src="/images/workshop-collage.jpg"
+                  alt="A scanned collage: a photographed face and figure painted over in broad white brushstrokes, with darker cut-outs pasted alongside."
+                  width="900"
+                  height="1273"
                   loading="lazy"
                   decoding="async"
                 />
-                <figcaption>Detail 01</figcaption>
+                <figcaption>Marina Yee, workshop collage no. 5</figcaption>
               </figure>
               <figure class="figure">
                 <img
-                  src="/images/detail-02.jpg"
-                  alt=""
-                  width="800"
-                  height="1000"
+                  src="/images/invitation-spring.jpg"
+                  alt="A show invitation built from torn paper and red board, hand-lettered in white paint."
+                  width="900"
+                  height="1243"
                   loading="lazy"
                   decoding="async"
                 />
-                <figcaption>Detail 02</figcaption>
+                <figcaption>Show invitation, Paris, 30.9 – 3.10</figcaption>
               </figure>
               <figure class="figure">
                 <img
-                  src="/images/detail-03.jpg"
-                  alt=""
-                  width="800"
-                  height="1000"
+                  src="/images/invitation-autumn.jpg"
+                  alt="An invitation card showing a solid black silhouette, taped down over fabric swatches and a stitched hem."
+                  width="900"
+                  height="1120"
                   loading="lazy"
                   decoding="async"
                 />
-                <figcaption>Detail 03</figcaption>
+                <figcaption>
+                  M.Y. showroom invitation, Paris, autumn/winter 2025–26
+                </figcaption>
               </figure>
             </div>
           </div>
@@ -537,47 +561,49 @@
         </div>
 
         <div class="chapter__body chapter__body--standalone" data-reveal>
-  <p>
-    Seen alongside her reconstructed garments, the expression became
-    particularly useful. Yee could preserve much of an existing piece
-    while changing a specific part of its construction, proportion or
-    material.
-    <strong
-      >What already existed and what she introduced remained visible at
-      the same time.</strong
-    >
-  </p>
+          <p>
+            Seen alongside her reconstructed garments, the expression became
+            particularly useful. Yee could preserve much of an existing piece
+            while changing a specific part of its construction, proportion or
+            material.
+            <strong>
+              What already existed and what she introduced remained visible at
+              the same time.
+            </strong>
+          </p>
 
-  <p>
-    In that sense, “one corner off” offered a way of understanding more
-    than the physical act of reconstruction. It pointed towards a broader
-    tendency in Yee’s practice: understanding what already existed,
-    retaining what continued to matter, and intervening where a change
-    could shift the whole.
-  </p>
-</div>
+          <p>
+            In that sense, “one corner off” offered a way of understanding more
+            than the physical act of reconstruction. It pointed towards a
+            broader tendency in Yee’s practice: understanding what already
+            existed, retaining what continued to matter, and intervening where
+            a change could shift the whole.
+          </p>
+        </div>
+      </section>
+
+      <section class="visit" id="visit">
+        <div class="visit__inner">
+          <h2>Look Closer at MoMu</h2>
+
+          <p>
+            The clearest evidence of Yee’s approach remains in the garments.
+            Reused materials, alterations and traces of earlier construction
+            make it possible to see how the original object and the later
+            intervention exist together.
+          </p>
+
+          <p>
+            At MoMu, those details show how reuse, reconstruction and the idea
+            of “one corner off” operated as parts of the same design process.
+          </p>
+
+          <a class="button" href="https://www.momu.be/en/visit">
+            Plan your visit
+          </a>
+        </div>
       </section>
     </main>
-
-    <section class="visit" data-section="visit" id="visit">
-      <div class="visit__inner">
-        <h2>Look Closer at MoMu</h2>
-
-        <p>
-          The clearest evidence of Yee’s approach remains in the garments.
-          Reused materials, alterations and traces of earlier construction
-          make it possible to see how the original object and the later
-          intervention exist together.
-        </p>
-
-        <p>
-          At MoMu, those details show how reuse, reconstruction and the idea
-          of “one corner off” operated as parts of the same design process.
-        </p>
-
-        <a class="button" href="https://www.momu.be/en/visit">Plan your visit</a>
-      </div>
-    </section>
 
     <footer class="site-footer">
       <h2 class="visually-hidden">About this story</h2>

@@ -1,7 +1,4 @@
-import { gsap, ScrollTrigger } from './motion.js';
-import { SplitText } from 'gsap/SplitText';
-
-gsap.registerPlugin(SplitText);
+import { gsap, SplitText } from './motion.js';
 
 /**
  * Pinned horizontal marquee for the "before upcycling" statement, with a

@@ -1,7 +1,4 @@
-import { gsap, ScrollTrigger } from './motion.js';
-import { SplitText } from 'gsap/SplitText';
-
-gsap.registerPlugin(SplitText);
+import { gsap, ScrollTrigger, SplitText } from './motion.js';
 
 /**
  * Per-letter rotation reveal for a single standalone line.

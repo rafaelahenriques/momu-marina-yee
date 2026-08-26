@@ -25,14 +25,12 @@ export function initSequenceMarquee() {
   // Duplicate the set once for a seamless loop; the copy is decorative.
   const clone = track.cloneNode(true);
   clone.setAttribute('aria-hidden', 'true');
-  [...clone.querySelectorAll('img')].forEach((img) => {
-    img.removeAttribute('id');
-  });
   container.appendChild(clone);
 
   container.classList.add('is-marquee');
-  container.setAttribute('tabindex', '-1'); // the toggle button is the
-                                              // operable control now
+  // The strip no longer scrolls, so it is no longer a scrollable region a
+  // keyboard user needs to reach — the toggle button is the operable control.
+  container.setAttribute('tabindex', '-1');
 
   const distance = track.scrollWidth + parseFloat(getComputedStyle(track).gap || 0);
 
