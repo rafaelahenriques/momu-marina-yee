@@ -49,9 +49,9 @@
   --space-xs: 0.75rem;
   --space-s: 1rem;
   --space-m: 1.5rem;
-  --space-l: 2.5rem;
-  --space-xl: 4.5rem;
-  --space-2xl: 7rem;
+  --space-l: 4.5rem;
+  --space-xl: 6.5rem;
+  --space-2xl: 10rem;
 
   /* --- Layout --------------------------------------------------
      --measure only bounds line length; layout.css positions the

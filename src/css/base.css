@@ -147,6 +147,46 @@ figcaption {
 }
 
 /* ============================================================
+   STANDALONE TEXT
+   A reusable modifier for chapter__body blocks that should read
+   as a single centered statement rather than flowing body copy —
+   same register as .statement__text, sized for a full sentence
+   or two instead of a short pull-line.
+============================================================ */
+
+.chapter__body--standalone {
+  max-width: 34rem;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.chapter__body--standalone p {
+  max-width: none; /* override the default measure clamp; the
+                       container width already bounds line length */
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--step-1);
+  line-height: var(--leading-tight);
+}
+
+.chapter__body--standalone p + p {
+  margin-top: var(--space-m);
+}
+
+.chapter__body--standalone strong {
+  font-weight: 700; /* resolves to Reckless Wide Bold */
+}
+
+/* Extra vertical breathing room for sections built around a single
+   centered standalone statement — they read better with more air
+   than a normal multi-paragraph chapter. */
+.chapter:has(.chapter__body--standalone),
+.statement--spotlight ~ .statement,
+section[data-section='before-upcycling'] {
+  padding-block: var(--space-2xl);
+}
+
+/* ============================================================
    LAYOUT
    Mobile first. Every rule here is the phone rule; wider screens
    are handled inside min-width queries, never the other way round.
