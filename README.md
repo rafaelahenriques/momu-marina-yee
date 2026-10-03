@@ -46,5 +46,5 @@ and pull request.
 ## Credits
 
 Story and design by Rafaela Henriques. Archive material from MoMu, Fashion
-Museum Antwerp; sources are listed in the page footer. The typefaces (Reckless
-Wide, Roobert) are trial licences.
+Museum Antwerp; sources are listed in the page footer. Titles are set in
+Bodoni Moda (SIL Open Font License); Roobert is a trial licence.

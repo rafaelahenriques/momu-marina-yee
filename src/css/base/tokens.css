@@ -30,7 +30,7 @@
   --shadow-lift: 0 1.25rem 2rem rgb(0 0 0 / 30%);
 
   /* --- Type --------------------------------------------------- */
-  --font-display: 'Reckless Wide', Georgia, 'Times New Roman', serif;
+  --font-display: 'Bodoni Moda', 'Bodoni 72', Didot, Georgia, serif;
   --font-body: 'Roobert', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
   /* Labels, captions and controls: the body face, set small, so the page
@@ -45,8 +45,8 @@
   --step-4: clamp(2.6rem, 1.7rem + 4.2vw, 5.5rem);
 
   /* Poster sizes, for chapter titles and the opening. Capped by height as
-     well as width: Reckless Wide sets wide, so a size that fills a laptop's
-     width would otherwise run off a short screen. */
+     well as width, so a size that fills a laptop's width does not run off a
+     short screen. */
   --step-5: clamp(2.6rem, min(0.5rem + 9.5vw, 17vh), 9rem);
   --step-6: clamp(3.2rem, min(15vw, 24vh), 15rem);
 

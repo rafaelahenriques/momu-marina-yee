@@ -4,18 +4,13 @@
    are loaded — every extra weight is another download on mobile.
 ============================================================ */
 
+/* Bodoni Moda (SIL Open Font License), variable in weight and optical size.
+   One file covers every weight, and the browser picks the hairline display
+   cut for large sizes by itself through font-optical-sizing. */
 @font-face {
-  font-family: 'Reckless Wide';
-  src: url('/fonts/RecklessWideM-TRIAL-Regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Reckless Wide';
-  src: url('/fonts/RecklessWideM-TRIAL-Bold.woff2') format('woff2');
-  font-weight: 700;
+  font-family: 'Bodoni Moda';
+  src: url('/fonts/BodoniModa-Variable.woff2') format('woff2');
+  font-weight: 400 900;
   font-style: normal;
   font-display: swap;
 }

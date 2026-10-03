@@ -1,9 +1,9 @@
 import { gsap, SplitText, SCRUB, nextFrame } from './motion.js';
 
 /**
- * Pinned horizontal marquee with a per-character weight pulse. Reckless Wide is
- * two static faces under one family name, so the pulse snaps between 400 and
- * 700 rather than blending.
+ * Pinned horizontal marquee with a per-character weight pulse. Bodoni Moda is
+ * a variable font, so each letter swells from 400 to 700 and back through
+ * every weight between.
  *
  * Resolves once setup completes — see text-line-reveal.js for why that matters.
  */
