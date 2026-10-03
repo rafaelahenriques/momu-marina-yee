@@ -106,7 +106,7 @@
     </div>
 
     <main id="main">
-      <section class="hero">
+      <section class="hero" data-hero data-trail>
         <div class="hero__scatter" aria-hidden="true">
           <div class="hero__image hero__image--1">
             <img
@@ -160,8 +160,13 @@
           </div>
         </div>
 
+        <p class="hero__meta">
+          <span>A MoMu story, 01 of 06</span>
+          <span>The Antwerp Six, 1986–2026</span>
+        </p>
+
         <hgroup class="hero__inner">
-          <h1>
+          <h1 class="hero__name">
             <img
               class="hero__wordmark"
               src="/marina-yee-wordmark.svg"
@@ -171,8 +176,116 @@
               fetchpriority="high"
             />
           </h1>
-          <p class="hero__standfirst">One Corner Off</p>
+          <p class="hero__headline">
+            <span class="hero__line">One Corner</span>
+            <!-- Decorative here: the same collage is in the pile of details
+                 further down, with its description. Laid out at its full
+                 opened size and cropped to her eyes by the window, so
+                 hero-scene.js only has to widen the crop. -->
+            <span class="hero__window" data-hero-window>
+              <img
+                src="/images/workshop-collage.jpg"
+                srcset="
+                  /images/responsive/workshop-collage-320.webp 320w,
+                  /images/responsive/workshop-collage-480.webp 480w,
+                  /images/responsive/workshop-collage-640.webp 640w,
+                  /images/responsive/workshop-collage-768.webp 768w,
+                  /images/responsive/workshop-collage-900.webp 900w
+                "
+                sizes="min(58vh, 92vw)"
+                alt=""
+                width="900"
+                height="1273"
+                fetchpriority="high"
+                decoding="async"
+              />
+            </span>
+            <span class="hero__line">Off</span>
+          </p>
         </hgroup>
+
+        <!-- Inert until cursor-trail.js clones from it, so none of these load
+             for a reader who never moves a pointer across the opening. -->
+        <template data-trail-items>
+          <img
+            src="/images/objects/cloth-swatch.png"
+            srcset="
+              /images/responsive/objects/cloth-swatch-160.webp 160w,
+              /images/responsive/objects/cloth-swatch-265.webp 265w
+            "
+            sizes="9rem"
+            alt=""
+            width="265"
+            height="420"
+            decoding="async"
+          />
+          <img
+            src="/images/objects/hanger-objects.png"
+            srcset="
+              /images/responsive/objects/hanger-objects-160.webp 160w,
+              /images/responsive/objects/hanger-objects-320.webp 320w,
+              /images/responsive/objects/hanger-objects-371.webp 371w
+            "
+            sizes="9rem"
+            alt=""
+            width="371"
+            height="539"
+            decoding="async"
+          />
+          <img
+            src="/images/objects/measuring-tape.png"
+            srcset="
+              /images/responsive/objects/measuring-tape-160.webp 160w,
+              /images/responsive/objects/measuring-tape-320.webp 320w,
+              /images/responsive/objects/measuring-tape-480.webp 480w,
+              /images/responsive/objects/measuring-tape-535.webp 535w
+            "
+            sizes="9rem"
+            alt=""
+            width="535"
+            height="422"
+            decoding="async"
+          />
+          <img
+            src="/images/objects/cloth-folded.png"
+            srcset="
+              /images/responsive/objects/cloth-folded-160.webp 160w,
+              /images/responsive/objects/cloth-folded-320.webp 320w,
+              /images/responsive/objects/cloth-folded-398.webp 398w
+            "
+            sizes="9rem"
+            alt=""
+            width="398"
+            height="702"
+            decoding="async"
+          />
+          <img
+            src="/images/objects/needle-thread.png"
+            srcset="
+              /images/responsive/objects/needle-thread-160.webp 160w,
+              /images/responsive/objects/needle-thread-320.webp 320w,
+              /images/responsive/objects/needle-thread-425.webp 425w
+            "
+            sizes="9rem"
+            alt=""
+            width="425"
+            height="242"
+            decoding="async"
+          />
+          <img
+            src="/images/objects/cloth-stack.png"
+            srcset="
+              /images/responsive/objects/cloth-stack-160.webp 160w,
+              /images/responsive/objects/cloth-stack-320.webp 320w,
+              /images/responsive/objects/cloth-stack-380.webp 380w
+            "
+            sizes="9rem"
+            alt=""
+            width="380"
+            height="710"
+            decoding="async"
+          />
+        </template>
       </section>
 
       <section class="chapter">

@@ -213,34 +213,135 @@ figcaption {
   transform: translateY(0);
 }
 
+/* The opening, set like a cover: the title split in two around a window
+   onto one of her collages, with the name brushed across both. This is the
+   whole composition without script; hero-scene.js only opens the window. */
 .hero {
   position: relative;
-  min-height: 100dvh;
+
+  /* The first screen, less the breadcrumb and bar above it (nav.js measures
+     them), so the whole cover is in view on arrival. */
+  min-height: calc(100dvh - var(--masthead-height, 7rem));
+  display: grid;
+  place-items: center;
+  padding: var(--space-l) var(--gutter);
+
+  /* Not clipped: pinned, the cover is shorter than the screen, and the two
+     halves of the title part past its edges into the space below. */
+  overflow: visible;
+
+  /* Painted here rather than left to the page: the name below blends with
+     whatever is behind it in its stacking context, and once pinned this
+     section can become that context. */
+  background: var(--color-bg);
+}
+
+.hero__meta {
+  position: absolute;
+  top: var(--space-m);
+  inset-inline: var(--gutter);
+  z-index: 2;
   display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-2xs) var(--space-m);
+  max-width: none;
+  font-family: var(--font-utility);
+  font-size: var(--step--1);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* No z-index, on purpose: one would make this a stacking context with no
+   paper of its own, and the name would blend against nothing. It sits above
+   the scattered pieces by coming after them. */
+.hero__inner {
+  position: relative;
+}
+
+/* On a phone "One Corner" breaks in two, which lets the type nearly double:
+   the title is meant to be the size of the screen, not of its longest line. */
+.hero__headline {
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  padding: var(--space-2xl) var(--gutter);
+  max-width: none;
+  font-family: var(--font-display);
+  font-size: min(25vw, 12vh);
+  line-height: var(--leading-display);
+  letter-spacing: -0.03em;
+  text-align: center;
+}
+
+.hero__line {
+  display: block;
+}
+
+@media (min-width: 48rem) {
+  .hero__headline {
+    font-size: var(--step-6);
+  }
+
+  .hero__line {
+    white-space: nowrap;
+  }
+}
+
+/* The window is cut to a band across her eyes: 69% of the scan's width and
+   26% of its height, from 4% down. The scan itself is laid out at the size
+   it opens to, so opening it is only a matter of widening the cut. */
+.hero__window {
+  --opened: min(58dvh, 92vw);
+
+  position: relative;
+  display: block;
+  width: calc(var(--opened) * 0.69);
+  height: calc(var(--opened) * 1273 / 900 * 0.26);
+  margin-block: var(--space-xs);
   overflow: hidden;
 }
 
-.hero__inner {
-  position: relative;
-  z-index: 2;
-  max-width: var(--width-content);
-  margin-inline: auto;
+.hero__window img {
+  position: absolute;
+  top: calc(-4% / 0.26);
+  left: 0;
+  width: var(--opened);
+  max-width: none;
+  height: auto;
 }
 
-.hero__standfirst {
-  margin-top: var(--space-m);
-  font-family: var(--font-display);
-  font-size: var(--step-2);
-  color: var(--color-ink-muted);
+/* Enhanced, the cut moves onto the scan itself as a clip-path, so the window
+   stops clipping and the scan can open past it. */
+.hero.is-enhanced .hero__window {
+  overflow: visible;
+}
+
+.hero.is-enhanced .hero__window img {
+  will-change: transform, clip-path;
+}
+
+/* Brushed across the title and the window, the way a name is signed over a
+   proof. Inverted and set to difference, it reads as black on the paper and
+   turns pale wherever it crosses the collage or the type. The blend sits on
+   the heading, not the image: the z-index makes the heading its own group,
+   and a blend inside that group would only see the heading. */
+.hero__name {
+  position: absolute;
+  top: 62%;
+  left: 54%;
+  z-index: 1;
+  width: min(84vw, 48rem);
+  translate: -50% -50%;
+  rotate: -6deg;
+  mix-blend-mode: difference;
+  pointer-events: none;
 }
 
 .hero__wordmark {
   display: block;
   width: 100%;
-  max-width: 32rem;
   height: auto;
+  filter: invert(1);
 }
 
 .chapter {

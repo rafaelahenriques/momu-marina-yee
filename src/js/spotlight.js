@@ -35,7 +35,7 @@ export function initSpotlight() {
         pin: true,
         scrub: SCRUB,
         invalidateOnRefresh: true,
-        // First of the six pins, top to bottom — see main.js.
+        // Second of the seven pins, top to bottom — see main.js.
         refreshPriority: 6,
       },
     })

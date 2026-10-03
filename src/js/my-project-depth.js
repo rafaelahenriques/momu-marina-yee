@@ -50,7 +50,7 @@ export function initMyProjectDepth() {
       scrub: SCRUB,
       pin: stage,
       invalidateOnRefresh: true,
-      // Fifth of the six pins, top to bottom — see main.js.
+      // Sixth of the seven pins, top to bottom — see main.js.
       refreshPriority: 2,
     },
   });

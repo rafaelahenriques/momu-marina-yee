@@ -60,7 +60,7 @@ function build(pin, stage, paragraphs) {
       scrub: SCRUB,
       pin: stage,
       invalidateOnRefresh: true,
-      // Fourth of the six pins, top to bottom — see main.js.
+      // Fifth of the seven pins, top to bottom — see main.js.
       refreshPriority: 3,
     },
   });

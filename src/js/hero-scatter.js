@@ -1,19 +1,14 @@
-import { gsap, SCRUB } from './motion.js';
+import { gsap } from './motion.js';
 
 /**
  * The opening shows the method before the story names it. The archive pieces
- * land as one neat, square stack behind the name — something finished — and
- * are then knocked out to the angles CSS gives them. CSS already holds every
- * resting position; this only animates into it, and away again on scroll.
+ * land as one neat, square stack behind the window — something finished — and
+ * are then knocked out to the corners and angles CSS gives them. CSS already
+ * holds every resting position; this only animates into it. Leaving is
+ * hero-scene.js's job, on the container, so the two never share a property.
  */
-
-// How far each piece lifts as the hero scrolls away, in % of its own height.
-// Unequal rates read as unequal distances from the reader.
-const DEPTH = [-70, -30, -110];
-
 export function initHeroScatter() {
   const hero = document.querySelector('.hero');
-  const title = hero?.querySelector('.hero__inner');
   const images = gsap.utils.toArray('.hero__image');
   if (!hero || !images.length) return;
 
@@ -65,26 +60,4 @@ export function initHeroScatter() {
       },
       '+=0.35',
     );
-
-  // yPercent rather than y, which the entrance owns: the two compose instead
-  // of overwriting each other.
-  const away = {
-    trigger: hero,
-    start: 'top top',
-    end: 'bottom top',
-    scrub: SCRUB,
-  };
-
-  images.forEach((image, i) => {
-    gsap.to(image, {
-      yPercent: DEPTH[i % DEPTH.length],
-      ease: 'none',
-      scrollTrigger: { ...away },
-    });
-  });
-
-  // The name lags behind the pieces lifting off it.
-  if (title) {
-    gsap.to(title, { yPercent: 35, ease: 'none', scrollTrigger: { ...away } });
-  }
 }
