@@ -16,10 +16,7 @@ const WIPES = {
 };
 
 export function initScribble() {
-  const marks = document.querySelectorAll('[data-scribble]');
-  if (!marks.length) return;
-
-  marks.forEach((mark) => {
+  document.querySelectorAll('[data-scribble]').forEach((mark) => {
     const [from, to] = WIPES[mark.dataset.scribble] ?? WIPES.left;
 
     gsap.fromTo(
@@ -32,6 +29,25 @@ export function initScribble() {
         scrollTrigger: {
           trigger: mark,
           start: 'top 85%',
+          once: true,
+        },
+      },
+    );
+  });
+
+  // The highlighter goes on the same way, pulled along the line. Each line of
+  // a wrapped phrase is its own fragment, so they are marked side by side.
+  document.querySelectorAll('[data-highlight]').forEach((mark) => {
+    gsap.fromTo(
+      mark,
+      { backgroundSize: '0% 100%' },
+      {
+        backgroundSize: '100% 100%',
+        duration: 0.8,
+        ease: 'power2.inOut',
+        scrollTrigger: {
+          trigger: mark,
+          start: 'top 80%',
           once: true,
         },
       },

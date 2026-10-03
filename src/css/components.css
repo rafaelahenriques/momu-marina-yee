@@ -786,12 +786,22 @@
 .picker {
   display: grid;
   grid-template-areas:
+    'title'
     'intro'
     'choices'
     'stage'
     'panels';
   gap: var(--space-m);
   padding: var(--space-xl) var(--gutter);
+}
+
+/* Aligned to the grid's own edge, not centred in the title's usual width:
+   the intro and the collage below start at the gutter. */
+.picker__title,
+.doodle__title {
+  grid-area: title;
+  max-width: none;
+  margin: 0 0 var(--space-m);
 }
 
 .picker__intro {
@@ -981,13 +991,14 @@
   .picker {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     grid-template-areas:
+      'title   title'
       'intro   stage'
       'choices stage'
       'panels  stage';
 
     /* Without this the left column's rows stretch to the collage's height and
        the choices drift away from the paragraph they control. */
-    grid-template-rows: auto auto 1fr;
+    grid-template-rows: auto auto auto 1fr;
     align-items: start;
     column-gap: var(--space-xl);
   }
@@ -1004,7 +1015,7 @@
 ============================================================ */
 
 .my-project-copy {
-  max-width: var(--width-content);
+  max-width: var(--width-wide);
   margin-inline: auto;
 }
 
@@ -1319,6 +1330,20 @@
   rotate: -2deg;
 }
 
+/* Round a phrase this wide and the loop flattens into a line through it,
+   which reads as crossed out. Taller, so it still encloses the words, with
+   the lines opened up so its lower stroke passes between them rather than
+   through "at MoMu". */
+.visit__title {
+  line-height: 1.2;
+}
+
+.visit__title .scribble--circle {
+  width: 108%;
+  height: 165%;
+  top: 44%;
+}
+
 /* ============================================================
    SCATTER
    Built by SplitText at runtime; without it the phrase just sits
@@ -1628,6 +1653,7 @@
 .doodle {
   display: grid;
   grid-template-areas:
+    'title'
     'intro'
     'surface'
     'tools'
@@ -1861,10 +1887,11 @@
     overflow: clip;
     grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
     grid-template-areas:
+      'title   title'
       'intro   objects'
       'surface tools'
       'surface note';
-    grid-template-rows: auto auto 1fr;
+    grid-template-rows: auto auto auto 1fr;
     align-items: start;
     column-gap: var(--space-xl);
   }

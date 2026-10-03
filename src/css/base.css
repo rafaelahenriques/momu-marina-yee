@@ -251,14 +251,61 @@ figcaption {
   border-top: 1px solid var(--color-rule);
 }
 
-.chapter__title,
 .chapter__body {
   max-width: var(--width-content);
   margin-inline: auto;
 }
 
+/* The opening statement, set as a headline: the label it strikes out and the
+   phrase it marks have to read from across the room. After .chapter__body, which it
+   widens at equal specificity. */
+.chapter__body--lede {
+  max-width: var(--width-wide);
+}
+
+.chapter__body--lede p {
+  font-size: var(--step-4);
+  line-height: 1.04;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+/* Poster scale: the title is the image on a page this spare. Wider than the
+   text column, so it can run long while the copy keeps its measure. */
 .chapter__title {
+  max-width: var(--width-wide);
+  margin-inline: auto;
   margin-bottom: var(--space-l);
+  font-size: var(--step-5);
+  line-height: var(--leading-display);
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+/* The chapter number, set after the title like a note in the margin. The
+   same numbers as the menu, so the two can be matched at a glance. */
+.chapter__index {
+  display: inline-block;
+  margin-inline-start: 0.25em;
+  font-size: 0.26em;
+  letter-spacing: 0;
+  vertical-align: top;
+}
+
+/* A highlighter stroke rather than a box: inset top and bottom, with a little
+   overhang either side, and cloned across a line break. */
+mark {
+  padding-inline: 0.12em;
+  margin-inline: -0.12em;
+  color: inherit;
+  background: linear-gradient(
+      transparent 14%,
+      var(--color-mark) 14% 90%,
+      transparent 90%
+    )
+    no-repeat 0 0 / 100% 100%;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
 }
 
 .chapter--dark {
@@ -272,8 +319,13 @@ figcaption {
 }
 
 .visit__inner {
-  max-width: var(--width-content);
+  max-width: var(--width-wide);
   margin-inline: auto;
+}
+
+/* The closing title runs wide; the copy under it keeps the text column. */
+.visit__inner > p {
+  max-width: var(--width-content);
 }
 
 .site-footer {
