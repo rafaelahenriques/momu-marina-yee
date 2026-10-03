@@ -19,6 +19,9 @@
 
   --shadow-pill: 0 1px 3px rgb(0 0 0 / 12%);
 
+  /* Something lifted clear of the page, like a cut piece falling away. */
+  --shadow-lift: 0 1.25rem 2rem rgb(0 0 0 / 30%);
+
   /* --- Type --------------------------------------------------- */
   --font-display: 'Reckless Wide', Georgia, 'Times New Roman', serif;
   --font-body: 'Roobert', system-ui, -apple-system, 'Segoe UI', sans-serif;

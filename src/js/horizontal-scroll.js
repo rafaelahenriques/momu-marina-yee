@@ -82,4 +82,69 @@ export function initHorizontalScroll() {
       },
     );
   });
+
+  cornerExit(section);
+}
+
+/**
+ * Out of the dark chapter through its corner. As the next chapter — "One
+ * Corner Off" — comes up, the bottom-right corner of this one comes away and
+ * falls, and the page shows through the notch it leaves: the title performed
+ * once at full scale before the reader is handed a corner of their own.
+ *
+ * Built here and aria-hidden, in a zero-height layer after the section rather
+ * than inside it. The section clips its overflow, so a piece inside it could
+ * never fall past its bottom edge.
+ */
+function cornerExit(section) {
+  const layer = document.createElement('div');
+  layer.className = 'corner-cut';
+  layer.setAttribute('aria-hidden', 'true');
+
+  const hole = document.createElement('span');
+  hole.className = 'corner-cut__hole';
+
+  // Two elements, because clip-path also clips a filter on the same box: the
+  // outer one carries the shadow, the inner one the triangle.
+  const piece = document.createElement('span');
+  piece.className = 'corner-cut__piece';
+  const face = document.createElement('span');
+  face.className = 'corner-cut__face';
+  piece.append(face);
+
+  layer.append(hole, piece);
+
+  // After the pin-spacer, so the layer's top is the section's bottom edge.
+  const spacer = section.parentElement;
+  (spacer?.classList.contains('pin-spacer') ? spacer : section).after(layer);
+
+  gsap
+    .timeline({
+      scrollTrigger: {
+        trigger: layer,
+        // The moment the pin lets go and the section starts to leave.
+        start: 'top bottom',
+        end: 'top 25%',
+        scrub: SCRUB_TIGHT,
+        invalidateOnRefresh: true,
+      },
+    })
+    // Both appear with the piece still in place, the section's own colour,
+    // so nothing visibly changes until it moves.
+    .fromTo(
+      [hole, piece],
+      { autoAlpha: 0 },
+      { autoAlpha: 1, duration: 0.02, ease: 'none' },
+    )
+    // Accelerating, so it drops rather than slides.
+    .to(piece, {
+      x: () => window.innerWidth * 0.06,
+      y: () => window.innerHeight * 0.9,
+      rotation: 32,
+      duration: 1,
+      ease: 'power2.in',
+    })
+    // Gone before it lands: left where the fall ends, it would scroll back
+    // into view lying across the next chapter.
+    .to(piece, { autoAlpha: 0, duration: 0.25, ease: 'none' }, '-=0.25');
 }
