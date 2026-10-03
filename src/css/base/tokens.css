@@ -17,6 +17,10 @@
   --color-dark-ink: #f6f4ef;
   --color-dark-muted: #a39d90;
 
+  /* The one accent: a highlighter pen, used only where a word is marked,
+     never as a fill. Dark ink stays well above 4.5:1 on it. */
+  --color-mark: #e4f28c;
+
   --shadow-pill: 0 1px 3px rgb(0 0 0 / 12%);
 
   /* A sheet lying on another, close enough to keep its edge. */
@@ -28,7 +32,10 @@
   /* --- Type --------------------------------------------------- */
   --font-display: 'Reckless Wide', Georgia, 'Times New Roman', serif;
   --font-body: 'Roobert', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-utility: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  /* Labels, captions and controls: the body face, set small, so the page
+     reads as print rather than as a terminal. */
+  --font-utility: var(--font-body);
 
   --step--1: clamp(0.83rem, 0.8rem + 0.15vw, 0.94rem);
   --step-0: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
@@ -37,7 +44,14 @@
   --step-3: clamp(2rem, 1.5rem + 2.4vw, 3.5rem);
   --step-4: clamp(2.6rem, 1.7rem + 4.2vw, 5.5rem);
 
+  /* Poster sizes, for chapter titles and the opening. Capped by height as
+     well as width: Reckless Wide sets wide, so a size that fills a laptop's
+     width would otherwise run off a short screen. */
+  --step-5: clamp(2.6rem, min(0.5rem + 9.5vw, 17vh), 9rem);
+  --step-6: clamp(3.2rem, min(15vw, 24vh), 15rem);
+
   --leading-tight: 1.08;
+  --leading-display: 0.92;
   --leading-body: 1.6;
 
   /* --- Space -------------------------------------------------- */

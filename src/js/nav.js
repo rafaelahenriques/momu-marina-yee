@@ -48,12 +48,14 @@ export function initNav() {
   const isMenuOpen = () => toggle?.getAttribute('aria-expanded') === 'true';
 
   // scroll-padding-top and the panel's max-height both need the bar's real
-  // height, which changes when the controls wrap or a webfont lands.
+  // height, which changes when the controls wrap or a webfont lands. The
+  // opening also needs everything above it, breadcrumb included, to fit the
+  // cover into the first screen: that is where <main> starts.
+  const main = document.getElementById('main');
   const measure = () => {
-    document.documentElement.style.setProperty(
-      '--nav-height',
-      `${nav.offsetHeight}px`,
-    );
+    const root = document.documentElement.style;
+    root.setProperty('--nav-height', `${nav.offsetHeight}px`);
+    if (main) root.setProperty('--masthead-height', `${main.offsetTop}px`);
   };
 
   const setActive = (entry) => {

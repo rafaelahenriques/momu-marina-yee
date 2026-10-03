@@ -106,7 +106,7 @@
     </div>
 
     <main id="main">
-      <section class="hero">
+      <section class="hero" data-hero data-trail>
         <div class="hero__scatter" aria-hidden="true">
           <div class="hero__image hero__image--1">
             <img
@@ -160,8 +160,13 @@
           </div>
         </div>
 
+        <p class="hero__meta">
+          <span>A MoMu story, 01 of 06</span>
+          <span>The Antwerp Six, 1986–2026</span>
+        </p>
+
         <hgroup class="hero__inner">
-          <h1>
+          <h1 class="hero__name">
             <img
               class="hero__wordmark"
               src="/marina-yee-wordmark.svg"
@@ -171,51 +176,248 @@
               fetchpriority="high"
             />
           </h1>
-          <p class="hero__standfirst">One Corner Off</p>
+          <p class="hero__headline">
+            <span class="hero__line">One Corner</span>
+            <!-- Decorative here: the same collage is in the pile of details
+                 further down, with its description. Laid out at its full
+                 opened size and cropped to her eyes by the window, so
+                 hero-scene.js only has to widen the crop. -->
+            <span class="hero__window" data-hero-window>
+              <img
+                src="/images/workshop-collage.jpg"
+                srcset="
+                  /images/responsive/workshop-collage-320.webp 320w,
+                  /images/responsive/workshop-collage-480.webp 480w,
+                  /images/responsive/workshop-collage-640.webp 640w,
+                  /images/responsive/workshop-collage-768.webp 768w,
+                  /images/responsive/workshop-collage-900.webp 900w
+                "
+                sizes="min(58vh, 92vw)"
+                alt=""
+                width="900"
+                height="1273"
+                fetchpriority="high"
+                decoding="async"
+              />
+            </span>
+            <span class="hero__line">Off</span>
+          </p>
         </hgroup>
+
+        <!-- Inert until cursor-trail.js clones from it, so none of these load
+             for a reader who never moves a pointer across the opening. -->
+        <template data-trail-items>
+          <img
+            src="/images/objects/cloth-swatch.png"
+            srcset="
+              /images/responsive/objects/cloth-swatch-160.webp 160w,
+              /images/responsive/objects/cloth-swatch-265.webp 265w
+            "
+            sizes="9rem"
+            alt=""
+            width="265"
+            height="420"
+            decoding="async"
+          />
+          <img
+            src="/images/objects/hanger-objects.png"
+            srcset="
+              /images/responsive/objects/hanger-objects-160.webp 160w,
+              /images/responsive/objects/hanger-objects-320.webp 320w,
+              /images/responsive/objects/hanger-objects-371.webp 371w
+            "
+            sizes="9rem"
+            alt=""
+            width="371"
+            height="539"
+            decoding="async"
+          />
+          <img
+            src="/images/objects/measuring-tape.png"
+            srcset="
+              /images/responsive/objects/measuring-tape-160.webp 160w,
+              /images/responsive/objects/measuring-tape-320.webp 320w,
+              /images/responsive/objects/measuring-tape-480.webp 480w,
+              /images/responsive/objects/measuring-tape-535.webp 535w
+            "
+            sizes="9rem"
+            alt=""
+            width="535"
+            height="422"
+            decoding="async"
+          />
+          <img
+            src="/images/objects/cloth-folded.png"
+            srcset="
+              /images/responsive/objects/cloth-folded-160.webp 160w,
+              /images/responsive/objects/cloth-folded-320.webp 320w,
+              /images/responsive/objects/cloth-folded-398.webp 398w
+            "
+            sizes="9rem"
+            alt=""
+            width="398"
+            height="702"
+            decoding="async"
+          />
+          <img
+            src="/images/objects/needle-thread.png"
+            srcset="
+              /images/responsive/objects/needle-thread-160.webp 160w,
+              /images/responsive/objects/needle-thread-320.webp 320w,
+              /images/responsive/objects/needle-thread-425.webp 425w
+            "
+            sizes="9rem"
+            alt=""
+            width="425"
+            height="242"
+            decoding="async"
+          />
+          <img
+            src="/images/objects/cloth-stack.png"
+            srcset="
+              /images/responsive/objects/cloth-stack-160.webp 160w,
+              /images/responsive/objects/cloth-stack-320.webp 320w,
+              /images/responsive/objects/cloth-stack-380.webp 380w
+            "
+            sizes="9rem"
+            alt=""
+            width="380"
+            height="710"
+            decoding="async"
+          />
+        </template>
       </section>
 
       <section class="chapter">
         <h2 class="visually-hidden">Introduction</h2>
 
-        <div class="chapter__body chapter__body--standalone" data-reveal>
+        <div class="chapter__body chapter__body--standalone chapter__body--lede" data-reveal>
           <p>
             Marina Yee’s place within the
             <!-- The words stay in the accessibility tree; only their painted
                  position changes. -->
             <span class="scatter" data-scatter>
               <strong>Antwerp Six</strong>
-              <img
-                class="scribble scribble--strike"
-                src="/images/objects/doodle-scribble.png"
-                srcset="
-                  /images/responsive/objects/doodle-scribble-160.webp 160w,
-                  /images/responsive/objects/doodle-scribble-320.webp 320w,
-                  /images/responsive/objects/doodle-scribble-480.webp 480w,
-                  /images/responsive/objects/doodle-scribble-571.webp 571w
-                "
-                sizes="12rem"
-                alt=""
-                width="571"
-                height="639"
-                aria-hidden="true"
-                loading="lazy"
-                decoding="async"
-                data-scribble="left"
-              />
             </span>
             is usually the first fact attached to her name. It is important history, but it does not
-            explain the way she approached design.
+            explain
+            <mark data-highlight>the way she approached design.</mark>
           </p>
         </div>
       </section>
 
-      <!-- spotlight.js clones this line onto an overlay it inserts, so the
-           sentence is written once. -->
+      <!-- Without script: the line, with her practice set out around it.
+           spotlight.js darkens the room, lights a label at its centre, and
+           pulls back from it as the reader scrolls. -->
       <section class="statement statement--spotlight" data-spotlight>
         <p class="statement__text">
-          Move away from the spotlight, and her practice becomes easier to see.
+          <span class="spotlight__clause">Move away from the spotlight,</span>
+          <span class="spotlight__clause" data-spotlight-rest>
+            and her practice becomes easier to see.
+          </span>
         </p>
+
+        <div class="spotlight__practice" aria-hidden="true">
+          <div class="spotlight__piece spotlight__piece--studio" data-poke-item>
+            <img
+              src="/images/atelier.jpg"
+              srcset="
+                /images/responsive/atelier-160.webp 160w,
+                /images/responsive/atelier-320.webp 320w,
+                /images/responsive/atelier-480.webp 480w,
+                /images/responsive/atelier-640.webp 640w
+              "
+              sizes="(min-width: 48rem) 17vw, 34vw"
+              alt=""
+              width="640"
+              height="587"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="spotlight__piece spotlight__piece--toile" data-poke-item>
+            <img
+              src="/images/My_shirt.jpg"
+              srcset="
+                /images/responsive/My_shirt-160.webp 160w,
+                /images/responsive/My_shirt-320.webp 320w,
+                /images/responsive/My_shirt-480.webp 480w,
+                /images/responsive/My_shirt-640.webp 640w,
+                /images/responsive/My_shirt-768.webp 768w
+              "
+              sizes="(min-width: 48rem) 19vw, 36vw"
+              alt=""
+              width="1280"
+              height="960"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="spotlight__piece spotlight__piece--fold" data-poke-item>
+            <img
+              src="/images/objects/cloth-folded.png"
+              srcset="
+                /images/responsive/objects/cloth-folded-160.webp 160w,
+                /images/responsive/objects/cloth-folded-320.webp 320w,
+                /images/responsive/objects/cloth-folded-398.webp 398w
+              "
+              sizes="(min-width: 48rem) 7vw, 14vw"
+              alt=""
+              width="398"
+              height="702"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="spotlight__piece spotlight__piece--tape" data-poke-item>
+            <img
+              src="/images/objects/measuring-tape.png"
+              srcset="
+                /images/responsive/objects/measuring-tape-160.webp 160w,
+                /images/responsive/objects/measuring-tape-320.webp 320w,
+                /images/responsive/objects/measuring-tape-480.webp 480w,
+                /images/responsive/objects/measuring-tape-535.webp 535w
+              "
+              sizes="(min-width: 48rem) 15vw, 32vw"
+              alt=""
+              width="535"
+              height="422"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="spotlight__piece spotlight__piece--needle" data-poke-item>
+            <img
+              src="/images/objects/needle-thread.png"
+              srcset="
+                /images/responsive/objects/needle-thread-160.webp 160w,
+                /images/responsive/objects/needle-thread-320.webp 320w,
+                /images/responsive/objects/needle-thread-425.webp 425w
+              "
+              sizes="(min-width: 48rem) 15vw, 32vw"
+              alt=""
+              width="425"
+              height="242"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="spotlight__piece spotlight__piece--swatch" data-poke-item>
+            <img
+              src="/images/objects/cloth-swatch.png"
+              srcset="
+                /images/responsive/objects/cloth-swatch-160.webp 160w,
+                /images/responsive/objects/cloth-swatch-265.webp 265w
+              "
+              sizes="(min-width: 48rem) 6vw, 14vw"
+              alt=""
+              width="265"
+              height="420"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        </div>
       </section>
 
       <section class="chapter text-reveal" data-text-reveal>
@@ -252,9 +454,14 @@
       <section class="picker" id="picker">
         <!-- No data-reveal: picker-motion.js runs its own entrance here, and
              two modules animating one element fight over its opacity. -->
-        <div class="picker__intro">
-          <h2 class="chapter__title">Working With What Was Already There</h2>
+        <h2 class="chapter__title picker__title">
+          Working With What Was
+          <mark data-highlight>Already</mark>
+          There
+          <span class="chapter__index" aria-hidden="true">(01)</span>
+        </h2>
 
+        <div class="picker__intro">
           <div class="chapter__body">
             <p>
               Yee worked with garments that already had a form, a function and, often, visible signs
@@ -492,6 +699,7 @@
       <section class="chapter text-swap" id="starting-with-what-already-existed" data-text-swap>
         <h2 class="chapter__title text-swap__title">
           Starting With What Already Existed
+          <span class="chapter__index" aria-hidden="true">(02)</span>
           <img
             class="scribble scribble--alter"
             src="/images/objects/alter-scribble.png"
@@ -533,7 +741,10 @@
 
       <section class="chapter" id="my-project">
         <div class="my-project-copy">
-          <h2 class="chapter__title">M.Y. Project, 2018</h2>
+          <h2 class="chapter__title">
+            M.Y. Project, 2018
+            <span class="chapter__index" aria-hidden="true">(03)</span>
+          </h2>
 
           <div class="chapter__body">
             <p>
@@ -554,10 +765,10 @@
             <p>
               M.Y. Project showed that, decades later, Yee was still working through the same
               principle:
-              <strong>
+              <mark data-highlight>
                 begin with what already exists, keep what matters, and change only what needs to
                 change.
-              </strong>
+              </mark>
             </p>
           </div>
         </div>
@@ -768,6 +979,7 @@
       <section class="chapter one-corner" id="one-corner-off">
         <h2 class="chapter__title" data-tracking-heading>
           <span>One Corner Off</span>
+          <span class="chapter__index" aria-hidden="true">(04)</span>
         </h2>
 
         <div class="one-corner__objects" data-object-pop aria-hidden="true">
@@ -829,7 +1041,7 @@
         <!-- A cut sheet and the loose piece beside it: both states at once,
              which is what the paragraph describes. corner-off.js only makes
              the cut happen on arrival. -->
-        <div class="chapter__body chapter__body--standalone corner-off" data-corner-off data-reveal>
+        <div class="chapter__body corner-off" data-corner-off data-reveal>
           <div class="corner-off__sheet">
             <p>
               Seen alongside her reconstructed garments, the expression became particularly useful.
@@ -928,9 +1140,12 @@
       <!-- Without JavaScript this is a piece of cloth and a paragraph about
            what Yee did to one. doodle.js inserts the canvas, then the tools. -->
       <section class="doodle" id="your-turn" data-doodle>
-        <div class="doodle__intro">
-          <h2 class="chapter__title" data-reveal>Take One Corner Off</h2>
+        <h2 class="chapter__title doodle__title" data-reveal>
+          Take One Corner Off
+          <span class="chapter__index" aria-hidden="true">(05)</span>
+        </h2>
 
+        <div class="doodle__intro">
           <div class="chapter__body" data-reveal>
             <p>
               Every garment Yee started from was already finished. The work was deciding where to
@@ -1017,9 +1232,9 @@
         </div>
       </section>
 
-      <section class="visit" id="visit">
+      <section class="visit" id="visit" data-trail>
         <div class="visit__inner">
-          <h2>
+          <h2 class="chapter__title visit__title">
             <span class="circled">
               Look Closer
               <img
@@ -1029,7 +1244,7 @@
                   /images/responsive/objects/circle-scribble-160.webp 160w,
                   /images/responsive/objects/circle-scribble-257.webp 257w
                 "
-                sizes="(min-width: 48rem) 24rem, 14rem"
+                sizes="(min-width: 48rem) 40rem, 18rem"
                 alt=""
                 width="257"
                 height="295"
@@ -1040,6 +1255,7 @@
               />
             </span>
             at MoMu
+            <span class="chapter__index" aria-hidden="true">(06)</span>
           </h2>
 
           <p>
@@ -1126,6 +1342,87 @@
             />
           </div>
         </div>
+
+        <!-- The closing table: tools and marks, laid down by cursor-trail.js
+             where the pointer goes. Inert until then. -->
+        <template data-trail-items>
+          <img
+            src="/images/objects/needle-thread.png"
+            srcset="
+              /images/responsive/objects/needle-thread-160.webp 160w,
+              /images/responsive/objects/needle-thread-320.webp 320w,
+              /images/responsive/objects/needle-thread-425.webp 425w
+            "
+            sizes="9rem"
+            alt=""
+            width="425"
+            height="242"
+            decoding="async"
+          />
+          <img
+            src="/images/objects/here-scribble.png"
+            srcset="
+              /images/responsive/objects/here-scribble-160.webp 160w,
+              /images/responsive/objects/here-scribble-272.webp 272w
+            "
+            sizes="9rem"
+            alt=""
+            width="272"
+            height="152"
+            decoding="async"
+          />
+          <img
+            src="/images/objects/cloth-swatch.png"
+            srcset="
+              /images/responsive/objects/cloth-swatch-160.webp 160w,
+              /images/responsive/objects/cloth-swatch-265.webp 265w
+            "
+            sizes="9rem"
+            alt=""
+            width="265"
+            height="420"
+            decoding="async"
+          />
+          <img
+            src="/images/objects/measuring-tape.png"
+            srcset="
+              /images/responsive/objects/measuring-tape-160.webp 160w,
+              /images/responsive/objects/measuring-tape-320.webp 320w,
+              /images/responsive/objects/measuring-tape-480.webp 480w,
+              /images/responsive/objects/measuring-tape-535.webp 535w
+            "
+            sizes="9rem"
+            alt=""
+            width="535"
+            height="422"
+            decoding="async"
+          />
+          <img
+            src="/images/objects/arrow-scribble.png"
+            srcset="
+              /images/responsive/objects/arrow-scribble-160.webp 160w,
+              /images/responsive/objects/arrow-scribble-219.webp 219w
+            "
+            sizes="9rem"
+            alt=""
+            width="219"
+            height="244"
+            decoding="async"
+          />
+          <img
+            src="/images/objects/cloth-folded.png"
+            srcset="
+              /images/responsive/objects/cloth-folded-160.webp 160w,
+              /images/responsive/objects/cloth-folded-320.webp 320w,
+              /images/responsive/objects/cloth-folded-398.webp 398w
+            "
+            sizes="9rem"
+            alt=""
+            width="398"
+            height="702"
+            decoding="async"
+          />
+        </template>
       </section>
     </main>
 
@@ -1136,8 +1433,9 @@
         class="site-footer__wordmark"
         src="/marina-yee-wordmark.svg"
         alt="Marina Yee"
-        width="640"
-        height="180"
+        width="1509"
+        height="343"
+        loading="lazy"
       />
 
       <div class="site-footer__grid">

@@ -1,83 +1,145 @@
-import { gsap, SCRUB, canHover } from './motion.js';
+import { gsap, SCRUB } from './motion.js';
 
 /**
- * "Move away from the spotlight." The line is plain text in the markup; this
- * adds an aria-hidden copy on a dark layer clipped to a circle, so the overlay
- * only exists when the animation that removes it will run.
+ * "Move away from the spotlight, and her practice becomes easier to see."
+ * Played as a camera pulling back. The room goes dark as the reader arrives
+ * and a single light holds the label her name is usually filed under. Pinned,
+ * scrolling backs away from it: the light shrinks into the distance, the
+ * house lights come up, and her practice comes into frame from beyond the
+ * edges, the way a room does when you step back from the one thing lit in it.
+ * The second half of the sentence arrives with it.
  *
- * Pinned, the circle swells until the whole screen is the spotlight, then
- * closes to a point as the reader scrolls on. Scrolling away from it is what
- * leaves the page plain again, ready for the studio that follows. On a pointer
- * device the circle is centred on the cursor, so it can be held over the line.
+ * The stage is built here and aria-hidden. Without it, the line and her
+ * practice simply sit on the page together.
  */
+
+// The name the spotlight is usually on. The lede has just scattered it.
+const LABEL = 'The Antwerp Six';
+
 export function initSpotlight() {
   const section = document.querySelector('[data-spotlight]');
   const line = section?.querySelector('.statement__text');
   if (!section || !line) return;
 
-  const overlay = document.createElement('div');
-  overlay.className = 'spotlight-overlay';
-  overlay.setAttribute('aria-hidden', 'true');
-  overlay.append(line.cloneNode(true));
-  section.append(overlay);
+  const rest = line.querySelector('[data-spotlight-rest]');
+  const pieces = gsap.utils.toArray(
+    section.querySelectorAll('.spotlight__piece'),
+  );
 
-  if (canHover()) followCursor(section, overlay);
+  const { stage, dark, light } = buildStage();
+  section.append(stage);
+  section.classList.add('is-enhanced');
 
-  // From any centre inside the section, far enough to reach every corner.
-  const cover = () => Math.hypot(section.clientWidth, section.clientHeight);
+  // The light is centred by transform, which GSAP owns from here on.
+  gsap.set(light, { xPercent: -50, yPercent: -50 });
+
+  // The house lights go down as the section arrives, so the dark room is
+  // entered rather than cut to.
+  gsap.fromTo(
+    stage,
+    { autoAlpha: 0 },
+    {
+      autoAlpha: 1,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: section,
+        start: 'top 70%',
+        end: 'top top',
+        scrub: SCRUB,
+      },
+    },
+  );
+
+  // Where each piece starts: out past the edge of the frame along the line
+  // from the centre, as if the camera were still close in. Layout positions,
+  // not rects, so a refresh mid-scroll measures the same thing.
+  const outward = (piece, axis) => {
+    const centre =
+      axis === 'x'
+        ? piece.offsetLeft + piece.offsetWidth / 2 - section.clientWidth / 2
+        : piece.offsetTop + piece.offsetHeight / 2 - section.clientHeight / 2;
+    return centre * 0.9;
+  };
+
+  // From the line's low resting place up to the middle, where the light was.
+  const toCentre = () =>
+    section.clientHeight / 2 - (line.offsetTop + line.offsetHeight / 2);
 
   gsap
     .timeline({
       scrollTrigger: {
         trigger: section,
         start: 'top top',
-        end: '+=150%',
+        end: '+=180%',
         pin: true,
         scrub: SCRUB,
         invalidateOnRefresh: true,
-        // First of the six pins, top to bottom — see main.js.
+        // Second of the seven pins, top to bottom — see main.js.
         refreshPriority: 6,
       },
     })
-    .fromTo(
-      overlay,
-      { '--spot-r': '0px' },
-      { '--spot-r': () => `${cover()}px`, duration: 0.45, ease: 'power1.in' },
-    )
-    // Held at full, so the dark screen registers as a moment, not a flicker.
-    // Then closed fast from the corners and slowly at the end, the way an
-    // iris shuts on the last shot of a scene.
+    // Backing away: fast at first and slower as it gets far, the way size
+    // falls off with distance.
     .to(
-      overlay,
-      { '--spot-r': '0px', duration: 0.45, ease: 'power2.out' },
-      '+=0.1',
-    );
+      light,
+      {
+        scale: 0.08,
+        y: () => -window.innerHeight * 0.22,
+        duration: 0.65,
+        ease: 'power3.out',
+      },
+      0,
+    )
+    .to(light, { autoAlpha: 0, duration: 0.15, ease: 'none' }, 0.55)
+    .to(dark, { autoAlpha: 0, duration: 0.45, ease: 'power1.inOut' }, 0.3)
+    .fromTo(
+      pieces,
+      {
+        x: (i, piece) => outward(piece, 'x'),
+        y: (i, piece) => outward(piece, 'y'),
+        scale: 1.6,
+        autoAlpha: 0,
+      },
+      {
+        x: 0,
+        y: 0,
+        scale: 1,
+        autoAlpha: 1,
+        duration: 0.55,
+        ease: 'power3.out',
+        stagger: 0.04,
+      },
+      0.35,
+    )
+    .to(line, { y: toCentre, duration: 0.4, ease: 'power2.inOut' }, 0.5)
+    // Opacity, not autoAlpha: this is half the sentence, and visibility:
+    // hidden would take it out of what a screen reader hears.
+    .fromTo(
+      rest,
+      { opacity: 0, y: 16 },
+      { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' },
+      0.6,
+    )
+    // Held, lit, before the pin lets go.
+    .to({}, { duration: 0.2 });
 }
 
-function followCursor(section, overlay) {
-  // Eased on a plain object, then written out with units: quickTo hands its
-  // target a bare number and clip-path needs one. Reusing one tween per axis
-  // is also what gives the circle its lag behind the cursor.
-  const spot = { x: 50, y: 50 };
+function buildStage() {
+  const stage = document.createElement('div');
+  stage.className = 'spotlight__stage';
+  stage.setAttribute('aria-hidden', 'true');
 
-  const write = () => {
-    overlay.style.setProperty('--spot-x', `${spot.x}%`);
-    overlay.style.setProperty('--spot-y', `${spot.y}%`);
-  };
+  const dark = document.createElement('div');
+  dark.className = 'spotlight__dark';
 
-  const ease = { duration: 0.45, ease: 'power2.out', onUpdate: write };
-  const moveX = gsap.quickTo(spot, 'x', ease);
-  const moveY = gsap.quickTo(spot, 'y', ease);
+  const light = document.createElement('div');
+  light.className = 'spotlight__light';
 
-  // Only fires while the cursor is over the section, so it needs no
-  // switching on and off as the reader scrolls past.
-  section.addEventListener(
-    'pointermove',
-    (event) => {
-      const rect = section.getBoundingClientRect();
-      moveX(((event.clientX - rect.left) / rect.width) * 100);
-      moveY(((event.clientY - rect.top) / rect.height) * 100);
-    },
-    { passive: true },
-  );
+  const label = document.createElement('p');
+  label.className = 'spotlight__label';
+  label.textContent = LABEL;
+
+  light.append(label);
+  stage.append(dark, light);
+  return { stage, dark, light };
 }
