@@ -1,10 +1,10 @@
 import { gsap, ScrollTrigger, SplitText } from './motion.js';
 
 /**
- * Scatters a short phrase away as the reader passes it. Each letter is an
- * outer box that holds its place in the line and an inner glyph that moves,
- * so the sentence never reflows around the gap. The gap is the point: the
- * words leave, the scribble stays.
+ * Scatters a short phrase away once the reader has passed it. Each letter is
+ * an outer box that holds its place in the line and an inner glyph that
+ * moves, so the sentence never reflows around the gap. The gap is the point:
+ * the label leaves, and the sentence goes on without it.
  *
  * Resolves once setup completes — see text-line-reveal.js for why that matters.
  */
@@ -74,8 +74,9 @@ function setup(target) {
 
   ScrollTrigger.create({
     trigger: target,
-    // Later than the scribble's trigger (top 85%), so the strike lands first.
-    start: 'top 62%',
+    // Near the top of the screen, not as it arrives: the phrase has to be read
+    // before it goes, and at headline size it is on screen for a while.
+    start: 'top 30%',
     onEnter: scatter,
     onLeaveBack: gather,
   });

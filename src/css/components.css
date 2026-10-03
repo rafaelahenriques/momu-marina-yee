@@ -1313,18 +1313,6 @@
   user-select: none;
 }
 
-.scribble--strike {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  translate: -50% -60%;
-  rotate: -3deg;
-  width: 124%;
-  height: 2.1em;
-  object-fit: cover;
-  object-position: 50% 14%;
-}
-
 /* Set in the line rather than positioned over it: the choices wrap
    differently at every width, and an absolute arrow landed on whichever
    button happened to be under it. */
