@@ -14,15 +14,24 @@ export function initTextLinesRise() {
   // breaks would be wrong once it swaps in.
   return document.fonts.ready.then(() => {
     targets.forEach((element) => {
-      const split = SplitText.create(element, {
-        type: 'lines',
-        linesClass: 'lines-rise__line',
-      });
-      if (!split.lines.length) return;
+      // Each paragraph is split on its own. Splitting the container instead
+      // wraps every line in a copy of its <p>, which turns three paragraphs
+      // into a dozen and drops the space between them.
+      const paragraphs = element.querySelectorAll(':scope > p');
+      const blocks = paragraphs.length ? [...paragraphs] : [element];
+
+      const lines = blocks.flatMap(
+        (block) =>
+          SplitText.create(block, {
+            type: 'lines',
+            linesClass: 'lines-rise__line',
+          }).lines,
+      );
+      if (!lines.length) return;
 
       // The line clips; an inner child does the moving. Built with DOM APIs,
       // not innerHTML, so the copy is never re-parsed as markup.
-      const inners = split.lines.map((line) => {
+      const inners = lines.map((line) => {
         const inner = document.createElement('span');
         inner.className = 'lines-rise__line-inner';
         inner.append(...line.childNodes);
