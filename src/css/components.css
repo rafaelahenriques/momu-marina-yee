@@ -1641,15 +1641,29 @@
 ============================================================ */
 
 .corner-off {
-  --corner-size: clamp(2.25rem, 7vw, 3.5rem);
+  --corner-size: clamp(3rem, 9vw, 5rem);
 
   position: relative;
+  max-width: 44rem;
   margin-block: var(--space-l);
+
+  /* On the parent, not the sheet or the piece: a clip-path also clips any
+     filter on the same element, which left the piece's shadow cut off at its
+     edges. Here it follows the notched sheet and the loose triangle both. */
+  filter: drop-shadow(var(--shadow-paper));
 }
 
+/* A sheet of paper, set like a page from a notebook: body copy in the text
+   face, and the sentence the whole chapter turns on pulled out at display
+   size. */
 .corner-off__sheet {
   padding: var(--space-l) var(--space-m);
-  background: var(--color-surface);
+  background: var(--color-bg);
+
+  /* Laid down by hand, not squared to the page. On the sheet rather than the
+     block, which scroll-reveal.js moves: GSAP resets the rotate property on
+     anything it transforms. */
+  rotate: -1deg;
 
   clip-path: polygon(
     0 0,
@@ -1660,6 +1674,28 @@
   );
 }
 
+.corner-off__sheet p {
+  max-width: 40ch;
+}
+
+.corner-off__sheet strong {
+  display: block;
+  max-width: 22ch;
+  margin-block: var(--space-m);
+  font-family: var(--font-display);
+  font-size: var(--step-3);
+  font-weight: 400;
+  line-height: var(--leading-tight);
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+@media (min-width: 48rem) {
+  .corner-off__sheet {
+    padding: var(--space-xl) var(--space-l);
+  }
+}
+
 .corner-off__piece {
   position: absolute;
   top: calc(var(--corner-size) * -0.5);
@@ -1668,12 +1704,9 @@
   width: var(--corner-size);
   aspect-ratio: 1;
 
-  background: var(--color-surface);
+  background: var(--color-bg);
 
   clip-path: polygon(0 0, 100% 0, 100% 100%);
-
-  /* A rectangular box-shadow would draw a box around the empty half. */
-  filter: drop-shadow(0 2px 3px rgb(0 0 0 / 22%));
 
   /* The resting angle without JS. Once corner-off.js runs it owns this
      instead — see REST_ANGLE there. Keep the two numbers in step. */
