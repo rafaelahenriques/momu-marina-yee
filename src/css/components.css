@@ -7,8 +7,7 @@
 .button,
 .picker__label,
 .doodle__mark-label,
-.doodle__action,
-.sequence__toggle {
+.doodle__action {
   display: inline-flex;
   align-items: center;
   min-height: var(--target);
@@ -383,16 +382,15 @@
   padding-inline: var(--gutter);
   background: var(--color-ink);
   pointer-events: none;
-  opacity: 1;
 
-  /* Lengths, not a var() fallback: spotlight.js tweens the radius in rem, and
-     a percentage cannot be interpolated to a rem. */
-  --spot-r: 0rem;
+  /* A length, not a var() fallback: spotlight.js tweens the radius in px,
+     out to the diagonal of the screen, and a percentage of a circle's
+     reference box would not reach it. */
+  --spot-r: 0px;
   --spot-x: 50%;
   --spot-y: 50%;
 
   clip-path: circle(var(--spot-r) at var(--spot-x) var(--spot-y));
-  transition: opacity var(--duration-base) var(--ease-out);
 }
 
 .spotlight-overlay .statement__text {
@@ -558,6 +556,51 @@
   transform-origin: left center;
 }
 
+/* --- Corner exit ------------------------------------------------------
+   Built by horizontal-scroll.js after the section, not inside it: the
+   section clips its overflow, and the piece has to fall past its edge.
+   The layer has no height, so its top is the section's bottom edge. */
+
+.corner-cut {
+  --cut: clamp(7rem, 30vmin, 18rem);
+
+  position: relative;
+  z-index: 3;
+  height: 0;
+  pointer-events: none;
+}
+
+.corner-cut__hole,
+.corner-cut__piece {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+.corner-cut__hole,
+.corner-cut__face {
+  display: block;
+  aspect-ratio: 1;
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+
+/* A hair smaller than the piece, so its long edge stays tucked under the
+   piece's rather than showing as a light seam along it. */
+.corner-cut__hole {
+  width: calc(var(--cut) - 2px);
+  background: var(--color-bg);
+}
+
+.corner-cut__piece {
+  width: var(--cut);
+  filter: drop-shadow(var(--shadow-lift));
+  will-change: transform;
+}
+
+.corner-cut__face {
+  background: var(--color-dark-bg);
+}
+
 @media (min-width: 48rem) {
   .horizontal.is-enhanced::before {
     background: linear-gradient(
@@ -638,8 +681,9 @@
 
 /* ============================================================
    SEQUENCE
-   Default: native scroll-snap, swipeable. Enhanced (.is-marquee):
-   a continuous loop, which is why it ships a pause button.
+   Default: native scroll-snap, swipeable. Enhanced (.is-stacked):
+   a pile the reader builds by scrolling, each piece landing on
+   the last without hiding it.
 ============================================================ */
 
 .sequence-wrap {
@@ -681,26 +725,56 @@
   }
 }
 
-.sequence.is-marquee {
-  overflow: hidden;
+/* --- Enhanced: the pile ---------------------------------------
+   Added only by sequence-stack.js. The height is the speed control:
+   the stage is held for this minus one screen, which is what the
+   pile takes to build. Enhanced only — without script this must not
+   reserve empty screens of scroll. */
+
+.sequence.is-stacked {
+  display: block;
+  height: 260vh;
+  padding: 0;
+  margin-inline: 0;
+
+  /* Visible, not auto: a scroll container here would become the box the
+     stage sticks to, and it would never stick. */
+  overflow: visible;
   scroll-snap-type: none;
 }
 
-.sequence.is-marquee .sequence__track {
+.sequence.is-stacked .sequence__track {
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+  display: grid;
+  place-items: center;
+
+  /* Deliberately not clipped. The incoming pieces wait a screen below the
+     stage, which is always below the viewport while it is stuck; clipped,
+     lazy loading would count them as off screen and only fetch them once
+     they were already rising into view. */
+}
+
+.sequence.is-stacked .figure {
+  grid-area: 1 / 1;
+
+  /* Sized against height too: three portrait scans in one held screen run
+     out of height first on a landscape phone. */
+  width: min(70vw, 24rem, 46dvh);
   will-change: transform;
 }
 
-/* Hidden until JS confirms the marquee is running. */
-.sequence__toggle {
-  display: none;
-  margin-top: var(--space-2xs);
-  margin-inline: var(--gutter);
-  border: 1px solid var(--color-rule);
-  background: none;
+.sequence.is-stacked .figure img {
+  box-shadow: var(--shadow-paper);
 }
 
-.sequence.is-marquee ~ .sequence__toggle {
-  display: inline-flex;
+/* A paper label rather than loose type: the piece beneath shows wherever the
+   caption falls, and grey type on a dark scan disappears. */
+.sequence.is-stacked .figure figcaption {
+  display: inline-block;
+  padding: var(--space-3xs) var(--space-2xs);
+  background: var(--color-bg);
 }
 
 /* ============================================================

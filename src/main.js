@@ -7,7 +7,6 @@ import { initPicker } from './js/picker.js';
 import { initDoodle } from './js/doodle.js';
 
 async function init() {
-
   initMenu();
   initNav();
   initPicker();
@@ -22,7 +21,7 @@ async function init() {
     { initHorizontalScroll },
     { initHeroScatter },
     { initHeadingTracking },
-    { initSequenceMarquee },
+    { initSequenceStack },
     { initPickerMotion },
     { initMyProjectDepth },
     { initTextLineReveal },
@@ -43,7 +42,7 @@ async function init() {
     import('./js/horizontal-scroll.js'),
     import('./js/hero-scatter.js'),
     import('./js/heading-tracking.js'),
-    import('./js/sequence-marquee.js'),
+    import('./js/sequence-stack.js'),
     import('./js/picker-motion.js'),
     import('./js/my-project-depth.js'),
     import('./js/text-line-reveal.js'),
@@ -59,8 +58,9 @@ async function init() {
     import('./js/object-pop.js'),
   ]);
 
-
   initHeroScatter();
+  // The topmost of the pins described below, and synchronous, so it is
+  // already in DOM order here.
   initSpotlight();
   initPickerMotion();
   initPoke();
@@ -68,7 +68,7 @@ async function init() {
 
   /*
    * Pinned sections must be created in DOM order, top to bottom
-   * (refreshPriority 5 → 1). Each pin adds scroll distance, so one created
+   * (refreshPriority 6 → 1). Each pin adds scroll distance, so one created
    * before a pin above it measures against a page height that then changes,
    * and engages early over the section above. The first three must be
    * awaited, or the horizontal pin is built first and starts ~3000px too
@@ -80,10 +80,14 @@ async function init() {
   initMyProjectDepth();
   initHorizontalScroll();
 
+  // Not a pin — the stage is CSS sticky — but it makes its section several
+  // screens taller, so like a pin it must exist before anything below it is
+  // measured.
+  initSequenceStack();
+
   // Anything positioned against the final page geometry comes after the pins.
   initScrollReveal();
   initHeadingTracking();
-  initSequenceMarquee();
   initScribble();
   initObjectPop();
   initCornerOff();
