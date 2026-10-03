@@ -7,8 +7,7 @@
 .button,
 .picker__label,
 .doodle__mark-label,
-.doodle__action,
-.sequence__toggle {
+.doodle__action {
   display: inline-flex;
   align-items: center;
   min-height: var(--target);
@@ -682,8 +681,9 @@
 
 /* ============================================================
    SEQUENCE
-   Default: native scroll-snap, swipeable. Enhanced (.is-marquee):
-   a continuous loop, which is why it ships a pause button.
+   Default: native scroll-snap, swipeable. Enhanced (.is-stacked):
+   a pile the reader builds by scrolling, each piece landing on
+   the last without hiding it.
 ============================================================ */
 
 .sequence-wrap {
@@ -725,26 +725,56 @@
   }
 }
 
-.sequence.is-marquee {
-  overflow: hidden;
+/* --- Enhanced: the pile ---------------------------------------
+   Added only by sequence-stack.js. The height is the speed control:
+   the stage is held for this minus one screen, which is what the
+   pile takes to build. Enhanced only — without script this must not
+   reserve empty screens of scroll. */
+
+.sequence.is-stacked {
+  display: block;
+  height: 260vh;
+  padding: 0;
+  margin-inline: 0;
+
+  /* Visible, not auto: a scroll container here would become the box the
+     stage sticks to, and it would never stick. */
+  overflow: visible;
   scroll-snap-type: none;
 }
 
-.sequence.is-marquee .sequence__track {
+.sequence.is-stacked .sequence__track {
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+  display: grid;
+  place-items: center;
+
+  /* Deliberately not clipped. The incoming pieces wait a screen below the
+     stage, which is always below the viewport while it is stuck; clipped,
+     lazy loading would count them as off screen and only fetch them once
+     they were already rising into view. */
+}
+
+.sequence.is-stacked .figure {
+  grid-area: 1 / 1;
+
+  /* Sized against height too: three portrait scans in one held screen run
+     out of height first on a landscape phone. */
+  width: min(70vw, 24rem, 46dvh);
   will-change: transform;
 }
 
-/* Hidden until JS confirms the marquee is running. */
-.sequence__toggle {
-  display: none;
-  margin-top: var(--space-2xs);
-  margin-inline: var(--gutter);
-  border: 1px solid var(--color-rule);
-  background: none;
+.sequence.is-stacked .figure img {
+  box-shadow: var(--shadow-paper);
 }
 
-.sequence.is-marquee ~ .sequence__toggle {
-  display: inline-flex;
+/* A paper label rather than loose type: the piece beneath shows wherever the
+   caption falls, and grey type on a dark scan disappears. */
+.sequence.is-stacked .figure figcaption {
+  display: inline-block;
+  padding: var(--space-3xs) var(--space-2xs);
+  background: var(--color-bg);
 }
 
 /* ============================================================
