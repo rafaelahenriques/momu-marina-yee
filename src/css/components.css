@@ -785,25 +785,23 @@
      they were already rising into view. */
 }
 
+/* Each piece a print with its caption written in the margin under it: on
+   paper, so the scan beneath never shows through the words. */
 .sequence.is-stacked .figure {
   grid-area: 1 / 1;
 
   /* Sized against height too: three portrait scans in one held screen run
      out of height first on a landscape phone. */
   width: min(70vw, 24rem, 46dvh);
+  padding: var(--space-2xs) var(--space-2xs) 0;
+  background: var(--color-bg);
+  box-shadow: var(--shadow-paper);
   will-change: transform;
 }
 
-.sequence.is-stacked .figure img {
-  box-shadow: var(--shadow-paper);
-}
-
-/* A paper label rather than loose type: the piece beneath shows wherever the
-   caption falls, and grey type on a dark scan disappears. */
 .sequence.is-stacked .figure figcaption {
-  display: inline-block;
-  padding: var(--space-3xs) var(--space-2xs);
-  background: var(--color-bg);
+  margin: 0;
+  padding: var(--space-2xs) 0 var(--space-xs);
 }
 
 /* ============================================================
@@ -956,8 +954,13 @@
   width: 100%;
 }
 
+/* Printed with a deeper bottom margin, the way snapshots are pinned up in a
+   studio. On the image itself, so the border moves with it when it is
+   knocked. */
 .picker__stage-item[data-stage-img] img {
-  box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
+  padding: var(--space-2xs) var(--space-2xs) var(--space-l);
+  background: var(--color-bg);
+  box-shadow: var(--shadow-paper);
 }
 
 .picker__stage-item[data-stage-img='menswear'] {
@@ -1123,6 +1126,11 @@
   max-width: none;
 
   opacity: 0;
+
+  /* Prints, so each reads as a separate thing as they fan out and fly. */
+  padding: var(--space-xs) var(--space-xs) var(--space-l);
+  background: var(--color-bg);
+  box-shadow: var(--shadow-paper);
 
   /* Mid-flight most of the time, so they must never take a click. */
   pointer-events: none;
