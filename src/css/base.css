@@ -129,9 +129,12 @@ a {
   text-underline-offset: 0.15em;
 }
 
+/* Set like a wall label: small spaced capitals, quiet beside the work. */
 figcaption {
   font-family: var(--font-utility);
-  font-size: var(--step--1);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: var(--color-ink-muted);
 }
 
