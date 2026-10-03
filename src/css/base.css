@@ -267,10 +267,13 @@ figcaption {
   align-items: center;
   max-width: none;
   font-family: var(--font-display);
-  font-size: min(25vw, 12vh);
+
+  /* Sized to "CORNER", about 4em in these capitals, across a phone. */
+  font-size: min(20vw, 11vh);
   line-height: var(--leading-display);
-  letter-spacing: -0.03em;
+  letter-spacing: 0.01em;
   text-align: center;
+  text-transform: uppercase;
 }
 
 .hero__line {
@@ -278,8 +281,10 @@ figcaption {
 }
 
 @media (min-width: 48rem) {
+  /* "ONE CORNER" runs to about 6.4em in capitals: this keeps it inside the
+     gutters at any width. */
   .hero__headline {
-    font-size: var(--step-6);
+    font-size: min(13.5vw, 22vh);
   }
 
   .hero__line {
@@ -371,52 +376,86 @@ figcaption {
   text-wrap: balance;
 }
 
-/* Poster scale: the title is the image on a page this spare. Wider than the
-   text column, so it can run long while the copy keeps its measure. */
+/* Poster scale, in capitals, the way a title is cut into a museum wall.
+   Wider than the text column, so it can run long while the copy keeps its
+   measure. */
 .chapter__title {
   max-width: var(--width-wide);
   margin-inline: auto;
   margin-bottom: var(--space-l);
   font-size: var(--step-5);
   line-height: var(--leading-display);
-  letter-spacing: -0.02em;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
   text-wrap: balance;
 }
 
-/* The chapter number, set after the title like a note in the margin. The
-   same numbers as the menu, so the two can be matched at a glance. */
+/* The chapter number, set after the title like a note in the margin, in the
+   small spaced capitals every label uses. The same numbers as the menu. */
 .chapter__index {
   display: inline-block;
-  margin-inline-start: 0.25em;
-  font-size: 0.26em;
-  letter-spacing: 0;
+  margin-inline-start: 0.6em;
+  font-family: var(--font-utility);
+  font-size: max(0.12em, var(--step--1));
+  letter-spacing: 0.14em;
   vertical-align: top;
 }
 
-/* A highlighter stroke rather than a box: inset top and bottom, with a little
-   overhang either side, and cloned across a line break. */
+/* A drawn underline rather than a fill: no colour to bring, it takes the
+   ink of whatever scene it is in, and cloned across a line break.
+   scribble.js pulls it along the line.
+
+   The stroke is placed within the font's own box, not the line's, so where
+   the baseline falls depends on the face: 79% down in Roobert, 74% in Bodoni
+   Moda. Each gets a stroke just under its baseline, clear of the next line
+   even in the tight leading of a title. */
 mark {
-  padding-inline: 0.12em;
-  margin-inline: -0.12em;
+  --mark-from: 84%;
+  --mark-to: 88%;
+
   color: inherit;
   background: linear-gradient(
-      transparent 14%,
-      var(--color-mark) 14% 90%,
-      transparent 90%
+      transparent var(--mark-from),
+      currentColor var(--mark-from) var(--mark-to),
+      transparent var(--mark-to)
     )
     no-repeat 0 0 / 100% 100%;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
 }
 
-.chapter--dark {
-  background: var(--color-dark-bg);
-  color: var(--color-dark-ink);
+.chapter__title mark,
+.chapter__body--lede mark {
+  --mark-from: 78%;
+  --mark-to: 81%;
+}
+
+/* Black scenes take their colours from the tokens (see tokens.css). What the
+   tokens cannot reach are the black artwork files — the logo, the wordmark,
+   the scanned hand marks — so those are inverted to match. */
+[data-theme='dark'] .scribble,
+[data-theme='dark'] .site-header__logo img,
+[data-theme='dark'] .site-footer__wordmark {
+  filter: invert(1);
+}
+
+/* Film grain over the whole screen, so the black scenes read as a surface
+   rather than as an empty screen. The noise is white only: it vanishes on the
+   white scenes and shows on the black ones, so one fixed layer covers every
+   scene, and every change between them, without a seam. Generated, so it
+   costs no request; never in the way of a pointer. Under the skip link. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 25;
+  pointer-events: none;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 .visit {
   padding: var(--space-2xl) var(--gutter);
-  background: var(--color-surface);
 }
 
 .visit__inner {

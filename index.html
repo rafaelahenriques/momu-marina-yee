@@ -21,7 +21,7 @@
   <body>
     <a class="skip-link" href="#main">Skip to the story</a>
 
-    <nav class="breadcrumb" aria-label="Breadcrumb">
+    <nav class="breadcrumb" aria-label="Breadcrumb" data-theme="dark">
       <ol>
         <li><a href="https://www.momu.be/en/">Home</a></li>
         <li><a href="https://www.momu.be/en/stories">Stories</a></li>
@@ -29,7 +29,7 @@
       </ol>
     </nav>
 
-    <div class="site-nav" data-site-nav>
+    <div class="site-nav" data-site-nav data-theme="dark">
       <header class="site-header">
         <a class="site-header__logo" href="https://www.momu.be/en/">
           <img src="/momu-logo.svg" alt="MoMu — Fashion Museum Antwerp" width="120" height="40" />
@@ -40,12 +40,10 @@
         <div class="site-header__controls">
           <a class="pill" href="https://www.momu.be/en/visit">Tickets</a>
 
-          <a class="pill pill--uppercase pill--secondary" href="#designer-stories">
-            All designer stories
-          </a>
+          <a class="pill pill--secondary" href="#designer-stories">All designer stories</a>
 
           <button
-            class="pill pill--uppercase menu-toggle"
+            class="pill menu-toggle"
             type="button"
             aria-expanded="true"
             aria-controls="menu-panel"
@@ -106,7 +104,7 @@
     </div>
 
     <main id="main">
-      <section class="hero" data-hero data-trail>
+      <section class="hero" data-hero data-trail data-theme="dark">
         <div class="hero__scatter" aria-hidden="true">
           <div class="hero__image hero__image--1">
             <img
@@ -288,7 +286,7 @@
         </template>
       </section>
 
-      <section class="chapter">
+      <section class="chapter" data-theme="dark">
         <h2 class="visually-hidden">Introduction</h2>
 
         <div class="chapter__body chapter__body--standalone chapter__body--lede" data-reveal>
@@ -684,7 +682,7 @@
         </div>
       </section>
 
-      <section class="statement marquee" data-text-marquee>
+      <section class="statement marquee" data-text-marquee data-theme="dark">
         <div class="marquee__pin" data-marquee-pin>
           <div class="marquee__stage">
             <p class="statement__text marquee__text" data-marquee-text>
@@ -862,7 +860,7 @@
         </div>
       </section>
 
-      <section class="horizontal chapter--dark" data-horizontal>
+      <section class="horizontal" data-horizontal data-theme="dark">
         <h2 class="visually-hidden">Beyond sustainability</h2>
 
         <!-- Enhanced only: over a plain vertical read these would obscure it. -->
@@ -1067,6 +1065,7 @@
           <div
             class="sequence"
             data-sequence
+            data-theme="dark"
             tabindex="0"
             role="group"
             aria-label="Details from reconstructed garments, scroll horizontally"
@@ -1232,7 +1231,7 @@
         </div>
       </section>
 
-      <section class="visit" id="visit" data-trail>
+      <section class="visit" id="visit" data-trail data-theme="dark">
         <div class="visit__inner">
           <h2 class="chapter__title visit__title">
             <span class="circled">
@@ -1360,6 +1359,7 @@
             decoding="async"
           />
           <img
+            class="scribble"
             src="/images/objects/here-scribble.png"
             srcset="
               /images/responsive/objects/here-scribble-160.webp 160w,
@@ -1398,6 +1398,7 @@
             decoding="async"
           />
           <img
+            class="scribble"
             src="/images/objects/arrow-scribble.png"
             srcset="
               /images/responsive/objects/arrow-scribble-160.webp 160w,
@@ -1426,7 +1427,7 @@
       </section>
     </main>
 
-    <footer class="site-footer">
+    <footer class="site-footer" data-theme="dark">
       <h2 class="visually-hidden">About this story</h2>
 
       <img
