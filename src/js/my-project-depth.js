@@ -87,4 +87,38 @@ export function initMyProjectDepth() {
 
     master.add(tl, 0.1 * i);
   });
+
+  dusk(section, master);
+}
+
+/**
+ * The chapter after this one is dark. Fading this one to the same colour
+ * while the garments leave means the reader arrives there through dusk, not
+ * through an empty white screen and a hard edge — and the photographs lift
+ * away against the colour of what comes next. By now only the pinned stage is
+ * on screen; the copy above it scrolled away before the pin began.
+ */
+function dusk(section, master) {
+  const chapter = section.closest('.chapter');
+  if (!chapter) return;
+
+  // Read from the tokens rather than written down a second time. Faded in on
+  // its own alpha: from plain `transparent`, which is black at zero, the
+  // midpoint would be a cold grey instead of a warm one.
+  const token = getComputedStyle(document.documentElement)
+    .getPropertyValue('--color-dark-bg')
+    .trim();
+  const [r, g, b] = gsap.utils.splitColor(token);
+
+  master.fromTo(
+    chapter,
+    { backgroundColor: `rgba(${r}, ${g}, ${b}, 0)` },
+    {
+      backgroundColor: `rgba(${r}, ${g}, ${b}, 1)`,
+      ease: 'power1.inOut',
+      duration: 0.7,
+    },
+    // As the first photographs start to lift, so it finishes with the last.
+    0.6,
+  );
 }
