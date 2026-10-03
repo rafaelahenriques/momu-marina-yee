@@ -306,12 +306,118 @@
         </div>
       </section>
 
-      <!-- spotlight.js clones this line onto an overlay it inserts, so the
-           sentence is written once. -->
+      <!-- Without script: the line, with her practice set out around it.
+           spotlight.js darkens the room, lights a label at its centre, and
+           pulls back from it as the reader scrolls. -->
       <section class="statement statement--spotlight" data-spotlight>
         <p class="statement__text">
-          Move away from the spotlight, and her practice becomes easier to see.
+          <span class="spotlight__clause">Move away from the spotlight,</span>
+          <span class="spotlight__clause" data-spotlight-rest>
+            and her practice becomes easier to see.
+          </span>
         </p>
+
+        <div class="spotlight__practice" aria-hidden="true">
+          <div class="spotlight__piece spotlight__piece--studio" data-poke-item>
+            <img
+              src="/images/atelier.jpg"
+              srcset="
+                /images/responsive/atelier-160.webp 160w,
+                /images/responsive/atelier-320.webp 320w,
+                /images/responsive/atelier-480.webp 480w,
+                /images/responsive/atelier-640.webp 640w
+              "
+              sizes="(min-width: 48rem) 17vw, 34vw"
+              alt=""
+              width="640"
+              height="587"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="spotlight__piece spotlight__piece--toile" data-poke-item>
+            <img
+              src="/images/My_shirt.jpg"
+              srcset="
+                /images/responsive/My_shirt-160.webp 160w,
+                /images/responsive/My_shirt-320.webp 320w,
+                /images/responsive/My_shirt-480.webp 480w,
+                /images/responsive/My_shirt-640.webp 640w,
+                /images/responsive/My_shirt-768.webp 768w
+              "
+              sizes="(min-width: 48rem) 19vw, 36vw"
+              alt=""
+              width="1280"
+              height="960"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="spotlight__piece spotlight__piece--fold" data-poke-item>
+            <img
+              src="/images/objects/cloth-folded.png"
+              srcset="
+                /images/responsive/objects/cloth-folded-160.webp 160w,
+                /images/responsive/objects/cloth-folded-320.webp 320w,
+                /images/responsive/objects/cloth-folded-398.webp 398w
+              "
+              sizes="(min-width: 48rem) 7vw, 14vw"
+              alt=""
+              width="398"
+              height="702"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="spotlight__piece spotlight__piece--tape" data-poke-item>
+            <img
+              src="/images/objects/measuring-tape.png"
+              srcset="
+                /images/responsive/objects/measuring-tape-160.webp 160w,
+                /images/responsive/objects/measuring-tape-320.webp 320w,
+                /images/responsive/objects/measuring-tape-480.webp 480w,
+                /images/responsive/objects/measuring-tape-535.webp 535w
+              "
+              sizes="(min-width: 48rem) 15vw, 32vw"
+              alt=""
+              width="535"
+              height="422"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="spotlight__piece spotlight__piece--needle" data-poke-item>
+            <img
+              src="/images/objects/needle-thread.png"
+              srcset="
+                /images/responsive/objects/needle-thread-160.webp 160w,
+                /images/responsive/objects/needle-thread-320.webp 320w,
+                /images/responsive/objects/needle-thread-425.webp 425w
+              "
+              sizes="(min-width: 48rem) 15vw, 32vw"
+              alt=""
+              width="425"
+              height="242"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="spotlight__piece spotlight__piece--swatch" data-poke-item>
+            <img
+              src="/images/objects/cloth-swatch.png"
+              srcset="
+                /images/responsive/objects/cloth-swatch-160.webp 160w,
+                /images/responsive/objects/cloth-swatch-265.webp 265w
+              "
+              sizes="(min-width: 48rem) 6vw, 14vw"
+              alt=""
+              width="265"
+              height="420"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        </div>
       </section>
 
       <section class="chapter text-reveal" data-text-reveal>

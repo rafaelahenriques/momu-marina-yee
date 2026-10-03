@@ -349,52 +349,227 @@
 }
 
 /* ============================================================
-   SPOTLIGHT STATEMENT
-   The base line is always readable; spotlight.js adds the
-   aria-hidden dark copy that the animation removes.
+   SPOTLIGHT
+   Without script: the line, with her practice set out around
+   it. spotlight.js darkens the room, lights a label, and pulls
+   back from it as the reader scrolls (.is-enhanced).
 ============================================================ */
 
 .statement--spotlight {
   position: relative;
-
-  /* Keeps the overlay's dark background from bleeding into the sections
-     below. */
   overflow: hidden;
   min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
   padding-inline: var(--gutter);
+
+  /* Painted here: the line blends with what is behind it, and pinned, this
+     section can become the context it blends within. */
+  background: var(--color-bg);
 }
 
 .statement--spotlight .statement__text {
-  max-width: 20ch;
+  position: relative;
+  z-index: 2;
+
+  /* Wide enough that the first clause, alone on screen in the dark, holds
+     together on one line. */
+  max-width: 30ch;
+  text-wrap: balance;
+  font-family: var(--font-display);
+  font-size: var(--step-3);
+  line-height: var(--leading-tight);
   text-align: center;
 }
 
-.spotlight-overlay {
+.spotlight__clause {
+  display: block;
+}
+
+/* --- Her practice -----------------------------------------------
+   Each piece a wrapper holding position and angle, with the image
+   inside left free for poke.js. Angles are transforms, not the
+   rotate property, so GSAP reads and keeps them as it moves the
+   pieces. */
+
+.spotlight__practice {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.spotlight__piece {
+  position: absolute;
+  pointer-events: auto;
+}
+
+.spotlight__piece img {
+  width: 100%;
+}
+
+.spotlight__piece--studio img,
+.spotlight__piece--toile img {
+  padding: var(--space-2xs) var(--space-2xs) var(--space-m);
+  background: var(--color-bg);
+  box-shadow: var(--shadow-paper);
+}
+
+.spotlight__piece--studio {
+  top: 6%;
+  left: 4%;
+  width: 34vw;
+  transform: rotate(-6deg);
+}
+
+.spotlight__piece--toile {
+  top: 10%;
+  right: 3%;
+  width: 36vw;
+  transform: rotate(5deg);
+}
+
+.spotlight__piece--fold {
+  bottom: 24%;
+  left: 6%;
+  width: 14vw;
+  transform: rotate(-10deg);
+}
+
+.spotlight__piece--tape {
+  bottom: 5%;
+  right: 5%;
+  width: 32vw;
+  transform: rotate(12deg);
+}
+
+.spotlight__piece--needle {
+  bottom: 9%;
+  left: 4%;
+  width: 32vw;
+  transform: rotate(-4deg);
+}
+
+.spotlight__piece--swatch {
+  bottom: 26%;
+  right: 10%;
+  width: 14vw;
+  transform: rotate(8deg);
+}
+
+@media (min-width: 48rem) {
+  .spotlight__piece--studio {
+    top: 9%;
+    left: 6%;
+    width: 17vw;
+  }
+
+  .spotlight__piece--toile {
+    top: 7%;
+    right: 6%;
+    width: 19vw;
+  }
+
+  .spotlight__piece--fold {
+    top: 44%;
+    bottom: auto;
+    left: 5%;
+    width: 7vw;
+  }
+
+  .spotlight__piece--tape {
+    top: 46%;
+    bottom: auto;
+    right: 4%;
+    width: 15vw;
+  }
+
+  .spotlight__piece--needle {
+    bottom: 9%;
+    left: 14%;
+    width: 15vw;
+  }
+
+  .spotlight__piece--swatch {
+    bottom: 11%;
+    right: 20%;
+    width: 6vw;
+  }
+}
+
+/* --- The stage --------------------------------------------------
+   Built by spotlight.js. The line sits low while the light holds
+   the centre, and is set white over a difference blend: it reads
+   pale on the dark room and dark on the paper, with no colour to
+   hand over in between. */
+
+.statement--spotlight.is-enhanced {
+  align-items: flex-end;
+  padding-bottom: 12vh;
+}
+
+.statement--spotlight.is-enhanced .statement__text {
+  color: var(--color-bg);
+  mix-blend-mode: difference;
+}
+
+.spotlight__stage {
   position: absolute;
   inset: 0;
   z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-inline: var(--gutter);
-  background: var(--color-ink);
   pointer-events: none;
-
-  /* A length, not a var() fallback: spotlight.js tweens the radius in px,
-     out to the diagonal of the screen, and a percentage of a circle's
-     reference box would not reach it. */
-  --spot-r: 0px;
-  --spot-x: 50%;
-  --spot-y: 50%;
-
-  clip-path: circle(var(--spot-r) at var(--spot-x) var(--spot-y));
 }
 
-.spotlight-overlay .statement__text {
-  color: var(--color-bg);
+.spotlight__dark {
+  position: absolute;
+  inset: 0;
+  background: var(--color-ink);
+}
+
+/* A pool of light with the beam that casts it. Centred by spotlight.js,
+   which owns this element's transform. */
+.spotlight__light {
+  position: absolute;
+  top: 38%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: min(92vw, 46rem);
+  aspect-ratio: 2 / 1;
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    var(--color-dark-ink) 0 45%,
+    color-mix(in srgb, var(--color-dark-ink) 50%, transparent) 72%,
+    transparent
+  );
+}
+
+.spotlight__light::before {
+  content: '';
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  z-index: -1;
+  width: 60%;
+  height: 120vh;
+  translate: -50% 0;
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--color-dark-ink) 24%, transparent),
+    transparent 85%
+  );
+  clip-path: polygon(44% 0, 56% 0, 100% 100%, 0 100%);
+}
+
+.spotlight__label {
+  position: relative;
+  max-width: none;
+  font-family: var(--font-display);
+  font-size: min(var(--step-4), 8.5vw);
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--color-ink);
 }
 
 /* ============================================================
