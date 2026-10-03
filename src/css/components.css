@@ -383,16 +383,15 @@
   padding-inline: var(--gutter);
   background: var(--color-ink);
   pointer-events: none;
-  opacity: 1;
 
-  /* Lengths, not a var() fallback: spotlight.js tweens the radius in rem, and
-     a percentage cannot be interpolated to a rem. */
-  --spot-r: 0rem;
+  /* A length, not a var() fallback: spotlight.js tweens the radius in px,
+     out to the diagonal of the screen, and a percentage of a circle's
+     reference box would not reach it. */
+  --spot-r: 0px;
   --spot-x: 50%;
   --spot-y: 50%;
 
   clip-path: circle(var(--spot-r) at var(--spot-x) var(--spot-y));
-  transition: opacity var(--duration-base) var(--ease-out);
 }
 
 .spotlight-overlay .statement__text {

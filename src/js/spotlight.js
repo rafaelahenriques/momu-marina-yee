@@ -1,14 +1,15 @@
-import { gsap, ScrollTrigger, SCRUB, canHover } from './motion.js';
+import { gsap, SCRUB, canHover } from './motion.js';
 
 /**
- * Spotlight reveal. The line is plain text in the markup; this adds an
- * aria-hidden copy on a dark layer clipped to a circle, so the overlay only
- * exists when the animation that removes it will run.
+ * "Move away from the spotlight." The line is plain text in the markup; this
+ * adds an aria-hidden copy on a dark layer clipped to a circle, so the overlay
+ * only exists when the animation that removes it will run.
+ *
+ * Pinned, the circle swells until the whole screen is the spotlight, then
+ * closes to a point as the reader scrolls on. Scrolling away from it is what
+ * leaves the page plain again, ready for the studio that follows. On a pointer
+ * device the circle is centred on the cursor, so it can be held over the line.
  */
-
-// Radius, in rem, of the open circle.
-const OPEN = 14;
-
 export function initSpotlight() {
   const section = document.querySelector('[data-spotlight]');
   const line = section?.querySelector('.statement__text');
@@ -21,7 +22,36 @@ export function initSpotlight() {
   section.append(overlay);
 
   if (canHover()) followCursor(section, overlay);
-  else followScroll(section, overlay);
+
+  // From any centre inside the section, far enough to reach every corner.
+  const cover = () => Math.hypot(section.clientWidth, section.clientHeight);
+
+  gsap
+    .timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: 'top top',
+        end: '+=150%',
+        pin: true,
+        scrub: SCRUB,
+        invalidateOnRefresh: true,
+        // First of the six pins, top to bottom — see main.js.
+        refreshPriority: 6,
+      },
+    })
+    .fromTo(
+      overlay,
+      { '--spot-r': '0px' },
+      { '--spot-r': () => `${cover()}px`, duration: 0.45, ease: 'power1.in' },
+    )
+    // Held at full, so the dark screen registers as a moment, not a flicker.
+    // Then closed fast from the corners and slowly at the end, the way an
+    // iris shuts on the last shot of a scene.
+    .to(
+      overlay,
+      { '--spot-r': '0px', duration: 0.45, ease: 'power2.out' },
+      '+=0.1',
+    );
 }
 
 function followCursor(section, overlay) {
@@ -39,73 +69,15 @@ function followCursor(section, overlay) {
   const moveX = gsap.quickTo(spot, 'x', ease);
   const moveY = gsap.quickTo(spot, 'y', ease);
 
-  let onMove = null;
-
-  const activate = () => {
-    gsap.to(overlay, { opacity: 1, duration: 0.4 });
-    gsap.to(overlay, {
-      '--spot-r': `${OPEN}rem`,
-      duration: 0.6,
-      ease: 'power2.out',
-    });
-
-    onMove = (event) => {
+  // Only fires while the cursor is over the section, so it needs no
+  // switching on and off as the reader scrolls past.
+  section.addEventListener(
+    'pointermove',
+    (event) => {
       const rect = section.getBoundingClientRect();
       moveX(((event.clientX - rect.left) / rect.width) * 100);
       moveY(((event.clientY - rect.top) / rect.height) * 100);
-    };
-
-    section.addEventListener('pointermove', onMove, { passive: true });
-  };
-
-  const deactivate = () => {
-    if (onMove) {
-      section.removeEventListener('pointermove', onMove);
-      onMove = null;
-    }
-    gsap.to(overlay, { opacity: 0, duration: 0.5 });
-  };
-
-  ScrollTrigger.create({
-    trigger: section,
-    start: 'top 20%',
-    end: 'bottom 40%',
-    onEnter: activate,
-    onEnterBack: activate,
-    onLeave: deactivate,
-    onLeaveBack: deactivate,
-  });
-}
-
-function followScroll(section, overlay) {
-  // Every tween is positioned explicitly so the sweep fills the whole time the
-  // section is on screen. Left to append themselves the radius tweens would
-  // finish early, leaving a stretch at the bottom where scrolling did nothing.
-  gsap
-    .timeline({
-      defaults: { ease: 'none' },
-      scrollTrigger: {
-        trigger: section,
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: SCRUB,
-      },
-    })
-    .fromTo(
-      overlay,
-      { '--spot-r': '0rem' },
-      { '--spot-r': `${OPEN}rem`, duration: 0.25, ease: 'power2.out' },
-      0,
-    )
-    .fromTo(
-      overlay,
-      { '--spot-x': '18%', '--spot-y': '32%' },
-      { '--spot-x': '82%', '--spot-y': '68%', duration: 1 },
-      0,
-    )
-    .to(
-      overlay,
-      { '--spot-r': '0rem', duration: 0.25, ease: 'power2.in' },
-      0.75,
-    );
+    },
+    { passive: true },
+  );
 }

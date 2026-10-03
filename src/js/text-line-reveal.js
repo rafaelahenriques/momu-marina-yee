@@ -52,7 +52,7 @@ export function initTextLineReveal() {
           scrub: SCRUB_TIGHT,
           anticipatePin: 1,
           invalidateOnRefresh: true,
-          // Highest of the five pins: topmost on the page, and ScrollTrigger
+          // Second of the six pins, top to bottom — see main.js. ScrollTrigger
           // measures in descending priority order.
           refreshPriority: 5,
         },

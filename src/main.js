@@ -7,7 +7,6 @@ import { initPicker } from './js/picker.js';
 import { initDoodle } from './js/doodle.js';
 
 async function init() {
-
   initMenu();
   initNav();
   initPicker();
@@ -59,8 +58,9 @@ async function init() {
     import('./js/object-pop.js'),
   ]);
 
-
   initHeroScatter();
+  // The topmost of the pins described below, and synchronous, so it is
+  // already in DOM order here.
   initSpotlight();
   initPickerMotion();
   initPoke();
@@ -68,7 +68,7 @@ async function init() {
 
   /*
    * Pinned sections must be created in DOM order, top to bottom
-   * (refreshPriority 5 → 1). Each pin adds scroll distance, so one created
+   * (refreshPriority 6 → 1). Each pin adds scroll distance, so one created
    * before a pin above it measures against a page height that then changes,
    * and engages early over the section above. The first three must be
    * awaited, or the horizontal pin is built first and starts ~3000px too

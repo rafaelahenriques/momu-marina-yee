@@ -40,7 +40,7 @@ export function initTextMarquee() {
           scrub: SCRUB,
           pin: section.querySelector('.marquee__stage'),
           invalidateOnRefresh: true,
-          // Second of the five pins, top to bottom — see main.js.
+          // Third of the six pins, top to bottom — see main.js.
           refreshPriority: 4,
         },
       });

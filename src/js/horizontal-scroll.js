@@ -30,7 +30,7 @@ export function initHorizontalScroll() {
       scrub: SCRUB,
       pin: true,
       invalidateOnRefresh: true,
-      // Last of the five pins, top to bottom — see main.js.
+      // Last of the six pins, top to bottom — see main.js.
       refreshPriority: 1,
       onUpdate: bar
         ? (self) => gsap.set(bar, { scaleX: self.progress })
