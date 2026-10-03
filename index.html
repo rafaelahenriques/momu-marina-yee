@@ -1144,7 +1144,7 @@
         </div>
       </section>
 
-      <section class="visit" id="visit">
+      <section class="visit" id="visit" data-trail>
         <div class="visit__inner">
           <h2 class="chapter__title visit__title">
             <span class="circled">
@@ -1254,6 +1254,87 @@
             />
           </div>
         </div>
+
+        <!-- The closing table: tools and marks, laid down by cursor-trail.js
+             where the pointer goes. Inert until then. -->
+        <template data-trail-items>
+          <img
+            src="/images/objects/needle-thread.png"
+            srcset="
+              /images/responsive/objects/needle-thread-160.webp 160w,
+              /images/responsive/objects/needle-thread-320.webp 320w,
+              /images/responsive/objects/needle-thread-425.webp 425w
+            "
+            sizes="9rem"
+            alt=""
+            width="425"
+            height="242"
+            decoding="async"
+          />
+          <img
+            src="/images/objects/here-scribble.png"
+            srcset="
+              /images/responsive/objects/here-scribble-160.webp 160w,
+              /images/responsive/objects/here-scribble-272.webp 272w
+            "
+            sizes="9rem"
+            alt=""
+            width="272"
+            height="152"
+            decoding="async"
+          />
+          <img
+            src="/images/objects/cloth-swatch.png"
+            srcset="
+              /images/responsive/objects/cloth-swatch-160.webp 160w,
+              /images/responsive/objects/cloth-swatch-265.webp 265w
+            "
+            sizes="9rem"
+            alt=""
+            width="265"
+            height="420"
+            decoding="async"
+          />
+          <img
+            src="/images/objects/measuring-tape.png"
+            srcset="
+              /images/responsive/objects/measuring-tape-160.webp 160w,
+              /images/responsive/objects/measuring-tape-320.webp 320w,
+              /images/responsive/objects/measuring-tape-480.webp 480w,
+              /images/responsive/objects/measuring-tape-535.webp 535w
+            "
+            sizes="9rem"
+            alt=""
+            width="535"
+            height="422"
+            decoding="async"
+          />
+          <img
+            src="/images/objects/arrow-scribble.png"
+            srcset="
+              /images/responsive/objects/arrow-scribble-160.webp 160w,
+              /images/responsive/objects/arrow-scribble-219.webp 219w
+            "
+            sizes="9rem"
+            alt=""
+            width="219"
+            height="244"
+            decoding="async"
+          />
+          <img
+            src="/images/objects/cloth-folded.png"
+            srcset="
+              /images/responsive/objects/cloth-folded-160.webp 160w,
+              /images/responsive/objects/cloth-folded-320.webp 320w,
+              /images/responsive/objects/cloth-folded-398.webp 398w
+            "
+            sizes="9rem"
+            alt=""
+            width="398"
+            height="702"
+            decoding="async"
+          />
+        </template>
       </section>
     </main>
 
@@ -1264,8 +1345,9 @@
         class="site-footer__wordmark"
         src="/marina-yee-wordmark.svg"
         alt="Marina Yee"
-        width="640"
-        height="180"
+        width="1509"
+        height="343"
+        loading="lazy"
       />
 
       <div class="site-footer__grid">

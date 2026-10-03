@@ -434,7 +434,9 @@ mark {
   border-top: 1px solid var(--color-rule);
 }
 
+/* Signed across the whole width, the last thing the story says. */
 .site-footer__wordmark {
+  width: 100%;
   padding-inline: var(--gutter);
   margin-bottom: var(--space-xl);
 }
