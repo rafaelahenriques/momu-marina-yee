@@ -2,8 +2,9 @@ import { gsap, SCRUB } from './motion.js';
 
 /**
  * "Move away from the spotlight, and her practice becomes easier to see."
- * Played as a camera pulling back. The room goes dark as the reader arrives
- * and a single light holds the label her name is usually filed under. Pinned,
+ * Played as a camera pulling back. The black opening runs straight on into a
+ * dark room, where a single light holds the label her name is usually filed
+ * under. Pinned,
  * scrolling backs away from it: the light shrinks into the distance, the
  * house lights come up, and her practice comes into frame from beyond the
  * edges, the way a room does when you step back from the one thing lit in it.
@@ -26,29 +27,12 @@ export function initSpotlight() {
     section.querySelectorAll('.spotlight__piece'),
   );
 
-  const { stage, dark, light } = buildStage();
+  const { stage, light } = buildStage();
   section.append(stage);
   section.classList.add('is-enhanced');
 
   // The light is centred by transform, which GSAP owns from here on.
   gsap.set(light, { xPercent: -50, yPercent: -50 });
-
-  // The house lights go down as the section arrives, so the dark room is
-  // entered rather than cut to.
-  gsap.fromTo(
-    stage,
-    { autoAlpha: 0 },
-    {
-      autoAlpha: 1,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: section,
-        start: 'top 70%',
-        end: 'top top',
-        scrub: SCRUB,
-      },
-    },
-  );
 
   // Where each piece starts: out past the edge of the frame along the line
   // from the centre, as if the camera were still close in. Layout positions,
@@ -91,7 +75,17 @@ export function initSpotlight() {
       0,
     )
     .to(light, { autoAlpha: 0, duration: 0.15, ease: 'none' }, 0.55)
-    .to(dark, { autoAlpha: 0, duration: 0.45, ease: 'power1.inOut' }, 0.3)
+    // The house lights: the room's own background, from ink to paper.
+    .fromTo(
+      section,
+      { backgroundColor: token('--color-ink') },
+      {
+        backgroundColor: token('--color-bg'),
+        duration: 0.45,
+        ease: 'power1.inOut',
+      },
+      0.3,
+    )
     .fromTo(
       pieces,
       {
@@ -129,9 +123,6 @@ function buildStage() {
   stage.className = 'spotlight__stage';
   stage.setAttribute('aria-hidden', 'true');
 
-  const dark = document.createElement('div');
-  dark.className = 'spotlight__dark';
-
   const light = document.createElement('div');
   light.className = 'spotlight__light';
 
@@ -140,6 +131,13 @@ function buildStage() {
   label.textContent = LABEL;
 
   light.append(label);
-  stage.append(dark, light);
-  return { stage, dark, light };
+  stage.append(light);
+  return { stage, light };
+}
+
+// Read from the tokens rather than written down a second time.
+function token(name) {
+  return getComputedStyle(document.documentElement)
+    .getPropertyValue(name)
+    .trim();
 }

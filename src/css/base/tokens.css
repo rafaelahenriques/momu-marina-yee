@@ -6,31 +6,26 @@
 
 :root {
   /* --- Colour ------------------------------------------------- */
+
+  /* Black and white, and nothing between but greys. The colour on the page
+     is the archive's own: the photographs are the only thing tinted. */
   --color-bg: #fff;
-  --color-surface: #f4f2ec;
-  --color-ink: #141210;
-  --color-ink-muted: #5c584f;
-  --color-rule: #dcdcdc;
+  --color-surface: #f2f2f2;
+  --color-ink: #0d0d0d;
+  --color-ink-muted: #5e5e5e;
+  --color-rule: #d9d9d9;
 
-  /* Not pure black: slightly warm, to match the paper it interrupts. */
-  --color-dark-bg: #2b2926;
-  --color-dark-ink: #f6f4ef;
-  --color-dark-muted: #a39d90;
-
-  /* The one accent: a highlighter pen, used only where a word is marked,
-     never as a fill. Dark ink stays well above 4.5:1 on it. */
-  --color-mark: #e4f28c;
-
-  --shadow-pill: 0 1px 3px rgb(0 0 0 / 12%);
-
-  /* A sheet lying on another, close enough to keep its edge. */
-  --shadow-paper: 0 4px 12px rgb(0 0 0 / 15%);
+  --color-dark-bg: #0d0d0d;
+  --color-dark-ink: #f2f2f2;
+  --color-dark-muted: #9a9a9a;
+  --color-dark-surface: #1c1c1c;
+  --color-dark-rule: #333;
 
   /* Something lifted clear of the page, like a cut piece falling away. */
   --shadow-lift: 0 1.25rem 2rem rgb(0 0 0 / 30%);
 
   /* --- Type --------------------------------------------------- */
-  --font-display: 'Reckless Wide', Georgia, 'Times New Roman', serif;
+  --font-display: 'Bodoni Moda', 'Bodoni 72', Didot, Georgia, serif;
   --font-body: 'Roobert', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
   /* Labels, captions and controls: the body face, set small, so the page
@@ -44,11 +39,10 @@
   --step-3: clamp(2rem, 1.5rem + 2.4vw, 3.5rem);
   --step-4: clamp(2.6rem, 1.7rem + 4.2vw, 5.5rem);
 
-  /* Poster sizes, for chapter titles and the opening. Capped by height as
-     well as width: Reckless Wide sets wide, so a size that fills a laptop's
-     width would otherwise run off a short screen. */
+  /* Poster size, for chapter titles. Capped by height as
+     well as width, so a size that fills a laptop's width does not run off a
+     short screen. */
   --step-5: clamp(2.6rem, min(0.5rem + 9.5vw, 17vh), 9rem);
-  --step-6: clamp(3.2rem, min(15vw, 24vh), 15rem);
 
   --leading-tight: 1.08;
   --leading-display: 0.92;
@@ -76,6 +70,20 @@
   --duration-base: 400ms;
 
   --target: 2.75rem;
+}
+
+/* A black scene: the same tokens in negative. Anything set with them —
+   type, rules, buttons, the selected state of a control — turns over with
+   the scene, with nothing to restyle component by component. */
+[data-theme='dark'] {
+  --color-bg: var(--color-dark-bg);
+  --color-surface: var(--color-dark-surface);
+  --color-ink: var(--color-dark-ink);
+  --color-ink-muted: var(--color-dark-muted);
+  --color-rule: var(--color-dark-rule);
+
+  background-color: var(--color-bg);
+  color: var(--color-ink);
 }
 
 /* Declared so the browser can tween --corner-size inside a clip-path, and so
