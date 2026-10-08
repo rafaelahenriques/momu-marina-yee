@@ -915,25 +915,31 @@
 }
 
 /* ============================================================
-   PICKER — choices, panel and collage in one view
-   One grid, so the buttons, the paragraph they change and the
-   garment they describe stay on screen together.
+   PICKER — the look display
+   A lineup of looks stood on one floor line, after a lookbook's
+   look display. Each look is a radio label, so the choice is a
+   real form control; choosing one shows its panel and three
+   framed details. The dimming of the others is CSS alone, so it
+   reads the same with no script and with reduced motion.
 ============================================================ */
 
 .picker {
   display: grid;
+
+  /* Held to the section's width: left to size itself, the column would
+     stretch to the whole strip of looks, which only scrolls on a phone. */
+  grid-template-columns: minmax(0, 1fr);
   grid-template-areas:
     'title'
     'intro'
     'choices'
-    'stage'
     'panels';
   gap: var(--space-m);
   padding: var(--space-xl) var(--gutter);
 }
 
 /* Aligned to the grid's own edge, not centred in the title's usual width:
-   the intro and the collage below start at the gutter. */
+   the intro and the lineup below start at the gutter. */
 .picker__title,
 .doodle__title {
   grid-area: title;
@@ -946,81 +952,151 @@
   max-width: var(--width-content);
 }
 
-.picker__choices {
+/* --- The lineup ------------------------------------------------
+   On a phone a strip you swipe along; wider, all four stand in
+   a row. Every look's foot sits on the same line. */
+
+.lineup {
   grid-area: choices;
+
+  /* A fieldset grows to fit its content by default, which would turn the
+     strip into a page wider than the screen instead of a strip that scrolls. */
+  min-inline-size: 0;
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2xs) var(--space-xs);
+  align-items: flex-end;
+  gap: var(--space-m);
+  margin: var(--space-m) calc(var(--gutter) * -1) 0;
+  padding: var(--space-m) var(--gutter) var(--space-s);
   border: 0;
-  padding: 0;
-  margin: var(--space-s) 0 0;
-  max-width: var(--width-content);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--gutter);
 }
 
-.picker__choice:nth-child(3) {
-  translate: 0 var(--space-2xs);
+.lineup__look {
+  --look-height: min(52vh, 26rem);
+
+  position: relative;
+  flex: none;
+  display: grid;
+  justify-items: center;
+  align-content: end;
+  gap: var(--space-xs);
+  scroll-snap-align: start;
+  cursor: pointer;
+  transition:
+    opacity var(--duration-base) var(--ease-out),
+    filter var(--duration-base) var(--ease-out);
 }
 
-.picker__choice:nth-child(4) {
-  translate: 0 calc(var(--space-3xs) * -1);
-}
-
-.picker__choice:nth-child(5) {
-  translate: 0 var(--space-3xs);
-}
-
-.picker__choice input {
+.lineup__look input {
   position: absolute;
   opacity: 0;
   width: 1px;
   height: 1px;
 }
 
-.picker__label {
+.lineup__figure {
+  display: block;
+  width: auto;
+  height: var(--look-height);
+  max-width: none;
+  transition: translate var(--duration-base) var(--ease-out);
+}
+
+/* Cut off at the waist in the studio shot, so stood at the height its
+   legs would be beside the others. */
+.lineup__look--half .lineup__figure {
+  height: calc(var(--look-height) * 0.56);
+}
+
+/* The archive piece: a print held to the page by a clip, the size a
+   photograph of a whole look would be in a lookbook. */
+.lineup__print {
   position: relative;
-  border: 1px solid var(--color-rule);
-  transition:
-    background var(--duration-fast) var(--ease-out),
-    transform var(--duration-fast) var(--ease-out);
+  display: block;
+  padding: var(--space-2xs);
+  background: var(--color-bg);
+  box-shadow: var(--shadow-print);
+  rotate: 3deg;
 }
 
-/* picker-motion.js layers a magnetic translate on top of this same label. */
-.picker__label::after {
-  content: '';
-  position: absolute;
-  left: var(--space-m);
-  right: var(--space-m);
-  bottom: 0.4em;
-  height: 1px;
-  background: currentColor;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform var(--duration-base) var(--ease-out);
+.lineup__look--print .lineup__figure {
+  height: calc(var(--look-height) * 0.72);
 }
 
-.picker__label:hover::after,
-.picker__label:focus-visible::after {
-  transform: scaleX(1);
+.lineup__clip {
+  top: calc(var(--space-m) * -1);
+  left: 22%;
+  rotate: 8deg;
 }
 
-.picker__choice input:checked + .picker__label {
-  background: var(--color-ink);
-  border-color: var(--color-ink);
-  color: var(--color-bg);
+.lineup__name {
+  display: grid;
+  justify-items: center;
+  font-family: var(--font-utility);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-align: center;
+  text-transform: uppercase;
 }
 
-.picker__choice input:active + .picker__label {
-  transform: scale(0.96);
+.lineup__no {
+  font-family: var(--font-hand);
+  font-size: var(--step-1);
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--color-pen);
 }
 
-.picker__choice input:focus-visible + .picker__label {
-  outline: 3px solid currentColor;
-  outline-offset: 3px;
+/* The others step back once a look is chosen: faded and in greyscale, so
+   the chosen one is the only thing in colour on the floor. */
+.lineup:has(input:checked) .lineup__look:not(:has(input:checked)) {
+  opacity: 0.45;
+  filter: grayscale(1);
 }
+
+.lineup__look:hover .lineup__figure,
+.lineup__look:has(input:checked) .lineup__figure {
+  translate: 0 calc(var(--space-2xs) * -1);
+}
+
+/* The chosen look's name, underlined in pen. */
+.lineup__look:has(input:checked) .lineup__name {
+  text-decoration: underline;
+  text-decoration-color: var(--color-pen);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.4em;
+}
+
+.lineup__look:has(input:focus-visible) {
+  outline: 3px solid var(--color-ink);
+  outline-offset: var(--space-2xs);
+}
+
+@media (min-width: 64rem) {
+  .lineup {
+    justify-content: space-between;
+    margin-inline: 0;
+    padding-inline: 0;
+    overflow: visible;
+  }
+
+  .lineup__look {
+    --look-height: min(58vh, 34rem);
+  }
+}
+
+/* --- The panel ------------------------------------------------- */
 
 .picker__panels {
   grid-area: panels;
-  max-width: 32rem;
+}
+
+.picker__panel {
+  display: grid;
+  gap: var(--space-s) var(--space-xl);
+  align-items: start;
 }
 
 .picker__panel + .picker__panel {
@@ -1035,111 +1111,74 @@
 /* Panels differ in length; without a floor the section resizes on every
    choice, and every trigger below is measured against a height that moved. */
 .js .picker__panels {
-  min-height: 14rem;
+  min-height: 30rem;
 }
 
-@media (min-width: 48rem) {
-  .js .picker__panels {
-    min-height: 11rem;
-  }
+.picker__credit {
+  rotate: -2deg;
 }
 
-/* --- Collage stage ---------------------------------------------
-   Each piece is a wrapper holding the resting position and angle, with the
-   image inside. That split lets the scroll drift (wrapper) and the poke
-   (image) coexist. */
-
-.picker__stage {
-  grid-area: stage;
-  position: relative;
-  min-height: 26rem;
+/* Three details in cream mounts, the way a lookbook frames close-ups. The
+   mount is an outline, not padding, so it sits outside the clip that a
+   zoomed crop (below) needs. */
+.picker__details {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-m);
+  margin: var(--space-m) var(--space-2xs) 0;
+  padding: 0;
+  list-style: none;
 }
 
-.picker__stage-item {
-  position: absolute;
-  width: 60%;
+.frame {
+  overflow: hidden;
+  outline: var(--space-2xs) solid var(--color-surface);
 }
 
-.picker__stage-item img {
+.frame__image {
   width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+
+  /* Where there are no separate close-ups, a crop of the whole photograph:
+     the inline --crop says where to look, and the scale is the looking. */
+  object-position: var(--crop, 50% 50%);
+  transform-origin: var(--crop, 50% 50%);
 }
 
-.picker__stage-item[data-stage-img='menswear'] {
-  top: 0;
-  left: 4%;
-  width: 55%;
-  transform: rotate(-4deg);
-  z-index: 1;
-}
-
-.picker__stage-item[data-stage-img='military'] {
-  top: 8%;
-  right: 2%;
-  width: 48%;
-  transform: rotate(3deg);
-  z-index: 2;
-}
-
-.picker__stage-item[data-stage-img='workwear'] {
-  bottom: 4%;
-  left: 22%;
-  width: 40%;
-  transform: rotate(-2deg);
-  z-index: 3;
-}
-
-.picker__stage-item[data-stage-img='denim'] {
-  bottom: 0;
-  right: 8%;
-  width: 46%;
-  transform: rotate(5deg);
-  z-index: 1;
-}
-
-.picker__stage-item--cloth-a {
-  top: 44%;
-  left: -2%;
-  width: 22%;
-  transform: rotate(-12deg);
-  z-index: 4;
-}
-
-.picker__stage-item--cloth-b {
-  bottom: 24%;
-  right: 4%;
-  width: 17%;
-  transform: rotate(10deg);
-  z-index: 4;
-}
-
-.picker__stage-item--hanger {
-  top: 30%;
-  right: 30%;
-  width: 15%;
-  transform: rotate(-6deg);
-  z-index: 5;
+.frame[style] .frame__image {
+  scale: 1.9;
 }
 
 @media (min-width: 64rem) {
-  .picker {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    grid-template-areas:
-      'title   title'
-      'intro   stage'
-      'choices stage'
-      'panels  stage';
-
-    /* Without this the left column's rows stretch to the collage's height and
-       the choices drift away from the paragraph they control. */
-    grid-template-rows: auto auto auto 1fr;
-    align-items: start;
-    column-gap: var(--space-xl);
+  .js .picker__panels {
+    min-height: 22rem;
   }
 
-  .picker__stage {
-    min-height: 40rem;
-    position: sticky;
-    top: var(--space-xl);
+  .picker__panel {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+    grid-template-areas:
+      'heading details'
+      'copy    details'
+      'credit  details';
+  }
+
+  .picker__panel > h3 {
+    grid-area: heading;
+  }
+
+  .picker__panel > p:not(.picker__credit) {
+    grid-column: 1;
+  }
+
+  .picker__credit {
+    grid-area: credit;
+  }
+
+  .picker__details {
+    grid-area: details;
+    grid-row: 1 / span 4;
+    margin-top: 0;
   }
 }
 

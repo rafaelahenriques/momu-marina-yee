@@ -21,6 +21,9 @@
   /* The clips holding prints to the page. Never used for text. */
   --color-clip: #d23a2a;
 
+  /* A photographic print: whiter than the zine paper it is laid on. */
+  --color-print: #fff;
+
   --color-dark-bg: #121212;
   --color-dark-ink: #f6f5f1;
   --color-dark-muted: #9b9b9b;
