@@ -1286,60 +1286,219 @@
   margin-top: var(--space-2xs);
 }
 
+.my-project-depth__clip {
+  top: calc(var(--space-s) * -1);
+  left: 22%;
+  rotate: 8deg;
+}
+
+.my-project-depth__note {
+  grid-column: 1 / -1;
+  justify-self: end;
+  rotate: -4deg;
+}
+
 @media (min-width: 48rem) {
   .my-project-depth__stage {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-/* --- Enhanced: depth fly-through ----------------------------
+/* --- Enhanced: the collage assembles ------------------------
    Added only by my-project-depth.js; the grid above is what no-JS and
-   reduced-motion visitors read. Here the images stack in a pinned
-   perspective stage and fly away one by one. */
+   reduced-motion visitors read. Here the stage is held while the pieces
+   come up out of the depth of the page and land in a spread, the way the
+   M.Y. Project was put together: from what already existed. */
 
 .my-project-depth.is-enhanced {
-  /* Pin distance: roughly one screen of scroll per image. Taller = slower. */
-  height: 300vh;
+  /* Pin distance: about half a screen of scroll per piece, then a held
+     look at the finished page. Taller = slower. */
+  height: 360vh;
   margin-top: var(--space-2xl);
 
-  /* The images travel outside this box on their way out of frame. */
+  /* Rising from the depth, rotated pieces can overhang the box. */
   overflow: visible;
 }
 
 .my-project-depth.is-enhanced .my-project-depth__stage {
+  display: block;
   height: 100dvh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0;
 
+  /* The vanishing point the pieces rise from is the middle of the page. */
   perspective: 100vh;
+
+  /* One unit of piece width: a share of the width, unless the screen is
+     short enough for the height to run out first. */
+  --unit: min(1vw, 0.46svh);
 }
 
+/* Each piece's place on the spread: --x and --y from the stage's top left,
+   --w in units, --r its angle. A transform rather than `rotate`, so the
+   script can read the angle it settles back to. */
 .my-project-depth.is-enhanced .my-project-depth__item {
   position: absolute;
-
-  /* Sized against the shorter viewport edge: 3:4 photographs in a
-     full-height stage run out of height first on a phone. */
-  width: min(90vw, 56vh, 38rem);
+  top: var(--y);
+  left: var(--x);
+  width: calc(var(--w) * var(--unit));
   max-width: none;
+  transform: rotate(var(--r));
 
-  opacity: 0;
-
-  /* Mid-flight most of the time, so they must never take a click. */
+  /* Nothing to click, and mid-flight most of the time. */
   pointer-events: none;
 
   will-change: transform;
 }
 
 .my-project-depth.is-enhanced .my-project-depth__item img {
-  object-fit: contain;
+  padding: var(--space-3xs);
+  background: var(--color-print);
+  box-shadow: var(--shadow-print);
 }
 
-/* Stacked on one centre point the captions would pile into a smudge. The
-   same wording is in each <img> alt, and the grid above still shows them. */
+/* Spread across a page the captions would pile into a smudge. The same
+   wording is in each <img> alt, and the grid above still shows them. */
 .my-project-depth.is-enhanced .my-project-depth__item figcaption {
   display: none;
+}
+
+/* Thin ruled frames, offset from the prints they belong to, as on a
+   layout sheet. currentColor, so they follow the page into the dark. */
+.my-project-depth.is-enhanced .my-project-depth__item--tailored::after,
+.my-project-depth.is-enhanced .my-project-depth__item--shirt::after,
+.my-project-depth.is-enhanced .my-project-depth__item--coats::after {
+  position: absolute;
+  z-index: -1;
+  border: 1px solid currentColor;
+  content: '';
+}
+
+.my-project-depth.is-enhanced .my-project-depth__item--tailored::after {
+  inset: -12% 24% 34% -18%;
+}
+
+.my-project-depth.is-enhanced .my-project-depth__item--shirt::after {
+  inset: 28% -20% -14% 36%;
+}
+
+.my-project-depth.is-enhanced .my-project-depth__item--coats::after {
+  inset: -24% 40% 10% -14%;
+}
+
+.my-project-depth.is-enhanced .my-project-depth__note {
+  position: absolute;
+  top: 91%;
+  left: 52%;
+  margin: 0;
+}
+
+/* Phone: two loose columns, seven pieces down the screen. */
+.my-project-depth__item--preview {
+  --x: 4%;
+  --y: 4%;
+  --w: 46;
+  --r: -4deg;
+}
+
+.my-project-depth__item--tweed {
+  --x: 50%;
+  --y: 10%;
+  --w: 44;
+  --r: 3deg;
+}
+
+.my-project-depth__item--tailored {
+  --x: 8%;
+  --y: 31%;
+  --w: 40;
+  --r: 2deg;
+}
+
+.my-project-depth__item--checked {
+  --x: 48%;
+  --y: 37%;
+  --w: 46;
+  --r: -3deg;
+}
+
+.my-project-depth__item--scarf {
+  --x: 3%;
+  --y: 56%;
+  --w: 38;
+  --r: -2deg;
+}
+
+.my-project-depth__item--shirt {
+  --x: 56%;
+  --y: 60%;
+  --w: 38;
+  --r: 4deg;
+}
+
+.my-project-depth__item--coats {
+  --x: 22%;
+  --y: 70%;
+  --w: 34;
+  --r: -1.5deg;
+}
+
+/* Wider: one long spread, the pieces overlapping at their edges. */
+@media (min-width: 48rem) {
+  .my-project-depth.is-enhanced .my-project-depth__stage {
+    --unit: min(1.15vw, 1.6svh);
+  }
+
+  .my-project-depth.is-enhanced .my-project-depth__note {
+    top: 80%;
+    left: 42%;
+    font-size: calc(var(--step-hand) * 1.3);
+  }
+
+  .my-project-depth__item--preview {
+    --x: 6%;
+    --y: 14%;
+    --w: 20;
+  }
+
+  .my-project-depth__item--tweed {
+    --x: 24%;
+    --y: 30%;
+    --w: 18;
+    --r: 2.5deg;
+  }
+
+  .my-project-depth__item--tailored {
+    --x: 40%;
+    --y: 8%;
+    --w: 19;
+    --r: -1.5deg;
+  }
+
+  .my-project-depth__item--checked {
+    --x: 57%;
+    --y: 26%;
+    --w: 18;
+    --r: 3deg;
+  }
+
+  .my-project-depth__item--scarf {
+    --x: 74%;
+    --y: 10%;
+    --w: 17;
+  }
+
+  .my-project-depth__item--shirt {
+    --x: 70%;
+    --y: 52%;
+    --w: 15;
+    --r: 1.5deg;
+  }
+
+  .my-project-depth__item--coats {
+    --x: 16%;
+    --y: 60%;
+    --w: 13;
+    --r: -2.5deg;
+  }
 }
 
 /* ============================================================
