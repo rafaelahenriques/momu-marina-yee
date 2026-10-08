@@ -841,9 +841,9 @@
 
 /* ============================================================
    SEQUENCE
-   Default: native scroll-snap, swipeable. Enhanced (.is-stacked):
-   a pile the reader builds by scrolling, each piece landing on
-   the last without hiding it.
+   Default: native scroll-snap, swipeable. Enhanced (.is-spread):
+   the prints laid out across the page, clipped down, each drifting
+   past the others at its own rate (sequence-drift.js).
 ============================================================ */
 
 .sequence-wrap {
@@ -886,53 +886,65 @@
   }
 }
 
-/* --- Enhanced: the pile ---------------------------------------
-   Added only by sequence-stack.js. The height is the speed control:
-   the stage is held for this minus one screen, which is what the
-   pile takes to build. Enhanced only — without script this must not
-   reserve empty screens of scroll. */
+/* --- Enhanced: the spread -------------------------------------
+   Added only by sequence-drift.js; without it, the strip above. */
 
-/* A pile of invitations held down with clips. The height is the speed
-   control: one screen to hold the stage, and sixty per cent of one for
-   each piece that lands (sequence-stack.js writes --pieces). */
-.sequence.is-stacked {
+.sequence.is-spread {
   display: block;
-  height: calc(100vh + (var(--pieces, 3) - 1) * 60vh);
-  padding: 0;
-  margin-inline: calc(var(--gutter) * -1);
-
-  /* Visible, not auto: a scroll container here would become the box the
-     stage sticks to, and it would never stick. */
+  padding: var(--space-l) 0 var(--space-xl);
+  margin-inline: 0;
   overflow: visible;
   scroll-snap-type: none;
 }
 
-.sequence.is-stacked .sequence__track {
-  position: sticky;
-  top: 0;
-  height: 100dvh;
+/* One column on a phone, the prints stepping from side to side like a page
+   of a scrapbook. */
+.sequence.is-spread .sequence__track {
   display: grid;
-  place-items: center;
-
-  /* Deliberately not clipped. The incoming pieces wait a screen below the
-     stage, which is always below the viewport while it is stuck; clipped,
-     lazy loading would count them as off screen and only fetch them once
-     they were already rising into view. */
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
 }
 
-.sequence.is-stacked .figure {
-  grid-area: 1 / 1;
+.sequence.is-spread .figure {
+  width: 72%;
+  margin-top: var(--space-l);
+  scroll-snap-align: none;
+}
 
-  /* Sized against height too: portrait scans in one held screen run out of
-     height first on a landscape phone. */
-  width: min(70vw, 24rem, 46dvh);
-  will-change: transform;
+.sequence.is-spread .figure:first-child {
+  margin-top: 0;
+}
+
+.sequence.is-spread .figure:nth-child(even) {
+  justify-self: end;
 }
 
 .sequence .figure img {
   padding: var(--space-3xs);
   background: var(--color-print);
   box-shadow: var(--shadow-print);
+}
+
+/* On the print, not the figure: sequence-drift.js moves the figure, and
+   GSAP folds a figure's own rotate into the transform it writes. */
+.sequence.is-spread .figure:nth-child(5n + 1) img {
+  rotate: -3deg;
+}
+
+.sequence.is-spread .figure:nth-child(5n + 2) img {
+  rotate: 4deg;
+}
+
+.sequence.is-spread .figure:nth-child(5n + 3) img {
+  rotate: -2deg;
+}
+
+.sequence.is-spread .figure:nth-child(5n + 4) img {
+  rotate: 3deg;
+}
+
+.sequence.is-spread .figure:nth-child(5n) img {
+  rotate: -4deg;
 }
 
 /* Each piece clipped at its top edge, a little off centre. */
@@ -942,10 +954,51 @@
   rotate: -6deg;
 }
 
-/* Only the top piece is captioned (sequence-stack.js), so the words sit on
-   the paper, clear of the scans beneath. */
-.sequence.is-stacked .figure figcaption {
-  margin-top: var(--space-xs);
+.sequence.is-spread .figure figcaption {
+  margin-top: var(--space-s);
+  font-family: var(--font-utility);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Wide: a spread over two rows of a twelve-column page, the prints at
+   different heights so the drift has gaps to move through. */
+@media (min-width: 48rem) {
+  .sequence.is-spread .sequence__track {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--space-m);
+  }
+
+  .sequence.is-spread .figure {
+    justify-self: stretch;
+    width: auto;
+    margin-top: 0;
+  }
+
+  .sequence.is-spread .figure:nth-child(1) {
+    grid-area: 1 / 1 / 2 / 5;
+  }
+
+  .sequence.is-spread .figure:nth-child(2) {
+    grid-area: 1 / 6 / 2 / 9;
+    margin-top: 22vh;
+  }
+
+  .sequence.is-spread .figure:nth-child(3) {
+    grid-area: 1 / 10 / 2 / 13;
+    margin-top: 6vh;
+  }
+
+  .sequence.is-spread .figure:nth-child(4) {
+    grid-area: 2 / 2 / 3 / 6;
+    margin-top: -4vh;
+  }
+
+  .sequence.is-spread .figure:nth-child(5) {
+    grid-area: 2 / 8 / 3 / 12;
+    margin-top: 12vh;
+  }
 }
 
 /* ============================================================
@@ -1782,25 +1835,29 @@
 
 /* ============================================================
    CORNER OFF
-   A cut sheet and the loose piece beside it: both states the
-   paragraph describes, at once. All CSS; corner-off.js only
-   makes the piece possible to pick up.
+   A black page across the whole width, its top corner cut and the
+   piece lying loose beside the notch, like the cover: both states
+   the paragraph describes, at once. All CSS; corner-off.js only
+   makes the cut happen on arrival and the piece possible to pick up.
 ============================================================ */
 
 .corner-off {
-  --corner-size: clamp(3rem, 9vw, 5rem);
+  --corner-size: clamp(4rem, 14vw, 11rem);
 
   position: relative;
-  max-width: 44rem;
-  margin-block: var(--space-l);
+
+  /* Out to the screen's edges, past the chapter's gutters and the text
+     column .chapter__body would hold it to. */
+  max-width: none;
+  margin: var(--space-xl) calc(var(--gutter) * -1);
 }
 
-/* A black sheet on the white page, with its corner cut: body copy in the
-   text face, and the sentence the whole chapter turns on pulled out at
-   display size. Set in reverse by hand rather than as a dark theme, which
-   would also paint the block around it and fill in the notch. */
+/* Set in reverse by hand rather than as a dark theme, which would also
+   paint the block around it and fill in the notch. */
 .corner-off__sheet {
-  padding: var(--space-l) var(--space-m);
+  display: grid;
+  gap: var(--space-l);
+  padding: var(--space-xl) var(--gutter);
   background: var(--color-ink);
   color: var(--color-bg);
 
@@ -1814,32 +1871,74 @@
 }
 
 .corner-off__sheet p {
-  max-width: 40ch;
+  max-width: 34ch;
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--step-0);
+  line-height: 1.2;
+  text-align: justify;
+  text-transform: uppercase;
 }
 
-.corner-off__sheet strong {
-  display: block;
-  max-width: 16ch;
+/* The sentence the whole chapter turns on, at the cover's size. */
+.corner-off__sheet .corner-off__pull {
+  max-width: none;
   margin-block: var(--space-m);
+  text-align: left;
+}
+
+.corner-off__pull strong {
+  display: block;
+  max-width: 13ch;
   font-family: var(--font-display);
-  font-stretch: 75%;
+  font-stretch: var(--stretch-display);
   font-weight: var(--weight-display);
-  font-size: var(--step-3);
-  line-height: 0.95;
-  text-transform: uppercase;
+  font-size: var(--step-5);
+  line-height: var(--leading-display);
+  word-spacing: 0.12em;
   text-wrap: balance;
 }
 
-@media (min-width: 48rem) {
+/* Wide: the sentence down the left, the two paragraphs it sits between
+   beside it. */
+@media (min-width: 64rem) {
   .corner-off__sheet {
-    padding: var(--space-xl) var(--space-l);
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    grid-template-areas:
+      'pull first'
+      'pull second';
+    align-items: end;
+    column-gap: var(--space-xl);
+    padding: var(--space-2xl) max(var(--gutter), 8vw);
+  }
+
+  .corner-off__sheet > p:first-child {
+    grid-area: first;
+  }
+
+  .corner-off__sheet .corner-off__pull {
+    grid-area: pull;
+    align-self: center;
+    margin: 0;
+  }
+
+  /* Sized to its half of the page, so "already", its longest word, still
+     fits on a line of its own. */
+  .corner-off__pull strong {
+    font-size: min(var(--step-5), 8.5vw);
+  }
+
+  .corner-off__sheet > p:last-child {
+    grid-area: second;
+    align-self: start;
   }
 }
 
 .corner-off__piece {
   position: absolute;
-  top: calc(var(--corner-size) * -0.5);
-  right: calc(var(--corner-size) * -0.4);
+  top: calc(var(--corner-size) * -0.3);
+  right: calc(var(--corner-size) * 0.3);
 
   width: var(--corner-size);
   aspect-ratio: 1;
@@ -1857,62 +1956,40 @@
    looks pickup-able once it is. */
 
 /* ============================================================
-   ONE CORNER OFF — loose objects
-   In flow on a phone; out into the margins only once there is
-   empty surface for them.
+   ONE CORNER OFF — the copy
+   Justified capitals, in two columns once there is room, like the
+   type on a page of a fashion zine.
 ============================================================ */
 
-.one-corner__objects {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: var(--space-l);
-
-  max-width: var(--width-content);
-  margin: 0 auto var(--space-l);
+.one-corner__body {
+  max-width: var(--width-wide);
 }
 
-.one-corner__object {
-  width: 30%;
+.one-corner__body p {
+  max-width: 34ch;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--step-0);
+  line-height: 1.2;
+  text-align: justify;
+  text-transform: uppercase;
 }
 
-.one-corner__object--swatch {
-  width: 16%;
+/* text-lines-rise.js sets every line as a block of its own, and a block's
+   only line is its last, which justify leaves ragged. Every line but a
+   paragraph's last is spread to the edges by hand. */
+.one-corner__body .lines-rise__line:not(:last-child) {
+  text-align-last: justify;
 }
 
 @media (min-width: 64rem) {
-  .one-corner {
-    position: relative;
-    overflow: clip;
+  .one-corner__body {
+    columns: 2;
+    column-gap: var(--space-xl);
   }
 
-  .one-corner__objects {
-    position: absolute;
-    inset: 0;
-    display: block;
-    max-width: none;
-    margin: 0;
-    pointer-events: none;
-  }
-
-  .one-corner__object {
-    position: absolute;
-    width: auto;
-    pointer-events: auto;
-  }
-
-  .one-corner__object--tape {
-    top: 6%;
-    right: 5%;
-    width: clamp(8rem, 14vw, 14rem);
-    rotate: 8deg;
-  }
-
-  .one-corner__object--swatch {
-    top: 30%;
-    left: 4%;
-    width: clamp(4.5rem, 7vw, 7.5rem);
-    rotate: -12deg;
+  .one-corner__body p {
+    break-inside: avoid;
   }
 }
 
@@ -2035,8 +2112,7 @@
     'intro'
     'surface'
     'tools'
-    'note'
-    'objects';
+    'note';
   gap: var(--space-m);
   padding: var(--space-xl) var(--gutter);
 }
@@ -2051,6 +2127,18 @@
   grid-area: surface;
   position: relative;
   width: min(100%, 30rem);
+  margin-top: var(--space-l);
+}
+
+/* Above the cloth, never on it: anything over the drawing surface would
+   swallow the start of a stroke. */
+.doodle__hint {
+  position: absolute;
+  bottom: 100%;
+  right: 8%;
+  margin: 0;
+  rotate: -5deg;
+  pointer-events: none;
 }
 
 .doodle__cloth {
@@ -2179,9 +2267,9 @@
   height: 1px;
 }
 
+/* Square, in ink, like the button at the end of the story. */
 .doodle__mark-label {
-  border: 1px solid var(--color-rule);
-  border-radius: 999px;
+  border: 1px solid var(--color-ink);
   background: var(--color-bg);
   transition:
     background var(--duration-fast) var(--ease-out),
@@ -2206,13 +2294,17 @@
 }
 
 .doodle__action {
-  border: 1px solid var(--color-rule);
+  border: 1px solid var(--color-ink);
   background: none;
-  transition: background var(--duration-fast) var(--ease-out);
+  color: inherit;
+  transition:
+    background var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
 }
 
 .doodle__action:hover:not(:disabled) {
-  background: var(--color-bg);
+  background: var(--color-ink);
+  color: var(--color-bg);
 }
 
 /* Disabled rather than hidden: a control that appears mid-interaction moves
@@ -2249,46 +2341,24 @@
   translate: 0 0;
 }
 
-.doodle__objects {
-  grid-area: objects;
-  display: flex;
-  align-items: flex-end;
-  max-width: var(--width-content);
-}
-
-.doodle__object {
-  width: 70%;
-}
-
+/* Wide: the cloth large on the right, everything about it on the left, so
+   the tools stay level with the thing being drawn on. */
 @media (min-width: 64rem) {
   .doodle {
-    overflow: clip;
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
     grid-template-areas:
       'title   title'
-      'intro   objects'
-      'surface tools'
-      'surface note';
+      'intro   surface'
+      'tools   surface'
+      'note    surface';
     grid-template-rows: auto auto auto 1fr;
     align-items: start;
     column-gap: var(--space-xl);
   }
 
   .doodle__surface {
-    width: 100%;
-  }
-
-  /* May overhang its cell, but only away from the canvas: anything over the
-     drawing surface would swallow the start of a stroke. */
-  .doodle__objects {
-    display: block;
-    max-width: none;
-    margin-top: calc(var(--space-l) * -1);
-  }
-
-  .doodle__object--needle {
-    width: min(100%, 30rem);
-    margin-left: auto;
-    rotate: -9deg;
+    width: min(100%, 40rem);
+    margin-top: 0;
+    justify-self: center;
   }
 }

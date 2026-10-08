@@ -22,7 +22,7 @@ async function init() {
     { initHero },
     { initCursorTrail },
     { initHeadingTracking },
-    { initSequenceStack },
+    { initSequenceDrift },
     { initPickerMotion },
     { initMyProjectDepth },
     { initTextLineReveal },
@@ -43,7 +43,7 @@ async function init() {
     import('./js/hero.js'),
     import('./js/cursor-trail.js'),
     import('./js/heading-tracking.js'),
-    import('./js/sequence-stack.js'),
+    import('./js/sequence-drift.js'),
     import('./js/picker-motion.js'),
     import('./js/my-project-depth.js'),
     import('./js/text-line-reveal.js'),
@@ -83,10 +83,9 @@ async function init() {
   initMyProjectDepth();
   initHorizontalScroll();
 
-  // Not a pin — the stage is CSS sticky — but it makes its section several
-  // screens taller, so like a pin it must exist before anything below it is
-  // measured.
-  initSequenceStack();
+  // Not a pin, but it lays its prints out anew, so like a pin it must exist
+  // before anything below it is measured.
+  initSequenceDrift();
 
   // Anything positioned against the final page geometry comes after the pins.
   initScrollReveal();
