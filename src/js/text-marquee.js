@@ -16,8 +16,9 @@ export function initTextMarquee() {
   return document.fonts.ready.then(() => {
     section.classList.add('is-enhanced');
 
-    // .is-enhanced resizes the sentence to 8vw on one line, so it must be
-    // re-laid out before its characters can be measured.
+    // .is-enhanced sets the sentence on one line, nearly as tall as the
+    // screen, so it must be re-laid out before its characters can be
+    // measured.
     return nextFrame().then(() => {
       const split = SplitText.create(text, {
         type: 'chars',

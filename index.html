@@ -494,97 +494,328 @@
           </div>
         </div>
 
-        <!-- The looks are the choices: each a radio with its figure and its
-             name, so picker.js still only has to read which one is checked.
-             Three are M.Y. pieces cut out of their studio backdrop; the
-             fourth, from the archive, stays a photograph. -->
-        <fieldset class="picker__choices lineup" data-picker>
+        <!-- The four looks as an index, each name a radio label, so picker.js
+             still only has to read which one is checked. -->
+        <fieldset class="picker__choices looks" data-picker>
           <legend class="visually-hidden">Choose a look</legend>
 
-          <label class="lineup__look">
+          <label class="looks__item">
             <input type="radio" name="garment" value="menswear" checked />
-            <img
-              class="lineup__figure"
-              src="/images/looks/parker-bis-coat.png"
-              srcset="
-                /images/responsive/looks/parker-bis-coat-160.webp 160w,
-                /images/responsive/looks/parker-bis-coat-320.webp 320w,
-                /images/responsive/looks/parker-bis-coat-480.webp 480w,
-                /images/responsive/looks/parker-bis-coat-640.webp 640w,
-                /images/responsive/looks/parker-bis-coat-768.webp 768w,
-                /images/responsive/looks/parker-bis-coat-876.webp 876w
-              "
-              sizes="(min-width: 64rem) 14vw, 38vw"
-              alt=""
-              width="876"
-              height="1600"
-              loading="lazy"
-              decoding="async"
-            />
-            <span class="lineup__name">
-              <span class="lineup__no">Look 01</span>
-              Vintage menswear
-            </span>
+            <span class="looks__no" aria-hidden="true">01</span>
+            <span class="looks__name">Vintage menswear</span>
           </label>
 
-          <label class="lineup__look">
+          <label class="looks__item">
             <input type="radio" name="garment" value="military" />
-            <img
-              class="lineup__figure"
-              src="/images/looks/parka.png"
-              srcset="
-                /images/responsive/looks/parka-160.webp 160w,
-                /images/responsive/looks/parka-320.webp 320w,
-                /images/responsive/looks/parka-480.webp 480w,
-                /images/responsive/looks/parka-640.webp 640w,
-                /images/responsive/looks/parka-768.webp 768w,
-                /images/responsive/looks/parka-815.webp 815w
-              "
-              sizes="(min-width: 64rem) 14vw, 38vw"
-              alt=""
-              width="815"
-              height="1600"
-              loading="lazy"
-              decoding="async"
-            />
-            <span class="lineup__name">
-              <span class="lineup__no">Look 02</span>
-              Military
-            </span>
+            <span class="looks__no" aria-hidden="true">02</span>
+            <span class="looks__name">Military</span>
           </label>
 
-          <label class="lineup__look lineup__look--half">
+          <label class="looks__item">
             <input type="radio" name="garment" value="workwear" />
-            <img
-              class="lineup__figure"
-              src="/images/looks/wide-leg-jeans.png"
-              srcset="
-                /images/responsive/looks/wide-leg-jeans-160.webp 160w,
-                /images/responsive/looks/wide-leg-jeans-320.webp 320w,
-                /images/responsive/looks/wide-leg-jeans-480.webp 480w,
-                /images/responsive/looks/wide-leg-jeans-640.webp 640w,
-                /images/responsive/looks/wide-leg-jeans-768.webp 768w,
-                /images/responsive/looks/wide-leg-jeans-869.webp 869w
-              "
-              sizes="(min-width: 64rem) 14vw, 38vw"
-              alt=""
-              width="869"
-              height="1600"
-              loading="lazy"
-              decoding="async"
-            />
-            <span class="lineup__name">
-              <span class="lineup__no">Look 03</span>
-              Workwear
-            </span>
+            <span class="looks__no" aria-hidden="true">03</span>
+            <span class="looks__name">Workwear</span>
           </label>
 
-          <label class="lineup__look lineup__look--print">
+          <label class="looks__item">
             <input type="radio" name="garment" value="denim" />
-            <span class="lineup__print">
-              <svg class="clip lineup__clip" aria-hidden="true"><use href="#clip" /></svg>
+            <span class="looks__no" aria-hidden="true">04</span>
+            <span class="looks__name">Second-hand denim</span>
+          </label>
+        </fieldset>
+
+        <div class="picker__panels" aria-live="polite">
+          <article class="picker__panel" data-panel="menswear">
+            <figure class="picker__look">
               <img
-                class="lineup__figure"
+                class="picker__figure"
+                src="/images/looks/parker-bis-coat.png"
+                srcset="
+                  /images/responsive/looks/parker-bis-coat-160.webp 160w,
+                  /images/responsive/looks/parker-bis-coat-320.webp 320w,
+                  /images/responsive/looks/parker-bis-coat-480.webp 480w,
+                  /images/responsive/looks/parker-bis-coat-640.webp 640w,
+                  /images/responsive/looks/parker-bis-coat-768.webp 768w,
+                  /images/responsive/looks/parker-bis-coat-876.webp 876w
+                "
+                sizes="(min-width: 64rem) 20vw, 50vw"
+                alt="The Parker Bis Coat worn long and collarless: black wool, an olive lapel folded across the front, over jeans with deep turn-ups."
+                width="876"
+                height="1600"
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption class="note picker__credit">Parker Bis Coat, M.Y.</figcaption>
+            </figure>
+
+            <div class="picker__copy">
+              <h3>Vintage menswear</h3>
+              <p>
+                Tailored menswear came with an established structure: lapels, collars, pockets,
+                linings and carefully constructed shoulders. Reconstruction meant working within —
+                or against — decisions that had already been made.
+              </p>
+              <ul class="picker__details" role="list">
+                <li class="frame">
+                  <img
+                    class="frame__image"
+                    src="/images/archive/detail-coat-lapel.jpg"
+                    srcset="
+                      /images/responsive/archive/detail-coat-lapel-160.webp 160w,
+                      /images/responsive/archive/detail-coat-lapel-320.webp 320w,
+                      /images/responsive/archive/detail-coat-lapel-480.webp 480w,
+                      /images/responsive/archive/detail-coat-lapel-640.webp 640w,
+                      /images/responsive/archive/detail-coat-lapel-768.webp 768w,
+                      /images/responsive/archive/detail-coat-lapel-854.webp 854w
+                    "
+                    sizes="(min-width: 64rem) 12vw, 30vw"
+                    alt="The front of the Parker Bis Coat: black wool, an olive lapel folded across it, two buttons at the waist."
+                    width="854"
+                    height="1280"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </li>
+                <li class="frame">
+                  <img
+                    class="frame__image"
+                    src="/images/archive/detail-coat-lining.jpg"
+                    srcset="
+                      /images/responsive/archive/detail-coat-lining-160.webp 160w,
+                      /images/responsive/archive/detail-coat-lining-320.webp 320w,
+                      /images/responsive/archive/detail-coat-lining-480.webp 480w,
+                      /images/responsive/archive/detail-coat-lining-640.webp 640w,
+                      /images/responsive/archive/detail-coat-lining-768.webp 768w,
+                      /images/responsive/archive/detail-coat-lining-854.webp 854w
+                    "
+                    sizes="(min-width: 64rem) 12vw, 30vw"
+                    alt="The coat held open on its olive inner front, a column of buttons and a black lining."
+                    width="854"
+                    height="1280"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </li>
+                <li class="frame">
+                  <img
+                    class="frame__image"
+                    src="/images/archive/detail-coat-facing.jpg"
+                    srcset="
+                      /images/responsive/archive/detail-coat-facing-160.webp 160w,
+                      /images/responsive/archive/detail-coat-facing-320.webp 320w,
+                      /images/responsive/archive/detail-coat-facing-480.webp 480w,
+                      /images/responsive/archive/detail-coat-facing-640.webp 640w,
+                      /images/responsive/archive/detail-coat-facing-768.webp 768w,
+                      /images/responsive/archive/detail-coat-facing-854.webp 854w
+                    "
+                    sizes="(min-width: 64rem) 12vw, 30vw"
+                    alt="The olive facing laid back over the black front, its buttonhole at the point."
+                    width="854"
+                    height="1280"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="picker__panel" data-panel="military">
+            <figure class="picker__look">
+              <img
+                class="picker__figure"
+                src="/images/looks/parka.png"
+                srcset="
+                  /images/responsive/looks/parka-160.webp 160w,
+                  /images/responsive/looks/parka-320.webp 320w,
+                  /images/responsive/looks/parka-480.webp 480w,
+                  /images/responsive/looks/parka-640.webp 640w,
+                  /images/responsive/looks/parka-768.webp 768w,
+                  /images/responsive/looks/parka-815.webp 815w
+                "
+                sizes="(min-width: 64rem) 20vw, 50vw"
+                alt="Parka 20 worn with the hood up: long olive cotton, drawcords at the collar, over black trousers turned up at the hem."
+                width="815"
+                height="1600"
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption class="note picker__credit">Parka 20, M.Y.</figcaption>
+            </figure>
+
+            <div class="picker__copy">
+              <h3>Military garments</h3>
+              <p>
+                Military clothing was designed around function. Pockets had a purpose, seams were
+                reinforced where necessary, and construction followed the demands of use. Those
+                functional details remained part of the garment even when its original purpose
+                changed.
+              </p>
+              <ul class="picker__details" role="list">
+                <li class="frame">
+                  <img
+                    class="frame__image"
+                    src="/images/archive/detail-parka-hood.jpg"
+                    srcset="
+                      /images/responsive/archive/detail-parka-hood-160.webp 160w,
+                      /images/responsive/archive/detail-parka-hood-320.webp 320w,
+                      /images/responsive/archive/detail-parka-hood-480.webp 480w,
+                      /images/responsive/archive/detail-parka-hood-640.webp 640w,
+                      /images/responsive/archive/detail-parka-hood-768.webp 768w,
+                      /images/responsive/archive/detail-parka-hood-854.webp 854w
+                    "
+                    sizes="(min-width: 64rem) 12vw, 30vw"
+                    alt="The parka’s hood in profile, in olive cotton."
+                    width="854"
+                    height="1280"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </li>
+                <li class="frame">
+                  <img
+                    class="frame__image"
+                    src="/images/archive/detail-parka-hem.jpg"
+                    srcset="
+                      /images/responsive/archive/detail-parka-hem-160.webp 160w,
+                      /images/responsive/archive/detail-parka-hem-320.webp 320w,
+                      /images/responsive/archive/detail-parka-hem-480.webp 480w,
+                      /images/responsive/archive/detail-parka-hem-640.webp 640w,
+                      /images/responsive/archive/detail-parka-hem-768.webp 768w,
+                      /images/responsive/archive/detail-parka-hem-854.webp 854w
+                    "
+                    sizes="(min-width: 64rem) 12vw, 30vw"
+                    alt="The parka’s drawstring hem gathered at the hip."
+                    width="854"
+                    height="1280"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </li>
+                <li class="frame">
+                  <img
+                    class="frame__image"
+                    src="/images/archive/detail-parka-front.jpg"
+                    srcset="
+                      /images/responsive/archive/detail-parka-front-160.webp 160w,
+                      /images/responsive/archive/detail-parka-front-320.webp 320w,
+                      /images/responsive/archive/detail-parka-front-480.webp 480w,
+                      /images/responsive/archive/detail-parka-front-640.webp 640w,
+                      /images/responsive/archive/detail-parka-front-768.webp 768w,
+                      /images/responsive/archive/detail-parka-front-854.webp 854w
+                    "
+                    sizes="(min-width: 64rem) 12vw, 30vw"
+                    alt="The parka’s front: a long zip, press studs and black drawcords at the collar."
+                    width="854"
+                    height="1280"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="picker__panel" data-panel="workwear">
+            <figure class="picker__look">
+              <img
+                class="picker__figure"
+                src="/images/looks/wide-leg-jeans.png"
+                srcset="
+                  /images/responsive/looks/wide-leg-jeans-160.webp 160w,
+                  /images/responsive/looks/wide-leg-jeans-320.webp 320w,
+                  /images/responsive/looks/wide-leg-jeans-480.webp 480w,
+                  /images/responsive/looks/wide-leg-jeans-640.webp 640w,
+                  /images/responsive/looks/wide-leg-jeans-768.webp 768w,
+                  /images/responsive/looks/wide-leg-jeans-869.webp 869w
+                "
+                sizes="(min-width: 64rem) 20vw, 50vw"
+                alt="The Wide-Leg Jeans in black, frayed turn-ups at the hem and a patterned silk scarf knotted through the belt."
+                width="869"
+                height="1600"
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption class="note picker__credit">Wide-Leg Jeans, M.Y.</figcaption>
+            </figure>
+
+            <div class="picker__copy">
+              <h3>Workwear</h3>
+              <p>
+                Workwear could carry its history on its surface. Fading, reinforced seams,
+                topstitching, repairs and areas of wear recorded how a garment had been made and
+                used.
+              </p>
+              <ul class="picker__details" role="list">
+                <li class="frame">
+                  <img
+                    class="frame__image"
+                    src="/images/archive/detail-jeans-back.jpg"
+                    srcset="
+                      /images/responsive/archive/detail-jeans-back-160.webp 160w,
+                      /images/responsive/archive/detail-jeans-back-320.webp 320w,
+                      /images/responsive/archive/detail-jeans-back-480.webp 480w,
+                      /images/responsive/archive/detail-jeans-back-640.webp 640w,
+                      /images/responsive/archive/detail-jeans-back-768.webp 768w,
+                      /images/responsive/archive/detail-jeans-back-854.webp 854w
+                    "
+                    sizes="(min-width: 64rem) 12vw, 30vw"
+                    alt="The wide-leg jeans from the front, the hems turned up into deep, frayed cuffs."
+                    width="854"
+                    height="1280"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </li>
+                <li class="frame">
+                  <img
+                    class="frame__image"
+                    src="/images/archive/detail-jeans-side.jpg"
+                    srcset="
+                      /images/responsive/archive/detail-jeans-side-160.webp 160w,
+                      /images/responsive/archive/detail-jeans-side-320.webp 320w,
+                      /images/responsive/archive/detail-jeans-side-480.webp 480w,
+                      /images/responsive/archive/detail-jeans-side-640.webp 640w,
+                      /images/responsive/archive/detail-jeans-side-768.webp 768w,
+                      /images/responsive/archive/detail-jeans-side-854.webp 854w
+                    "
+                    sizes="(min-width: 64rem) 12vw, 30vw"
+                    alt="The jeans from behind, long straps hanging from the waistband."
+                    width="854"
+                    height="1280"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </li>
+                <li class="frame">
+                  <img
+                    class="frame__image"
+                    src="/images/archive/detail-jeans-pocket.jpg"
+                    srcset="
+                      /images/responsive/archive/detail-jeans-pocket-160.webp 160w,
+                      /images/responsive/archive/detail-jeans-pocket-320.webp 320w,
+                      /images/responsive/archive/detail-jeans-pocket-480.webp 480w,
+                      /images/responsive/archive/detail-jeans-pocket-640.webp 640w,
+                      /images/responsive/archive/detail-jeans-pocket-768.webp 768w,
+                      /images/responsive/archive/detail-jeans-pocket-854.webp 854w
+                    "
+                    sizes="(min-width: 64rem) 12vw, 30vw"
+                    alt="Close on the back: belt loops and straps over the pocket."
+                    width="854"
+                    height="1280"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="picker__panel" data-panel="denim">
+            <figure class="picker__look picker__look--print">
+              <svg class="clip picker__clip" aria-hidden="true"><use href="#clip" /></svg>
+              <img
+                class="picker__figure"
                 src="/images/denim-jacket.jpg"
                 srcset="
                   /images/responsive/denim-jacket-160.webp 160w,
@@ -592,306 +823,84 @@
                   /images/responsive/denim-jacket-480.webp 480w,
                   /images/responsive/denim-jacket-640.webp 640w
                 "
-                sizes="(min-width: 64rem) 14vw, 38vw"
-                alt=""
+                sizes="(min-width: 64rem) 20vw, 50vw"
+                alt="A pale, oversized denim jacket on a mannequin, the cuffs turned back and threads hanging loose down the front."
                 width="640"
                 height="960"
                 loading="lazy"
                 decoding="async"
               />
-            </span>
-            <span class="lineup__name">
-              <span class="lineup__no">Look 04</span>
-              Second-hand denim
-            </span>
-          </label>
-        </fieldset>
+              <figcaption class="note picker__credit">Denim jacket, from the archive</figcaption>
+            </figure>
 
-        <div class="picker__panels" aria-live="polite">
-          <article class="picker__panel" data-panel="menswear">
-            <h3>Vintage menswear</h3>
-            <p>
-              Tailored menswear came with an established structure: lapels, collars, pockets,
-              linings and carefully constructed shoulders. Reconstruction meant working within — or
-              against — decisions that had already been made.
-            </p>
-            <p class="note picker__credit">Parker Bis Coat, M.Y.</p>
-            <ul class="picker__details" role="list">
-              <li class="frame">
-                <img
-                  class="frame__image"
-                  src="/images/archive/detail-coat-lapel.jpg"
-                  srcset="
-                    /images/responsive/archive/detail-coat-lapel-160.webp 160w,
-                    /images/responsive/archive/detail-coat-lapel-320.webp 320w,
-                    /images/responsive/archive/detail-coat-lapel-480.webp 480w,
-                    /images/responsive/archive/detail-coat-lapel-640.webp 640w,
-                    /images/responsive/archive/detail-coat-lapel-768.webp 768w,
-                    /images/responsive/archive/detail-coat-lapel-854.webp 854w
-                  "
-                  sizes="(min-width: 64rem) 12vw, 30vw"
-                  alt="The front of the Parker Bis Coat: black wool, an olive lapel folded across it, two buttons at the waist."
-                  width="854"
-                  height="1280"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </li>
-              <li class="frame">
-                <img
-                  class="frame__image"
-                  src="/images/archive/detail-coat-lining.jpg"
-                  srcset="
-                    /images/responsive/archive/detail-coat-lining-160.webp 160w,
-                    /images/responsive/archive/detail-coat-lining-320.webp 320w,
-                    /images/responsive/archive/detail-coat-lining-480.webp 480w,
-                    /images/responsive/archive/detail-coat-lining-640.webp 640w,
-                    /images/responsive/archive/detail-coat-lining-768.webp 768w,
-                    /images/responsive/archive/detail-coat-lining-854.webp 854w
-                  "
-                  sizes="(min-width: 64rem) 12vw, 30vw"
-                  alt="The coat held open on its olive inner front, a column of buttons and a black lining."
-                  width="854"
-                  height="1280"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </li>
-              <li class="frame">
-                <img
-                  class="frame__image"
-                  src="/images/archive/detail-coat-facing.jpg"
-                  srcset="
-                    /images/responsive/archive/detail-coat-facing-160.webp 160w,
-                    /images/responsive/archive/detail-coat-facing-320.webp 320w,
-                    /images/responsive/archive/detail-coat-facing-480.webp 480w,
-                    /images/responsive/archive/detail-coat-facing-640.webp 640w,
-                    /images/responsive/archive/detail-coat-facing-768.webp 768w,
-                    /images/responsive/archive/detail-coat-facing-854.webp 854w
-                  "
-                  sizes="(min-width: 64rem) 12vw, 30vw"
-                  alt="The olive facing laid back over the black front, its buttonhole at the point."
-                  width="854"
-                  height="1280"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </li>
-            </ul>
-          </article>
-
-          <article class="picker__panel" data-panel="military">
-            <h3>Military garments</h3>
-            <p>
-              Military clothing was designed around function. Pockets had a purpose, seams were
-              reinforced where necessary, and construction followed the demands of use. Those
-              functional details remained part of the garment even when its original purpose
-              changed.
-            </p>
-            <p class="note picker__credit">Parka 20, M.Y.</p>
-            <ul class="picker__details" role="list">
-              <li class="frame">
-                <img
-                  class="frame__image"
-                  src="/images/archive/detail-parka-hood.jpg"
-                  srcset="
-                    /images/responsive/archive/detail-parka-hood-160.webp 160w,
-                    /images/responsive/archive/detail-parka-hood-320.webp 320w,
-                    /images/responsive/archive/detail-parka-hood-480.webp 480w,
-                    /images/responsive/archive/detail-parka-hood-640.webp 640w,
-                    /images/responsive/archive/detail-parka-hood-768.webp 768w,
-                    /images/responsive/archive/detail-parka-hood-854.webp 854w
-                  "
-                  sizes="(min-width: 64rem) 12vw, 30vw"
-                  alt="The parka’s hood in profile, in olive cotton."
-                  width="854"
-                  height="1280"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </li>
-              <li class="frame">
-                <img
-                  class="frame__image"
-                  src="/images/archive/detail-parka-hem.jpg"
-                  srcset="
-                    /images/responsive/archive/detail-parka-hem-160.webp 160w,
-                    /images/responsive/archive/detail-parka-hem-320.webp 320w,
-                    /images/responsive/archive/detail-parka-hem-480.webp 480w,
-                    /images/responsive/archive/detail-parka-hem-640.webp 640w,
-                    /images/responsive/archive/detail-parka-hem-768.webp 768w,
-                    /images/responsive/archive/detail-parka-hem-854.webp 854w
-                  "
-                  sizes="(min-width: 64rem) 12vw, 30vw"
-                  alt="The parka’s drawstring hem gathered at the hip."
-                  width="854"
-                  height="1280"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </li>
-              <li class="frame">
-                <img
-                  class="frame__image"
-                  src="/images/archive/detail-parka-front.jpg"
-                  srcset="
-                    /images/responsive/archive/detail-parka-front-160.webp 160w,
-                    /images/responsive/archive/detail-parka-front-320.webp 320w,
-                    /images/responsive/archive/detail-parka-front-480.webp 480w,
-                    /images/responsive/archive/detail-parka-front-640.webp 640w,
-                    /images/responsive/archive/detail-parka-front-768.webp 768w,
-                    /images/responsive/archive/detail-parka-front-854.webp 854w
-                  "
-                  sizes="(min-width: 64rem) 12vw, 30vw"
-                  alt="The parka’s front: a long zip, press studs and black drawcords at the collar."
-                  width="854"
-                  height="1280"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </li>
-            </ul>
-          </article>
-
-          <article class="picker__panel" data-panel="workwear">
-            <h3>Workwear</h3>
-            <p>
-              Workwear could carry its history on its surface. Fading, reinforced seams,
-              topstitching, repairs and areas of wear recorded how a garment had been made and used.
-            </p>
-            <p class="note picker__credit">Wide-Leg Jeans, M.Y.</p>
-            <ul class="picker__details" role="list">
-              <li class="frame">
-                <img
-                  class="frame__image"
-                  src="/images/archive/detail-jeans-back.jpg"
-                  srcset="
-                    /images/responsive/archive/detail-jeans-back-160.webp 160w,
-                    /images/responsive/archive/detail-jeans-back-320.webp 320w,
-                    /images/responsive/archive/detail-jeans-back-480.webp 480w,
-                    /images/responsive/archive/detail-jeans-back-640.webp 640w,
-                    /images/responsive/archive/detail-jeans-back-768.webp 768w,
-                    /images/responsive/archive/detail-jeans-back-854.webp 854w
-                  "
-                  sizes="(min-width: 64rem) 12vw, 30vw"
-                  alt="The wide-leg jeans from the front, the hems turned up into deep, frayed cuffs."
-                  width="854"
-                  height="1280"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </li>
-              <li class="frame">
-                <img
-                  class="frame__image"
-                  src="/images/archive/detail-jeans-side.jpg"
-                  srcset="
-                    /images/responsive/archive/detail-jeans-side-160.webp 160w,
-                    /images/responsive/archive/detail-jeans-side-320.webp 320w,
-                    /images/responsive/archive/detail-jeans-side-480.webp 480w,
-                    /images/responsive/archive/detail-jeans-side-640.webp 640w,
-                    /images/responsive/archive/detail-jeans-side-768.webp 768w,
-                    /images/responsive/archive/detail-jeans-side-854.webp 854w
-                  "
-                  sizes="(min-width: 64rem) 12vw, 30vw"
-                  alt="The jeans from behind, long straps hanging from the waistband."
-                  width="854"
-                  height="1280"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </li>
-              <li class="frame">
-                <img
-                  class="frame__image"
-                  src="/images/archive/detail-jeans-pocket.jpg"
-                  srcset="
-                    /images/responsive/archive/detail-jeans-pocket-160.webp 160w,
-                    /images/responsive/archive/detail-jeans-pocket-320.webp 320w,
-                    /images/responsive/archive/detail-jeans-pocket-480.webp 480w,
-                    /images/responsive/archive/detail-jeans-pocket-640.webp 640w,
-                    /images/responsive/archive/detail-jeans-pocket-768.webp 768w,
-                    /images/responsive/archive/detail-jeans-pocket-854.webp 854w
-                  "
-                  sizes="(min-width: 64rem) 12vw, 30vw"
-                  alt="Close on the back: belt loops and straps over the pocket."
-                  width="854"
-                  height="1280"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </li>
-            </ul>
-          </article>
-
-          <article class="picker__panel" data-panel="denim">
-            <h3>Second-hand denim</h3>
-            <p>
-              Denim makes wear particularly visible. Colour fades unevenly, creases settle into the
-              fabric and repeated use leaves marks specific to the person who wore it.
-            </p>
-            <p>
-              In Marie, Yee cut old jeans into patchwork and incorporated the pieces by hand into
-              bomber jackets. Rather than disguising the fact that the denim had been used before,
-              its different washes and traces of wear remained visible.
-            </p>
-            <p class="note picker__credit">Denim jacket, from the archive</p>
-            <ul class="picker__details" role="list">
-              <li class="frame" style="--crop: 88% 78%">
-                <img
-                  class="frame__image"
-                  src="/images/denim-jacket.jpg"
-                  srcset="
-                    /images/responsive/denim-jacket-160.webp 160w,
-                    /images/responsive/denim-jacket-320.webp 320w,
-                    /images/responsive/denim-jacket-480.webp 480w,
-                    /images/responsive/denim-jacket-640.webp 640w
-                  "
-                  sizes="(min-width: 64rem) 12vw, 30vw"
-                  alt="Close on the denim jacket: a cuff turned back to show the paler inside."
-                  width="640"
-                  height="960"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </li>
-              <li class="frame" style="--crop: 38% 55%">
-                <img
-                  class="frame__image"
-                  src="/images/denim-jacket.jpg"
-                  srcset="
-                    /images/responsive/denim-jacket-160.webp 160w,
-                    /images/responsive/denim-jacket-320.webp 320w,
-                    /images/responsive/denim-jacket-480.webp 480w,
-                    /images/responsive/denim-jacket-640.webp 640w
-                  "
-                  sizes="(min-width: 64rem) 12vw, 30vw"
-                  alt="Close on the front: threads left hanging where the denim has worn through."
-                  width="640"
-                  height="960"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </li>
-              <li class="frame" style="--crop: 50% 14%">
-                <img
-                  class="frame__image"
-                  src="/images/denim-jacket.jpg"
-                  srcset="
-                    /images/responsive/denim-jacket-160.webp 160w,
-                    /images/responsive/denim-jacket-320.webp 320w,
-                    /images/responsive/denim-jacket-480.webp 480w,
-                    /images/responsive/denim-jacket-640.webp 640w
-                  "
-                  sizes="(min-width: 64rem) 12vw, 30vw"
-                  alt="Close on the collar and the top button."
-                  width="640"
-                  height="960"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </li>
-            </ul>
+            <div class="picker__copy">
+              <h3>Second-hand denim</h3>
+              <p>
+                Denim makes wear particularly visible. Colour fades unevenly, creases settle into
+                the fabric and repeated use leaves marks specific to the person who wore it.
+              </p>
+              <p>
+                In Marie, Yee cut old jeans into patchwork and incorporated the pieces by hand into
+                bomber jackets. Rather than disguising the fact that the denim had been used before,
+                its different washes and traces of wear remained visible.
+              </p>
+              <ul class="picker__details" role="list">
+                <li class="frame" style="--crop: 88% 78%">
+                  <img
+                    class="frame__image"
+                    src="/images/denim-jacket.jpg"
+                    srcset="
+                      /images/responsive/denim-jacket-160.webp 160w,
+                      /images/responsive/denim-jacket-320.webp 320w,
+                      /images/responsive/denim-jacket-480.webp 480w,
+                      /images/responsive/denim-jacket-640.webp 640w
+                    "
+                    sizes="(min-width: 64rem) 12vw, 30vw"
+                    alt="Close on the denim jacket: a cuff turned back to show the paler inside."
+                    width="640"
+                    height="960"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </li>
+                <li class="frame" style="--crop: 38% 55%">
+                  <img
+                    class="frame__image"
+                    src="/images/denim-jacket.jpg"
+                    srcset="
+                      /images/responsive/denim-jacket-160.webp 160w,
+                      /images/responsive/denim-jacket-320.webp 320w,
+                      /images/responsive/denim-jacket-480.webp 480w,
+                      /images/responsive/denim-jacket-640.webp 640w
+                    "
+                    sizes="(min-width: 64rem) 12vw, 30vw"
+                    alt="Close on the front: threads left hanging where the denim has worn through."
+                    width="640"
+                    height="960"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </li>
+                <li class="frame" style="--crop: 50% 14%">
+                  <img
+                    class="frame__image"
+                    src="/images/denim-jacket.jpg"
+                    srcset="
+                      /images/responsive/denim-jacket-160.webp 160w,
+                      /images/responsive/denim-jacket-320.webp 320w,
+                      /images/responsive/denim-jacket-480.webp 480w,
+                      /images/responsive/denim-jacket-640.webp 640w
+                    "
+                    sizes="(min-width: 64rem) 12vw, 30vw"
+                    alt="Close on the collar and the top button."
+                    width="640"
+                    height="960"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </li>
+              </ul>
+            </div>
           </article>
         </div>
       </section>
@@ -999,7 +1008,7 @@
                   /images/responsive/archive/my-preview-960.webp   960w,
                   /images/responsive/archive/my-preview-1092.webp 1092w
                 "
-                sizes="(min-width: 48rem) 20vw, 44vw"
+                sizes="(min-width: 48rem) 54vh, 44vw"
                 alt="A white lapel against black fabric painted over in broad strokes, a row of dark stitches down its edge."
                 width="1092"
                 height="1354"
@@ -1021,7 +1030,7 @@
                   /images/responsive/archive/tweed-jacket-960.webp   960w,
                   /images/responsive/archive/tweed-jacket-1108.webp 1108w
                 "
-                sizes="(min-width: 48rem) 20vw, 44vw"
+                sizes="(min-width: 48rem) 54vh, 44vw"
                 alt="A flecked tweed jacket cinched with a narrow woven belt in red and blue."
                 width="1108"
                 height="1412"
@@ -1043,7 +1052,7 @@
                   /images/responsive/archive/classic-tailored-jacket-960.webp   960w,
                   /images/responsive/archive/classic-tailored-jacket-1100.webp 1100w
                 "
-                sizes="(min-width: 48rem) 20vw, 44vw"
+                sizes="(min-width: 48rem) 54vh, 44vw"
                 alt="A black tailored jacket on a dress form, a printed scarf tucked in at the neck."
                 width="1100"
                 height="1308"
@@ -1065,14 +1074,13 @@
                   /images/responsive/My_jacket-960.webp   960w,
                   /images/responsive/My_jacket-1080.webp 1080w
                 "
-                sizes="(min-width: 48rem) 20vw, 44vw"
+                sizes="(min-width: 48rem) 54vh, 44vw"
                 alt="A checked wool jacket worn open over a bodice pieced together from raw-edged patches, joined with visible zigzag hand stitching."
                 width="1080"
                 height="1350"
                 loading="lazy"
                 decoding="async"
               />
-              <svg class="clip my-project-depth__clip" aria-hidden="true"><use href="#clip" /></svg>
               <figcaption>Jacket, M.Y. Project 2018</figcaption>
             </figure>
 
@@ -1088,7 +1096,7 @@
                   /images/responsive/archive/scarf-belt-960.webp   960w,
                   /images/responsive/archive/scarf-belt-1034.webp 1034w
                 "
-                sizes="(min-width: 48rem) 20vw, 44vw"
+                sizes="(min-width: 48rem) 54vh, 44vw"
                 alt="A pinstriped coat tied at the waist with a patterned silk scarf in rust and blue."
                 width="1034"
                 height="1294"
@@ -1110,7 +1118,7 @@
                   /images/responsive/archive/biba-shirt-960.webp 960w,
                   /images/responsive/archive/biba-shirt-990.webp 990w
                 "
-                sizes="(min-width: 48rem) 20vw, 44vw"
+                sizes="(min-width: 48rem) 54vh, 44vw"
                 alt="A pale striped shirt, its sleeve rolled into a wide double cuff."
                 width="990"
                 height="1380"
@@ -1128,7 +1136,7 @@
                   /images/responsive/MY_jackets-320.webp 320w,
                   /images/responsive/MY_jackets-387.webp 387w
                 "
-                sizes="(min-width: 48rem) 20vw, 44vw"
+                sizes="(min-width: 48rem) 54vh, 44vw"
                 alt="Two belted coats on mannequins; the left one carries pale patchwork panels stitched over dark wool."
                 width="387"
                 height="516"

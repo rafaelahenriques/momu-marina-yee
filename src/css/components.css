@@ -949,19 +949,23 @@
 }
 
 /* ============================================================
-   PICKER — the look display
-   A lineup of looks stood on one floor line, after a lookbook's
-   look display. Each look is a radio label, so the choice is a
-   real form control; choosing one shows its panel and three
-   framed details. The dimming of the others is CSS alone, so it
-   reads the same with no script and with reduced motion.
+   PICKER — an index of four looks
+   The names in the cover's capitals, ruled like a contents page.
+   Each name is a radio label, so the choice is a real form
+   control; the chosen one is filled in, the others stay drawn in
+   outline. Its panel holds the look, its story and three framed
+   details. All of that is CSS, so it reads the same with no script
+   and with reduced motion.
 ============================================================ */
 
 .picker {
+  /* The height every look stands at; the panels' floor is measured from it. */
+  --look-height: min(56vh, 30rem);
+
   display: grid;
 
-  /* Held to the section's width: left to size itself, the column would
-     stretch to the whole strip of looks, which only scrolls on a phone. */
+  /* Held to the section's width, so a long name or a wide figure can never
+     size the column wider than the screen. */
   grid-template-columns: minmax(0, 1fr);
   grid-template-areas:
     'title'
@@ -973,7 +977,7 @@
 }
 
 /* Aligned to the grid's own edge, not centred in the title's usual width:
-   the intro and the lineup below start at the gutter. */
+   the intro and the index below start at the gutter. */
 .picker__title,
 .doodle__title {
   grid-area: title;
@@ -986,139 +990,74 @@
   max-width: var(--width-content);
 }
 
-/* --- The lineup ------------------------------------------------
-   On a phone a strip you swipe along; wider, all four stand in
-   a row. Every look's foot sits on the same line. */
+/* --- The index ------------------------------------------------- */
 
-.lineup {
+.looks {
   grid-area: choices;
-
-  /* A fieldset grows to fit its content by default, which would turn the
-     strip into a page wider than the screen instead of a strip that scrolls. */
   min-inline-size: 0;
-  display: flex;
-  align-items: flex-end;
-  gap: var(--space-m);
-  margin: var(--space-m) calc(var(--gutter) * -1) 0;
-  padding: var(--space-m) var(--gutter) var(--space-s);
+  margin: var(--space-m) 0 0;
+  padding: 0;
   border: 0;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-padding-inline: var(--gutter);
+  border-top: 1px solid var(--color-ink);
 }
 
-.lineup__look {
-  --look-height: min(52vh, 26rem);
-
-  position: relative;
-  flex: none;
-  display: grid;
-  justify-items: center;
-  align-content: end;
+.looks__item {
+  display: flex;
+  align-items: flex-start;
   gap: var(--space-xs);
-  scroll-snap-align: start;
+  padding-block: var(--space-xs);
+  border-bottom: 1px solid var(--color-ink);
   cursor: pointer;
-  transition:
-    opacity var(--duration-base) var(--ease-out),
-    filter var(--duration-base) var(--ease-out);
 }
 
-.lineup__look input {
+.looks__item input {
   position: absolute;
   opacity: 0;
   width: 1px;
   height: 1px;
 }
 
-.lineup__figure {
-  display: block;
-  width: auto;
-  height: var(--look-height);
-  max-width: none;
-  transition: translate var(--duration-base) var(--ease-out);
-}
-
-/* Cut off at the waist in the studio shot, so stood at the height its
-   legs would be beside the others. */
-.lineup__look--half .lineup__figure {
-  height: calc(var(--look-height) * 0.56);
-}
-
-/* The archive piece: a print held to the page by a clip, the size a
-   photograph of a whole look would be in a lookbook. */
-.lineup__print {
-  position: relative;
-  display: block;
-  padding: var(--space-2xs);
-  background: var(--color-bg);
-  box-shadow: var(--shadow-print);
-  rotate: 3deg;
-}
-
-.lineup__look--print .lineup__figure {
-  height: calc(var(--look-height) * 0.72);
-}
-
-.lineup__clip {
-  top: calc(var(--space-m) * -1);
-  left: 22%;
-  rotate: 8deg;
-}
-
-.lineup__name {
-  display: grid;
-  justify-items: center;
+.looks__no {
+  flex: none;
+  min-width: 2.5ch;
+  padding-top: 0.4em;
   font-family: var(--font-utility);
   font-size: 0.75rem;
-  letter-spacing: 0.12em;
-  text-align: center;
-  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--color-ink-muted);
 }
 
-.lineup__no {
-  font-family: var(--font-hand);
-  font-size: var(--step-1);
-  letter-spacing: 0;
-  text-transform: none;
+/* Drawn in outline until chosen: the four read as a list, and only one is
+   ever solid. */
+.looks__name {
+  font-family: var(--font-display);
+  font-stretch: var(--stretch-display);
+  font-weight: var(--weight-display);
+  font-size: clamp(2.4rem, 1rem + 7vw, 7rem);
+  line-height: var(--leading-display);
+  text-transform: uppercase;
+  word-spacing: 0.12em;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--color-ink);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.looks__item:hover .looks__name {
+  color: var(--color-rule);
+}
+
+.looks__item input:checked ~ .looks__name {
+  color: var(--color-ink);
+}
+
+/* The chosen one's number, in the pen that marks the title above. */
+.looks__item input:checked ~ .looks__no {
   color: var(--color-pen);
 }
 
-/* The others step back once a look is chosen: faded and in greyscale, so
-   the chosen one is the only thing in colour on the floor. */
-.lineup:has(input:checked) .lineup__look:not(:has(input:checked)) {
-  opacity: 0.45;
-  filter: grayscale(1);
-}
-
-.lineup__look:hover .lineup__figure,
-.lineup__look:has(input:checked) .lineup__figure {
-  translate: 0 calc(var(--space-2xs) * -1);
-}
-
-/* The chosen look's name, underlined in pen. */
-.lineup__look:has(input:checked) .lineup__name {
-  text-decoration: underline;
-  text-decoration-color: var(--color-pen);
-  text-decoration-thickness: 2px;
-  text-underline-offset: 0.4em;
-}
-
-.lineup__look:has(input:focus-visible) {
+.looks__item:has(input:focus-visible) {
   outline: 3px solid var(--color-ink);
-  outline-offset: var(--space-2xs);
-}
-
-@media (min-width: 64rem) {
-  .lineup {
-    justify-content: space-between;
-    margin-inline: 0;
-    padding-inline: 0;
-    overflow: visible;
-  }
-
-  .lineup__look {
-    --look-height: min(58vh, 34rem);
-  }
+  outline-offset: var(--space-3xs);
 }
 
 /* --- The panel ------------------------------------------------- */
@@ -1129,12 +1068,12 @@
 
 .picker__panel {
   display: grid;
-  gap: var(--space-s) var(--space-xl);
-  align-items: start;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-m);
 }
 
 .picker__panel + .picker__panel {
-  margin-top: var(--space-l);
+  margin-top: var(--space-xl);
 }
 
 /* With one panel showing, the gap between panels is picker.js's job. */
@@ -1145,28 +1084,98 @@
 /* Panels differ in length; without a floor the section resizes on every
    choice, and every trigger below is measured against a height that moved. */
 .js .picker__panels {
-  min-height: 30rem;
+  min-height: calc(var(--look-height) + 34rem);
+}
+
+.picker__look {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: var(--space-2xs);
+  margin: 0;
+}
+
+.picker__figure {
+  width: auto;
+  height: var(--look-height);
+  max-width: none;
+}
+
+/* The archive piece: a print held to the page by a clip. */
+.picker__look--print .picker__figure {
+  height: calc(var(--look-height) * 0.8);
+  padding: var(--space-2xs);
+  background: var(--color-print);
+  box-shadow: var(--shadow-print);
+  rotate: 3deg;
+}
+
+.picker__clip {
+  top: calc(var(--space-s) * -1);
+  left: 46%;
+  rotate: 8deg;
 }
 
 .picker__credit {
-  rotate: -2deg;
+  rotate: -3deg;
 }
 
-/* Three details in cream mounts, the way a lookbook frames close-ups. The
-   mount is an outline, not padding, so it sits outside the clip that a
-   zoomed crop (below) needs. */
+.picker__copy {
+  display: grid;
+  align-content: start;
+  gap: var(--space-s);
+}
+
+.picker__copy h3 {
+  margin: 0;
+  font-family: var(--font-utility);
+  font-stretch: 100%;
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.24em;
+}
+
+/* Justified capitals, like the copy on the dark spreads. */
+.picker__copy p {
+  max-width: 32ch;
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--step-0);
+  line-height: 1.2;
+  text-align: justify;
+  text-transform: uppercase;
+}
+
+/* Three details as prints, laid down a little crooked. The white border is
+   an outline, not padding, so it sits outside the clip that a zoomed crop
+   (below) needs. */
 .picker__details {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--space-m);
-  margin: var(--space-m) var(--space-2xs) 0;
+  max-width: 26rem;
+  margin: var(--space-xs) var(--space-3xs) 0;
   padding: 0;
   list-style: none;
 }
 
 .frame {
   overflow: hidden;
-  outline: var(--space-2xs) solid var(--color-surface);
+  outline: var(--space-3xs) solid var(--color-print);
+  box-shadow: var(--shadow-print);
+}
+
+.frame:nth-child(1) {
+  rotate: -3deg;
+}
+
+.frame:nth-child(2) {
+  rotate: 2deg;
+}
+
+.frame:nth-child(3) {
+  rotate: -1deg;
 }
 
 .frame__image {
@@ -1184,40 +1193,75 @@
   scale: 1.9;
 }
 
+/* Wide: a contents page. The names on the left with the chosen look's story
+   under them, the look itself standing the full height beside both. The
+   panels share the section's grid (subgrid), so a panel's copy can sit
+   under the index while its figure sits beside it. Only with script, which
+   shows one panel at a time; without it they stack as above. */
 @media (min-width: 64rem) {
-  .js .picker__panels {
-    min-height: 22rem;
-  }
+  .js .picker {
+    --look-height: min(76vh, 44rem);
 
-  .picker__panel {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+    /* One width for every look, about the narrowest a standing figure is
+       at this height: sized by its content, the column would change with
+       each choice, and the names beside it would wrap differently. */
+    grid-template-columns: minmax(0, 1fr) calc(var(--look-height) * 0.56);
+
+    /* The floor under the copy: tall enough for the longest story (the
+       denim's two paragraphs), so the section is the same height whichever
+       look is chosen. In steps of the copy's size, which its lines scale
+       with. */
+    grid-template-rows: auto auto auto minmax(calc(var(--step-0) * 27), auto);
     grid-template-areas:
-      'heading details'
-      'copy    details'
-      'credit  details';
+      'title title'
+      'intro intro'
+      'choices look'
+      'copy look';
+    column-gap: var(--space-xl);
   }
 
-  .picker__panel > h3 {
-    grid-area: heading;
+  .looks__name {
+    font-size: min(6.2vw, 11vh);
   }
 
-  .picker__panel > p:not(.picker__credit) {
-    grid-column: 1;
+  .js .picker__panels {
+    grid-area: choices / choices / copy / look;
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-template-columns: subgrid;
+    min-height: 0;
+
+    /* Its box covers the index; only its contents take the pointer. */
+    pointer-events: none;
   }
 
-  .picker__credit {
-    grid-area: credit;
+  .js .picker__panel {
+    grid-area: 1 / 1 / -1 / -1;
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-template-columns: subgrid;
+    pointer-events: none;
   }
 
-  .picker__details {
-    grid-area: details;
-    grid-row: 1 / span 4;
-    margin-top: 0;
+  .js .picker__look {
+    grid-area: 1 / 2 / -1 / 3;
+    align-self: start;
+    pointer-events: auto;
+  }
+
+  .js .picker__copy {
+    grid-area: 2 / 1 / 3 / 2;
+    padding-top: var(--space-m);
+    pointer-events: auto;
+  }
+
+  .picker__copy p {
+    max-width: 42ch;
   }
 }
 
 /* ============================================================
-   M.Y. PROJECT — DEPTH IMAGE SEQUENCE
+   M.Y. PROJECT — ONE PIECE AT A TIME
 ============================================================ */
 
 .my-project-copy {
@@ -1246,7 +1290,6 @@
   position: relative;
   width: 100%;
   margin: 0;
-  opacity: 1;
 }
 
 .my-project-depth__item img {
@@ -1261,12 +1304,6 @@
   margin-top: var(--space-2xs);
 }
 
-.my-project-depth__clip {
-  top: calc(var(--space-s) * -1);
-  left: 22%;
-  rotate: 8deg;
-}
-
 .my-project-depth__note {
   grid-column: 1 / -1;
   justify-self: end;
@@ -1279,19 +1316,17 @@
   }
 }
 
-/* --- Enhanced: the collage assembles ------------------------
+/* --- Enhanced: one piece at a time ----------------------------
    Added only by my-project-depth.js; the grid above is what no-JS and
-   reduced-motion visitors read. Here the stage is held while the pieces
-   come up out of the depth of the page and land in a spread, the way the
-   M.Y. Project was put together: from what already existed. */
+   reduced-motion visitors read. The stage is held while the page goes
+   dark and the pieces are uncovered in turn, each over the last, in one
+   frame, with its name set large beside it. */
 
 .my-project-depth.is-enhanced {
-  /* Pin distance: about half a screen of scroll per piece, then a held
-     look at the finished page. Taller = slower. */
-  height: 360vh;
+  /* Pin distance: half a screen of scroll per piece, and half a screen
+     at the end to take in the last one. Taller = slower. */
+  height: calc(100vh + (var(--pieces, 7) + 1) * 50vh);
   margin-top: var(--space-2xl);
-
-  /* Rising from the depth, rotated pieces can overhang the box. */
   overflow: visible;
 }
 
@@ -1299,180 +1334,109 @@
   display: block;
   height: 100dvh;
 
-  /* The vanishing point the pieces rise from is the middle of the page. */
-  perspective: 100vh;
-
-  /* One unit of piece width: a share of the width, unless the screen is
-     short enough for the height to run out first. */
-  --unit: min(1vw, 0.46svh);
+  /* The height every piece is shown at; the frame is 3:4 to match. */
+  --frame: min(52dvh, 120vw);
 }
 
-/* Each piece's place on the spread: --x and --y from the stage's top left,
-   --w in units, --r its angle. A transform rather than `rotate`, so the
-   script can read the angle it settles back to. */
+/* Every piece in the same frame, so each one uncovered covers the last
+   completely. */
 .my-project-depth.is-enhanced .my-project-depth__item {
   position: absolute;
-  top: var(--y);
-  left: var(--x);
-  width: calc(var(--w) * var(--unit));
-  max-width: none;
-  transform: rotate(var(--r));
-
-  /* Nothing to click, and mid-flight most of the time. */
-  pointer-events: none;
-
-  will-change: transform;
-}
-
-.my-project-depth.is-enhanced .my-project-depth__item img {
-  padding: var(--space-3xs);
+  top: 12dvh;
+  right: 0;
+  left: 0;
+  width: calc(var(--frame) * 0.75);
+  margin-inline: auto;
+  padding: var(--space-2xs);
   background: var(--color-print);
   box-shadow: var(--shadow-print);
+  pointer-events: none;
 }
 
-/* Spread across a page the captions would pile into a smudge. The same
-   wording is in each <img> alt, and the grid above still shows them. */
+/* Their names are set large on the page instead (built by the script).
+   The same wording is in each <img> alt, and the grid above shows them. */
 .my-project-depth.is-enhanced .my-project-depth__item figcaption {
   display: none;
 }
 
-/* Thin ruled frames, offset from the prints they belong to, as on a
-   layout sheet. currentColor, so they follow the page into the dark. */
-.my-project-depth.is-enhanced .my-project-depth__item--tailored::after,
-.my-project-depth.is-enhanced .my-project-depth__item--shirt::after,
-.my-project-depth.is-enhanced .my-project-depth__item--coats::after {
-  position: absolute;
-  z-index: -1;
-  border: 1px solid currentColor;
-  content: '';
-}
-
-.my-project-depth.is-enhanced .my-project-depth__item--tailored::after {
-  inset: -12% 24% 34% -18%;
-}
-
-.my-project-depth.is-enhanced .my-project-depth__item--shirt::after {
-  inset: 28% -20% -14% 36%;
-}
-
-.my-project-depth.is-enhanced .my-project-depth__item--coats::after {
-  inset: -24% 40% 10% -14%;
-}
-
 .my-project-depth.is-enhanced .my-project-depth__note {
   position: absolute;
-  top: 91%;
-  left: 52%;
+  top: calc(12dvh + var(--frame) + var(--space-m));
+  right: 0;
   margin: 0;
 }
 
-/* Phone: two loose columns, seven pieces down the screen. */
-.my-project-depth__item--preview {
-  --x: 4%;
-  --y: 4%;
-  --w: 46;
-  --r: -4deg;
+/* The name of the piece on show, in the cover's capitals, and above it
+   which of the seven it is. */
+.my-project-depth__caption {
+  position: absolute;
+  bottom: 6dvh;
+  left: 0;
+  display: grid;
+  gap: var(--space-xs);
+  max-width: 100%;
+  margin: 0;
 }
 
-.my-project-depth__item--tweed {
-  --x: 50%;
-  --y: 10%;
-  --w: 44;
-  --r: 3deg;
+.my-project-depth__count {
+  font-family: var(--font-utility);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
 }
 
-.my-project-depth__item--tailored {
-  --x: 8%;
-  --y: 31%;
-  --w: 40;
-  --r: 2deg;
+/* All seven names in one cell, each in a mask its letters roll through. */
+.my-project-depth__names {
+  display: grid;
 }
 
-.my-project-depth__item--checked {
-  --x: 48%;
-  --y: 37%;
-  --w: 46;
-  --r: -3deg;
+.my-project-depth__name {
+  grid-area: 1 / 1;
+  align-self: end;
+  overflow: hidden;
+  font-family: var(--font-display);
+  font-stretch: var(--stretch-display);
+  font-weight: var(--weight-display);
+  font-size: min(15vw, 9dvh);
+  line-height: var(--leading-display);
+  text-transform: uppercase;
+  word-spacing: 0.12em;
 }
 
-.my-project-depth__item--scarf {
-  --x: 3%;
-  --y: 56%;
-  --w: 38;
-  --r: -2deg;
+.my-project-depth__name > span {
+  display: block;
+
+  /* Room in the mask for the accents and the commas' tails. */
+  padding-block: 0.06em;
 }
 
-.my-project-depth__item--shirt {
-  --x: 56%;
-  --y: 60%;
-  --w: 38;
-  --r: 4deg;
-}
-
-.my-project-depth__item--coats {
-  --x: 22%;
-  --y: 70%;
-  --w: 34;
-  --r: -1.5deg;
-}
-
-/* Wider: one long spread, the pieces overlapping at their edges. */
-@media (min-width: 48rem) {
+/* Wide: the frame to the right, the name filling the page beside it. */
+@media (min-width: 64rem) {
   .my-project-depth.is-enhanced .my-project-depth__stage {
-    --unit: min(1.15vw, 1.6svh);
+    --frame: min(72dvh, 64vw);
+  }
+
+  .my-project-depth.is-enhanced .my-project-depth__item {
+    top: 14dvh;
+    left: auto;
+    margin: 0;
   }
 
   .my-project-depth.is-enhanced .my-project-depth__note {
-    top: 80%;
-    left: 42%;
+    top: 18dvh;
+    right: auto;
+    left: 0;
     font-size: calc(var(--step-hand) * 1.3);
   }
 
-  .my-project-depth__item--preview {
-    --x: 6%;
-    --y: 14%;
-    --w: 20;
+  .my-project-depth__caption {
+    bottom: 10dvh;
+    max-width: calc(100% - var(--frame) * 0.75 - var(--space-l));
   }
 
-  .my-project-depth__item--tweed {
-    --x: 24%;
-    --y: 30%;
-    --w: 18;
-    --r: 2.5deg;
-  }
-
-  .my-project-depth__item--tailored {
-    --x: 40%;
-    --y: 8%;
-    --w: 19;
-    --r: -1.5deg;
-  }
-
-  .my-project-depth__item--checked {
-    --x: 57%;
-    --y: 26%;
-    --w: 18;
-    --r: 3deg;
-  }
-
-  .my-project-depth__item--scarf {
-    --x: 74%;
-    --y: 10%;
-    --w: 17;
-  }
-
-  .my-project-depth__item--shirt {
-    --x: 70%;
-    --y: 52%;
-    --w: 15;
-    --r: 1.5deg;
-  }
-
-  .my-project-depth__item--coats {
-    --x: 16%;
-    --y: 60%;
-    --w: 13;
-    --r: -2.5deg;
+  .my-project-depth__name {
+    font-size: min(9vw, 17dvh);
   }
 }
 
@@ -1639,6 +1603,9 @@
 
 /* ============================================================
    TEXT MARQUEE
+   One sentence in the cover's capitals, cut as large as the
+   screen will hold, crawling past a black page while each letter
+   swells from light to black.
 ============================================================ */
 
 .marquee {
@@ -1654,7 +1621,7 @@
    means a slower pass. Enhanced only — with no JS this must not reserve
    four empty screens of scroll. */
 .marquee.is-enhanced .marquee__pin {
-  height: 500vh;
+  height: 600vh;
 }
 
 .marquee__stage {
@@ -1669,9 +1636,13 @@
   width: max-content;
   margin: 0;
   font-family: var(--font-display);
+  font-stretch: var(--stretch-display);
+  font-weight: 300;
+  font-size: clamp(7rem, 28vw, 44vh);
+  line-height: var(--leading-display);
+  text-transform: uppercase;
+  word-spacing: 0.12em;
   white-space: nowrap;
-  font-size: max(2.5rem, 8vw);
-  font-weight: 400;
   padding-inline: 100vw;
   will-change: transform;
 }
