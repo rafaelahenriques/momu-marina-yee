@@ -795,66 +795,6 @@
 }
 
 /* ============================================================
-   HERO SCATTER
-   Static by default; hero-scatter.js only animates *into* these
-   positions. Two archive pieces in the bottom corners, run off the
-   edge the way a proof is laid on a table, and the hanger up top.
-============================================================ */
-
-/* No z-index: it sits under the title by coming before it. */
-.hero__scatter {
-  position: absolute;
-  inset: 0;
-}
-
-.hero__image {
-  position: absolute;
-}
-
-.hero__image--1 {
-  bottom: -3%;
-  right: 3%;
-  width: 6rem;
-  transform: rotate(4deg);
-}
-
-.hero__image--2 {
-  bottom: -2%;
-  left: 3%;
-  width: 5.5rem;
-  transform: rotate(-5deg);
-}
-
-.hero__image--3 {
-  top: 12%;
-  right: 6%;
-  width: 3.5rem;
-  transform: rotate(-7deg);
-}
-
-@media (min-width: 48rem) {
-  .hero__image--1 {
-    bottom: -6%;
-    right: 4%;
-    width: clamp(8rem, 17vw, 16rem);
-  }
-
-  .hero__image--2 {
-    bottom: -4%;
-    left: 4%;
-    width: clamp(7rem, 15vw, 14rem);
-  }
-
-  /* In the margin beside "One Corner", clear of the title at any width. */
-  .hero__image--3 {
-    top: 30%;
-    right: auto;
-    left: 3%;
-    width: clamp(4.5rem, 7vw, 7rem);
-  }
-}
-
-/* ============================================================
    CURSOR TRAIL
    Built by cursor-trail.js in the sections marked [data-trail].
    One size for every piece, so a swatch and a tape measure read

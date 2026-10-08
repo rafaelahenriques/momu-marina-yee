@@ -19,6 +19,27 @@
   </head>
 
   <body>
+    <!-- Shared drawing tools, referenced from CSS and markup: the pen that
+         recolours the scanned hand marks, and the paper clip. -->
+    <svg class="defs" aria-hidden="true" focusable="false">
+      <filter id="pen" color-interpolation-filters="sRGB">
+        <feFlood class="defs__pen" />
+        <feComposite in2="SourceAlpha" operator="in" />
+      </filter>
+      <filter id="pen-on-dark" color-interpolation-filters="sRGB">
+        <feFlood class="defs__pen defs__pen--on-dark" />
+        <feComposite in2="SourceAlpha" operator="in" />
+      </filter>
+      <symbol id="clip" viewBox="0 0 24 64">
+        <path
+          d="M8 22 V52 a6 6 0 0 0 12 0 V12 a9 9 0 0 0 -18 0 V50 a4 4 0 0 0 8 0 V22"
+          fill="none"
+          stroke-width="2"
+          stroke-linecap="round"
+        />
+      </symbol>
+    </svg>
+
     <a class="skip-link" href="#main">Skip to the story</a>
 
     <nav class="breadcrumb" aria-label="Breadcrumb" data-theme="dark">
@@ -104,103 +125,90 @@
     </div>
 
     <main id="main">
-      <section class="hero" data-hero data-trail data-theme="dark">
-        <div class="hero__scatter" aria-hidden="true">
-          <div class="hero__image hero__image--1">
-            <img
-              src="/images/marie-invitation.jpg"
-              srcset="
-                /images/responsive/marie-invitation-160.webp 160w,
-                /images/responsive/marie-invitation-320.webp 320w,
-                /images/responsive/marie-invitation-480.webp 480w,
-                /images/responsive/marie-invitation-640.webp 640w
-              "
-              sizes="(min-width: 48rem) clamp(8rem, 18vw, 16rem), 6rem"
-              alt=""
-              width="640"
-              height="863"
-              fetchpriority="low"
-              decoding="async"
-            />
-          </div>
-          <div class="hero__image hero__image--2">
-            <img
-              src="/images/marie-collection.jpg"
-              srcset="
-                /images/responsive/marie-collection-160.webp 160w,
-                /images/responsive/marie-collection-320.webp 320w,
-                /images/responsive/marie-collection-480.webp 480w,
-                /images/responsive/marie-collection-640.webp 640w
-              "
-              sizes="(min-width: 48rem) clamp(7rem, 15vw, 13rem), 5.5rem"
-              alt=""
-              width="640"
-              height="828"
-              fetchpriority="low"
-              decoding="async"
-            />
-          </div>
-          <div class="hero__image hero__image--3" data-poke-item>
-            <img
-              src="/images/objects/hanger-objects.png"
-              srcset="
-                /images/responsive/objects/hanger-objects-160.webp 160w,
-                /images/responsive/objects/hanger-objects-320.webp 320w,
-                /images/responsive/objects/hanger-objects-371.webp 371w
-              "
-              sizes="(min-width: 48rem) clamp(6rem, 11vw, 10rem), 4.5rem"
-              alt=""
-              width="371"
-              height="539"
-              fetchpriority="low"
-              decoding="async"
-            />
-          </div>
-        </div>
+      <!-- The cover, set like a magazine spread: the title on a black page with
+           its corner cut off, the name and three prints on the white one. The
+           grid places them; the order here is the reading order. -->
+      <section class="hero" data-hero data-trail>
+        <h1 class="hero__name">
+          <img
+            class="hero__wordmark"
+            src="/marina-yee-wordmark.svg"
+            alt="Marina Yee"
+            width="1509"
+            height="343"
+            fetchpriority="high"
+          />
+        </h1>
+
+        <p class="hero__title" data-theme="dark">
+          <span class="hero__word">One</span>
+          <span class="hero__word">Corner</span>
+          <span class="hero__word">Off</span>
+        </p>
+
+        <!-- The corner the title page is missing, lying where it fell.
+             hero.js cuts it on arrival; a pointer can pick it up. -->
+        <span class="hero__corner" data-hero-corner aria-hidden="true"></span>
 
         <p class="hero__meta">
           <span>A MoMu story, 01 of 06</span>
           <span>The Antwerp Six, 1986–2026</span>
         </p>
 
-        <hgroup class="hero__inner">
-          <h1 class="hero__name">
-            <img
-              class="hero__wordmark"
-              src="/marina-yee-wordmark.svg"
-              alt="Marina Yee"
-              width="640"
-              height="180"
-              fetchpriority="high"
-            />
-          </h1>
-          <p class="hero__headline">
-            <span class="hero__line">One Corner</span>
-            <!-- Decorative here: the same collage is in the pile of details
-                 further down, with its description. Laid out at its full
-                 opened size and cropped to her eyes by the window, so
-                 hero-scene.js only has to widen the crop. -->
-            <span class="hero__window" data-hero-window>
-              <img
-                src="/images/workshop-collage.jpg"
-                srcset="
-                  /images/responsive/workshop-collage-320.webp 320w,
-                  /images/responsive/workshop-collage-480.webp 480w,
-                  /images/responsive/workshop-collage-640.webp 640w,
-                  /images/responsive/workshop-collage-768.webp 768w,
-                  /images/responsive/workshop-collage-900.webp 900w
-                "
-                sizes="min(58vh, 92vw)"
-                alt=""
-                width="900"
-                height="1273"
-                fetchpriority="high"
-                decoding="async"
-              />
-            </span>
-            <span class="hero__line">Off</span>
-          </p>
-        </hgroup>
+        <div class="hero__prints" aria-hidden="true">
+          <img
+            src="/images/archive/campaign-trench.jpg"
+            srcset="
+              /images/responsive/archive/campaign-trench-160.webp 160w,
+              /images/responsive/archive/campaign-trench-320.webp 320w,
+              /images/responsive/archive/campaign-trench-480.webp 480w,
+              /images/responsive/archive/campaign-trench-640.webp 640w,
+              /images/responsive/archive/campaign-trench-768.webp 768w,
+              /images/responsive/archive/campaign-trench-880.webp 880w
+            "
+            sizes="(min-width: 48rem) 16vw, 30vw"
+            alt=""
+            width="880"
+            height="1164"
+            fetchpriority="high"
+            decoding="async"
+          />
+          <img
+            src="/images/archive/campaign-bomber.jpg"
+            srcset="
+              /images/responsive/archive/campaign-bomber-160.webp 160w,
+              /images/responsive/archive/campaign-bomber-320.webp 320w,
+              /images/responsive/archive/campaign-bomber-480.webp 480w,
+              /images/responsive/archive/campaign-bomber-640.webp 640w,
+              /images/responsive/archive/campaign-bomber-768.webp 768w,
+              /images/responsive/archive/campaign-bomber-854.webp 854w
+            "
+            sizes="(min-width: 48rem) 16vw, 30vw"
+            alt=""
+            width="854"
+            height="1128"
+            decoding="async"
+          />
+          <img
+            src="/images/archive/invitation-ss24.jpg"
+            srcset="
+              /images/responsive/archive/invitation-ss24-160.webp   160w,
+              /images/responsive/archive/invitation-ss24-320.webp   320w,
+              /images/responsive/archive/invitation-ss24-480.webp   480w,
+              /images/responsive/archive/invitation-ss24-640.webp   640w,
+              /images/responsive/archive/invitation-ss24-768.webp   768w,
+              /images/responsive/archive/invitation-ss24-960.webp   960w,
+              /images/responsive/archive/invitation-ss24-1056.webp 1056w
+            "
+            sizes="(min-width: 48rem) 16vw, 30vw"
+            alt=""
+            width="1056"
+            height="1358"
+            decoding="async"
+          />
+        </div>
+
+        <p class="note hero__note">Make it look finished, then disturb it.</p>
 
         <!-- Inert until cursor-trail.js clones from it, so none of these load
              for a reader who never moves a pointer across the opening. -->

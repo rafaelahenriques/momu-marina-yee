@@ -19,8 +19,7 @@ async function init() {
     { initScrollReveal },
     { initSpotlight },
     { initHorizontalScroll },
-    { initHeroScatter },
-    { initHeroScene },
+    { initHero },
     { initCursorTrail },
     { initHeadingTracking },
     { initSequenceStack },
@@ -42,8 +41,7 @@ async function init() {
     import('./js/scroll-reveal.js'),
     import('./js/spotlight.js'),
     import('./js/horizontal-scroll.js'),
-    import('./js/hero-scatter.js'),
-    import('./js/hero-scene.js'),
+    import('./js/hero.js'),
     import('./js/cursor-trail.js'),
     import('./js/heading-tracking.js'),
     import('./js/sequence-stack.js'),
@@ -62,12 +60,12 @@ async function init() {
     import('./js/object-pop.js'),
   ]);
 
-  // The first two of the pins described below: synchronous and topmost on
-  // the page, so already in DOM order here.
-  initHeroScene();
+  initHero();
+
+  // The topmost of the pins described below, and synchronous, so it is
+  // already in DOM order here.
   initSpotlight();
 
-  initHeroScatter();
   initPickerMotion();
   initPoke();
   initMagnetic();
@@ -75,7 +73,7 @@ async function init() {
 
   /*
    * Pinned sections must be created in DOM order, top to bottom
-   * (refreshPriority 7 → 1). Each pin adds scroll distance, so one created
+   * (refreshPriority 6 → 1). Each pin adds scroll distance, so one created
    * before a pin above it measures against a page height that then changes,
    * and engages early over the section above. The first three must be
    * awaited, or the horizontal pin is built first and starts ~3000px too
