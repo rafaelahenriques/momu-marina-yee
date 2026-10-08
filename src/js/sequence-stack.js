@@ -25,6 +25,10 @@ export function initSequenceStack() {
 
   container.classList.add('is-stacked');
 
+  // The stage is held for as long as the pile takes to build: see the
+  // height of .sequence.is-stacked.
+  container.style.setProperty('--pieces', figures.length);
+
   // No longer a region a keyboard reader scrolls through, so no longer a tab
   // stop, and the label loses its ", scroll horizontally".
   container.removeAttribute('tabindex');

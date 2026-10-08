@@ -1,8 +1,8 @@
 import { gsap, SplitText, SCRUB, nextFrame } from './motion.js';
 
 /**
- * Pinned horizontal marquee with a per-character weight pulse. Bodoni Moda is
- * a variable font, so each letter swells from 400 to 700 and back through
+ * Pinned horizontal marquee with a per-character weight pulse. Archivo is a
+ * variable font, so each letter swells from light to black and back through
  * every weight between.
  *
  * Resolves once setup completes — see text-line-reveal.js for why that matters.
@@ -24,7 +24,7 @@ export function initTextMarquee() {
         charsClass: 'marquee__char',
       });
 
-      gsap.set(split.chars, { fontWeight: 400 });
+      gsap.set(split.chars, { fontWeight: 300 });
 
       // Re-measured on every refresh: the text is sized in vw, so its travel
       // changes with the viewport.
@@ -61,9 +61,9 @@ export function initTextMarquee() {
 
       split.chars.forEach((char, i) => {
         const tl = gsap.timeline();
-        tl.to(char, { fontWeight: 700, duration, ease: 'power1.inOut' }).to(
+        tl.to(char, { fontWeight: 900, duration, ease: 'power1.inOut' }).to(
           char,
-          { fontWeight: 400, duration, ease: 'power1.inOut' },
+          { fontWeight: 300, duration, ease: 'power1.inOut' },
         );
         master.add(tl, i * offset);
       });

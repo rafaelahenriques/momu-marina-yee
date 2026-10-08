@@ -7,7 +7,6 @@
 
 .pill,
 .button,
-.picker__label,
 .doodle__mark-label,
 .doodle__action {
   display: inline-flex;
@@ -445,11 +444,20 @@
   transform: rotate(-4deg);
 }
 
-.spotlight__piece--swatch {
+.spotlight__piece--drawing {
   bottom: 26%;
-  right: 10%;
-  width: 14vw;
+  right: 8%;
+  width: 22vw;
   transform: rotate(8deg);
+}
+
+/* The photographs and the drawing are prints on the page. */
+.spotlight__piece--studio img,
+.spotlight__piece--toile img,
+.spotlight__piece--drawing img {
+  padding: var(--space-3xs);
+  background: var(--color-print);
+  box-shadow: var(--shadow-print);
 }
 
 @media (min-width: 48rem) {
@@ -485,10 +493,10 @@
     width: 15vw;
   }
 
-  .spotlight__piece--swatch {
-    bottom: 11%;
-    right: 20%;
-    width: 6vw;
+  .spotlight__piece--drawing {
+    bottom: 9%;
+    right: 18%;
+    width: 11vw;
   }
 }
 
@@ -559,11 +567,13 @@
   position: relative;
   max-width: none;
   font-family: var(--font-display);
+  font-stretch: var(--stretch-display);
+  font-weight: var(--weight-display);
 
-  /* "THE ANTWERP SIX" is about 9em in capitals; this keeps it in the pool. */
-  font-size: min(var(--step-3), 6.5vw);
+  /* "THE ANTWERP SIX" is about 6.4em in the condensed capitals; this keeps
+     it in the pool. */
+  font-size: min(var(--step-4), 9vw);
   line-height: 1;
-  letter-spacing: 0.02em;
   text-transform: uppercase;
   white-space: nowrap;
   color: var(--color-ink);
@@ -660,17 +670,51 @@
   border-top: 0;
 }
 
+/* Justified capitals with the gaps left open, like the type on a black
+   page of a fashion zine. */
 .horizontal.is-enhanced .horizontal__panel p,
-.horizontal.is-enhanced .horizontal__panel .beat,
-.horizontal.is-enhanced .horizontal__panel .question {
-  max-width: 30ch;
+.horizontal.is-enhanced .horizontal__panel .beat {
+  max-width: 24ch;
   margin-block: 0;
+  font-family: var(--font-display);
+  font-stretch: 100%;
+  font-weight: 500;
   font-size: var(--step-1);
+  line-height: 1.12;
+  text-align: justify;
+  text-transform: uppercase;
 }
 
 .horizontal.is-enhanced .horizontal__panel .question {
-  font-size: var(--step-2);
-  max-width: 16ch;
+  max-width: 12ch;
+  margin-block: 0;
+  font-size: var(--step-4);
+  text-align: left;
+}
+
+/* The chapter's name, along the left edge like the spine of a page. */
+.horizontal__label {
+  max-width: var(--width-content);
+  margin: 0 auto var(--space-m);
+  padding-inline: var(--gutter);
+  font-size: var(--step-3);
+}
+
+.horizontal.is-enhanced .horizontal__label {
+  position: absolute;
+  top: 50%;
+  left: var(--space-s);
+  z-index: 4;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-utility);
+  font-stretch: 100%;
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.24em;
+  writing-mode: vertical-rl;
+  rotate: 180deg;
+  translate: 0 50%;
 }
 
 /* --- Drifting layers ------------------------------------------------
@@ -692,19 +736,19 @@
 }
 
 .horizontal__drift-item--collage {
-  top: -8%;
+  top: 6%;
   left: 100%;
-  width: 62vw;
-  opacity: 0.16;
-  rotate: 4deg;
+  width: 56vw;
+  opacity: 0.35;
+  rotate: 3deg;
 }
 
 .horizontal__drift-item--cloth {
-  bottom: -14%;
-  left: 130%;
-  width: 46vw;
-  opacity: 0.14;
-  rotate: -8deg;
+  bottom: 4%;
+  left: 135%;
+  width: 44vw;
+  opacity: 0.3;
+  rotate: -4deg;
 }
 
 /* --- Progress rail --------------------------------------------------- */
@@ -784,13 +828,13 @@
   }
 
   .horizontal__drift-item--collage {
-    width: min(46vw, 30rem);
-    opacity: 0.28;
+    width: min(36vw, 26rem);
+    opacity: 0.6;
   }
 
   .horizontal__drift-item--cloth {
-    width: min(34vw, 22rem);
-    opacity: 0.24;
+    width: min(28vw, 20rem);
+    opacity: 0.55;
   }
 }
 
@@ -849,6 +893,7 @@
 }
 
 .sequence .figure {
+  position: relative;
   flex: 0 0 auto;
   width: min(75vw, 22rem);
   scroll-snap-align: start;
@@ -872,11 +917,12 @@
    pile takes to build. Enhanced only — without script this must not
    reserve empty screens of scroll. */
 
-/* Full bleed, out over the chapter's gutters: the pile is its own black
-   scene in the middle of a white chapter. */
+/* A pile of invitations held down with clips. The height is the speed
+   control: one screen to hold the stage, and sixty per cent of one for
+   each piece that lands (sequence-stack.js writes --pieces). */
 .sequence.is-stacked {
   display: block;
-  height: 260vh;
+  height: calc(100vh + (var(--pieces, 3) - 1) * 60vh);
   padding: 0;
   margin-inline: calc(var(--gutter) * -1);
 
@@ -902,14 +948,27 @@
 .sequence.is-stacked .figure {
   grid-area: 1 / 1;
 
-  /* Sized against height too: three portrait scans in one held screen run
-     out of height first on a landscape phone. */
+  /* Sized against height too: portrait scans in one held screen run out of
+     height first on a landscape phone. */
   width: min(70vw, 24rem, 46dvh);
   will-change: transform;
 }
 
+.sequence .figure img {
+  padding: var(--space-3xs);
+  background: var(--color-print);
+  box-shadow: var(--shadow-print);
+}
+
+/* Each piece clipped at its top edge, a little off centre. */
+.figure__clip {
+  top: calc(var(--space-m) * -1);
+  left: 58%;
+  rotate: -6deg;
+}
+
 /* Only the top piece is captioned (sequence-stack.js), so the words sit on
-   the black, clear of the scans beneath. */
+   the paper, clear of the scans beneath. */
 .sequence.is-stacked .figure figcaption {
   margin-top: var(--space-xs);
 }
@@ -1320,26 +1379,30 @@
 }
 
 .text-reveal__fig img {
-  width: 6rem;
+  width: min(100%, 16rem);
+  padding: var(--space-3xs);
+  background: var(--color-print);
+  box-shadow: var(--shadow-print);
 }
 
 .text-reveal__text {
   width: min(100%, 44rem);
   margin: 0;
   font-family: var(--font-display);
+  font-weight: 500;
   font-size: var(--step-2);
-  line-height: 1.15;
+  line-height: 1.1;
 }
 
 @media (min-width: 48rem) {
   .text-reveal__stage {
-    grid-template-columns: minmax(7rem, 0.35fr) minmax(0, 1fr);
-    gap: clamp(2rem, 7vw, 8rem);
+    grid-template-columns: minmax(10rem, 0.45fr) minmax(0, 1fr);
+    gap: clamp(2rem, 6vw, 7rem);
     padding-block: var(--space-2xl);
   }
 
   .text-reveal__fig img {
-    width: min(100%, 8rem);
+    width: min(100%, 22rem);
   }
 
   .text-reveal__text {
@@ -1633,13 +1696,14 @@
 
 .corner-off__sheet strong {
   display: block;
-  max-width: 22ch;
+  max-width: 16ch;
   margin-block: var(--space-m);
   font-family: var(--font-display);
+  font-stretch: 75%;
+  font-weight: var(--weight-display);
   font-size: var(--step-3);
-  font-weight: 400;
-  line-height: var(--leading-tight);
-  letter-spacing: -0.01em;
+  line-height: 0.95;
+  text-transform: uppercase;
   text-wrap: balance;
 }
 
@@ -1756,26 +1820,24 @@
   max-width: none;
 }
 
-.visit__objects {
+.visit__prints {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
   gap: var(--space-m);
-
-  max-width: var(--width-content);
+  max-width: var(--width-wide);
   margin: var(--space-xl) auto 0;
 }
 
-.visit__object {
-  width: 28%;
+.visit__print {
+  width: 40%;
 }
 
-.visit__object--swatch {
-  width: 18%;
-}
-
-.visit__object img {
+.visit__print img {
   width: 100%;
+  padding: var(--space-3xs);
+  background: var(--color-print);
+  box-shadow: var(--shadow-print);
 }
 
 /* Positioned at every width: the cursor trail is laid out against it on any
@@ -1790,45 +1852,47 @@
     overflow: clip;
   }
 
-  .visit__objects {
+  /* Out into the margins, round the title and its paragraphs. */
+  .visit__prints {
     position: absolute;
     inset: 0;
-
     display: block;
     max-width: none;
     margin: 0;
-
-    /* The container spans the text column too; only the objects take the
-       pointer. */
     pointer-events: none;
   }
 
-  .visit__object {
+  .visit__print {
     position: absolute;
-    width: auto;
     pointer-events: auto;
   }
 
-  .visit__object--tape {
-    top: 12%;
-    right: 2%;
-    width: clamp(14rem, 26vw, 26rem);
-    rotate: -6deg;
+  .visit__print--microbook {
+    top: 6%;
+    right: 3%;
+    width: clamp(14rem, 22vw, 24rem);
+    rotate: 3deg;
   }
 
-  .visit__object--needle {
-    bottom: 16%;
+  .visit__print--drawing {
+    bottom: 8%;
+    right: 6%;
+    width: clamp(12rem, 20vw, 22rem);
+    rotate: -4deg;
+  }
+
+  .visit__print--bomber {
+    top: 42%;
+    right: 24%;
+    width: clamp(8rem, 12vw, 13rem);
+    rotate: 6deg;
+  }
+
+  .visit__print--suit {
+    bottom: 6%;
     left: 3%;
-    width: clamp(8rem, 13vw, 13rem);
-    rotate: 9deg;
-  }
-
-  /* Low and right, clear of the title now that it runs across the top. */
-  .visit__object--swatch {
-    bottom: 12%;
-    right: 14%;
-    width: clamp(5rem, 8vw, 8rem);
-    rotate: -14deg;
+    width: clamp(7rem, 11vw, 12rem);
+    rotate: -7deg;
   }
 }
 

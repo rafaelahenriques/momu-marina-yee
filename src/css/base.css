@@ -455,10 +455,14 @@ figcaption {
   max-width: var(--width-wide);
 }
 
+/* Set as a poster: the headline cut, in capitals, so the label it scatters
+   and the phrase it underlines both read from across the room. */
 .chapter__body--lede p {
+  font-stretch: 75%;
+  font-weight: 700;
   font-size: var(--step-4);
-  line-height: 1.04;
-  letter-spacing: -0.015em;
+  line-height: 0.98;
+  text-transform: uppercase;
   text-wrap: balance;
 }
 
