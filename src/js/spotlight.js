@@ -2,19 +2,18 @@ import { gsap, SCRUB } from './motion.js';
 
 /**
  * "Move away from the spotlight, and her practice becomes easier to see."
- * Played as a camera pulling back. The black opening runs straight on into a
- * dark room, where a single light holds the label her name is usually filed
- * under. Pinned,
- * scrolling backs away from it: the light shrinks into the distance, the
- * house lights come up, and her practice comes into frame from beyond the
- * edges, the way a room does when you step back from the one thing lit in it.
- * The second half of the sentence arrives with it.
+ * Played as a camera pulling back, on a black page like the cover. A single
+ * light holds the label her name is usually filed under, set as large as the
+ * cover's title. Pinned, scrolling backs away from it: the light shrinks into
+ * the distance and her practice comes into frame from beyond the edges, the
+ * way a room does when you step back from the one thing lit in it. The second
+ * half of the sentence arrives with it.
  *
  * The stage is built here and aria-hidden. Without it, the line and her
  * practice simply sit on the page together.
  */
 
-// The name the spotlight is usually on. The lede has just scattered it.
+// The name the spotlight is usually on, as the lede has just set it.
 const LABEL = 'The Antwerp Six';
 
 export function initSpotlight() {
@@ -75,17 +74,6 @@ export function initSpotlight() {
       0,
     )
     .to(light, { autoAlpha: 0, duration: 0.15, ease: 'none' }, 0.55)
-    // The house lights: the room's own background, from ink to paper.
-    .fromTo(
-      section,
-      { backgroundColor: token('--color-ink') },
-      {
-        backgroundColor: token('--color-bg'),
-        duration: 0.45,
-        ease: 'power1.inOut',
-      },
-      0.3,
-    )
     .fromTo(
       pieces,
       {
@@ -133,11 +121,4 @@ function buildStage() {
   light.append(label);
   stage.append(light);
   return { stage, light };
-}
-
-// Read from the tokens rather than written down a second time.
-function token(name) {
-  return getComputedStyle(document.documentElement)
-    .getPropertyValue(name)
-    .trim();
 }

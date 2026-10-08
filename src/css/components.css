@@ -351,9 +351,10 @@
 
 /* ============================================================
    SPOTLIGHT
-   Without script: the line, with her practice set out around
-   it. spotlight.js darkens the room, lights a label, and pulls
-   back from it as the reader scrolls (.is-enhanced).
+   A black page, like the cover. Without script: the line, with
+   her practice set out around it. spotlight.js lights the label
+   her name is filed under and pulls back from it as the reader
+   scrolls (.is-enhanced).
 ============================================================ */
 
 .statement--spotlight {
@@ -364,24 +365,22 @@
   align-items: center;
   justify-content: center;
   padding-inline: var(--gutter);
-
-  /* Painted here: the line blends with what is behind it, and pinned, this
-     section can become the context it blends within. */
   background: var(--color-bg);
 }
 
+/* Cut in the cover's capitals, one clause to a block. */
 .statement--spotlight .statement__text {
   position: relative;
   z-index: 2;
-
-  /* Wide enough that the first clause, alone on screen in the dark, holds
-     together on one line. */
-  max-width: 30ch;
-  text-wrap: balance;
+  max-width: 12em;
   font-family: var(--font-display);
-  font-size: var(--step-3);
-  line-height: var(--leading-tight);
+  font-stretch: var(--stretch-display);
+  font-weight: var(--weight-display);
+  font-size: clamp(2.6rem, 1rem + 6vw, 7rem);
+  line-height: 0.9;
   text-align: center;
+  text-transform: uppercase;
+  text-wrap: balance;
 }
 
 .spotlight__clause {
@@ -389,10 +388,10 @@
 }
 
 /* --- Her practice -----------------------------------------------
-   Each piece a wrapper holding position and angle, with the image
-   inside left free for poke.js. Angles are transforms, not the
-   rotate property, so GSAP reads and keeps them as it moves the
-   pieces. */
+   Prints laid round the edges of the page. Each piece a wrapper
+   holding position and angle, with the image inside left free for
+   poke.js. Angles are transforms, not the rotate property, so GSAP
+   reads and keeps them as it moves the pieces. */
 
 .spotlight__practice {
   position: absolute;
@@ -407,6 +406,9 @@
 
 .spotlight__piece img {
   width: 100%;
+  padding: var(--space-3xs);
+  background: var(--color-print);
+  box-shadow: var(--shadow-print);
 }
 
 .spotlight__piece--studio {
@@ -423,25 +425,18 @@
   transform: rotate(5deg);
 }
 
-.spotlight__piece--fold {
-  bottom: 24%;
-  left: 6%;
-  width: 14vw;
-  transform: rotate(-10deg);
+.spotlight__piece--jacket {
+  bottom: 22%;
+  left: 5%;
+  width: 22vw;
+  transform: rotate(-8deg);
 }
 
-.spotlight__piece--tape {
+.spotlight__piece--bomber {
   bottom: 5%;
   right: 5%;
-  width: 32vw;
-  transform: rotate(12deg);
-}
-
-.spotlight__piece--needle {
-  bottom: 9%;
-  left: 4%;
-  width: 32vw;
-  transform: rotate(-4deg);
+  width: 30vw;
+  transform: rotate(7deg);
 }
 
 .spotlight__piece--drawing {
@@ -449,15 +444,6 @@
   right: 8%;
   width: 22vw;
   transform: rotate(8deg);
-}
-
-/* The photographs and the drawing are prints on the page. */
-.spotlight__piece--studio img,
-.spotlight__piece--toile img,
-.spotlight__piece--drawing img {
-  padding: var(--space-3xs);
-  background: var(--color-print);
-  box-shadow: var(--shadow-print);
 }
 
 @media (min-width: 48rem) {
@@ -473,50 +459,38 @@
     width: 19vw;
   }
 
-  .spotlight__piece--fold {
-    top: 44%;
+  .spotlight__piece--jacket {
+    top: 40%;
     bottom: auto;
-    left: 5%;
-    width: 7vw;
+    left: 3%;
+    width: 10vw;
   }
 
-  .spotlight__piece--tape {
-    top: 46%;
-    bottom: auto;
-    right: 4%;
-    width: 15vw;
-  }
-
-  .spotlight__piece--needle {
-    bottom: 9%;
-    left: 14%;
-    width: 15vw;
+  .spotlight__piece--bomber {
+    bottom: 7%;
+    right: auto;
+    left: 17%;
+    width: 14vw;
   }
 
   .spotlight__piece--drawing {
     bottom: 9%;
-    right: 18%;
+    right: 14%;
     width: 11vw;
   }
 }
 
 /* --- The stage --------------------------------------------------
    Built by spotlight.js. The line sits low while the light holds
-   the centre, and is set white over a difference blend: it reads
-   pale on the dark room and dark on the paper, with no colour to
-   hand over in between. */
+   the centre, set over a difference blend: pale on the black page,
+   dark where it crosses the pool of light or a print. */
 
-/* The room itself is dark until spotlight.js brings the lights up: a
-   separate dark layer over white paper let a hairline of white through
-   where the black scene above ended on a fraction of a pixel. */
 .statement--spotlight.is-enhanced {
   align-items: flex-end;
-  padding-bottom: 12vh;
-  background: var(--color-ink);
+  padding-bottom: 10vh;
 }
 
 .statement--spotlight.is-enhanced .statement__text {
-  color: var(--color-bg);
   mix-blend-mode: difference;
 }
 
@@ -527,21 +501,22 @@
   pointer-events: none;
 }
 
-/* A pool of light with the beam that casts it. Centred by spotlight.js,
-   which owns this element's transform. */
+/* A pool of light with the beam that casts it, wide enough to hold the
+   label at the cover's size. Centred by spotlight.js, which owns this
+   element's transform. */
 .spotlight__light {
   position: absolute;
-  top: 38%;
+  top: 40%;
   left: 50%;
   display: grid;
   place-items: center;
-  width: min(92vw, 46rem);
-  aspect-ratio: 2 / 1;
+  width: 124vw;
+  aspect-ratio: 2.6 / 1;
   border-radius: 50%;
   background: radial-gradient(
     closest-side,
-    var(--color-dark-ink) 0 45%,
-    color-mix(in srgb, var(--color-dark-ink) 50%, transparent) 72%,
+    var(--color-dark-ink) 0 52%,
+    color-mix(in srgb, var(--color-dark-ink) 50%, transparent) 76%,
     transparent
   );
 }
@@ -563,20 +538,20 @@
   clip-path: polygon(44% 0, 56% 0, 100% 100%, 0 100%);
 }
 
+/* "THE ANTWERP SIX" is about 6.4em in the condensed capitals, so 14vw
+   runs it nearly edge to edge, as the cover runs its title. */
 .spotlight__label {
   position: relative;
   max-width: none;
   font-family: var(--font-display);
   font-stretch: var(--stretch-display);
   font-weight: var(--weight-display);
-
-  /* "THE ANTWERP SIX" is about 6.4em in the condensed capitals; this keeps
-     it in the pool. */
-  font-size: min(var(--step-4), 9vw);
+  font-size: min(14vw, 20vh);
   line-height: 1;
   text-transform: uppercase;
+  word-spacing: 0.12em;
   white-space: nowrap;
-  color: var(--color-ink);
+  color: var(--color-dark-bg);
 }
 
 /* ============================================================
@@ -1503,12 +1478,18 @@
 
 /* ============================================================
    TEXT LINE REVEAL
+   A black spread, like "Beyond sustainability": the chapter's
+   name down the spine, a print, and the paragraph in justified
+   capitals, uncovered line by line while the stage is pinned.
 ============================================================ */
 
+/* Full bleed: the stage carries the margins, so the spine label can sit in
+   the page's edge rather than inside the chapter's padding. */
 .text-reveal {
   position: relative;
   overflow: clip;
-  padding-bottom: var(--space-2xl);
+  padding: 0;
+  background: var(--color-bg);
 }
 
 .text-reveal__pin {
@@ -1516,56 +1497,92 @@
 }
 
 .text-reveal__stage {
+  position: relative;
   min-height: 100dvh;
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   align-content: center;
-  align-items: center;
   gap: var(--space-m);
-  padding: var(--space-s) var(--gutter);
+  padding: var(--space-l) var(--gutter);
+}
+
+/* The chapter's name, in the small spaced capitals every label uses. Down
+   the spine of the page once there is a margin to hold it. */
+.text-reveal__label {
+  margin: 0;
+  font-family: var(--font-utility);
+  font-stretch: 100%;
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
 }
 
 .text-reveal__fig {
-  align-self: center;
+  margin: 0;
   color: var(--color-ink-muted);
 }
 
 .text-reveal__fig-label {
   display: block;
-  margin-bottom: var(--space-2xs);
+  margin-bottom: var(--space-xs);
   font-family: var(--font-utility);
   font-size: var(--step--1);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
 .text-reveal__fig img {
-  width: min(100%, 16rem);
+  width: min(60%, 22rem);
   padding: var(--space-3xs);
   background: var(--color-print);
   box-shadow: var(--shadow-print);
+  rotate: -2deg;
 }
 
+/* Justified capitals with the gaps left open, set as the panels of the
+   dark chapter later on. */
 .text-reveal__text {
-  width: min(100%, 44rem);
+  max-width: 26ch;
   margin: 0;
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: var(--step-2);
-  line-height: 1.1;
+  font-size: var(--step-1);
+  line-height: 1.12;
+  text-align: justify;
+  text-transform: uppercase;
 }
 
 @media (min-width: 48rem) {
   .text-reveal__stage {
-    grid-template-columns: minmax(10rem, 0.45fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1fr);
+    align-items: center;
     gap: clamp(2rem, 6vw, 7rem);
-    padding-block: var(--space-2xl);
+    padding-inline: 8vw;
+  }
+
+  .text-reveal__label {
+    position: absolute;
+    top: 50%;
+    left: var(--space-s);
+    writing-mode: vertical-rl;
+    rotate: 180deg;
+    translate: 0 -50%;
+  }
+
+  .text-reveal__fig {
+    justify-self: end;
   }
 
   .text-reveal__fig img {
-    width: min(100%, 22rem);
+    width: min(100%, 30rem);
   }
+}
 
+@media (min-width: 64rem) {
   .text-reveal__text {
-    font-size: var(--step-3);
+    max-width: 30ch;
+    font-size: var(--step-2);
   }
 }
 
@@ -1725,30 +1742,6 @@
   width: 118%;
   height: 165%;
   top: 46%;
-}
-
-/* ============================================================
-   SCATTER
-   Built by SplitText at runtime; without it the phrase just sits
-   in the sentence.
-============================================================ */
-
-.scatter {
-  position: relative;
-  display: inline-block;
-
-  /* A line break through the phrase would leave half of it behind. */
-  white-space: nowrap;
-}
-
-.scatter__char {
-  /* The box holds the sentence's layout; only the glyph inside flies. */
-  display: inline-block;
-}
-
-.scatter__char > span {
-  display: inline-block;
-  will-change: transform;
 }
 
 /* ============================================================

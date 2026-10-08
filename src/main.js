@@ -30,7 +30,6 @@ async function init() {
     { initTextLetterReveal },
     { initTextLinesRise },
     { initTextSwap },
-    { initTextScatter },
     { initScribble },
     { initPoke },
     { initMagnetic },
@@ -52,7 +51,6 @@ async function init() {
     import('./js/text-letter-reveal.js'),
     import('./js/text-lines-rise.js'),
     import('./js/text-swap.js'),
-    import('./js/text-scatter.js'),
     import('./js/scribble.js'),
     import('./js/poke.js'),
     import('./js/magnetic.js'),
@@ -98,7 +96,6 @@ async function init() {
   initCornerOff();
   await initTextLetterReveal();
   await initTextLinesRise();
-  await initTextScatter();
 
   // Fonts have settled and every trigger exists: measure once, against the
   // final page height.

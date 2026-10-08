@@ -36,7 +36,7 @@ body {
   color: var(--color-ink);
   background-color: var(--color-bg);
 
-  /* Knocked objects and scattered letters can end up past the right edge.
+  /* Knocked objects and drifting prints can end up past the right edge.
      clip, not hidden: hidden would make the body a scroll container and
      break every pinned section on the page. */
   overflow-x: clip;
@@ -448,22 +448,32 @@ figcaption {
   margin-inline: auto;
 }
 
-/* The opening statement, set as a headline: the label it strikes out and the
-   phrase it marks have to read from across the room. After .chapter__body, which it
-   widens at equal specificity. */
+/* The opening, set like the paragraphs that turn over later in the story:
+   one calm sentence, centred, with a screen to itself. After
+   .chapter__body--standalone, which it widens at equal specificity. */
 .chapter__body--lede {
-  max-width: var(--width-wide);
+  max-width: 40rem;
+  min-height: 70dvh;
+  display: grid;
+  place-content: center;
 }
 
-/* Set as a poster: the headline cut, in capitals, so the label it scatters
-   and the phrase it underlines both read from across the room. */
 .chapter__body--lede p {
-  font-stretch: 75%;
-  font-weight: 700;
-  font-size: var(--step-4);
-  line-height: 0.98;
-  text-transform: uppercase;
+  font-weight: 400;
+  font-size: var(--step-3);
+  line-height: 1.12;
   text-wrap: balance;
+}
+
+/* The label her name is filed under, cut in the cover's capitals: the
+   spotlight that follows is on these words. */
+.chapter__body--lede strong {
+  font-stretch: var(--stretch-display);
+  font-weight: var(--weight-display);
+  text-transform: uppercase;
+
+  /* The condensed cut's word space is narrow enough to read as none. */
+  word-spacing: 0.12em;
 }
 
 /* Poster scale, in capitals, the way a title is cut into a museum wall.
@@ -509,8 +519,7 @@ mark {
   -webkit-box-decoration-break: clone;
 }
 
-.chapter__title mark,
-.chapter__body--lede mark {
+.chapter__title mark {
   --mark-from: 84%;
   --mark-to: 89%;
 }
