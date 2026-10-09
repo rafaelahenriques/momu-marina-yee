@@ -4,13 +4,13 @@ import { prefersReducedMotion } from './js/reduced-motion.js';
 import { initMenu } from './js/menu.js';
 import { initNav } from './js/nav.js';
 import { initPicker } from './js/picker.js';
-import { initDoodle } from './js/doodle.js';
+import { initFold } from './js/fold.js';
 
 async function init() {
   initMenu();
   initNav();
   initPicker();
-  initDoodle();
+  initFold();
 
   if (prefersReducedMotion()) return;
 

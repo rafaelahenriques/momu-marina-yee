@@ -294,7 +294,9 @@
         </template>
       </section>
 
-      <section class="chapter">
+      <!-- The house lights go down here: the foot of this section shades to
+           the spotlight's black, and spotlight.js dims the rest as it leaves. -->
+      <section class="chapter lede" data-lights-down>
         <h2 class="visually-hidden">Introduction</h2>
 
         <div class="chapter__body chapter__body--standalone chapter__body--lede" data-reveal>
@@ -1445,79 +1447,55 @@
         </div>
       </section>
 
-      <!-- Without JavaScript this is a piece of cloth and a paragraph about
-           what Yee did to one. doodle.js inserts the canvas, then the tools. -->
-      <section class="doodle" id="your-turn" data-doodle>
-        <h2 class="chapter__title doodle__title" data-reveal>
+      <!-- A finished page lying over a photograph. Without JavaScript its
+           corner is already cut, and the photograph is described in its alt;
+           fold.js lets the reader fold the corner back as far as they choose. -->
+      <section class="fold" id="your-turn" data-fold>
+        <h2 class="chapter__title fold__title" data-reveal>
           Take One Corner Off
           <span class="chapter__index" aria-hidden="true">(05)</span>
         </h2>
 
-        <div class="doodle__intro">
-          <div class="chapter__body" data-reveal>
-            <p>
-              Every garment Yee started from was already finished. The work was deciding where to
-              interfere with it — and then living with the mark.
-            </p>
-            <p>Here is a length of gauze. Draw on it, then take it back.</p>
-          </div>
+        <div class="fold__intro chapter__body" data-reveal>
+          <p>
+            Every garment Yee started from was already finished. The work was deciding where to
+            interfere with it — and then living with the mark.
+          </p>
+          <p>Here is a finished page. Take one corner off, as far as you like.</p>
         </div>
 
-        <!-- Flat, not nested: each part is placed by name in the section's
-             grid, so the cloth can sit beside its controls on a wide screen.
-             DOM order stays the reading order. -->
-        <div class="doodle__surface" data-doodle-surface>
-          <!-- The instruction above, again, by the cloth. -->
-          <p class="note doodle__hint" aria-hidden="true">draw on me</p>
+        <div class="fold__stage" data-fold-stage>
           <img
-            class="doodle__cloth"
-            src="/images/objects/cloth-drape.png"
+            class="fold__under"
+            src="/images/archive/jacket-assembled.jpg"
             srcset="
-              /images/responsive/objects/cloth-drape-160.webp 160w,
-              /images/responsive/objects/cloth-drape-320.webp 320w,
-              /images/responsive/objects/cloth-drape-480.webp 480w,
-              /images/responsive/objects/cloth-drape-620.webp 620w
+              /images/responsive/archive/jacket-assembled-160.webp 160w,
+              /images/responsive/archive/jacket-assembled-320.webp 320w,
+              /images/responsive/archive/jacket-assembled-480.webp 480w,
+              /images/responsive/archive/jacket-assembled-640.webp 640w,
+              /images/responsive/archive/jacket-assembled-768.webp 768w,
+              /images/responsive/archive/jacket-assembled-800.webp 800w
             "
-            sizes="(min-width: 64rem) 40rem, min(90vw, 30rem)"
-            alt="A length of gauze, photographed and pulled out of shape."
-            width="620"
-            height="681"
+            sizes="(min-width: 64rem) 40rem, 92vw"
+            alt="An M.Y. field jacket held open on a mannequin. Underneath it, a shirt pieced together from checked wool, striped strips and raw-edged scraps."
+            width="800"
+            height="1200"
             loading="lazy"
             decoding="async"
           />
-        </div>
 
-        <!-- Revealed by doodle.js once the canvas exists. -->
-        <div class="doodle__tools" data-doodle-tools hidden>
-          <fieldset class="doodle__marks" data-doodle-marks>
-            <legend>Mark</legend>
-
-            <label class="doodle__mark">
-              <input type="radio" name="mark" value="ink" checked />
-              <span class="doodle__mark-label" data-magnetic>Ink</span>
-            </label>
-
-            <label class="doodle__mark">
-              <input type="radio" name="mark" value="chalk" />
-              <span class="doodle__mark-label" data-magnetic>Chalk</span>
-            </label>
-
-            <label class="doodle__mark">
-              <input type="radio" name="mark" value="thread" />
-              <span class="doodle__mark-label" data-magnetic>Thread</span>
-            </label>
-          </fieldset>
-
-          <div class="doodle__actions">
-            <button class="doodle__action" type="button" data-doodle-undo>Undo</button>
-            <button class="doodle__action" type="button" data-doodle-clear>Take it back</button>
-            <button class="doodle__action" type="button" data-doodle-keep>Keep it</button>
+          <!-- The page itself: one face of it is all it says, so it is
+               hidden from screen readers along with its folded-back flap. -->
+          <div class="fold__sheet" data-fold-sheet aria-hidden="true">
+            <p class="fold__meta">A finished page</p>
+            <p class="fold__words">Already finished</p>
           </div>
 
-          <p class="doodle__status" data-doodle-status role="status"></p>
+          <!-- Revealed by fold.js, which is what makes the corner take. -->
+          <p class="note fold__hint" aria-hidden="true" hidden>take this corner</p>
         </div>
 
-        <p class="doodle__note" data-doodle-note hidden>
+        <p class="fold__note" data-fold-note hidden>
           That is the whole method. Something was already there, you decided where to change it, and
           both are still visible.
         </p>

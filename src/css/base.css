@@ -42,7 +42,7 @@ body {
   overflow-x: clip;
 }
 
-/* A component that sets its own display (.doodle__tools is a grid) would
+/* A component that sets its own display (.button is inline-flex) would
    otherwise outrank the browser's [hidden] rule and stay on screen. */
 [hidden] {
   display: none !important;
@@ -446,6 +446,19 @@ figcaption {
 .chapter__body {
   max-width: var(--width-content);
   margin-inline: auto;
+}
+
+/* Room under the sentence for the house lights to go down: the foot of the
+   section shades into the black of the spotlight that follows, so the two
+   meet without an edge. Two classes, to outrank the padding every
+   standalone chapter gets above. */
+.chapter.lede {
+  padding-bottom: 55vh;
+  background: linear-gradient(
+    to bottom,
+    transparent calc(100% - 55vh),
+    var(--color-dark-bg)
+  );
 }
 
 /* The opening, set like the paragraphs that turn over later in the story:

@@ -21,6 +21,8 @@ export function initSpotlight() {
   const line = section?.querySelector('.statement__text');
   if (!section || !line) return;
 
+  lightsDown(document.querySelector('[data-lights-down]'));
+
   const rest = line.querySelector('[data-spotlight-rest]');
   const pieces = gsap.utils.toArray(
     section.querySelectorAll('.spotlight__piece'),
@@ -104,6 +106,46 @@ export function initSpotlight() {
     )
     // Held, lit, before the pin lets go.
     .to({}, { duration: 0.2 });
+}
+
+/**
+ * The house lights go down before the spotlight comes on. The stylesheet
+ * already shades the foot of the lede into the stage's black; this fades the
+ * rest of it after, sentence and all, as it scrolls away, so the reader is in
+ * the dark when the light appears.
+ */
+function lightsDown(room) {
+  if (!room) return;
+
+  const root = getComputedStyle(document.documentElement);
+  const token = (name) => root.getPropertyValue(name).trim();
+
+  // Faded in on its own alpha: from plain `transparent`, which is black at
+  // zero, the midpoint would be a cold grey, not a warm one.
+  const [r, g, b] = gsap.utils.splitColor(token('--color-dark-bg'));
+
+  gsap.fromTo(
+    room,
+    {
+      backgroundColor: `rgba(${r}, ${g}, ${b}, 0)`,
+      color: token('--color-ink'),
+      '--color-pen': token('--color-pen'),
+    },
+    {
+      backgroundColor: `rgba(${r}, ${g}, ${b}, 1)`,
+      color: token('--color-dark-ink'),
+      '--color-pen': token('--color-dark-pen'),
+      ease: 'power1.in',
+      scrollTrigger: {
+        trigger: room,
+        // From the sentence sitting in the middle of the screen to the
+        // moment the stage's top edge comes up from below.
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: SCRUB,
+      },
+    },
+  );
 }
 
 function buildStage() {

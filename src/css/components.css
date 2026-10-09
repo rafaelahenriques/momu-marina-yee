@@ -6,9 +6,7 @@
 ============================================================ */
 
 .pill,
-.button,
-.doodle__mark-label,
-.doodle__action {
+.button {
   display: inline-flex;
   align-items: center;
   min-height: var(--target);
@@ -1036,7 +1034,7 @@
 /* Aligned to the grid's own edge, not centred in the title's usual width:
    the intro and the index below start at the gutter. */
 .picker__title,
-.doodle__title {
+.fold__title {
   grid-area: title;
   max-width: none;
   margin: 0 0 var(--space-m);
@@ -2106,268 +2104,184 @@
 }
 
 /* ============================================================
-   DOODLE — take one corner off
-   Without JavaScript: a photograph of gauze and a paragraph.
-   doodle.js inserts the <canvas>, then unhides the tools.
+   FOLD — take one corner off
+   A finished page lying over a photograph. Without JavaScript its
+   corner is cut here, so a little of what is underneath shows.
+   fold.js (.is-folding) lets the reader fold the corner back as
+   far as they choose; the flap is the back of the page.
 ============================================================ */
 
-/* Named areas: the two arrangements are different shapes. Side by side on a
-   wide screen keeps the cloth level with its tools, so you never scroll away
-   from the thing you are drawing on. */
-.doodle {
+.fold {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   grid-template-areas:
     'title'
     'intro'
-    'surface'
-    'tools'
+    'stage'
+    'reset'
     'note';
   gap: var(--space-m);
   padding: var(--space-xl) var(--gutter);
 }
 
-.doodle__intro {
+.fold__intro {
   grid-area: intro;
   max-width: var(--width-content);
-  margin-bottom: var(--space-m);
-}
-
-.doodle__surface {
-  grid-area: surface;
-  position: relative;
-  width: min(100%, 30rem);
-  margin-top: var(--space-l);
-}
-
-/* Above the cloth, never on it: anything over the drawing surface would
-   swallow the start of a stroke. */
-.doodle__hint {
-  position: absolute;
-  bottom: 100%;
-  right: 8%;
   margin: 0;
-  rotate: -5deg;
-  pointer-events: none;
 }
 
-.doodle__cloth {
-  width: 100%;
-  user-select: none;
-  -webkit-user-drag: none;
+.fold__stage {
+  --fold-cut: 18%;
+
+  grid-area: stage;
+  position: relative;
+  width: min(100%, 34rem);
+  aspect-ratio: 4 / 5;
+  margin-top: var(--space-l);
+
+  /* The page's type is sized against the page, not the screen. */
+  container-type: inline-size;
 }
 
-.doodle__canvas {
+.fold__under {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-
-  /* Only this element opts out of native gestures; a swipe starting anywhere
-     else, including the margin beside the cloth, still scrolls. */
-  touch-action: none;
-  cursor: crosshair;
+  object-fit: cover;
 }
 
-.doodle__canvas:focus-visible {
-  outline: 3px solid var(--color-ink);
-  outline-offset: 4px;
+/* A black page like the cover, its corner already cut. fold.js replaces
+   the cut with the crease wherever the reader leaves it. */
+.fold__sheet {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-content: space-between;
+  padding: var(--space-m);
+  background: var(--color-ink);
+  color: var(--color-bg);
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--fold-cut)) 0,
+    100% var(--fold-cut),
+    100% 100%,
+    0 100%
+  );
 }
 
-/* doodle.js wipes the pixels on animationend rather than on the click, so the
-   two cannot get out of step. The reduced-motion backstop cuts this to a
-   fraction of a millisecond; animationend still fires. */
-.doodle__canvas.is-clearing {
-  animation: doodle-shake 420ms var(--ease-out) forwards;
+.fold__meta {
+  margin: 0;
+  font-family: var(--font-utility);
+  font-size: 0.75rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
 }
 
-@keyframes doodle-shake {
-  0% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-
-  15% {
-    transform: translateX(-8px);
-  }
-
-  30% {
-    transform: translateX(7px);
-  }
-
-  45% {
-    transform: translateX(-5px);
-  }
-
-  60% {
-    transform: translateX(4px);
-    opacity: 1;
-  }
-
-  100% {
-    transform: translateY(22px);
-    opacity: 0;
-  }
+/* "Already", the longer word, is about 3.3em in the condensed capitals:
+   at this size it fills most of the page's width. */
+.fold__words {
+  margin: 0;
+  font-family: var(--font-display);
+  font-stretch: var(--stretch-display);
+  font-weight: var(--weight-display);
+  font-size: 24cqi;
+  line-height: var(--leading-display);
+  text-transform: uppercase;
 }
 
-/* Where the keyboard pen is. Shown only once the canvas has focus, since it
-   is the only way to know where a keypress will draw. */
-.doodle__pen {
+/* The flap: the back of the page, folded over its front. The outer box
+   casts the shadow, the inner one takes the shape (fold.js). */
+.fold__flap {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  filter: drop-shadow(-0.4rem 0.6rem 0.8rem rgb(0 0 0 / 45%));
+}
+
+.fold__flap-face {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    var(--fold-angle, 225deg),
+    var(--color-rule) var(--fold-crease, 0),
+    var(--color-print) var(--fold-tip, 100%)
+  );
+}
+
+/* The corner the reader takes: a hand-sized target centred on the tip of
+   the fold, which fold.js moves. Only it opts out of native gestures, so a
+   swipe anywhere else on the page still scrolls. */
+.fold__corner {
   position: absolute;
   top: 0;
   left: 0;
-  width: 0.75rem;
-  height: 0.75rem;
-  margin: -0.375rem 0 0 -0.375rem;
-  border: 2px solid var(--color-ink);
+  z-index: 2;
+  width: var(--target);
+  height: var(--target);
+  margin: calc(var(--target) / -2) 0 0 calc(var(--target) / -2);
   border-radius: 50%;
-  background: var(--color-bg);
-  opacity: 0;
-  pointer-events: none;
-
-  transition:
-    transform var(--duration-fast) var(--ease-out),
-    opacity var(--duration-fast) var(--ease-out),
-    background var(--duration-fast) var(--ease-out);
+  cursor: grab;
+  touch-action: none;
 }
 
-.doodle__surface:focus-within .doodle__pen {
-  opacity: 1;
+.fold__corner:focus-visible {
+  outline: 3px solid var(--color-pen);
+  outline-offset: 2px;
 }
 
-.doodle__pen[data-drawing='true'] {
-  background: var(--color-ink);
-  scale: 1.3;
+.fold__stage.is-held .fold__corner {
+  cursor: grabbing;
 }
 
-.doodle__tools {
-  grid-area: tools;
-  display: grid;
-  align-content: start;
-  gap: var(--space-m);
-  max-width: 22rem;
+/* Anywhere on the page can be tapped to bring the corner to it. */
+.fold__stage.is-folding {
+  cursor: pointer;
 }
 
-.doodle__marks {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-2xs) var(--space-xs);
-  border: 0;
-  padding: 0;
-  margin: 0;
-}
-
-.doodle__marks legend {
-  float: left;
-  width: 100%;
-  padding: 0;
-  margin-bottom: var(--space-2xs);
-  font-family: var(--font-utility);
-  font-size: var(--step--1);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--color-ink-muted);
-}
-
-.doodle__mark input {
+/* Above the corner, never on the page: anything over it would swallow the
+   start of a drag. */
+.fold__hint {
   position: absolute;
-  opacity: 0;
-  width: 1px;
-  height: 1px;
+  bottom: 100%;
+  right: 0;
+  margin: 0 0 var(--space-xs);
+  rotate: -4deg;
+  pointer-events: none;
 }
 
-/* Square, in ink, like the button at the end of the story. */
-.doodle__mark-label {
-  border: 1px solid var(--color-ink);
-  background: var(--color-bg);
-  transition:
-    background var(--duration-fast) var(--ease-out),
-    color var(--duration-fast) var(--ease-out);
+.fold__reset {
+  grid-area: reset;
+  justify-self: start;
+  margin-top: 0;
 }
 
-.doodle__mark input:checked + .doodle__mark-label {
-  background: var(--color-ink);
-  border-color: var(--color-ink);
-  color: var(--color-bg);
-}
-
-.doodle__mark input:focus-visible + .doodle__mark-label {
-  outline: 3px solid currentColor;
-  outline-offset: 3px;
-}
-
-.doodle__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2xs);
-}
-
-.doodle__action {
-  border: 1px solid var(--color-ink);
-  background: none;
-  color: inherit;
-  transition:
-    background var(--duration-fast) var(--ease-out),
-    color var(--duration-fast) var(--ease-out);
-}
-
-.doodle__action:hover:not(:disabled) {
-  background: var(--color-ink);
-  color: var(--color-bg);
-}
-
-/* Disabled rather than hidden: a control that appears mid-interaction moves
-   everything under it. */
-.doodle__action:disabled {
-  opacity: 0.4;
-  cursor: default;
-}
-
-.doodle__status {
-  font-family: var(--font-utility);
-  font-size: var(--step--1);
-  color: var(--color-ink-muted);
-  min-height: 1.5em;
-}
-
-.doodle__note {
+.fold__note {
   grid-area: note;
   max-width: 34rem;
-  min-height: 1.5em;
   font-family: var(--font-display);
   font-size: var(--step-1);
   line-height: var(--leading-tight);
-
-  opacity: 0;
-  translate: 0 var(--space-s);
-  transition:
-    opacity var(--duration-base) var(--ease-out),
-    translate var(--duration-base) var(--ease-out);
 }
 
-.doodle__note.is-shown {
-  opacity: 1;
-  translate: 0 0;
-}
-
-/* Wide: the cloth large on the right, everything about it on the left, so
-   the tools stay level with the thing being drawn on. */
+/* Wide: the page large on the right, what it is about on the left, like
+   the closing chapter. */
 @media (min-width: 64rem) {
-  .doodle {
+  .fold {
     grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
     grid-template-areas:
-      'title   title'
-      'intro   surface'
-      'tools   surface'
-      'note    surface';
+      'title title'
+      'intro stage'
+      'reset stage'
+      'note  stage';
     grid-template-rows: auto auto auto 1fr;
     align-items: start;
     column-gap: var(--space-xl);
   }
 
-  .doodle__surface {
-    width: min(100%, 40rem);
-    margin-top: 0;
+  .fold__stage {
     justify-self: center;
+    width: min(100%, 64dvh, 40rem);
+    margin-top: 0;
   }
 }
