@@ -458,6 +458,45 @@
         </div>
       </section>
 
+      <!-- A film published by the gallery that showed her work in 2026,
+           starting just before she talks about second-hand. Without
+           JavaScript the poster is a link to it on YouTube; film.js swaps
+           in the player only when asked, so nothing loads from YouTube
+           before then. -->
+      <section class="film" data-theme="dark" aria-labelledby="film-title">
+        <p class="film__label">Fig. 02 — Film</p>
+        <h2 class="film__title" id="film-title" data-reveal>In her own words</h2>
+
+        <figure class="film__figure" data-reveal>
+          <p class="note film__note" aria-hidden="true">she loves second-hand</p>
+          <a
+            class="film__poster"
+            href="https://www.youtube.com/watch?v=2c9KXTkem5w&amp;t=789s"
+            data-film="2c9KXTkem5w"
+            data-film-start="789"
+            data-film-title="Marina Yee — Damaged Goods, published by Gallery Sofie Van de Velde"
+          >
+            <img
+              src="https://i.ytimg.com/vi/2c9KXTkem5w/maxresdefault.jpg"
+              alt=""
+              width="1280"
+              height="720"
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="film__play">
+              Play
+              <span class="visually-hidden">the film</span>
+              <span class="film__time">from 13:09</span>
+            </span>
+          </a>
+          <figcaption class="film__caption">
+            “Marina Yee — Damaged Goods”, published by Gallery Sofie Van de Velde with her
+            exhibition there, 28 March – 10 May 2026. In Dutch, with English subtitles.
+          </figcaption>
+        </figure>
+      </section>
+
       <section class="picker" id="picker">
         <!-- No data-reveal: picker-motion.js runs its own entrance here, and
              two modules animating one element fight over its opacity. -->

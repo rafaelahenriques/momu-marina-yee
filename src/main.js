@@ -5,12 +5,14 @@ import { initMenu } from './js/menu.js';
 import { initNav } from './js/nav.js';
 import { initPicker } from './js/picker.js';
 import { initFold } from './js/fold.js';
+import { initFilm } from './js/film.js';
 
 async function init() {
   initMenu();
   initNav();
   initPicker();
   initFold();
+  initFilm();
 
   if (prefersReducedMotion()) return;
 
