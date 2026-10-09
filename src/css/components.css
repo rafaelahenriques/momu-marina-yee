@@ -660,10 +660,14 @@
   text-transform: uppercase;
 }
 
+/* Held to the screen's height as well as its width: in the face set
+   above it runs to six or seven lines, which a short laptop screen
+   would otherwise cut top and bottom. */
 .horizontal.is-enhanced .horizontal__panel .question {
-  max-width: 12ch;
+  max-width: 16ch;
   margin-block: 0;
-  font-size: var(--step-4);
+  font-size: min(var(--step-4), 8vh);
+  line-height: 1.04;
   text-align: left;
 }
 
@@ -2012,7 +2016,11 @@
   background: var(--color-ink-muted);
 }
 
+/* Above the prints and anything the cursor trail drops: the one thing on
+   the page that has to stay clickable. */
 .visit__cta {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
@@ -2088,9 +2096,10 @@
     rotate: 6deg;
   }
 
+  /* To the right of the button and its "here", clear of both. */
   .visit__print--suit {
     bottom: 6%;
-    left: 3%;
+    left: 56%;
     width: clamp(7rem, 11vw, 12rem);
     rotate: -7deg;
   }
