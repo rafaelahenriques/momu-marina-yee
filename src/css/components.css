@@ -2299,6 +2299,12 @@
   padding: var(--space-xl) var(--gutter);
 }
 
+/* A size down from the other chapter titles, like the film's, so the
+   title and the page are on screen together. */
+.fold__title {
+  font-size: var(--step-4);
+}
+
 .fold__intro {
   grid-area: intro;
   max-width: var(--width-content);
@@ -2439,24 +2445,28 @@
   line-height: var(--leading-tight);
 }
 
-/* Wide: the page large on the right, what it is about on the left, like
-   the closing chapter. */
-@media (min-width: 64rem) {
+/* Wide: the page on the right, held to the screen's height, and the title,
+   the words and the controls beside it, so the whole page and what it is
+   about can be seen without scrolling. */
+@media (min-width: 56rem) {
   .fold {
     grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
     grid-template-areas:
-      'title title'
+      'title stage'
       'intro stage'
       'reset stage'
       'note  stage';
     grid-template-rows: auto auto auto 1fr;
     align-items: start;
     column-gap: var(--space-xl);
+    padding-block: var(--space-l);
   }
 
+  /* Room above for the hint, and the page short of the screen's height
+     by the header and that room. */
   .fold__stage {
     justify-self: center;
-    width: min(100%, 64dvh, 40rem);
-    margin-top: 0;
+    width: min(100%, calc((100dvh - 10rem) * 0.8), 40rem);
+    margin-top: var(--space-l);
   }
 }
