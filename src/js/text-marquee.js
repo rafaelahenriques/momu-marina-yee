@@ -1,8 +1,8 @@
 import { gsap, SplitText, SCRUB, nextFrame } from './motion.js';
 
 /**
- * Pinned horizontal marquee with a per-character weight pulse. Bodoni Moda is
- * a variable font, so each letter swells from 400 to 700 and back through
+ * Pinned horizontal marquee with a per-character weight pulse. Archivo is a
+ * variable font, so each letter swells from light to black and back through
  * every weight between.
  *
  * Resolves once setup completes — see text-line-reveal.js for why that matters.
@@ -16,15 +16,16 @@ export function initTextMarquee() {
   return document.fonts.ready.then(() => {
     section.classList.add('is-enhanced');
 
-    // .is-enhanced resizes the sentence to 8vw on one line, so it must be
-    // re-laid out before its characters can be measured.
+    // .is-enhanced sets the sentence on one line, nearly as tall as the
+    // screen, so it must be re-laid out before its characters can be
+    // measured.
     return nextFrame().then(() => {
       const split = SplitText.create(text, {
         type: 'chars',
         charsClass: 'marquee__char',
       });
 
-      gsap.set(split.chars, { fontWeight: 400 });
+      gsap.set(split.chars, { fontWeight: 300 });
 
       // Re-measured on every refresh: the text is sized in vw, so its travel
       // changes with the viewport.
@@ -40,7 +41,7 @@ export function initTextMarquee() {
           scrub: SCRUB,
           pin: section.querySelector('.marquee__stage'),
           invalidateOnRefresh: true,
-          // Fourth of the seven pins, top to bottom — see main.js.
+          // Third of the six pins, top to bottom — see main.js.
           refreshPriority: 4,
         },
       });
@@ -61,9 +62,9 @@ export function initTextMarquee() {
 
       split.chars.forEach((char, i) => {
         const tl = gsap.timeline();
-        tl.to(char, { fontWeight: 700, duration, ease: 'power1.inOut' }).to(
+        tl.to(char, { fontWeight: 900, duration, ease: 'power1.inOut' }).to(
           char,
-          { fontWeight: 400, duration, ease: 'power1.inOut' },
+          { fontWeight: 300, duration, ease: 'power1.inOut' },
         );
         master.add(tl, i * offset);
       });

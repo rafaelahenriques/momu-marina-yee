@@ -1,32 +1,25 @@
 /* ============================================================
    FONTS
-   Files live in /public/fonts/. Only the weights actually used
-   are loaded — every extra weight is another download on mobile.
+   Files live in /public/fonts/. Two families, both under the
+   SIL Open Font License, about 108 KB between them.
 ============================================================ */
 
-/* Bodoni Moda (SIL Open Font License), variable in weight and optical size.
-   One file covers every weight, and the browser picks the hairline display
-   cut for large sizes by itself through font-optical-sizing. */
+/* Archivo, variable in width and weight. The one file sets the condensed
+   black capitals of the titles and the plain text at reading width. */
 @font-face {
-  font-family: 'Bodoni Moda';
-  src: url('/fonts/BodoniModa-Variable.woff2') format('woff2');
-  font-weight: 400 900;
+  font-family: 'Archivo';
+  src: url('/fonts/Archivo-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
   font-style: normal;
   font-display: swap;
 }
 
+/* Reenie Beanie: the hand. Notes written on the page in biro. */
 @font-face {
-  font-family: 'Roobert';
-  src: url('/fonts/Roobert-TRIAL-Regular.woff2') format('woff2');
+  font-family: 'Reenie Beanie';
+  src: url('/fonts/ReenieBeanie-Regular.woff2') format('woff2');
   font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Roobert';
-  src: url('/fonts/Roobert-TRIAL-SemiBold.woff2') format('woff2');
-  font-weight: 600;
   font-style: normal;
   font-display: swap;
 }

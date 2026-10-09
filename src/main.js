@@ -4,13 +4,15 @@ import { prefersReducedMotion } from './js/reduced-motion.js';
 import { initMenu } from './js/menu.js';
 import { initNav } from './js/nav.js';
 import { initPicker } from './js/picker.js';
-import { initDoodle } from './js/doodle.js';
+import { initFold } from './js/fold.js';
+import { initFilm } from './js/film.js';
 
 async function init() {
   initMenu();
   initNav();
   initPicker();
-  initDoodle();
+  initFold();
+  initFilm();
 
   if (prefersReducedMotion()) return;
 
@@ -19,11 +21,10 @@ async function init() {
     { initScrollReveal },
     { initSpotlight },
     { initHorizontalScroll },
-    { initHeroScatter },
-    { initHeroScene },
+    { initHero },
     { initCursorTrail },
     { initHeadingTracking },
-    { initSequenceStack },
+    { initSequenceDrift },
     { initPickerMotion },
     { initMyProjectDepth },
     { initTextLineReveal },
@@ -31,7 +32,6 @@ async function init() {
     { initTextLetterReveal },
     { initTextLinesRise },
     { initTextSwap },
-    { initTextScatter },
     { initScribble },
     { initPoke },
     { initMagnetic },
@@ -42,11 +42,10 @@ async function init() {
     import('./js/scroll-reveal.js'),
     import('./js/spotlight.js'),
     import('./js/horizontal-scroll.js'),
-    import('./js/hero-scatter.js'),
-    import('./js/hero-scene.js'),
+    import('./js/hero.js'),
     import('./js/cursor-trail.js'),
     import('./js/heading-tracking.js'),
-    import('./js/sequence-stack.js'),
+    import('./js/sequence-drift.js'),
     import('./js/picker-motion.js'),
     import('./js/my-project-depth.js'),
     import('./js/text-line-reveal.js'),
@@ -54,7 +53,6 @@ async function init() {
     import('./js/text-letter-reveal.js'),
     import('./js/text-lines-rise.js'),
     import('./js/text-swap.js'),
-    import('./js/text-scatter.js'),
     import('./js/scribble.js'),
     import('./js/poke.js'),
     import('./js/magnetic.js'),
@@ -62,12 +60,12 @@ async function init() {
     import('./js/object-pop.js'),
   ]);
 
-  // The first two of the pins described below: synchronous and topmost on
-  // the page, so already in DOM order here.
-  initHeroScene();
+  initHero();
+
+  // The topmost of the pins described below, and synchronous, so it is
+  // already in DOM order here.
   initSpotlight();
 
-  initHeroScatter();
   initPickerMotion();
   initPoke();
   initMagnetic();
@@ -75,7 +73,7 @@ async function init() {
 
   /*
    * Pinned sections must be created in DOM order, top to bottom
-   * (refreshPriority 7 → 1). Each pin adds scroll distance, so one created
+   * (refreshPriority 6 → 1). Each pin adds scroll distance, so one created
    * before a pin above it measures against a page height that then changes,
    * and engages early over the section above. The first three must be
    * awaited, or the horizontal pin is built first and starts ~3000px too
@@ -87,10 +85,9 @@ async function init() {
   initMyProjectDepth();
   initHorizontalScroll();
 
-  // Not a pin — the stage is CSS sticky — but it makes its section several
-  // screens taller, so like a pin it must exist before anything below it is
-  // measured.
-  initSequenceStack();
+  // Not a pin, but it lays its prints out anew, so like a pin it must exist
+  // before anything below it is measured.
+  initSequenceDrift();
 
   // Anything positioned against the final page geometry comes after the pins.
   initScrollReveal();
@@ -100,7 +97,6 @@ async function init() {
   initCornerOff();
   await initTextLetterReveal();
   await initTextLinesRise();
-  await initTextScatter();
 
   // Fonts have settled and every trigger exists: measure once, against the
   // final page height.

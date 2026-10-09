@@ -6,10 +6,7 @@
 ============================================================ */
 
 .pill,
-.button,
-.picker__label,
-.doodle__mark-label,
-.doodle__action {
+.button {
   display: inline-flex;
   align-items: center;
   min-height: var(--target);
@@ -352,9 +349,10 @@
 
 /* ============================================================
    SPOTLIGHT
-   Without script: the line, with her practice set out around
-   it. spotlight.js darkens the room, lights a label, and pulls
-   back from it as the reader scrolls (.is-enhanced).
+   A black page, like the cover. Without script: the line, with
+   her practice set out around it. spotlight.js lights the label
+   her name is filed under and pulls back from it as the reader
+   scrolls (.is-enhanced).
 ============================================================ */
 
 .statement--spotlight {
@@ -365,24 +363,22 @@
   align-items: center;
   justify-content: center;
   padding-inline: var(--gutter);
-
-  /* Painted here: the line blends with what is behind it, and pinned, this
-     section can become the context it blends within. */
   background: var(--color-bg);
 }
 
+/* Cut in the cover's capitals, one clause to a block. */
 .statement--spotlight .statement__text {
   position: relative;
   z-index: 2;
-
-  /* Wide enough that the first clause, alone on screen in the dark, holds
-     together on one line. */
-  max-width: 30ch;
-  text-wrap: balance;
+  max-width: 12em;
   font-family: var(--font-display);
-  font-size: var(--step-3);
-  line-height: var(--leading-tight);
+  font-stretch: var(--stretch-display);
+  font-weight: var(--weight-display);
+  font-size: clamp(2.6rem, 1rem + 6vw, 7rem);
+  line-height: 0.9;
   text-align: center;
+  text-transform: uppercase;
+  text-wrap: balance;
 }
 
 .spotlight__clause {
@@ -390,10 +386,10 @@
 }
 
 /* --- Her practice -----------------------------------------------
-   Each piece a wrapper holding position and angle, with the image
-   inside left free for poke.js. Angles are transforms, not the
-   rotate property, so GSAP reads and keeps them as it moves the
-   pieces. */
+   Prints laid round the edges of the page. Each piece a wrapper
+   holding position and angle, with the image inside left free for
+   poke.js. Angles are transforms, not the rotate property, so GSAP
+   reads and keeps them as it moves the pieces. */
 
 .spotlight__practice {
   position: absolute;
@@ -408,6 +404,9 @@
 
 .spotlight__piece img {
   width: 100%;
+  padding: var(--space-3xs);
+  background: var(--color-print);
+  box-shadow: var(--shadow-print);
 }
 
 .spotlight__piece--studio {
@@ -424,31 +423,24 @@
   transform: rotate(5deg);
 }
 
-.spotlight__piece--fold {
-  bottom: 24%;
-  left: 6%;
-  width: 14vw;
-  transform: rotate(-10deg);
+.spotlight__piece--jacket {
+  bottom: 22%;
+  left: 5%;
+  width: 22vw;
+  transform: rotate(-8deg);
 }
 
-.spotlight__piece--tape {
+.spotlight__piece--bomber {
   bottom: 5%;
   right: 5%;
-  width: 32vw;
-  transform: rotate(12deg);
+  width: 30vw;
+  transform: rotate(7deg);
 }
 
-.spotlight__piece--needle {
-  bottom: 9%;
-  left: 4%;
-  width: 32vw;
-  transform: rotate(-4deg);
-}
-
-.spotlight__piece--swatch {
+.spotlight__piece--drawing {
   bottom: 26%;
-  right: 10%;
-  width: 14vw;
+  right: 8%;
+  width: 22vw;
   transform: rotate(8deg);
 }
 
@@ -465,50 +457,38 @@
     width: 19vw;
   }
 
-  .spotlight__piece--fold {
-    top: 44%;
+  .spotlight__piece--jacket {
+    top: 40%;
     bottom: auto;
-    left: 5%;
-    width: 7vw;
+    left: 3%;
+    width: 10vw;
   }
 
-  .spotlight__piece--tape {
-    top: 46%;
-    bottom: auto;
-    right: 4%;
-    width: 15vw;
+  .spotlight__piece--bomber {
+    bottom: 7%;
+    right: auto;
+    left: 17%;
+    width: 14vw;
   }
 
-  .spotlight__piece--needle {
+  .spotlight__piece--drawing {
     bottom: 9%;
-    left: 14%;
-    width: 15vw;
-  }
-
-  .spotlight__piece--swatch {
-    bottom: 11%;
-    right: 20%;
-    width: 6vw;
+    right: 14%;
+    width: 11vw;
   }
 }
 
 /* --- The stage --------------------------------------------------
    Built by spotlight.js. The line sits low while the light holds
-   the centre, and is set white over a difference blend: it reads
-   pale on the dark room and dark on the paper, with no colour to
-   hand over in between. */
+   the centre, set over a difference blend: pale on the black page,
+   dark where it crosses the pool of light or a print. */
 
-/* The room itself is dark until spotlight.js brings the lights up: a
-   separate dark layer over white paper let a hairline of white through
-   where the black scene above ended on a fraction of a pixel. */
 .statement--spotlight.is-enhanced {
   align-items: flex-end;
-  padding-bottom: 12vh;
-  background: var(--color-ink);
+  padding-bottom: 10vh;
 }
 
 .statement--spotlight.is-enhanced .statement__text {
-  color: var(--color-bg);
   mix-blend-mode: difference;
 }
 
@@ -519,25 +499,30 @@
   pointer-events: none;
 }
 
-/* A pool of light with the beam that casts it. Centred by spotlight.js,
-   which owns this element's transform. */
+/* A pool of light with the beam that casts it, wide enough to hold the
+   label at the cover's size. Centred by spotlight.js, which owns this
+   element's transform. */
 .spotlight__light {
   position: absolute;
-  top: 38%;
+  top: 40%;
   left: 50%;
   display: grid;
   place-items: center;
-  width: min(92vw, 46rem);
-  aspect-ratio: 2 / 1;
+  width: 124vw;
+  aspect-ratio: 2.6 / 1;
   border-radius: 50%;
   background: radial-gradient(
     closest-side,
-    var(--color-dark-ink) 0 45%,
-    color-mix(in srgb, var(--color-dark-ink) 50%, transparent) 72%,
+    var(--color-dark-ink) 0 52%,
+    color-mix(in srgb, var(--color-dark-ink) 50%, transparent) 76%,
     transparent
   );
 }
 
+/* The beam runs from the pool up to the stage's top edge (the pool sits
+   40% down a screen-high stage) and has faded to nothing by the time it
+   gets there. Any taller and the edge would cut it while still lit, which
+   draws a line across the dark the lede has just faded into. */
 .spotlight__light::before {
   content: '';
   position: absolute;
@@ -545,28 +530,30 @@
   left: 50%;
   z-index: -1;
   width: 60%;
-  height: 120vh;
+  height: 40dvh;
   translate: -50% 0;
   background: linear-gradient(
     to top,
     color-mix(in srgb, var(--color-dark-ink) 24%, transparent),
-    transparent 85%
+    transparent 95%
   );
-  clip-path: polygon(44% 0, 56% 0, 100% 100%, 0 100%);
+  clip-path: polygon(40% 0, 60% 0, 100% 100%, 0 100%);
 }
 
+/* "THE ANTWERP SIX" is about 6.4em in the condensed capitals, so 14vw
+   runs it nearly edge to edge, as the cover runs its title. */
 .spotlight__label {
   position: relative;
   max-width: none;
   font-family: var(--font-display);
-
-  /* "THE ANTWERP SIX" is about 9em in capitals; this keeps it in the pool. */
-  font-size: min(var(--step-3), 6.5vw);
+  font-stretch: var(--stretch-display);
+  font-weight: var(--weight-display);
+  font-size: min(14vw, 20vh);
   line-height: 1;
-  letter-spacing: 0.02em;
   text-transform: uppercase;
+  word-spacing: 0.12em;
   white-space: nowrap;
-  color: var(--color-ink);
+  color: var(--color-dark-bg);
 }
 
 /* ============================================================
@@ -660,17 +647,55 @@
   border-top: 0;
 }
 
+/* Justified capitals with the gaps left open, like the type on a black
+   page of a fashion zine. */
 .horizontal.is-enhanced .horizontal__panel p,
-.horizontal.is-enhanced .horizontal__panel .beat,
-.horizontal.is-enhanced .horizontal__panel .question {
-  max-width: 30ch;
+.horizontal.is-enhanced .horizontal__panel .beat {
+  max-width: 24ch;
   margin-block: 0;
+  font-family: var(--font-display);
+  font-stretch: 100%;
+  font-weight: 500;
   font-size: var(--step-1);
+  line-height: 1.12;
+  text-align: justify;
+  text-transform: uppercase;
 }
 
+/* Held to the screen's height as well as its width: in the face set
+   above it runs to six or seven lines, which a short laptop screen
+   would otherwise cut top and bottom. */
 .horizontal.is-enhanced .horizontal__panel .question {
-  font-size: var(--step-2);
   max-width: 16ch;
+  margin-block: 0;
+  font-size: min(var(--step-4), 8vh);
+  line-height: 1.04;
+  text-align: left;
+}
+
+/* The chapter's name, along the left edge like the spine of a page. */
+.horizontal__label {
+  max-width: var(--width-content);
+  margin: 0 auto var(--space-m);
+  padding-inline: var(--gutter);
+  font-size: var(--step-3);
+}
+
+.horizontal.is-enhanced .horizontal__label {
+  position: absolute;
+  top: 50%;
+  left: var(--space-s);
+  z-index: 4;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-utility);
+  font-stretch: 100%;
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.24em;
+  writing-mode: vertical-rl;
+  rotate: 180deg;
+  translate: 0 50%;
 }
 
 /* --- Drifting layers ------------------------------------------------
@@ -692,19 +717,19 @@
 }
 
 .horizontal__drift-item--collage {
-  top: -8%;
+  top: 6%;
   left: 100%;
-  width: 62vw;
-  opacity: 0.16;
-  rotate: 4deg;
+  width: 56vw;
+  opacity: 0.35;
+  rotate: 3deg;
 }
 
 .horizontal__drift-item--cloth {
-  bottom: -14%;
-  left: 130%;
-  width: 46vw;
-  opacity: 0.14;
-  rotate: -8deg;
+  bottom: 4%;
+  left: 135%;
+  width: 44vw;
+  opacity: 0.3;
+  rotate: -4deg;
 }
 
 /* --- Progress rail --------------------------------------------------- */
@@ -784,73 +809,13 @@
   }
 
   .horizontal__drift-item--collage {
-    width: min(46vw, 30rem);
-    opacity: 0.28;
+    width: min(36vw, 26rem);
+    opacity: 0.6;
   }
 
   .horizontal__drift-item--cloth {
-    width: min(34vw, 22rem);
-    opacity: 0.24;
-  }
-}
-
-/* ============================================================
-   HERO SCATTER
-   Static by default; hero-scatter.js only animates *into* these
-   positions. Two archive pieces in the bottom corners, run off the
-   edge the way a proof is laid on a table, and the hanger up top.
-============================================================ */
-
-/* No z-index: it sits under the title by coming before it. */
-.hero__scatter {
-  position: absolute;
-  inset: 0;
-}
-
-.hero__image {
-  position: absolute;
-}
-
-.hero__image--1 {
-  bottom: -3%;
-  right: 3%;
-  width: 6rem;
-  transform: rotate(4deg);
-}
-
-.hero__image--2 {
-  bottom: -2%;
-  left: 3%;
-  width: 5.5rem;
-  transform: rotate(-5deg);
-}
-
-.hero__image--3 {
-  top: 12%;
-  right: 6%;
-  width: 3.5rem;
-  transform: rotate(-7deg);
-}
-
-@media (min-width: 48rem) {
-  .hero__image--1 {
-    bottom: -6%;
-    right: 4%;
-    width: clamp(8rem, 17vw, 16rem);
-  }
-
-  .hero__image--2 {
-    bottom: -4%;
-    left: 4%;
-    width: clamp(7rem, 15vw, 14rem);
-  }
-
-  /* In the margin beside "One Corner", clear of the title at any width. */
-  .hero__image--3 {
-    top: 30%;
-    right: auto;
-    left: 3%;
-    width: clamp(4.5rem, 7vw, 7rem);
+    width: min(28vw, 20rem);
+    opacity: 0.55;
   }
 }
 
@@ -882,9 +847,9 @@
 
 /* ============================================================
    SEQUENCE
-   Default: native scroll-snap, swipeable. Enhanced (.is-stacked):
-   a pile the reader builds by scrolling, each piece landing on
-   the last without hiding it.
+   Default: native scroll-snap, swipeable. Enhanced (.is-spread):
+   the prints laid out across the page, clipped down, each drifting
+   past the others at its own rate (sequence-drift.js).
 ============================================================ */
 
 .sequence-wrap {
@@ -909,6 +874,7 @@
 }
 
 .sequence .figure {
+  position: relative;
   flex: 0 0 auto;
   width: min(75vw, 22rem);
   scroll-snap-align: start;
@@ -926,76 +892,292 @@
   }
 }
 
-/* --- Enhanced: the pile ---------------------------------------
-   Added only by sequence-stack.js. The height is the speed control:
-   the stage is held for this minus one screen, which is what the
-   pile takes to build. Enhanced only — without script this must not
-   reserve empty screens of scroll. */
+/* --- Enhanced: the spread -------------------------------------
+   Added only by sequence-drift.js; without it, the strip above. */
 
-/* Full bleed, out over the chapter's gutters: the pile is its own black
-   scene in the middle of a white chapter. */
-.sequence.is-stacked {
+.sequence.is-spread {
   display: block;
-  height: 260vh;
-  padding: 0;
-  margin-inline: calc(var(--gutter) * -1);
-
-  /* Visible, not auto: a scroll container here would become the box the
-     stage sticks to, and it would never stick. */
+  padding: var(--space-l) 0 var(--space-xl);
+  margin-inline: 0;
   overflow: visible;
   scroll-snap-type: none;
 }
 
-.sequence.is-stacked .sequence__track {
-  position: sticky;
-  top: 0;
-  height: 100dvh;
+/* One column on a phone, the prints stepping from side to side like a page
+   of a scrapbook. */
+.sequence.is-spread .sequence__track {
   display: grid;
-  place-items: center;
-
-  /* Deliberately not clipped. The incoming pieces wait a screen below the
-     stage, which is always below the viewport while it is stuck; clipped,
-     lazy loading would count them as off screen and only fetch them once
-     they were already rising into view. */
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
 }
 
-.sequence.is-stacked .figure {
-  grid-area: 1 / 1;
-
-  /* Sized against height too: three portrait scans in one held screen run
-     out of height first on a landscape phone. */
-  width: min(70vw, 24rem, 46dvh);
-  will-change: transform;
+.sequence.is-spread .figure {
+  width: 72%;
+  margin-top: var(--space-l);
+  scroll-snap-align: none;
 }
 
-/* Only the top piece is captioned (sequence-stack.js), so the words sit on
-   the black, clear of the scans beneath. */
-.sequence.is-stacked .figure figcaption {
-  margin-top: var(--space-xs);
+.sequence.is-spread .figure:first-child {
+  margin-top: 0;
+}
+
+.sequence.is-spread .figure:nth-child(even) {
+  justify-self: end;
+}
+
+.sequence .figure img {
+  padding: var(--space-3xs);
+  background: var(--color-print);
+  box-shadow: var(--shadow-print);
+}
+
+/* On the print, not the figure: sequence-drift.js moves the figure, and
+   GSAP folds a figure's own rotate into the transform it writes. */
+.sequence.is-spread .figure:nth-child(5n + 1) img {
+  rotate: -3deg;
+}
+
+.sequence.is-spread .figure:nth-child(5n + 2) img {
+  rotate: 4deg;
+}
+
+.sequence.is-spread .figure:nth-child(5n + 3) img {
+  rotate: -2deg;
+}
+
+.sequence.is-spread .figure:nth-child(5n + 4) img {
+  rotate: 3deg;
+}
+
+.sequence.is-spread .figure:nth-child(5n) img {
+  rotate: -4deg;
+}
+
+/* Each piece clipped at its top edge, a little off centre. */
+.figure__clip {
+  top: calc(var(--space-m) * -1);
+  left: 58%;
+  rotate: -6deg;
+}
+
+.sequence.is-spread .figure figcaption {
+  margin-top: var(--space-s);
+  font-family: var(--font-utility);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Wide: a spread over two rows of a twelve-column page, the prints at
+   different heights so the drift has gaps to move through. */
+@media (min-width: 48rem) {
+  .sequence.is-spread .sequence__track {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--space-m);
+  }
+
+  .sequence.is-spread .figure {
+    justify-self: stretch;
+    width: auto;
+    margin-top: 0;
+  }
+
+  .sequence.is-spread .figure:nth-child(1) {
+    grid-area: 1 / 1 / 2 / 5;
+  }
+
+  .sequence.is-spread .figure:nth-child(2) {
+    grid-area: 1 / 6 / 2 / 9;
+    margin-top: 22vh;
+  }
+
+  .sequence.is-spread .figure:nth-child(3) {
+    grid-area: 1 / 10 / 2 / 13;
+    margin-top: 6vh;
+  }
+
+  .sequence.is-spread .figure:nth-child(4) {
+    grid-area: 2 / 2 / 3 / 6;
+    margin-top: -4vh;
+  }
+
+  .sequence.is-spread .figure:nth-child(5) {
+    grid-area: 2 / 8 / 3 / 12;
+    margin-top: 12vh;
+  }
 }
 
 /* ============================================================
-   PICKER — choices, panel and collage in one view
-   One grid, so the buttons, the paragraph they change and the
-   garment they describe stay on screen together.
+   FILM
+   A black page with one film on it. The poster is a link to the
+   film on YouTube; film.js swaps it for the player when pressed.
+   In greyscale like the rest of the page until it is pointed at.
+============================================================ */
+
+.film {
+  display: grid;
+  gap: var(--space-m);
+  padding: var(--space-xl) var(--gutter);
+  background: var(--color-bg);
+}
+
+.film__label {
+  margin: 0;
+  font-family: var(--font-utility);
+  font-size: 0.75rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+}
+
+.film__title {
+  max-width: none;
+  margin: 0 0 var(--space-m);
+  font-size: var(--step-5);
+  line-height: var(--leading-display);
+}
+
+.film__figure {
+  position: relative;
+  width: 100%;
+  max-width: var(--width-wide);
+  margin: 0;
+}
+
+.film__poster,
+.film__player {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+}
+
+.film__poster {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-surface);
+  color: inherit;
+  text-decoration: none;
+}
+
+.film__poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1);
+  transition:
+    filter var(--duration-base) var(--ease-out),
+    scale var(--duration-base) var(--ease-out);
+}
+
+.film__poster:hover img,
+.film__poster:focus-visible img {
+  filter: none;
+  scale: 1.03;
+}
+
+.film__poster:focus-visible {
+  outline: 3px solid var(--color-pen);
+  outline-offset: var(--space-3xs);
+}
+
+/* Set like the button at the end of the story, reversed out of the dark,
+   with a play mark cut from the same capitals. */
+.film__play {
+  position: absolute;
+  bottom: var(--space-s);
+  left: var(--space-s);
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-xs);
+  padding: var(--space-2xs) var(--space-s);
+  background: var(--color-ink);
+  color: var(--color-bg);
+  font-family: var(--font-display);
+  font-stretch: var(--stretch-display);
+  font-weight: var(--weight-display);
+  font-size: var(--step-1);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+/* Smaller on a phone, where the frame is small enough for it to cover
+   the face it is a poster of. */
+@media (min-width: 48rem) {
+  .film__play {
+    bottom: var(--space-m);
+    left: var(--space-m);
+    padding: var(--space-xs) var(--space-m);
+    font-size: var(--step-2);
+  }
+}
+
+.film__play::before {
+  content: '';
+  align-self: center;
+  width: 0.6em;
+  aspect-ratio: 1;
+  background: currentColor;
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+
+.film__time {
+  font-family: var(--font-utility);
+  font-stretch: 100%;
+  font-weight: 400;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+}
+
+.film__caption {
+  max-width: var(--width-content);
+  margin-top: var(--space-s);
+  font-size: var(--step--1);
+  color: var(--color-ink-muted);
+}
+
+/* Above the film's top corner, never on it: the whole frame is the link. */
+.film__note {
+  position: absolute;
+  right: 0;
+  bottom: 100%;
+  margin: 0 0 var(--space-xs);
+  rotate: -4deg;
+  pointer-events: none;
+}
+
+/* ============================================================
+   PICKER — an index of four looks
+   The names in the cover's capitals, ruled like a contents page.
+   Each name is a radio label, so the choice is a real form
+   control; the chosen one is filled in, the others stay drawn in
+   outline. Its panel holds the look, its story and three framed
+   details. All of that is CSS, so it reads the same with no script
+   and with reduced motion.
 ============================================================ */
 
 .picker {
+  /* The height every look stands at; the panels' floor is measured from it. */
+  --look-height: min(56vh, 30rem);
+
   display: grid;
+
+  /* Held to the section's width, so a long name or a wide figure can never
+     size the column wider than the screen. */
+  grid-template-columns: minmax(0, 1fr);
   grid-template-areas:
     'title'
     'intro'
     'choices'
-    'stage'
     'panels';
   gap: var(--space-m);
   padding: var(--space-xl) var(--gutter);
 }
 
 /* Aligned to the grid's own edge, not centred in the title's usual width:
-   the intro and the collage below start at the gutter. */
+   the intro and the index below start at the gutter. */
 .picker__title,
-.doodle__title {
+.fold__title {
   grid-area: title;
   max-width: none;
   margin: 0 0 var(--space-m);
@@ -1006,85 +1188,90 @@
   max-width: var(--width-content);
 }
 
-.picker__choices {
+/* --- The index ------------------------------------------------- */
+
+.looks {
   grid-area: choices;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2xs) var(--space-xs);
-  border: 0;
+  min-inline-size: 0;
+  margin: var(--space-m) 0 0;
   padding: 0;
-  margin: var(--space-s) 0 0;
-  max-width: var(--width-content);
+  border: 0;
+  border-top: 1px solid var(--color-ink);
 }
 
-.picker__choice:nth-child(3) {
-  translate: 0 var(--space-2xs);
+.looks__item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  padding-block: var(--space-xs);
+  border-bottom: 1px solid var(--color-ink);
+  cursor: pointer;
 }
 
-.picker__choice:nth-child(4) {
-  translate: 0 calc(var(--space-3xs) * -1);
-}
-
-.picker__choice:nth-child(5) {
-  translate: 0 var(--space-3xs);
-}
-
-.picker__choice input {
+.looks__item input {
   position: absolute;
   opacity: 0;
   width: 1px;
   height: 1px;
 }
 
-.picker__label {
-  position: relative;
-  border: 1px solid var(--color-rule);
-  transition:
-    background var(--duration-fast) var(--ease-out),
-    transform var(--duration-fast) var(--ease-out);
+.looks__no {
+  flex: none;
+  min-width: 2.5ch;
+  padding-top: 0.4em;
+  font-family: var(--font-utility);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  color: var(--color-ink-muted);
 }
 
-/* picker-motion.js layers a magnetic translate on top of this same label. */
-.picker__label::after {
-  content: '';
-  position: absolute;
-  left: var(--space-m);
-  right: var(--space-m);
-  bottom: 0.4em;
-  height: 1px;
-  background: currentColor;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform var(--duration-base) var(--ease-out);
+/* Drawn in outline until chosen: the four read as a list, and only one is
+   ever solid. */
+.looks__name {
+  font-family: var(--font-display);
+  font-stretch: var(--stretch-display);
+  font-weight: var(--weight-display);
+  font-size: clamp(2.4rem, 1rem + 7vw, 7rem);
+  line-height: var(--leading-display);
+  text-transform: uppercase;
+  word-spacing: 0.12em;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--color-ink);
+  transition: color var(--duration-fast) var(--ease-out);
 }
 
-.picker__label:hover::after,
-.picker__label:focus-visible::after {
-  transform: scaleX(1);
+.looks__item:hover .looks__name {
+  color: var(--color-rule);
 }
 
-.picker__choice input:checked + .picker__label {
-  background: var(--color-ink);
-  border-color: var(--color-ink);
-  color: var(--color-bg);
+.looks__item input:checked ~ .looks__name {
+  color: var(--color-ink);
 }
 
-.picker__choice input:active + .picker__label {
-  transform: scale(0.96);
+/* The chosen one's number, in the pen that marks the title above. */
+.looks__item input:checked ~ .looks__no {
+  color: var(--color-pen);
 }
 
-.picker__choice input:focus-visible + .picker__label {
-  outline: 3px solid currentColor;
-  outline-offset: 3px;
+.looks__item:has(input:focus-visible) {
+  outline: 3px solid var(--color-ink);
+  outline-offset: var(--space-3xs);
 }
+
+/* --- The panel ------------------------------------------------- */
 
 .picker__panels {
   grid-area: panels;
-  max-width: 32rem;
+}
+
+.picker__panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-m);
 }
 
 .picker__panel + .picker__panel {
-  margin-top: var(--space-l);
+  margin-top: var(--space-xl);
 }
 
 /* With one panel showing, the gap between panels is picker.js's job. */
@@ -1095,116 +1282,184 @@
 /* Panels differ in length; without a floor the section resizes on every
    choice, and every trigger below is measured against a height that moved. */
 .js .picker__panels {
-  min-height: 14rem;
+  min-height: calc(var(--look-height) + 34rem);
 }
 
-@media (min-width: 48rem) {
-  .js .picker__panels {
-    min-height: 11rem;
-  }
-}
-
-/* --- Collage stage ---------------------------------------------
-   Each piece is a wrapper holding the resting position and angle, with the
-   image inside. That split lets the scroll drift (wrapper) and the poke
-   (image) coexist. */
-
-.picker__stage {
-  grid-area: stage;
+.picker__look {
   position: relative;
-  min-height: 26rem;
+  display: grid;
+  justify-items: center;
+  gap: var(--space-2xs);
+  margin: 0;
 }
 
-.picker__stage-item {
-  position: absolute;
-  width: 60%;
+.picker__figure {
+  width: auto;
+  height: var(--look-height);
+  max-width: none;
 }
 
-.picker__stage-item img {
+/* The archive piece: a print held to the page by a clip. */
+.picker__look--print .picker__figure {
+  height: calc(var(--look-height) * 0.8);
+  padding: var(--space-2xs);
+  background: var(--color-print);
+  box-shadow: var(--shadow-print);
+  rotate: 3deg;
+}
+
+.picker__clip {
+  top: calc(var(--space-s) * -1);
+  left: 46%;
+  rotate: 8deg;
+}
+
+.picker__credit {
+  rotate: -3deg;
+}
+
+.picker__copy {
+  display: grid;
+  align-content: start;
+  gap: var(--space-s);
+}
+
+.picker__copy h3 {
+  margin: 0;
+  font-family: var(--font-utility);
+  font-stretch: 100%;
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.24em;
+}
+
+/* Justified capitals, like the copy on the dark spreads. */
+.picker__copy p {
+  max-width: 32ch;
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--step-0);
+  line-height: 1.2;
+  text-align: justify;
+  text-transform: uppercase;
+}
+
+/* Three details as prints, laid down a little crooked. The white border is
+   an outline, not padding, so it sits outside the clip that a zoomed crop
+   (below) needs. */
+.picker__details {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-m);
+  max-width: 26rem;
+  margin: var(--space-xs) var(--space-3xs) 0;
+  padding: 0;
+  list-style: none;
+}
+
+.frame {
+  overflow: hidden;
+  outline: var(--space-3xs) solid var(--color-print);
+  box-shadow: var(--shadow-print);
+}
+
+.frame:nth-child(1) {
+  rotate: -3deg;
+}
+
+.frame:nth-child(2) {
+  rotate: 2deg;
+}
+
+.frame:nth-child(3) {
+  rotate: -1deg;
+}
+
+.frame__image {
   width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+
+  /* Where there are no separate close-ups, a crop of the whole photograph:
+     the inline --crop says where to look, and the scale is the looking. */
+  object-position: var(--crop, 50% 50%);
+  transform-origin: var(--crop, 50% 50%);
 }
 
-.picker__stage-item[data-stage-img='menswear'] {
-  top: 0;
-  left: 4%;
-  width: 55%;
-  transform: rotate(-4deg);
-  z-index: 1;
+.frame[style] .frame__image {
+  scale: 1.9;
 }
 
-.picker__stage-item[data-stage-img='military'] {
-  top: 8%;
-  right: 2%;
-  width: 48%;
-  transform: rotate(3deg);
-  z-index: 2;
-}
-
-.picker__stage-item[data-stage-img='workwear'] {
-  bottom: 4%;
-  left: 22%;
-  width: 40%;
-  transform: rotate(-2deg);
-  z-index: 3;
-}
-
-.picker__stage-item[data-stage-img='denim'] {
-  bottom: 0;
-  right: 8%;
-  width: 46%;
-  transform: rotate(5deg);
-  z-index: 1;
-}
-
-.picker__stage-item--cloth-a {
-  top: 44%;
-  left: -2%;
-  width: 22%;
-  transform: rotate(-12deg);
-  z-index: 4;
-}
-
-.picker__stage-item--cloth-b {
-  bottom: 24%;
-  right: 4%;
-  width: 17%;
-  transform: rotate(10deg);
-  z-index: 4;
-}
-
-.picker__stage-item--hanger {
-  top: 30%;
-  right: 30%;
-  width: 15%;
-  transform: rotate(-6deg);
-  z-index: 5;
-}
-
+/* Wide: a contents page. The names on the left with the chosen look's story
+   under them, the look itself standing the full height beside both. The
+   panels share the section's grid (subgrid), so a panel's copy can sit
+   under the index while its figure sits beside it. Only with script, which
+   shows one panel at a time; without it they stack as above. */
 @media (min-width: 64rem) {
-  .picker {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    grid-template-areas:
-      'title   title'
-      'intro   stage'
-      'choices stage'
-      'panels  stage';
+  .js .picker {
+    --look-height: min(76vh, 44rem);
 
-    /* Without this the left column's rows stretch to the collage's height and
-       the choices drift away from the paragraph they control. */
-    grid-template-rows: auto auto auto 1fr;
-    align-items: start;
+    /* One width for every look, about the narrowest a standing figure is
+       at this height: sized by its content, the column would change with
+       each choice, and the names beside it would wrap differently. */
+    grid-template-columns: minmax(0, 1fr) calc(var(--look-height) * 0.56);
+
+    /* The floor under the copy: tall enough for the longest story (the
+       denim's two paragraphs), so the section is the same height whichever
+       look is chosen. In steps of the copy's size, which its lines scale
+       with. */
+    grid-template-rows: auto auto auto minmax(calc(var(--step-0) * 27), auto);
+    grid-template-areas:
+      'title title'
+      'intro intro'
+      'choices look'
+      'copy look';
     column-gap: var(--space-xl);
   }
 
-  .picker__stage {
-    min-height: 40rem;
-    position: sticky;
-    top: var(--space-xl);
+  .looks__name {
+    font-size: min(6.2vw, 11vh);
+  }
+
+  .js .picker__panels {
+    grid-area: choices / choices / copy / look;
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-template-columns: subgrid;
+    min-height: 0;
+
+    /* Its box covers the index; only its contents take the pointer. */
+    pointer-events: none;
+  }
+
+  .js .picker__panel {
+    grid-area: 1 / 1 / -1 / -1;
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-template-columns: subgrid;
+    pointer-events: none;
+  }
+
+  .js .picker__look {
+    grid-area: 1 / 2 / -1 / 3;
+    align-self: start;
+    pointer-events: auto;
+  }
+
+  .js .picker__copy {
+    grid-area: 2 / 1 / 3 / 2;
+    padding-top: var(--space-m);
+    pointer-events: auto;
+  }
+
+  .picker__copy p {
+    max-width: 42ch;
   }
 }
 
 /* ============================================================
-   M.Y. PROJECT — DEPTH IMAGE SEQUENCE
+   M.Y. PROJECT — ONE PIECE AT A TIME
 ============================================================ */
 
 .my-project-copy {
@@ -1233,7 +1488,6 @@
   position: relative;
   width: 100%;
   margin: 0;
-  opacity: 1;
 }
 
 .my-project-depth__item img {
@@ -1248,70 +1502,156 @@
   margin-top: var(--space-2xs);
 }
 
+.my-project-depth__note {
+  grid-column: 1 / -1;
+  justify-self: end;
+  rotate: -4deg;
+}
+
 @media (min-width: 48rem) {
   .my-project-depth__stage {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-/* --- Enhanced: depth fly-through ----------------------------
+/* --- Enhanced: one piece at a time ----------------------------
    Added only by my-project-depth.js; the grid above is what no-JS and
-   reduced-motion visitors read. Here the images stack in a pinned
-   perspective stage and fly away one by one. */
+   reduced-motion visitors read. The stage is held while the page goes
+   dark and the pieces are uncovered in turn, each over the last, in one
+   frame, with its name set large beside it. */
 
 .my-project-depth.is-enhanced {
-  /* Pin distance: roughly one screen of scroll per image. Taller = slower. */
-  height: 300vh;
+  /* Pin distance: half a screen of scroll per piece, and half a screen
+     at the end to take in the last one. Taller = slower. */
+  height: calc(100vh + (var(--pieces, 7) + 1) * 50vh);
   margin-top: var(--space-2xl);
-
-  /* The images travel outside this box on their way out of frame. */
   overflow: visible;
 }
 
 .my-project-depth.is-enhanced .my-project-depth__stage {
+  display: block;
   height: 100dvh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0;
 
-  perspective: 100vh;
+  /* The height every piece is shown at; the frame is 3:4 to match. */
+  --frame: min(52dvh, 120vw);
 }
 
+/* Every piece in the same frame, so each one uncovered covers the last
+   completely. */
 .my-project-depth.is-enhanced .my-project-depth__item {
   position: absolute;
-
-  /* Sized against the shorter viewport edge: 3:4 photographs in a
-     full-height stage run out of height first on a phone. */
-  width: min(90vw, 56vh, 38rem);
-  max-width: none;
-
-  opacity: 0;
-
-  /* Mid-flight most of the time, so they must never take a click. */
+  top: 12dvh;
+  right: 0;
+  left: 0;
+  width: calc(var(--frame) * 0.75);
+  margin-inline: auto;
+  padding: var(--space-2xs);
+  background: var(--color-print);
+  box-shadow: var(--shadow-print);
   pointer-events: none;
-
-  will-change: transform;
 }
 
-.my-project-depth.is-enhanced .my-project-depth__item img {
-  object-fit: contain;
-}
-
-/* Stacked on one centre point the captions would pile into a smudge. The
-   same wording is in each <img> alt, and the grid above still shows them. */
+/* Their names are set large on the page instead (built by the script).
+   The same wording is in each <img> alt, and the grid above shows them. */
 .my-project-depth.is-enhanced .my-project-depth__item figcaption {
   display: none;
 }
 
+.my-project-depth.is-enhanced .my-project-depth__note {
+  position: absolute;
+  top: calc(12dvh + var(--frame) + var(--space-m));
+  right: 0;
+  margin: 0;
+}
+
+/* The name of the piece on show, in the cover's capitals, and above it
+   which of the seven it is. */
+.my-project-depth__caption {
+  position: absolute;
+  bottom: 6dvh;
+  left: 0;
+  display: grid;
+  gap: var(--space-xs);
+  max-width: 100%;
+  margin: 0;
+}
+
+.my-project-depth__count {
+  font-family: var(--font-utility);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+/* All seven names in one cell, each in a mask its letters roll through. */
+.my-project-depth__names {
+  display: grid;
+}
+
+.my-project-depth__name {
+  grid-area: 1 / 1;
+  align-self: end;
+  overflow: hidden;
+  font-family: var(--font-display);
+  font-stretch: var(--stretch-display);
+  font-weight: var(--weight-display);
+  font-size: min(15vw, 9dvh);
+  line-height: var(--leading-display);
+  text-transform: uppercase;
+  word-spacing: 0.12em;
+}
+
+.my-project-depth__name > span {
+  display: block;
+
+  /* Room in the mask for the accents and the commas' tails. */
+  padding-block: 0.06em;
+}
+
+/* Wide: the frame to the right, the name filling the page beside it. */
+@media (min-width: 64rem) {
+  .my-project-depth.is-enhanced .my-project-depth__stage {
+    --frame: min(72dvh, 64vw);
+  }
+
+  .my-project-depth.is-enhanced .my-project-depth__item {
+    top: 14dvh;
+    left: auto;
+    margin: 0;
+  }
+
+  .my-project-depth.is-enhanced .my-project-depth__note {
+    top: 18dvh;
+    right: auto;
+    left: 0;
+    font-size: calc(var(--step-hand) * 1.3);
+  }
+
+  .my-project-depth__caption {
+    bottom: 10dvh;
+    max-width: calc(100% - var(--frame) * 0.75 - var(--space-l));
+  }
+
+  .my-project-depth__name {
+    font-size: min(9vw, 17dvh);
+  }
+}
+
 /* ============================================================
    TEXT LINE REVEAL
+   A black spread, like "Beyond sustainability": the chapter's
+   name down the spine, a print, and the paragraph in justified
+   capitals, uncovered line by line while the stage is pinned.
 ============================================================ */
 
+/* Full bleed: the stage carries the margins, so the spine label can sit in
+   the page's edge rather than inside the chapter's padding. */
 .text-reveal {
   position: relative;
   overflow: clip;
-  padding-bottom: var(--space-2xl);
+  padding: 0;
+  background: var(--color-bg);
 }
 
 .text-reveal__pin {
@@ -1319,52 +1659,92 @@
 }
 
 .text-reveal__stage {
+  position: relative;
   min-height: 100dvh;
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   align-content: center;
-  align-items: center;
   gap: var(--space-m);
-  padding: var(--space-s) var(--gutter);
+  padding: var(--space-l) var(--gutter);
+}
+
+/* The chapter's name, in the small spaced capitals every label uses. Down
+   the spine of the page once there is a margin to hold it. */
+.text-reveal__label {
+  margin: 0;
+  font-family: var(--font-utility);
+  font-stretch: 100%;
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
 }
 
 .text-reveal__fig {
-  align-self: center;
+  margin: 0;
   color: var(--color-ink-muted);
 }
 
 .text-reveal__fig-label {
   display: block;
-  margin-bottom: var(--space-2xs);
+  margin-bottom: var(--space-xs);
   font-family: var(--font-utility);
   font-size: var(--step--1);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
 .text-reveal__fig img {
-  width: 6rem;
+  width: min(60%, 22rem);
+  padding: var(--space-3xs);
+  background: var(--color-print);
+  box-shadow: var(--shadow-print);
+  rotate: -2deg;
 }
 
+/* Justified capitals with the gaps left open, set as the panels of the
+   dark chapter later on. */
 .text-reveal__text {
-  width: min(100%, 44rem);
+  max-width: 26ch;
   margin: 0;
   font-family: var(--font-display);
-  font-size: var(--step-2);
-  line-height: 1.15;
+  font-weight: 500;
+  font-size: var(--step-1);
+  line-height: 1.12;
+  text-align: justify;
+  text-transform: uppercase;
 }
 
 @media (min-width: 48rem) {
   .text-reveal__stage {
-    grid-template-columns: minmax(7rem, 0.35fr) minmax(0, 1fr);
-    gap: clamp(2rem, 7vw, 8rem);
-    padding-block: var(--space-2xl);
+    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(2rem, 6vw, 7rem);
+    padding-inline: 8vw;
+  }
+
+  .text-reveal__label {
+    position: absolute;
+    top: 50%;
+    left: var(--space-s);
+    writing-mode: vertical-rl;
+    rotate: 180deg;
+    translate: 0 -50%;
+  }
+
+  .text-reveal__fig {
+    justify-self: end;
   }
 
   .text-reveal__fig img {
-    width: min(100%, 8rem);
+    width: min(100%, 30rem);
   }
+}
 
+@media (min-width: 64rem) {
   .text-reveal__text {
-    font-size: var(--step-3);
+    max-width: 30ch;
+    font-size: var(--step-2);
   }
 }
 
@@ -1421,6 +1801,9 @@
 
 /* ============================================================
    TEXT MARQUEE
+   One sentence in the cover's capitals, cut as large as the
+   screen will hold, crawling past a black page while each letter
+   swells from light to black.
 ============================================================ */
 
 .marquee {
@@ -1436,7 +1819,7 @@
    means a slower pass. Enhanced only — with no JS this must not reserve
    four empty screens of scroll. */
 .marquee.is-enhanced .marquee__pin {
-  height: 500vh;
+  height: 600vh;
 }
 
 .marquee__stage {
@@ -1451,9 +1834,13 @@
   width: max-content;
   margin: 0;
   font-family: var(--font-display);
+  font-stretch: var(--stretch-display);
+  font-weight: 300;
+  font-size: clamp(7rem, 28vw, 44vh);
+  line-height: var(--leading-display);
+  text-transform: uppercase;
+  word-spacing: 0.12em;
   white-space: nowrap;
-  font-size: max(2.5rem, 8vw);
-  font-weight: 400;
   padding-inline: 100vw;
   will-change: transform;
 }
@@ -1527,30 +1914,6 @@
 }
 
 /* ============================================================
-   SCATTER
-   Built by SplitText at runtime; without it the phrase just sits
-   in the sentence.
-============================================================ */
-
-.scatter {
-  position: relative;
-  display: inline-block;
-
-  /* A line break through the phrase would leave half of it behind. */
-  white-space: nowrap;
-}
-
-.scatter__char {
-  /* The box holds the sentence's layout; only the glyph inside flies. */
-  display: inline-block;
-}
-
-.scatter__char > span {
-  display: inline-block;
-  will-change: transform;
-}
-
-/* ============================================================
    TEXT SWAP
    Default: two stacked paragraphs. Enhanced (.is-enhanced): the
    two sit on one another in a pinned perspective stage and turn
@@ -1617,25 +1980,29 @@
 
 /* ============================================================
    CORNER OFF
-   A cut sheet and the loose piece beside it: both states the
-   paragraph describes, at once. All CSS; corner-off.js only
-   makes the piece possible to pick up.
+   A black page across the whole width, its top corner cut and the
+   piece lying loose beside the notch, like the cover: both states
+   the paragraph describes, at once. All CSS; corner-off.js only
+   makes the cut happen on arrival and the piece possible to pick up.
 ============================================================ */
 
 .corner-off {
-  --corner-size: clamp(3rem, 9vw, 5rem);
+  --corner-size: clamp(4rem, 14vw, 11rem);
 
   position: relative;
-  max-width: 44rem;
-  margin-block: var(--space-l);
+
+  /* Out to the screen's edges, past the chapter's gutters and the text
+     column .chapter__body would hold it to. */
+  max-width: none;
+  margin: var(--space-xl) calc(var(--gutter) * -1);
 }
 
-/* A black sheet on the white page, with its corner cut: body copy in the
-   text face, and the sentence the whole chapter turns on pulled out at
-   display size. Set in reverse by hand rather than as a dark theme, which
-   would also paint the block around it and fill in the notch. */
+/* Set in reverse by hand rather than as a dark theme, which would also
+   paint the block around it and fill in the notch. */
 .corner-off__sheet {
-  padding: var(--space-l) var(--space-m);
+  display: grid;
+  gap: var(--space-l);
+  padding: var(--space-xl) var(--gutter);
   background: var(--color-ink);
   color: var(--color-bg);
 
@@ -1649,31 +2016,74 @@
 }
 
 .corner-off__sheet p {
-  max-width: 40ch;
+  max-width: 34ch;
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--step-0);
+  line-height: 1.2;
+  text-align: justify;
+  text-transform: uppercase;
 }
 
-.corner-off__sheet strong {
-  display: block;
-  max-width: 22ch;
+/* The sentence the whole chapter turns on, at the cover's size. */
+.corner-off__sheet .corner-off__pull {
+  max-width: none;
   margin-block: var(--space-m);
+  text-align: left;
+}
+
+.corner-off__pull strong {
+  display: block;
+  max-width: 13ch;
   font-family: var(--font-display);
-  font-size: var(--step-3);
-  font-weight: 400;
-  line-height: var(--leading-tight);
-  letter-spacing: -0.01em;
+  font-stretch: var(--stretch-display);
+  font-weight: var(--weight-display);
+  font-size: var(--step-5);
+  line-height: var(--leading-display);
+  word-spacing: 0.12em;
   text-wrap: balance;
 }
 
-@media (min-width: 48rem) {
+/* Wide: the sentence down the left, the two paragraphs it sits between
+   beside it. */
+@media (min-width: 64rem) {
   .corner-off__sheet {
-    padding: var(--space-xl) var(--space-l);
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    grid-template-areas:
+      'pull first'
+      'pull second';
+    align-items: end;
+    column-gap: var(--space-xl);
+    padding: var(--space-2xl) max(var(--gutter), 8vw);
+  }
+
+  .corner-off__sheet > p:first-child {
+    grid-area: first;
+  }
+
+  .corner-off__sheet .corner-off__pull {
+    grid-area: pull;
+    align-self: center;
+    margin: 0;
+  }
+
+  /* Sized to its half of the page, so "already", its longest word, still
+     fits on a line of its own. */
+  .corner-off__pull strong {
+    font-size: min(var(--step-5), 8.5vw);
+  }
+
+  .corner-off__sheet > p:last-child {
+    grid-area: second;
+    align-self: start;
   }
 }
 
 .corner-off__piece {
   position: absolute;
-  top: calc(var(--corner-size) * -0.5);
-  right: calc(var(--corner-size) * -0.4);
+  top: calc(var(--corner-size) * -0.3);
+  right: calc(var(--corner-size) * 0.3);
 
   width: var(--corner-size);
   aspect-ratio: 1;
@@ -1691,62 +2101,40 @@
    looks pickup-able once it is. */
 
 /* ============================================================
-   ONE CORNER OFF — loose objects
-   In flow on a phone; out into the margins only once there is
-   empty surface for them.
+   ONE CORNER OFF — the copy
+   Justified capitals, in two columns once there is room, like the
+   type on a page of a fashion zine.
 ============================================================ */
 
-.one-corner__objects {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: var(--space-l);
-
-  max-width: var(--width-content);
-  margin: 0 auto var(--space-l);
+.one-corner__body {
+  max-width: var(--width-wide);
 }
 
-.one-corner__object {
-  width: 30%;
+.one-corner__body p {
+  max-width: 34ch;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--step-0);
+  line-height: 1.2;
+  text-align: justify;
+  text-transform: uppercase;
 }
 
-.one-corner__object--swatch {
-  width: 16%;
+/* text-lines-rise.js sets every line as a block of its own, and a block's
+   only line is its last, which justify leaves ragged. Every line but a
+   paragraph's last is spread to the edges by hand. */
+.one-corner__body .lines-rise__line:not(:last-child) {
+  text-align-last: justify;
 }
 
 @media (min-width: 64rem) {
-  .one-corner {
-    position: relative;
-    overflow: clip;
+  .one-corner__body {
+    columns: 2;
+    column-gap: var(--space-xl);
   }
 
-  .one-corner__objects {
-    position: absolute;
-    inset: 0;
-    display: block;
-    max-width: none;
-    margin: 0;
-    pointer-events: none;
-  }
-
-  .one-corner__object {
-    position: absolute;
-    width: auto;
-    pointer-events: auto;
-  }
-
-  .one-corner__object--tape {
-    top: 6%;
-    right: 5%;
-    width: clamp(8rem, 14vw, 14rem);
-    rotate: 8deg;
-  }
-
-  .one-corner__object--swatch {
-    top: 30%;
-    left: 4%;
-    width: clamp(4.5rem, 7vw, 7.5rem);
-    rotate: -12deg;
+  .one-corner__body p {
+    break-inside: avoid;
   }
 }
 
@@ -1769,7 +2157,11 @@
   background: var(--color-ink-muted);
 }
 
+/* Above the prints and anything the cursor trail drops: the one thing on
+   the page that has to stay clickable. */
 .visit__cta {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
@@ -1777,26 +2169,24 @@
   max-width: none;
 }
 
-.visit__objects {
+.visit__prints {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
   gap: var(--space-m);
-
-  max-width: var(--width-content);
+  max-width: var(--width-wide);
   margin: var(--space-xl) auto 0;
 }
 
-.visit__object {
-  width: 28%;
+.visit__print {
+  width: 40%;
 }
 
-.visit__object--swatch {
-  width: 18%;
-}
-
-.visit__object img {
+.visit__print img {
   width: 100%;
+  padding: var(--space-3xs);
+  background: var(--color-print);
+  box-shadow: var(--shadow-print);
 }
 
 /* Positioned at every width: the cursor trail is laid out against it on any
@@ -1811,318 +2201,230 @@
     overflow: clip;
   }
 
-  .visit__objects {
+  /* Out into the margins, round the title and its paragraphs. */
+  .visit__prints {
     position: absolute;
     inset: 0;
-
     display: block;
     max-width: none;
     margin: 0;
-
-    /* The container spans the text column too; only the objects take the
-       pointer. */
     pointer-events: none;
   }
 
-  .visit__object {
+  .visit__print {
     position: absolute;
-    width: auto;
     pointer-events: auto;
   }
 
-  .visit__object--tape {
-    top: 12%;
-    right: 2%;
-    width: clamp(14rem, 26vw, 26rem);
-    rotate: -6deg;
+  .visit__print--microbook {
+    top: 6%;
+    right: 3%;
+    width: clamp(14rem, 22vw, 24rem);
+    rotate: 3deg;
   }
 
-  .visit__object--needle {
-    bottom: 16%;
-    left: 3%;
-    width: clamp(8rem, 13vw, 13rem);
-    rotate: 9deg;
+  .visit__print--drawing {
+    bottom: 8%;
+    right: 6%;
+    width: clamp(12rem, 20vw, 22rem);
+    rotate: -4deg;
   }
 
-  /* Low and right, clear of the title now that it runs across the top. */
-  .visit__object--swatch {
-    bottom: 12%;
-    right: 14%;
-    width: clamp(5rem, 8vw, 8rem);
-    rotate: -14deg;
+  .visit__print--bomber {
+    top: 42%;
+    right: 24%;
+    width: clamp(8rem, 12vw, 13rem);
+    rotate: 6deg;
+  }
+
+  /* To the right of the button and its "here", clear of both. */
+  .visit__print--suit {
+    bottom: 6%;
+    left: 56%;
+    width: clamp(7rem, 11vw, 12rem);
+    rotate: -7deg;
   }
 }
 
 /* ============================================================
-   DOODLE — take one corner off
-   Without JavaScript: a photograph of gauze and a paragraph.
-   doodle.js inserts the <canvas>, then unhides the tools.
+   FOLD — take one corner off
+   A finished page lying over a photograph. Without JavaScript its
+   corner is cut here, so a little of what is underneath shows.
+   fold.js (.is-folding) lets the reader fold the corner back as
+   far as they choose; the flap is the back of the page.
 ============================================================ */
 
-/* Named areas: the two arrangements are different shapes. Side by side on a
-   wide screen keeps the cloth level with its tools, so you never scroll away
-   from the thing you are drawing on. */
-.doodle {
+.fold {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   grid-template-areas:
     'title'
     'intro'
-    'surface'
-    'tools'
-    'note'
-    'objects';
+    'stage'
+    'reset'
+    'note';
   gap: var(--space-m);
   padding: var(--space-xl) var(--gutter);
 }
 
-.doodle__intro {
+.fold__intro {
   grid-area: intro;
   max-width: var(--width-content);
-  margin-bottom: var(--space-m);
+  margin: 0;
 }
 
-.doodle__surface {
-  grid-area: surface;
+.fold__stage {
+  --fold-cut: 18%;
+
+  grid-area: stage;
   position: relative;
-  width: min(100%, 30rem);
+  width: min(100%, 34rem);
+  aspect-ratio: 4 / 5;
+  margin-top: var(--space-l);
+
+  /* The page's type is sized against the page, not the screen. */
+  container-type: inline-size;
 }
 
-.doodle__cloth {
-  width: 100%;
-  user-select: none;
-  -webkit-user-drag: none;
-}
-
-.doodle__canvas {
+.fold__under {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-
-  /* Only this element opts out of native gestures; a swipe starting anywhere
-     else, including the margin beside the cloth, still scrolls. */
-  touch-action: none;
-  cursor: crosshair;
+  object-fit: cover;
 }
 
-.doodle__canvas:focus-visible {
-  outline: 3px solid var(--color-ink);
-  outline-offset: 4px;
+/* A black page like the cover, its corner already cut. fold.js replaces
+   the cut with the crease wherever the reader leaves it. */
+.fold__sheet {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-content: space-between;
+  padding: var(--space-m);
+  background: var(--color-ink);
+  color: var(--color-bg);
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--fold-cut)) 0,
+    100% var(--fold-cut),
+    100% 100%,
+    0 100%
+  );
 }
 
-/* doodle.js wipes the pixels on animationend rather than on the click, so the
-   two cannot get out of step. The reduced-motion backstop cuts this to a
-   fraction of a millisecond; animationend still fires. */
-.doodle__canvas.is-clearing {
-  animation: doodle-shake 420ms var(--ease-out) forwards;
+.fold__meta {
+  margin: 0;
+  font-family: var(--font-utility);
+  font-size: 0.75rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
 }
 
-@keyframes doodle-shake {
-  0% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-
-  15% {
-    transform: translateX(-8px);
-  }
-
-  30% {
-    transform: translateX(7px);
-  }
-
-  45% {
-    transform: translateX(-5px);
-  }
-
-  60% {
-    transform: translateX(4px);
-    opacity: 1;
-  }
-
-  100% {
-    transform: translateY(22px);
-    opacity: 0;
-  }
+/* "Already", the longer word, is about 3.3em in the condensed capitals:
+   at this size it fills most of the page's width. */
+.fold__words {
+  margin: 0;
+  font-family: var(--font-display);
+  font-stretch: var(--stretch-display);
+  font-weight: var(--weight-display);
+  font-size: 24cqi;
+  line-height: var(--leading-display);
+  text-transform: uppercase;
 }
 
-/* Where the keyboard pen is. Shown only once the canvas has focus, since it
-   is the only way to know where a keypress will draw. */
-.doodle__pen {
+/* The flap: the back of the page, folded over its front. The outer box
+   casts the shadow, the inner one takes the shape (fold.js). */
+.fold__flap {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  filter: drop-shadow(-0.4rem 0.6rem 0.8rem rgb(0 0 0 / 45%));
+}
+
+.fold__flap-face {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    var(--fold-angle, 225deg),
+    var(--color-rule) var(--fold-crease, 0),
+    var(--color-print) var(--fold-tip, 100%)
+  );
+}
+
+/* The corner the reader takes: a hand-sized target centred on the tip of
+   the fold, which fold.js moves. Only it opts out of native gestures, so a
+   swipe anywhere else on the page still scrolls. */
+.fold__corner {
   position: absolute;
   top: 0;
   left: 0;
-  width: 0.75rem;
-  height: 0.75rem;
-  margin: -0.375rem 0 0 -0.375rem;
-  border: 2px solid var(--color-ink);
+  z-index: 2;
+  width: var(--target);
+  height: var(--target);
+  margin: calc(var(--target) / -2) 0 0 calc(var(--target) / -2);
   border-radius: 50%;
-  background: var(--color-bg);
-  opacity: 0;
-  pointer-events: none;
-
-  transition:
-    transform var(--duration-fast) var(--ease-out),
-    opacity var(--duration-fast) var(--ease-out),
-    background var(--duration-fast) var(--ease-out);
+  cursor: grab;
+  touch-action: none;
 }
 
-.doodle__surface:focus-within .doodle__pen {
-  opacity: 1;
+.fold__corner:focus-visible {
+  outline: 3px solid var(--color-pen);
+  outline-offset: 2px;
 }
 
-.doodle__pen[data-drawing='true'] {
-  background: var(--color-ink);
-  scale: 1.3;
+.fold__stage.is-held .fold__corner {
+  cursor: grabbing;
 }
 
-.doodle__tools {
-  grid-area: tools;
-  display: grid;
-  align-content: start;
-  gap: var(--space-m);
-  max-width: 22rem;
+/* Anywhere on the page can be tapped to bring the corner to it. */
+.fold__stage.is-folding {
+  cursor: pointer;
 }
 
-.doodle__marks {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-2xs) var(--space-xs);
-  border: 0;
-  padding: 0;
-  margin: 0;
-}
-
-.doodle__marks legend {
-  float: left;
-  width: 100%;
-  padding: 0;
-  margin-bottom: var(--space-2xs);
-  font-family: var(--font-utility);
-  font-size: var(--step--1);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--color-ink-muted);
-}
-
-.doodle__mark input {
+/* Above the corner, never on the page: anything over it would swallow the
+   start of a drag. */
+.fold__hint {
   position: absolute;
-  opacity: 0;
-  width: 1px;
-  height: 1px;
+  bottom: 100%;
+  right: 0;
+  margin: 0 0 var(--space-xs);
+  rotate: -4deg;
+  pointer-events: none;
 }
 
-.doodle__mark-label {
-  border: 1px solid var(--color-rule);
-  border-radius: 999px;
-  background: var(--color-bg);
-  transition:
-    background var(--duration-fast) var(--ease-out),
-    color var(--duration-fast) var(--ease-out);
+.fold__reset {
+  grid-area: reset;
+  justify-self: start;
+  margin-top: 0;
 }
 
-.doodle__mark input:checked + .doodle__mark-label {
-  background: var(--color-ink);
-  border-color: var(--color-ink);
-  color: var(--color-bg);
-}
-
-.doodle__mark input:focus-visible + .doodle__mark-label {
-  outline: 3px solid currentColor;
-  outline-offset: 3px;
-}
-
-.doodle__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2xs);
-}
-
-.doodle__action {
-  border: 1px solid var(--color-rule);
-  background: none;
-  transition: background var(--duration-fast) var(--ease-out);
-}
-
-.doodle__action:hover:not(:disabled) {
-  background: var(--color-bg);
-}
-
-/* Disabled rather than hidden: a control that appears mid-interaction moves
-   everything under it. */
-.doodle__action:disabled {
-  opacity: 0.4;
-  cursor: default;
-}
-
-.doodle__status {
-  font-family: var(--font-utility);
-  font-size: var(--step--1);
-  color: var(--color-ink-muted);
-  min-height: 1.5em;
-}
-
-.doodle__note {
+.fold__note {
   grid-area: note;
   max-width: 34rem;
-  min-height: 1.5em;
   font-family: var(--font-display);
   font-size: var(--step-1);
   line-height: var(--leading-tight);
-
-  opacity: 0;
-  translate: 0 var(--space-s);
-  transition:
-    opacity var(--duration-base) var(--ease-out),
-    translate var(--duration-base) var(--ease-out);
 }
 
-.doodle__note.is-shown {
-  opacity: 1;
-  translate: 0 0;
-}
-
-.doodle__objects {
-  grid-area: objects;
-  display: flex;
-  align-items: flex-end;
-  max-width: var(--width-content);
-}
-
-.doodle__object {
-  width: 70%;
-}
-
+/* Wide: the page large on the right, what it is about on the left, like
+   the closing chapter. */
 @media (min-width: 64rem) {
-  .doodle {
-    overflow: clip;
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  .fold {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
     grid-template-areas:
-      'title   title'
-      'intro   objects'
-      'surface tools'
-      'surface note';
+      'title title'
+      'intro stage'
+      'reset stage'
+      'note  stage';
     grid-template-rows: auto auto auto 1fr;
     align-items: start;
     column-gap: var(--space-xl);
   }
 
-  .doodle__surface {
-    width: 100%;
-  }
-
-  /* May overhang its cell, but only away from the canvas: anything over the
-     drawing surface would swallow the start of a stroke. */
-  .doodle__objects {
-    display: block;
-    max-width: none;
-    margin-top: calc(var(--space-l) * -1);
-  }
-
-  .doodle__object--needle {
-    width: min(100%, 30rem);
-    margin-left: auto;
-    rotate: -9deg;
+  .fold__stage {
+    justify-self: center;
+    width: min(100%, 64dvh, 40rem);
+    margin-top: 0;
   }
 }

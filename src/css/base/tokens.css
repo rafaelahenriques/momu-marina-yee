@@ -7,30 +7,49 @@
 :root {
   /* --- Colour ------------------------------------------------- */
 
-  /* Black and white, and nothing between but greys. The colour on the page
-     is the archive's own: the photographs are the only thing tinted. */
-  --color-bg: #fff;
-  --color-surface: #f2f2f2;
-  --color-ink: #0d0d0d;
-  --color-ink-muted: #5e5e5e;
-  --color-rule: #d9d9d9;
+  /* Zine paper and press ink. Colour comes from the archive photographs and
+     from two things put on the page by hand: a biro and a paper clip. */
+  --color-bg: #f6f5f1;
+  --color-surface: #eceae4;
+  --color-ink: #121212;
+  --color-ink-muted: #5c5c5c;
+  --color-rule: #cfcdc6;
 
-  --color-dark-bg: #0d0d0d;
-  --color-dark-ink: #f2f2f2;
-  --color-dark-muted: #9a9a9a;
-  --color-dark-surface: #1c1c1c;
-  --color-dark-rule: #333;
+  /* The editor's pen, for notes, marks and anything underlined. */
+  --color-pen: #2340c4;
+
+  /* The clips holding prints to the page. Never used for text. */
+  --color-clip: #d23a2a;
+
+  /* A photographic print: whiter than the zine paper it is laid on. */
+  --color-print: #fff;
+
+  --color-dark-bg: #121212;
+  --color-dark-ink: #f6f5f1;
+  --color-dark-muted: #9b9b9b;
+  --color-dark-surface: #1f1f1f;
+  --color-dark-rule: #3a3a3a;
+
+  /* The pen on black: the same blue would sink, so a lighter one. */
+  --color-dark-pen: #8ea2ff;
 
   /* Something lifted clear of the page, like a cut piece falling away. */
   --shadow-lift: 0 1.25rem 2rem rgb(0 0 0 / 30%);
 
-  /* --- Type --------------------------------------------------- */
-  --font-display: 'Bodoni Moda', 'Bodoni 72', Didot, Georgia, serif;
-  --font-body: 'Roobert', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* A print lying on the page. */
+  --shadow-print: 0 2px 6px rgb(0 0 0 / 18%);
 
-  /* Labels, captions and controls: the body face, set small, so the page
-     reads as print rather than as a terminal. */
+  /* --- Type --------------------------------------------------- */
+
+  /* One family for print and display, and one hand. Titles are Archivo at
+     its narrowest and heaviest; reading text the same face at normal width. */
+  --font-display: 'Archivo', 'Arial Narrow', sans-serif;
+  --font-body: 'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-hand: 'Reenie Beanie', 'Bradley Hand', cursive;
   --font-utility: var(--font-body);
+
+  --stretch-display: 62%;
+  --weight-display: 800;
 
   --step--1: clamp(0.83rem, 0.8rem + 0.15vw, 0.94rem);
   --step-0: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
@@ -39,13 +58,17 @@
   --step-3: clamp(2rem, 1.5rem + 2.4vw, 3.5rem);
   --step-4: clamp(2.6rem, 1.7rem + 4.2vw, 5.5rem);
 
-  /* Poster size, for chapter titles. Capped by height as
-     well as width, so a size that fills a laptop's width does not run off a
-     short screen. */
-  --step-5: clamp(2.6rem, min(0.5rem + 9.5vw, 17vh), 9rem);
+  /* Poster size, for chapter titles. The display cut is narrow, so it can
+     run larger than a wide face would; capped by height as well, so a size
+     that fills a laptop's width does not run off a short screen. */
+  --step-5: clamp(3.4rem, min(1rem + 12vw, 22vh), 13rem);
+
+  /* The hand has a small x-height, so it is set larger than the text it
+     annotates. */
+  --step-hand: clamp(1.5rem, 1.2rem + 1.2vw, 2.4rem);
 
   --leading-tight: 1.08;
-  --leading-display: 0.92;
+  --leading-display: 0.84;
   --leading-body: 1.6;
 
   /* --- Space -------------------------------------------------- */
@@ -81,6 +104,7 @@
   --color-ink: var(--color-dark-ink);
   --color-ink-muted: var(--color-dark-muted);
   --color-rule: var(--color-dark-rule);
+  --color-pen: var(--color-dark-pen);
 
   background-color: var(--color-bg);
   color: var(--color-ink);

@@ -1,101 +1,83 @@
-import { gsap, ScrollTrigger, SCRUB } from './motion.js';
+import { gsap } from './motion.js';
 
 /**
- * Collage stage reacts to the selection and drifts on scroll. picker.js does
- * the real work and runs unconditionally; this is decoration. Everything here
- * moves the .picker__stage-item wrapper — the <img> inside belongs to poke.js,
- * so the two never write the same transform.
+ * Motion for the index of looks. picker.js does the real work and runs for
+ * everyone, and filling in the chosen name is CSS. This adds the names being
+ * set one under another as the index arrives, and, each time a look is
+ * chosen, the look being uncovered from the floor up, its name written in
+ * beside it, and its details laid down on the page one after another.
  */
+
+// The angle each of the three framed details is dropped at: the same way
+// as the angle the stylesheet settles it at, and steeper.
+const DROP = [-9, 7, -6];
+
 export function initPickerMotion() {
   const section = document.querySelector('.picker');
-  const group = document.querySelector('[data-picker]');
-  const stage = document.querySelector('[data-picker-stage]');
-  if (!section || !group || !stage) return;
+  const group = section?.querySelector('[data-picker]');
+  if (!section || !group) return;
 
-  const items = stage.querySelectorAll('.picker__stage-item');
-  const garments = stage.querySelectorAll('[data-stage-img]');
-  const selected = () => group.querySelector('input:checked')?.value;
-
-  // The loose objects are not choices, so they stay at full strength.
-  const restingScale = (item) =>
-    !item.dataset.stageImg || item.dataset.stageImg === selected()
-      ? 1.08
-      : 0.94;
-  const restingOpacity = (item) =>
-    !item.dataset.stageImg || item.dataset.stageImg === selected() ? 1 : 0.55;
-
-  const bringForward = () => {
-    garments.forEach((item) => {
-      gsap.to(item, {
-        scale: restingScale(item),
-        opacity: restingOpacity(item),
-        zIndex: item.dataset.stageImg === selected() ? 10 : 1,
-        duration: 0.6,
-        ease: 'power3.out',
-      });
-    });
-  };
-
-  ScrollTrigger.create({
-    trigger: section,
-    start: 'top 75%',
-    once: true,
-    onEnter: () => {
-      gsap.fromTo(
-        [
-          section.querySelector('.chapter__title'),
-          section.querySelector('.chapter__body'),
-          group,
-        ],
-        { y: 24, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out', stagger: 0.1 },
-      );
-
-      gsap.fromTo(
-        items,
-        { opacity: 0, scale: 0.85, y: 30 },
-        {
-          opacity: (i, target) => restingOpacity(target),
-          scale: (i, target) => restingScale(target),
-          y: 0,
-          duration: 0.7,
-          ease: 'power3.out',
-          stagger: 0.08,
-        },
-      );
+  // from() with a trigger sets the hidden state now, so the names are never
+  // seen in place before they are set.
+  gsap.from(group.querySelectorAll('.looks__item'), {
+    yPercent: 40,
+    autoAlpha: 0,
+    duration: 0.7,
+    ease: 'power3.out',
+    stagger: 0.08,
+    scrollTrigger: {
+      trigger: group,
+      start: 'top 80%',
+      once: true,
     },
   });
 
-  // picker.js is registered first in main.js, so it has already flipped
-  // [hidden] and the panel animated here is the one now on screen.
+  // picker.js is registered first in main.js, so it has already shown the
+  // panel animated here.
   group.addEventListener('change', () => {
-    bringForward();
-
-    const panel = document.querySelector(`[data-panel="${selected()}"]`);
+    const value = group.querySelector('input:checked')?.value;
+    const panel = section.querySelector(`[data-panel="${value}"]`);
     if (!panel) return;
 
-    gsap.from(panel.children, {
+    gsap.fromTo(
+      panel.querySelector('.picker__figure'),
+      { clipPath: 'inset(100% 0% 0% 0%)' },
+      {
+        clipPath: 'inset(0% 0% 0% 0%)',
+        duration: 0.8,
+        ease: 'power3.inOut',
+        clearProps: 'clipPath',
+      },
+    );
+
+    gsap.fromTo(
+      panel.querySelector('.picker__credit'),
+      { clipPath: 'inset(0% 100% 0% 0%)' },
+      {
+        clipPath: 'inset(0% 0% 0% 0%)',
+        duration: 0.7,
+        delay: 0.5,
+        ease: 'power2.inOut',
+        clearProps: 'clipPath',
+      },
+    );
+
+    gsap.from(panel.querySelectorAll('.picker__copy > :not(ul)'), {
       y: 16,
       opacity: 0,
       duration: 0.45,
       ease: 'power3.out',
-      stagger: 0.07,
+      stagger: 0.06,
     });
-  });
 
-  bringForward();
-
-  // Each piece drifts at its own rate, for a hand-placed feel.
-  items.forEach((item, i) => {
-    gsap.to(item, {
-      y: (i % 2 === 0 ? -1 : 1) * (24 + i * 6),
-      ease: 'none',
-      scrollTrigger: {
-        trigger: section,
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: SCRUB,
-      },
+    gsap.from(panel.querySelectorAll('.frame'), {
+      y: 40,
+      rotation: (i) => DROP[i % DROP.length],
+      opacity: 0,
+      duration: 0.6,
+      delay: 0.2,
+      ease: 'back.out(1.4)',
+      stagger: 0.08,
     });
   });
 }

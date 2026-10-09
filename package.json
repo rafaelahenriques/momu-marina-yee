@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "Interactive longread on Marina Yee for MoMu Antwerp — Devine ENG INT3",
+  "description": "Interactive longread on Marina Yee for MoMu Antwerp \u2014 Devine ENG INT3",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -13,7 +13,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "check": "npm run lint && npm run lint:css && npm run format:check && npm run build",
-    "images": "node scripts/generate-images.js"
+    "images": "node scripts/generate-images.js",
+    "cutouts": "node scripts/cut-out.js"
   },
   "dependencies": {
     "gsap": "^3.13.0"

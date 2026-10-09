@@ -19,6 +19,27 @@
   </head>
 
   <body>
+    <!-- Shared drawing tools, referenced from CSS and markup: the pen that
+         recolours the scanned hand marks, and the paper clip. -->
+    <svg class="defs" aria-hidden="true" focusable="false">
+      <filter id="pen" color-interpolation-filters="sRGB">
+        <feFlood class="defs__pen" />
+        <feComposite in2="SourceAlpha" operator="in" />
+      </filter>
+      <filter id="pen-on-dark" color-interpolation-filters="sRGB">
+        <feFlood class="defs__pen defs__pen--on-dark" />
+        <feComposite in2="SourceAlpha" operator="in" />
+      </filter>
+      <symbol id="clip" viewBox="0 0 24 64">
+        <path
+          d="M8 22 V52 a6 6 0 0 0 12 0 V12 a9 9 0 0 0 -18 0 V50 a4 4 0 0 0 8 0 V22"
+          fill="none"
+          stroke-width="2"
+          stroke-linecap="round"
+        />
+      </symbol>
+    </svg>
+
     <a class="skip-link" href="#main">Skip to the story</a>
 
     <nav class="breadcrumb" aria-label="Breadcrumb" data-theme="dark">
@@ -104,103 +125,90 @@
     </div>
 
     <main id="main">
-      <section class="hero" data-hero data-trail data-theme="dark">
-        <div class="hero__scatter" aria-hidden="true">
-          <div class="hero__image hero__image--1">
-            <img
-              src="/images/marie-invitation.jpg"
-              srcset="
-                /images/responsive/marie-invitation-160.webp 160w,
-                /images/responsive/marie-invitation-320.webp 320w,
-                /images/responsive/marie-invitation-480.webp 480w,
-                /images/responsive/marie-invitation-640.webp 640w
-              "
-              sizes="(min-width: 48rem) clamp(8rem, 18vw, 16rem), 6rem"
-              alt=""
-              width="640"
-              height="863"
-              fetchpriority="low"
-              decoding="async"
-            />
-          </div>
-          <div class="hero__image hero__image--2">
-            <img
-              src="/images/marie-collection.jpg"
-              srcset="
-                /images/responsive/marie-collection-160.webp 160w,
-                /images/responsive/marie-collection-320.webp 320w,
-                /images/responsive/marie-collection-480.webp 480w,
-                /images/responsive/marie-collection-640.webp 640w
-              "
-              sizes="(min-width: 48rem) clamp(7rem, 15vw, 13rem), 5.5rem"
-              alt=""
-              width="640"
-              height="828"
-              fetchpriority="low"
-              decoding="async"
-            />
-          </div>
-          <div class="hero__image hero__image--3" data-poke-item>
-            <img
-              src="/images/objects/hanger-objects.png"
-              srcset="
-                /images/responsive/objects/hanger-objects-160.webp 160w,
-                /images/responsive/objects/hanger-objects-320.webp 320w,
-                /images/responsive/objects/hanger-objects-371.webp 371w
-              "
-              sizes="(min-width: 48rem) clamp(6rem, 11vw, 10rem), 4.5rem"
-              alt=""
-              width="371"
-              height="539"
-              fetchpriority="low"
-              decoding="async"
-            />
-          </div>
-        </div>
+      <!-- The cover, set like a magazine spread: the title on a black page with
+           its corner cut off, the name and three prints on the white one. The
+           grid places them; the order here is the reading order. -->
+      <section class="hero" data-hero data-trail>
+        <h1 class="hero__name">
+          <img
+            class="hero__wordmark"
+            src="/marina-yee-wordmark.svg"
+            alt="Marina Yee"
+            width="1509"
+            height="343"
+            fetchpriority="high"
+          />
+        </h1>
+
+        <p class="hero__title" data-theme="dark">
+          <span class="hero__word">One</span>
+          <span class="hero__word">Corner</span>
+          <span class="hero__word">Off</span>
+        </p>
+
+        <!-- The corner the title page is missing, lying where it fell.
+             hero.js cuts it on arrival; a pointer can pick it up. -->
+        <span class="hero__corner" data-hero-corner aria-hidden="true"></span>
 
         <p class="hero__meta">
           <span>A MoMu story, 01 of 06</span>
           <span>The Antwerp Six, 1986–2026</span>
         </p>
 
-        <hgroup class="hero__inner">
-          <h1 class="hero__name">
-            <img
-              class="hero__wordmark"
-              src="/marina-yee-wordmark.svg"
-              alt="Marina Yee"
-              width="640"
-              height="180"
-              fetchpriority="high"
-            />
-          </h1>
-          <p class="hero__headline">
-            <span class="hero__line">One Corner</span>
-            <!-- Decorative here: the same collage is in the pile of details
-                 further down, with its description. Laid out at its full
-                 opened size and cropped to her eyes by the window, so
-                 hero-scene.js only has to widen the crop. -->
-            <span class="hero__window" data-hero-window>
-              <img
-                src="/images/workshop-collage.jpg"
-                srcset="
-                  /images/responsive/workshop-collage-320.webp 320w,
-                  /images/responsive/workshop-collage-480.webp 480w,
-                  /images/responsive/workshop-collage-640.webp 640w,
-                  /images/responsive/workshop-collage-768.webp 768w,
-                  /images/responsive/workshop-collage-900.webp 900w
-                "
-                sizes="min(58vh, 92vw)"
-                alt=""
-                width="900"
-                height="1273"
-                fetchpriority="high"
-                decoding="async"
-              />
-            </span>
-            <span class="hero__line">Off</span>
-          </p>
-        </hgroup>
+        <div class="hero__prints" aria-hidden="true">
+          <img
+            src="/images/archive/campaign-trench.jpg"
+            srcset="
+              /images/responsive/archive/campaign-trench-160.webp 160w,
+              /images/responsive/archive/campaign-trench-320.webp 320w,
+              /images/responsive/archive/campaign-trench-480.webp 480w,
+              /images/responsive/archive/campaign-trench-640.webp 640w,
+              /images/responsive/archive/campaign-trench-768.webp 768w,
+              /images/responsive/archive/campaign-trench-880.webp 880w
+            "
+            sizes="(min-width: 48rem) 16vw, 30vw"
+            alt=""
+            width="880"
+            height="1164"
+            fetchpriority="high"
+            decoding="async"
+          />
+          <img
+            src="/images/archive/invitation-ss24.jpg"
+            srcset="
+              /images/responsive/archive/invitation-ss24-160.webp   160w,
+              /images/responsive/archive/invitation-ss24-320.webp   320w,
+              /images/responsive/archive/invitation-ss24-480.webp   480w,
+              /images/responsive/archive/invitation-ss24-640.webp   640w,
+              /images/responsive/archive/invitation-ss24-768.webp   768w,
+              /images/responsive/archive/invitation-ss24-960.webp   960w,
+              /images/responsive/archive/invitation-ss24-1056.webp 1056w
+            "
+            sizes="(min-width: 48rem) 16vw, 30vw"
+            alt=""
+            width="1056"
+            height="1358"
+            decoding="async"
+          />
+          <img
+            src="/images/archive/campaign-bomber.jpg"
+            srcset="
+              /images/responsive/archive/campaign-bomber-160.webp 160w,
+              /images/responsive/archive/campaign-bomber-320.webp 320w,
+              /images/responsive/archive/campaign-bomber-480.webp 480w,
+              /images/responsive/archive/campaign-bomber-640.webp 640w,
+              /images/responsive/archive/campaign-bomber-768.webp 768w,
+              /images/responsive/archive/campaign-bomber-854.webp 854w
+            "
+            sizes="(min-width: 48rem) 16vw, 30vw"
+            alt=""
+            width="854"
+            height="1128"
+            decoding="async"
+          />
+        </div>
+
+        <p class="note hero__note">Make it look finished, then disturb it.</p>
 
         <!-- Inert until cursor-trail.js clones from it, so none of these load
              for a reader who never moves a pointer across the opening. -->
@@ -286,17 +294,15 @@
         </template>
       </section>
 
-      <section class="chapter" data-theme="dark">
+      <!-- The house lights go down here: the foot of this section shades to
+           the spotlight's black, and spotlight.js dims the rest as it leaves. -->
+      <section class="chapter lede" data-lights-down>
         <h2 class="visually-hidden">Introduction</h2>
 
         <div class="chapter__body chapter__body--standalone chapter__body--lede" data-reveal>
           <p>
             Marina Yee’s place within the
-            <!-- The words stay in the accessibility tree; only their painted
-                 position changes. -->
-            <span class="scatter" data-scatter>
-              <strong>Antwerp Six</strong>
-            </span>
+            <strong>Antwerp Six</strong>
             is usually the first fact attached to her name. It is important history, but it does not
             explain
             <mark data-highlight>the way she approached design.</mark>
@@ -305,9 +311,9 @@
       </section>
 
       <!-- Without script: the line, with her practice set out around it.
-           spotlight.js darkens the room, lights a label at its centre, and
-           pulls back from it as the reader scrolls. -->
-      <section class="statement statement--spotlight" data-spotlight>
+           spotlight.js lights a label at its centre and pulls back from it
+           as the reader scrolls. -->
+      <section class="statement statement--spotlight" data-spotlight data-theme="dark">
         <p class="statement__text">
           <span class="spotlight__clause">Move away from the spotlight,</span>
           <span class="spotlight__clause" data-spotlight-rest>
@@ -318,17 +324,20 @@
         <div class="spotlight__practice" aria-hidden="true">
           <div class="spotlight__piece spotlight__piece--studio" data-poke-item>
             <img
-              src="/images/atelier.jpg"
+              src="/images/archive/studio-yee.jpg"
               srcset="
-                /images/responsive/atelier-160.webp 160w,
-                /images/responsive/atelier-320.webp 320w,
-                /images/responsive/atelier-480.webp 480w,
-                /images/responsive/atelier-640.webp 640w
+                /images/responsive/archive/studio-yee-160.webp   160w,
+                /images/responsive/archive/studio-yee-320.webp   320w,
+                /images/responsive/archive/studio-yee-480.webp   480w,
+                /images/responsive/archive/studio-yee-640.webp   640w,
+                /images/responsive/archive/studio-yee-768.webp   768w,
+                /images/responsive/archive/studio-yee-960.webp   960w,
+                /images/responsive/archive/studio-yee-1000.webp 1000w
               "
               sizes="(min-width: 48rem) 17vw, 34vw"
               alt=""
-              width="640"
-              height="587"
+              width="1000"
+              height="917"
               loading="lazy"
               decoding="async"
             />
@@ -351,66 +360,61 @@
               decoding="async"
             />
           </div>
-          <div class="spotlight__piece spotlight__piece--fold" data-poke-item>
+          <div class="spotlight__piece spotlight__piece--jacket" data-poke-item>
             <img
-              src="/images/objects/cloth-folded.png"
+              src="/images/archive/jacket-assembled.jpg"
               srcset="
-                /images/responsive/objects/cloth-folded-160.webp 160w,
-                /images/responsive/objects/cloth-folded-320.webp 320w,
-                /images/responsive/objects/cloth-folded-398.webp 398w
+                /images/responsive/archive/jacket-assembled-160.webp 160w,
+                /images/responsive/archive/jacket-assembled-320.webp 320w,
+                /images/responsive/archive/jacket-assembled-480.webp 480w,
+                /images/responsive/archive/jacket-assembled-640.webp 640w,
+                /images/responsive/archive/jacket-assembled-768.webp 768w,
+                /images/responsive/archive/jacket-assembled-800.webp 800w
               "
-              sizes="(min-width: 48rem) 7vw, 14vw"
+              sizes="(min-width: 48rem) 13vw, 30vw"
               alt=""
-              width="398"
-              height="702"
+              width="800"
+              height="1200"
               loading="lazy"
               decoding="async"
             />
           </div>
-          <div class="spotlight__piece spotlight__piece--tape" data-poke-item>
+          <div class="spotlight__piece spotlight__piece--bomber" data-poke-item>
             <img
-              src="/images/objects/measuring-tape.png"
+              src="/images/archive/dunaway-bomber.jpg"
               srcset="
-                /images/responsive/objects/measuring-tape-160.webp 160w,
-                /images/responsive/objects/measuring-tape-320.webp 320w,
-                /images/responsive/objects/measuring-tape-480.webp 480w,
-                /images/responsive/objects/measuring-tape-535.webp 535w
+                /images/responsive/archive/dunaway-bomber-160.webp   160w,
+                /images/responsive/archive/dunaway-bomber-320.webp   320w,
+                /images/responsive/archive/dunaway-bomber-480.webp   480w,
+                /images/responsive/archive/dunaway-bomber-640.webp   640w,
+                /images/responsive/archive/dunaway-bomber-768.webp   768w,
+                /images/responsive/archive/dunaway-bomber-960.webp   960w,
+                /images/responsive/archive/dunaway-bomber-1280.webp 1280w
               "
-              sizes="(min-width: 48rem) 15vw, 32vw"
+              sizes="(min-width: 48rem) 15vw, 34vw"
               alt=""
-              width="535"
-              height="422"
+              width="1368"
+              height="1310"
               loading="lazy"
               decoding="async"
             />
           </div>
-          <div class="spotlight__piece spotlight__piece--needle" data-poke-item>
+          <div class="spotlight__piece spotlight__piece--drawing" data-poke-item>
             <img
-              src="/images/objects/needle-thread.png"
+              src="/images/archive/drawing-lena-lena.jpg"
               srcset="
-                /images/responsive/objects/needle-thread-160.webp 160w,
-                /images/responsive/objects/needle-thread-320.webp 320w,
-                /images/responsive/objects/needle-thread-425.webp 425w
+                /images/responsive/archive/drawing-lena-lena-160.webp   160w,
+                /images/responsive/archive/drawing-lena-lena-320.webp   320w,
+                /images/responsive/archive/drawing-lena-lena-480.webp   480w,
+                /images/responsive/archive/drawing-lena-lena-640.webp   640w,
+                /images/responsive/archive/drawing-lena-lena-768.webp   768w,
+                /images/responsive/archive/drawing-lena-lena-960.webp   960w,
+                /images/responsive/archive/drawing-lena-lena-1000.webp 1000w
               "
-              sizes="(min-width: 48rem) 15vw, 32vw"
+              sizes="(min-width: 48rem) 11vw, 22vw"
               alt=""
-              width="425"
-              height="242"
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-          <div class="spotlight__piece spotlight__piece--swatch" data-poke-item>
-            <img
-              src="/images/objects/cloth-swatch.png"
-              srcset="
-                /images/responsive/objects/cloth-swatch-160.webp 160w,
-                /images/responsive/objects/cloth-swatch-265.webp 265w
-              "
-              sizes="(min-width: 48rem) 6vw, 14vw"
-              alt=""
-              width="265"
-              height="420"
+              width="1000"
+              height="1310"
               loading="lazy"
               decoding="async"
             />
@@ -418,23 +422,28 @@
         </div>
       </section>
 
-      <section class="chapter text-reveal" data-text-reveal>
-        <h2 class="visually-hidden">Working from existing garments</h2>
-
+      <section class="chapter text-reveal" data-text-reveal data-theme="dark">
         <div class="text-reveal__pin">
           <div class="text-reveal__stage">
+            <h2 class="text-reveal__label">Working from existing garments</h2>
+
             <figure class="text-reveal__fig">
               <figcaption class="text-reveal__fig-label">Fig. 01</figcaption>
               <img
-                src="/images/studio.jpg"
+                src="/images/archive/studio-yee.jpg"
                 srcset="
-                  /images/responsive/studio-160.webp 160w,
-                  /images/responsive/studio-320.webp 320w
+                  /images/responsive/archive/studio-yee-160.webp   160w,
+                  /images/responsive/archive/studio-yee-320.webp   320w,
+                  /images/responsive/archive/studio-yee-480.webp   480w,
+                  /images/responsive/archive/studio-yee-640.webp   640w,
+                  /images/responsive/archive/studio-yee-768.webp   768w,
+                  /images/responsive/archive/studio-yee-960.webp   960w,
+                  /images/responsive/archive/studio-yee-1000.webp 1000w
                 "
-                sizes="(min-width: 48rem) 8rem, 6rem"
-                alt="A corner of Marina Yee's studio: pinned collages, a wire hanger with a handwritten tag, dried branches."
-                width="320"
-                height="400"
+                sizes="(min-width: 48rem) 22vw, 60vw"
+                alt="Marina Yee’s studio: a coat on a dress form by the window, a worktable covered in papers, pinned images on the wall."
+                width="1000"
+                height="917"
                 loading="lazy"
                 decoding="async"
               />
@@ -447,6 +456,45 @@
             </p>
           </div>
         </div>
+      </section>
+
+      <!-- A film published by the gallery that showed her work in 2026,
+           starting just before she talks about second-hand. Without
+           JavaScript the poster is a link to it on YouTube; film.js swaps
+           in the player only when asked, so nothing loads from YouTube
+           before then. -->
+      <section class="film" data-theme="dark" aria-labelledby="film-title">
+        <p class="film__label">Fig. 02 — Film</p>
+        <h2 class="film__title" id="film-title" data-reveal>In her own words</h2>
+
+        <figure class="film__figure" data-reveal>
+          <p class="note film__note" aria-hidden="true">she loves second-hand</p>
+          <a
+            class="film__poster"
+            href="https://www.youtube.com/watch?v=2c9KXTkem5w&amp;t=789s"
+            data-film="2c9KXTkem5w"
+            data-film-start="789"
+            data-film-title="Marina Yee — Damaged Goods, published by Gallery Sofie Van de Velde"
+          >
+            <img
+              src="https://i.ytimg.com/vi/2c9KXTkem5w/maxresdefault.jpg"
+              alt=""
+              width="1280"
+              height="720"
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="film__play">
+              Play
+              <span class="visually-hidden">the film</span>
+              <span class="film__time">from 13:09</span>
+            </span>
+          </a>
+          <figcaption class="film__caption">
+            “Marina Yee — Damaged Goods”, published by Gallery Sofie Van de Velde with her
+            exhibition there, 28 March – 10 May 2026. In Dutch, with English subtitles.
+          </figcaption>
+        </figure>
       </section>
 
       <section class="picker" id="picker">
@@ -466,7 +514,7 @@
               of previous use.
             </p>
             <p class="picker__cue">
-              Choose a garment to look closer.
+              Choose a look to see it closer.
               <img
                 class="scribble scribble--cue"
                 src="/images/objects/arrow-scribble.png"
@@ -487,198 +535,414 @@
           </div>
         </div>
 
-        <fieldset class="picker__choices" data-picker>
-          <legend class="visually-hidden">Choose a garment</legend>
+        <!-- The four looks as an index, each name a radio label, so picker.js
+             still only has to read which one is checked. -->
+        <fieldset class="picker__choices looks" data-picker>
+          <legend class="visually-hidden">Choose a look</legend>
 
-          <label class="picker__choice">
+          <label class="looks__item">
             <input type="radio" name="garment" value="menswear" checked />
-            <span class="picker__label" data-magnetic>Vintage menswear</span>
+            <span class="looks__no" aria-hidden="true">01</span>
+            <span class="looks__name">Vintage menswear</span>
           </label>
 
-          <label class="picker__choice">
+          <label class="looks__item">
             <input type="radio" name="garment" value="military" />
-            <span class="picker__label" data-magnetic>Military</span>
+            <span class="looks__no" aria-hidden="true">02</span>
+            <span class="looks__name">Military</span>
           </label>
 
-          <label class="picker__choice">
+          <label class="looks__item">
             <input type="radio" name="garment" value="workwear" />
-            <span class="picker__label" data-magnetic>Workwear</span>
+            <span class="looks__no" aria-hidden="true">03</span>
+            <span class="looks__name">Workwear</span>
           </label>
 
-          <label class="picker__choice">
+          <label class="looks__item">
             <input type="radio" name="garment" value="denim" />
-            <span class="picker__label" data-magnetic>Second-hand denim</span>
+            <span class="looks__no" aria-hidden="true">04</span>
+            <span class="looks__name">Second-hand denim</span>
           </label>
         </fieldset>
 
         <div class="picker__panels" aria-live="polite">
           <article class="picker__panel" data-panel="menswear">
-            <h3>Vintage menswear</h3>
-            <p>
-              Tailored menswear came with an established structure: lapels, collars, pockets,
-              linings and carefully constructed shoulders. Reconstruction meant working within — or
-              against — decisions that had already been made.
-            </p>
+            <figure class="picker__look">
+              <img
+                class="picker__figure"
+                src="/images/looks/parker-bis-coat.png"
+                srcset="
+                  /images/responsive/looks/parker-bis-coat-160.webp 160w,
+                  /images/responsive/looks/parker-bis-coat-320.webp 320w,
+                  /images/responsive/looks/parker-bis-coat-480.webp 480w,
+                  /images/responsive/looks/parker-bis-coat-640.webp 640w,
+                  /images/responsive/looks/parker-bis-coat-768.webp 768w,
+                  /images/responsive/looks/parker-bis-coat-876.webp 876w
+                "
+                sizes="(min-width: 64rem) 20vw, 50vw"
+                alt="The Parker Bis Coat worn long and collarless: black wool, an olive lapel folded across the front, over jeans with deep turn-ups."
+                width="876"
+                height="1600"
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption class="note picker__credit">Parker Bis Coat, M.Y.</figcaption>
+            </figure>
+
+            <div class="picker__copy">
+              <h3>Vintage menswear</h3>
+              <p>
+                Tailored menswear came with an established structure: lapels, collars, pockets,
+                linings and carefully constructed shoulders. Reconstruction meant working within —
+                or against — decisions that had already been made.
+              </p>
+              <ul class="picker__details" role="list">
+                <li class="frame">
+                  <img
+                    class="frame__image"
+                    src="/images/archive/detail-coat-lapel.jpg"
+                    srcset="
+                      /images/responsive/archive/detail-coat-lapel-160.webp 160w,
+                      /images/responsive/archive/detail-coat-lapel-320.webp 320w,
+                      /images/responsive/archive/detail-coat-lapel-480.webp 480w,
+                      /images/responsive/archive/detail-coat-lapel-640.webp 640w,
+                      /images/responsive/archive/detail-coat-lapel-768.webp 768w,
+                      /images/responsive/archive/detail-coat-lapel-854.webp 854w
+                    "
+                    sizes="(min-width: 64rem) 12vw, 30vw"
+                    alt="The front of the Parker Bis Coat: black wool, an olive lapel folded across it, two buttons at the waist."
+                    width="854"
+                    height="1280"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </li>
+                <li class="frame">
+                  <img
+                    class="frame__image"
+                    src="/images/archive/detail-coat-lining.jpg"
+                    srcset="
+                      /images/responsive/archive/detail-coat-lining-160.webp 160w,
+                      /images/responsive/archive/detail-coat-lining-320.webp 320w,
+                      /images/responsive/archive/detail-coat-lining-480.webp 480w,
+                      /images/responsive/archive/detail-coat-lining-640.webp 640w,
+                      /images/responsive/archive/detail-coat-lining-768.webp 768w,
+                      /images/responsive/archive/detail-coat-lining-854.webp 854w
+                    "
+                    sizes="(min-width: 64rem) 12vw, 30vw"
+                    alt="The coat held open on its olive inner front, a column of buttons and a black lining."
+                    width="854"
+                    height="1280"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </li>
+                <li class="frame">
+                  <img
+                    class="frame__image"
+                    src="/images/archive/detail-coat-facing.jpg"
+                    srcset="
+                      /images/responsive/archive/detail-coat-facing-160.webp 160w,
+                      /images/responsive/archive/detail-coat-facing-320.webp 320w,
+                      /images/responsive/archive/detail-coat-facing-480.webp 480w,
+                      /images/responsive/archive/detail-coat-facing-640.webp 640w,
+                      /images/responsive/archive/detail-coat-facing-768.webp 768w,
+                      /images/responsive/archive/detail-coat-facing-854.webp 854w
+                    "
+                    sizes="(min-width: 64rem) 12vw, 30vw"
+                    alt="The olive facing laid back over the black front, its buttonhole at the point."
+                    width="854"
+                    height="1280"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </li>
+              </ul>
+            </div>
           </article>
 
           <article class="picker__panel" data-panel="military">
-            <h3>Military garments</h3>
-            <p>
-              Military clothing was designed around function. Pockets had a purpose, seams were
-              reinforced where necessary, and construction followed the demands of use. Those
-              functional details remained part of the garment even when its original purpose
-              changed.
-            </p>
+            <figure class="picker__look">
+              <img
+                class="picker__figure"
+                src="/images/looks/parka.png"
+                srcset="
+                  /images/responsive/looks/parka-160.webp 160w,
+                  /images/responsive/looks/parka-320.webp 320w,
+                  /images/responsive/looks/parka-480.webp 480w,
+                  /images/responsive/looks/parka-640.webp 640w,
+                  /images/responsive/looks/parka-768.webp 768w,
+                  /images/responsive/looks/parka-815.webp 815w
+                "
+                sizes="(min-width: 64rem) 20vw, 50vw"
+                alt="Parka 20 worn with the hood up: long olive cotton, drawcords at the collar, over black trousers turned up at the hem."
+                width="815"
+                height="1600"
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption class="note picker__credit">Parka 20, M.Y.</figcaption>
+            </figure>
+
+            <div class="picker__copy">
+              <h3>Military garments</h3>
+              <p>
+                Military clothing was designed around function. Pockets had a purpose, seams were
+                reinforced where necessary, and construction followed the demands of use. Those
+                functional details remained part of the garment even when its original purpose
+                changed.
+              </p>
+              <ul class="picker__details" role="list">
+                <li class="frame">
+                  <img
+                    class="frame__image"
+                    src="/images/archive/detail-parka-hood.jpg"
+                    srcset="
+                      /images/responsive/archive/detail-parka-hood-160.webp 160w,
+                      /images/responsive/archive/detail-parka-hood-320.webp 320w,
+                      /images/responsive/archive/detail-parka-hood-480.webp 480w,
+                      /images/responsive/archive/detail-parka-hood-640.webp 640w,
+                      /images/responsive/archive/detail-parka-hood-768.webp 768w,
+                      /images/responsive/archive/detail-parka-hood-854.webp 854w
+                    "
+                    sizes="(min-width: 64rem) 12vw, 30vw"
+                    alt="The parka’s hood in profile, in olive cotton."
+                    width="854"
+                    height="1280"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </li>
+                <li class="frame">
+                  <img
+                    class="frame__image"
+                    src="/images/archive/detail-parka-hem.jpg"
+                    srcset="
+                      /images/responsive/archive/detail-parka-hem-160.webp 160w,
+                      /images/responsive/archive/detail-parka-hem-320.webp 320w,
+                      /images/responsive/archive/detail-parka-hem-480.webp 480w,
+                      /images/responsive/archive/detail-parka-hem-640.webp 640w,
+                      /images/responsive/archive/detail-parka-hem-768.webp 768w,
+                      /images/responsive/archive/detail-parka-hem-854.webp 854w
+                    "
+                    sizes="(min-width: 64rem) 12vw, 30vw"
+                    alt="The parka’s drawstring hem gathered at the hip."
+                    width="854"
+                    height="1280"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </li>
+                <li class="frame">
+                  <img
+                    class="frame__image"
+                    src="/images/archive/detail-parka-front.jpg"
+                    srcset="
+                      /images/responsive/archive/detail-parka-front-160.webp 160w,
+                      /images/responsive/archive/detail-parka-front-320.webp 320w,
+                      /images/responsive/archive/detail-parka-front-480.webp 480w,
+                      /images/responsive/archive/detail-parka-front-640.webp 640w,
+                      /images/responsive/archive/detail-parka-front-768.webp 768w,
+                      /images/responsive/archive/detail-parka-front-854.webp 854w
+                    "
+                    sizes="(min-width: 64rem) 12vw, 30vw"
+                    alt="The parka’s front: a long zip, press studs and black drawcords at the collar."
+                    width="854"
+                    height="1280"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </li>
+              </ul>
+            </div>
           </article>
 
           <article class="picker__panel" data-panel="workwear">
-            <h3>Workwear</h3>
-            <p>
-              Workwear could carry its history on its surface. Fading, reinforced seams,
-              topstitching, repairs and areas of wear recorded how a garment had been made and used.
-            </p>
+            <figure class="picker__look">
+              <img
+                class="picker__figure"
+                src="/images/looks/wide-leg-jeans.png"
+                srcset="
+                  /images/responsive/looks/wide-leg-jeans-160.webp 160w,
+                  /images/responsive/looks/wide-leg-jeans-320.webp 320w,
+                  /images/responsive/looks/wide-leg-jeans-480.webp 480w,
+                  /images/responsive/looks/wide-leg-jeans-640.webp 640w,
+                  /images/responsive/looks/wide-leg-jeans-768.webp 768w,
+                  /images/responsive/looks/wide-leg-jeans-869.webp 869w
+                "
+                sizes="(min-width: 64rem) 20vw, 50vw"
+                alt="The Wide-Leg Jeans in black, frayed turn-ups at the hem and a patterned silk scarf knotted through the belt."
+                width="869"
+                height="1600"
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption class="note picker__credit">Wide-Leg Jeans, M.Y.</figcaption>
+            </figure>
+
+            <div class="picker__copy">
+              <h3>Workwear</h3>
+              <p>
+                Workwear could carry its history on its surface. Fading, reinforced seams,
+                topstitching, repairs and areas of wear recorded how a garment had been made and
+                used.
+              </p>
+              <ul class="picker__details" role="list">
+                <li class="frame">
+                  <img
+                    class="frame__image"
+                    src="/images/archive/detail-jeans-back.jpg"
+                    srcset="
+                      /images/responsive/archive/detail-jeans-back-160.webp 160w,
+                      /images/responsive/archive/detail-jeans-back-320.webp 320w,
+                      /images/responsive/archive/detail-jeans-back-480.webp 480w,
+                      /images/responsive/archive/detail-jeans-back-640.webp 640w,
+                      /images/responsive/archive/detail-jeans-back-768.webp 768w,
+                      /images/responsive/archive/detail-jeans-back-854.webp 854w
+                    "
+                    sizes="(min-width: 64rem) 12vw, 30vw"
+                    alt="The wide-leg jeans from the front, the hems turned up into deep, frayed cuffs."
+                    width="854"
+                    height="1280"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </li>
+                <li class="frame">
+                  <img
+                    class="frame__image"
+                    src="/images/archive/detail-jeans-side.jpg"
+                    srcset="
+                      /images/responsive/archive/detail-jeans-side-160.webp 160w,
+                      /images/responsive/archive/detail-jeans-side-320.webp 320w,
+                      /images/responsive/archive/detail-jeans-side-480.webp 480w,
+                      /images/responsive/archive/detail-jeans-side-640.webp 640w,
+                      /images/responsive/archive/detail-jeans-side-768.webp 768w,
+                      /images/responsive/archive/detail-jeans-side-854.webp 854w
+                    "
+                    sizes="(min-width: 64rem) 12vw, 30vw"
+                    alt="The jeans from behind, long straps hanging from the waistband."
+                    width="854"
+                    height="1280"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </li>
+                <li class="frame">
+                  <img
+                    class="frame__image"
+                    src="/images/archive/detail-jeans-pocket.jpg"
+                    srcset="
+                      /images/responsive/archive/detail-jeans-pocket-160.webp 160w,
+                      /images/responsive/archive/detail-jeans-pocket-320.webp 320w,
+                      /images/responsive/archive/detail-jeans-pocket-480.webp 480w,
+                      /images/responsive/archive/detail-jeans-pocket-640.webp 640w,
+                      /images/responsive/archive/detail-jeans-pocket-768.webp 768w,
+                      /images/responsive/archive/detail-jeans-pocket-854.webp 854w
+                    "
+                    sizes="(min-width: 64rem) 12vw, 30vw"
+                    alt="Close on the back: belt loops and straps over the pocket."
+                    width="854"
+                    height="1280"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </li>
+              </ul>
+            </div>
           </article>
 
           <article class="picker__panel" data-panel="denim">
-            <h3>Second-hand denim</h3>
-            <p>
-              Denim makes wear particularly visible. Colour fades unevenly, creases settle into the
-              fabric and repeated use leaves marks specific to the person who wore it.
-            </p>
-            <p>
-              In Marie, Yee cut old jeans into patchwork and incorporated the pieces by hand into
-              bomber jackets. Rather than disguising the fact that the denim had been used before,
-              its different washes and traces of wear remained visible.
-            </p>
+            <figure class="picker__look picker__look--print">
+              <svg class="clip picker__clip" aria-hidden="true"><use href="#clip" /></svg>
+              <img
+                class="picker__figure"
+                src="/images/denim-jacket.jpg"
+                srcset="
+                  /images/responsive/denim-jacket-160.webp 160w,
+                  /images/responsive/denim-jacket-320.webp 320w,
+                  /images/responsive/denim-jacket-480.webp 480w,
+                  /images/responsive/denim-jacket-640.webp 640w
+                "
+                sizes="(min-width: 64rem) 20vw, 50vw"
+                alt="A pale, oversized denim jacket on a mannequin, the cuffs turned back and threads hanging loose down the front."
+                width="640"
+                height="960"
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption class="note picker__credit">Denim jacket, from the archive</figcaption>
+            </figure>
+
+            <div class="picker__copy">
+              <h3>Second-hand denim</h3>
+              <p>
+                Denim makes wear particularly visible. Colour fades unevenly, creases settle into
+                the fabric and repeated use leaves marks specific to the person who wore it.
+              </p>
+              <p>
+                In Marie, Yee cut old jeans into patchwork and incorporated the pieces by hand into
+                bomber jackets. Rather than disguising the fact that the denim had been used before,
+                its different washes and traces of wear remained visible.
+              </p>
+              <ul class="picker__details" role="list">
+                <li class="frame" style="--crop: 88% 78%">
+                  <img
+                    class="frame__image"
+                    src="/images/denim-jacket.jpg"
+                    srcset="
+                      /images/responsive/denim-jacket-160.webp 160w,
+                      /images/responsive/denim-jacket-320.webp 320w,
+                      /images/responsive/denim-jacket-480.webp 480w,
+                      /images/responsive/denim-jacket-640.webp 640w
+                    "
+                    sizes="(min-width: 64rem) 12vw, 30vw"
+                    alt="Close on the denim jacket: a cuff turned back to show the paler inside."
+                    width="640"
+                    height="960"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </li>
+                <li class="frame" style="--crop: 38% 55%">
+                  <img
+                    class="frame__image"
+                    src="/images/denim-jacket.jpg"
+                    srcset="
+                      /images/responsive/denim-jacket-160.webp 160w,
+                      /images/responsive/denim-jacket-320.webp 320w,
+                      /images/responsive/denim-jacket-480.webp 480w,
+                      /images/responsive/denim-jacket-640.webp 640w
+                    "
+                    sizes="(min-width: 64rem) 12vw, 30vw"
+                    alt="Close on the front: threads left hanging where the denim has worn through."
+                    width="640"
+                    height="960"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </li>
+                <li class="frame" style="--crop: 50% 14%">
+                  <img
+                    class="frame__image"
+                    src="/images/denim-jacket.jpg"
+                    srcset="
+                      /images/responsive/denim-jacket-160.webp 160w,
+                      /images/responsive/denim-jacket-320.webp 320w,
+                      /images/responsive/denim-jacket-480.webp 480w,
+                      /images/responsive/denim-jacket-640.webp 640w
+                    "
+                    sizes="(min-width: 64rem) 12vw, 30vw"
+                    alt="Close on the collar and the top button."
+                    width="640"
+                    height="960"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </li>
+              </ul>
+            </div>
           </article>
-        </div>
-
-        <!-- Each piece is a wrapper holding the resting position, angle and
-             drift; the image inside is left free for poke.js. -->
-        <div class="picker__stage" data-picker-stage aria-hidden="true">
-          <div class="picker__stage-item" data-stage-img="menswear" data-poke-item>
-            <img
-              src="/images/trench.jpg"
-              srcset="
-                /images/responsive/trench-160.webp 160w,
-                /images/responsive/trench-320.webp 320w,
-                /images/responsive/trench-480.webp 480w,
-                /images/responsive/trench-640.webp 640w
-              "
-              sizes="(min-width: 64rem) 22vw, 50vw"
-              alt=""
-              width="640"
-              height="426"
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-
-          <div class="picker__stage-item" data-stage-img="military" data-poke-item>
-            <img
-              src="/images/bomber.jpg"
-              srcset="
-                /images/responsive/bomber-160.webp 160w,
-                /images/responsive/bomber-320.webp 320w,
-                /images/responsive/bomber-480.webp 480w,
-                /images/responsive/bomber-640.webp 640w
-              "
-              sizes="(min-width: 64rem) 20vw, 45vw"
-              alt=""
-              width="640"
-              height="1216"
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-
-          <div class="picker__stage-item" data-stage-img="workwear" data-poke-item>
-            <img
-              src="/images/atelier.jpg"
-              srcset="
-                /images/responsive/atelier-160.webp 160w,
-                /images/responsive/atelier-320.webp 320w,
-                /images/responsive/atelier-480.webp 480w,
-                /images/responsive/atelier-640.webp 640w
-              "
-              sizes="(min-width: 64rem) 17vw, 38vw"
-              alt=""
-              width="640"
-              height="587"
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-
-          <div class="picker__stage-item" data-stage-img="denim" data-poke-item>
-            <img
-              src="/images/denim-jacket.jpg"
-              srcset="
-                /images/responsive/denim-jacket-160.webp 160w,
-                /images/responsive/denim-jacket-320.webp 320w,
-                /images/responsive/denim-jacket-480.webp 480w,
-                /images/responsive/denim-jacket-640.webp 640w
-              "
-              sizes="(min-width: 64rem) 19vw, 43vw"
-              alt=""
-              width="640"
-              height="960"
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-
-          <div class="picker__stage-item picker__stage-item--cloth-a" data-poke-item>
-            <img
-              src="/images/objects/cloth-drape.png"
-              srcset="
-                /images/responsive/objects/cloth-drape-160.webp 160w,
-                /images/responsive/objects/cloth-drape-320.webp 320w,
-                /images/responsive/objects/cloth-drape-480.webp 480w,
-                /images/responsive/objects/cloth-drape-620.webp 620w
-              "
-              sizes="(min-width: 64rem) 10vw, 21vw"
-              alt=""
-              width="398"
-              height="702"
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-
-          <div class="picker__stage-item picker__stage-item--cloth-b" data-poke-item>
-            <img
-              src="/images/objects/cloth-stack.png"
-              srcset="
-                /images/responsive/objects/cloth-stack-160.webp 160w,
-                /images/responsive/objects/cloth-stack-320.webp 320w,
-                /images/responsive/objects/cloth-stack-380.webp 380w
-              "
-              sizes="(min-width: 64rem) 8vw, 16vw"
-              alt=""
-              width="380"
-              height="710"
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-
-          <div class="picker__stage-item picker__stage-item--hanger" data-poke-item>
-            <img
-              src="/images/objects/hanger-objects.png"
-              srcset="
-                /images/responsive/objects/hanger-objects-160.webp 160w,
-                /images/responsive/objects/hanger-objects-320.webp 320w,
-                /images/responsive/objects/hanger-objects-371.webp 371w
-              "
-              sizes="(min-width: 64rem) 7vw, 14vw"
-              alt=""
-              width="371"
-              height="539"
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
         </div>
       </section>
 
@@ -773,7 +1037,73 @@
 
         <div class="my-project-depth" data-my-project-depth>
           <div class="my-project-depth__stage" data-my-project-depth-stage>
-            <figure class="my-project-depth__item">
+            <figure class="my-project-depth__item my-project-depth__item--preview">
+              <img
+                src="/images/archive/my-preview.jpg"
+                srcset="
+                  /images/responsive/archive/my-preview-160.webp   160w,
+                  /images/responsive/archive/my-preview-320.webp   320w,
+                  /images/responsive/archive/my-preview-480.webp   480w,
+                  /images/responsive/archive/my-preview-640.webp   640w,
+                  /images/responsive/archive/my-preview-768.webp   768w,
+                  /images/responsive/archive/my-preview-960.webp   960w,
+                  /images/responsive/archive/my-preview-1092.webp 1092w
+                "
+                sizes="(min-width: 48rem) 54vh, 44vw"
+                alt="A white lapel against black fabric painted over in broad strokes, a row of dark stitches down its edge."
+                width="1092"
+                height="1354"
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption>Preview, M.Y.</figcaption>
+            </figure>
+
+            <figure class="my-project-depth__item my-project-depth__item--tweed">
+              <img
+                src="/images/archive/tweed-jacket.jpg"
+                srcset="
+                  /images/responsive/archive/tweed-jacket-160.webp   160w,
+                  /images/responsive/archive/tweed-jacket-320.webp   320w,
+                  /images/responsive/archive/tweed-jacket-480.webp   480w,
+                  /images/responsive/archive/tweed-jacket-640.webp   640w,
+                  /images/responsive/archive/tweed-jacket-768.webp   768w,
+                  /images/responsive/archive/tweed-jacket-960.webp   960w,
+                  /images/responsive/archive/tweed-jacket-1108.webp 1108w
+                "
+                sizes="(min-width: 48rem) 54vh, 44vw"
+                alt="A flecked tweed jacket cinched with a narrow woven belt in red and blue."
+                width="1108"
+                height="1412"
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption>Tweed jacket, M.Y.</figcaption>
+            </figure>
+
+            <figure class="my-project-depth__item my-project-depth__item--tailored">
+              <img
+                src="/images/archive/classic-tailored-jacket.jpg"
+                srcset="
+                  /images/responsive/archive/classic-tailored-jacket-160.webp   160w,
+                  /images/responsive/archive/classic-tailored-jacket-320.webp   320w,
+                  /images/responsive/archive/classic-tailored-jacket-480.webp   480w,
+                  /images/responsive/archive/classic-tailored-jacket-640.webp   640w,
+                  /images/responsive/archive/classic-tailored-jacket-768.webp   768w,
+                  /images/responsive/archive/classic-tailored-jacket-960.webp   960w,
+                  /images/responsive/archive/classic-tailored-jacket-1100.webp 1100w
+                "
+                sizes="(min-width: 48rem) 54vh, 44vw"
+                alt="A black tailored jacket on a dress form, a printed scarf tucked in at the neck."
+                width="1100"
+                height="1308"
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption>Classic tailored jacket, M.Y.</figcaption>
+            </figure>
+
+            <figure class="my-project-depth__item my-project-depth__item--checked">
               <img
                 src="/images/My_jacket.jpg"
                 srcset="
@@ -785,7 +1115,7 @@
                   /images/responsive/My_jacket-960.webp   960w,
                   /images/responsive/My_jacket-1080.webp 1080w
                 "
-                sizes="(min-width: 48rem) min(45vw, 38rem), 90vw"
+                sizes="(min-width: 48rem) 54vh, 44vw"
                 alt="A checked wool jacket worn open over a bodice pieced together from raw-edged patches, joined with visible zigzag hand stitching."
                 width="1080"
                 height="1350"
@@ -795,7 +1125,51 @@
               <figcaption>Jacket, M.Y. Project 2018</figcaption>
             </figure>
 
-            <figure class="my-project-depth__item">
+            <figure class="my-project-depth__item my-project-depth__item--scarf">
+              <img
+                src="/images/archive/scarf-belt.jpg"
+                srcset="
+                  /images/responsive/archive/scarf-belt-160.webp   160w,
+                  /images/responsive/archive/scarf-belt-320.webp   320w,
+                  /images/responsive/archive/scarf-belt-480.webp   480w,
+                  /images/responsive/archive/scarf-belt-640.webp   640w,
+                  /images/responsive/archive/scarf-belt-768.webp   768w,
+                  /images/responsive/archive/scarf-belt-960.webp   960w,
+                  /images/responsive/archive/scarf-belt-1034.webp 1034w
+                "
+                sizes="(min-width: 48rem) 54vh, 44vw"
+                alt="A pinstriped coat tied at the waist with a patterned silk scarf in rust and blue."
+                width="1034"
+                height="1294"
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption>Limited edition scarf, M.Y.</figcaption>
+            </figure>
+
+            <figure class="my-project-depth__item my-project-depth__item--shirt">
+              <img
+                src="/images/archive/biba-shirt.jpg"
+                srcset="
+                  /images/responsive/archive/biba-shirt-160.webp 160w,
+                  /images/responsive/archive/biba-shirt-320.webp 320w,
+                  /images/responsive/archive/biba-shirt-480.webp 480w,
+                  /images/responsive/archive/biba-shirt-640.webp 640w,
+                  /images/responsive/archive/biba-shirt-768.webp 768w,
+                  /images/responsive/archive/biba-shirt-960.webp 960w,
+                  /images/responsive/archive/biba-shirt-990.webp 990w
+                "
+                sizes="(min-width: 48rem) 54vh, 44vw"
+                alt="A pale striped shirt, its sleeve rolled into a wide double cuff."
+                width="990"
+                height="1380"
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption>Biba shirt, M.Y.</figcaption>
+            </figure>
+
+            <figure class="my-project-depth__item my-project-depth__item--coats">
               <img
                 src="/images/MY_jackets.jpeg"
                 srcset="
@@ -803,7 +1177,7 @@
                   /images/responsive/MY_jackets-320.webp 320w,
                   /images/responsive/MY_jackets-387.webp 387w
                 "
-                sizes="(min-width: 48rem) min(45vw, 38rem), 90vw"
+                sizes="(min-width: 48rem) 54vh, 44vw"
                 alt="Two belted coats on mannequins; the left one carries pale patchwork panels stitched over dark wool."
                 width="387"
                 height="516"
@@ -813,93 +1187,56 @@
               <figcaption>Coats, M.Y. Project 2018</figcaption>
             </figure>
 
-            <figure class="my-project-depth__item">
-              <img
-                src="/images/My_pants.jpg"
-                srcset="
-                  /images/responsive/My_pants-160.webp   160w,
-                  /images/responsive/My_pants-320.webp   320w,
-                  /images/responsive/My_pants-480.webp   480w,
-                  /images/responsive/My_pants-640.webp   640w,
-                  /images/responsive/My_pants-768.webp   768w,
-                  /images/responsive/My_pants-960.webp   960w,
-                  /images/responsive/My_pants-1080.webp 1080w
-                "
-                sizes="(min-width: 48rem) min(45vw, 38rem), 90vw"
-                alt="Close-up of black tailoring: a raw-edged opening with painted, patched fabric showing through beneath."
-                width="1080"
-                height="1350"
-                loading="lazy"
-                decoding="async"
-              />
-              <figcaption>Trousers, M.Y. Project 2018</figcaption>
-            </figure>
-
-            <figure class="my-project-depth__item">
-              <img
-                src="/images/My_shirt.jpg"
-                srcset="
-                  /images/responsive/My_shirt-160.webp   160w,
-                  /images/responsive/My_shirt-320.webp   320w,
-                  /images/responsive/My_shirt-480.webp   480w,
-                  /images/responsive/My_shirt-640.webp   640w,
-                  /images/responsive/My_shirt-768.webp   768w,
-                  /images/responsive/My_shirt-960.webp   960w,
-                  /images/responsive/My_shirt-1280.webp 1280w
-                "
-                sizes="(min-width: 48rem) min(45vw, 38rem), 90vw"
-                alt="A cream cotton toile on a hanger, marked all over with drafting lines and construction points in ink."
-                width="1280"
-                height="960"
-                loading="lazy"
-                decoding="async"
-              />
-              <figcaption>Shirt, M.Y. Project 2018</figcaption>
-            </figure>
+            <!-- The sentence above, in the margin: the same words, so hidden from screen readers. -->
+            <p class="note my-project-depth__note" aria-hidden="true">keep what matters</p>
           </div>
         </div>
       </section>
 
       <section class="horizontal" data-horizontal data-theme="dark">
-        <h2 class="visually-hidden">Beyond sustainability</h2>
+        <h2 class="horizontal__label">Beyond sustainability</h2>
 
         <!-- Enhanced only: over a plain vertical read these would obscure it. -->
         <div class="horizontal__drift" aria-hidden="true">
           <img
             class="horizontal__drift-item horizontal__drift-item--collage"
-            src="/images/marina-yee-collage.png"
+            src="/images/archive/golden-spindle-silhouette.jpg"
             srcset="
-              /images/responsive/marina-yee-collage-160.webp 160w,
-              /images/responsive/marina-yee-collage-320.webp 320w,
-              /images/responsive/marina-yee-collage-480.webp 480w,
-              /images/responsive/marina-yee-collage-640.webp 640w,
-              /images/responsive/marina-yee-collage-768.webp 768w,
-              /images/responsive/marina-yee-collage-800.webp 800w
+              /images/responsive/archive/golden-spindle-silhouette-160.webp   160w,
+              /images/responsive/archive/golden-spindle-silhouette-320.webp   320w,
+              /images/responsive/archive/golden-spindle-silhouette-480.webp   480w,
+              /images/responsive/archive/golden-spindle-silhouette-640.webp   640w,
+              /images/responsive/archive/golden-spindle-silhouette-768.webp   768w,
+              /images/responsive/archive/golden-spindle-silhouette-960.webp   960w,
+              /images/responsive/archive/golden-spindle-silhouette-1000.webp 1000w
             "
-            sizes="(min-width: 48rem) min(46vw, 30rem), 62vw"
+            sizes="(min-width: 48rem) min(36vw, 26rem), 56vw"
             alt=""
-            width="800"
-            height="1053"
+            width="1000"
+            height="1527"
+            data-drift="1.2"
             loading="lazy"
             decoding="async"
-            data-drift="1.2"
           />
           <img
             class="horizontal__drift-item horizontal__drift-item--cloth"
-            src="/images/objects/cloth-drape.png"
+            src="/images/archive/laila-tokyo.jpg"
             srcset="
-              /images/responsive/objects/cloth-drape-160.webp 160w,
-              /images/responsive/objects/cloth-drape-320.webp 320w,
-              /images/responsive/objects/cloth-drape-480.webp 480w,
-              /images/responsive/objects/cloth-drape-620.webp 620w
+              /images/responsive/archive/laila-tokyo-160.webp   160w,
+              /images/responsive/archive/laila-tokyo-320.webp   320w,
+              /images/responsive/archive/laila-tokyo-480.webp   480w,
+              /images/responsive/archive/laila-tokyo-640.webp   640w,
+              /images/responsive/archive/laila-tokyo-768.webp   768w,
+              /images/responsive/archive/laila-tokyo-960.webp   960w,
+              /images/responsive/archive/laila-tokyo-1000.webp 1000w
             "
-            sizes="(min-width: 48rem) min(34vw, 22rem), 46vw"
+            sizes="(min-width: 48rem) min(28vw, 20rem), 44vw"
             alt=""
-            width="620"
-            height="681"
+            width="1000"
+            height="1270"
+            data-drift="1.8"
             loading="lazy"
             decoding="async"
-            data-drift="1.8"
           />
         </div>
 
@@ -980,43 +1317,7 @@
           <span class="chapter__index" aria-hidden="true">(04)</span>
         </h2>
 
-        <div class="one-corner__objects" data-object-pop aria-hidden="true">
-          <div class="one-corner__object one-corner__object--tape" data-poke-item>
-            <img
-              src="/images/objects/measuring-tape.png"
-              srcset="
-                /images/responsive/objects/measuring-tape-160.webp 160w,
-                /images/responsive/objects/measuring-tape-320.webp 320w,
-                /images/responsive/objects/measuring-tape-480.webp 480w,
-                /images/responsive/objects/measuring-tape-535.webp 535w
-              "
-              sizes="(min-width: 64rem) clamp(8rem, 14vw, 14rem), 30vw"
-              alt=""
-              width="535"
-              height="422"
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-
-          <div class="one-corner__object one-corner__object--swatch" data-poke-item>
-            <img
-              src="/images/objects/cloth-swatch.png"
-              srcset="
-                /images/responsive/objects/cloth-swatch-160.webp 160w,
-                /images/responsive/objects/cloth-swatch-265.webp 265w
-              "
-              sizes="(min-width: 64rem) clamp(4.5rem, 7vw, 7.5rem), 16vw"
-              alt=""
-              width="265"
-              height="420"
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-        </div>
-
-        <div class="chapter__body" data-lines-rise>
+        <div class="chapter__body one-corner__body" data-lines-rise>
           <p>
             Yee used the Flemish expression “one corner off” when speaking about her creative
             process: the idea of making something appear complete, then deliberately disturbing it.
@@ -1045,6 +1346,9 @@
               Seen alongside her reconstructed garments, the expression became particularly useful.
               Yee could preserve much of an existing piece while changing a specific part of its
               construction, proportion or material.
+            </p>
+
+            <p class="corner-off__pull">
               <strong>
                 What already existed and what she introduced remained visible at the same time.
               </strong>
@@ -1065,13 +1369,13 @@
           <div
             class="sequence"
             data-sequence
-            data-theme="dark"
             tabindex="0"
             role="group"
-            aria-label="Details from reconstructed garments, scroll horizontally"
+            aria-label="Collages and invitations, scroll horizontally"
           >
             <div class="sequence__track" data-sequence-track>
               <figure class="figure">
+                <svg class="clip figure__clip" aria-hidden="true"><use href="#clip" /></svg>
                 <img
                   src="/images/workshop-collage.jpg"
                   srcset="
@@ -1092,6 +1396,7 @@
                 <figcaption>Marina Yee, workshop collage no. 5</figcaption>
               </figure>
               <figure class="figure">
+                <svg class="clip figure__clip" aria-hidden="true"><use href="#clip" /></svg>
                 <img
                   src="/images/invitation-spring.jpg"
                   srcset="
@@ -1112,6 +1417,7 @@
                 <figcaption>Show invitation, Paris, 30.9 – 3.10</figcaption>
               </figure>
               <figure class="figure">
+                <svg class="clip figure__clip" aria-hidden="true"><use href="#clip" /></svg>
                 <img
                   src="/images/invitation-autumn.jpg"
                   srcset="
@@ -1131,107 +1437,110 @@
                 />
                 <figcaption>M.Y. showroom invitation, Paris, autumn/winter 2025–26</figcaption>
               </figure>
+              <figure class="figure">
+                <svg class="clip figure__clip" aria-hidden="true"><use href="#clip" /></svg>
+                <img
+                  src="/images/archive/invitation-ss24.jpg"
+                  srcset="
+                    /images/responsive/archive/invitation-ss24-160.webp   160w,
+                    /images/responsive/archive/invitation-ss24-320.webp   320w,
+                    /images/responsive/archive/invitation-ss24-480.webp   480w,
+                    /images/responsive/archive/invitation-ss24-640.webp   640w,
+                    /images/responsive/archive/invitation-ss24-768.webp   768w,
+                    /images/responsive/archive/invitation-ss24-960.webp   960w,
+                    /images/responsive/archive/invitation-ss24-1056.webp 1056w
+                  "
+                  sizes="(min-width: 48rem) min(38vw, 26rem), min(75vw, 22rem)"
+                  alt="An invitation collaged from torn printed paper and strips of yellow tape, the words “How are we doing?” across it."
+                  width="1056"
+                  height="1358"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <figcaption>Invitation, Paris, spring/summer 2024</figcaption>
+              </figure>
+              <figure class="figure">
+                <svg class="clip figure__clip" aria-hidden="true"><use href="#clip" /></svg>
+                <img
+                  src="/images/archive/invitation-showroom.jpg"
+                  srcset="
+                    /images/responsive/archive/invitation-showroom-160.webp   160w,
+                    /images/responsive/archive/invitation-showroom-320.webp   320w,
+                    /images/responsive/archive/invitation-showroom-480.webp   480w,
+                    /images/responsive/archive/invitation-showroom-640.webp   640w,
+                    /images/responsive/archive/invitation-showroom-768.webp   768w,
+                    /images/responsive/archive/invitation-showroom-960.webp   960w,
+                    /images/responsive/archive/invitation-showroom-1040.webp 1040w
+                  "
+                  sizes="(min-width: 48rem) min(38vw, 26rem), min(75vw, 22rem)"
+                  alt="A showroom invitation collaged from photographs and paper, the dates written down one side by hand and signed at the foot."
+                  width="1040"
+                  height="1388"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <figcaption>M.Y. showroom invitation, Paris</figcaption>
+              </figure>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Without JavaScript this is a piece of cloth and a paragraph about
-           what Yee did to one. doodle.js inserts the canvas, then the tools. -->
-      <section class="doodle" id="your-turn" data-doodle>
-        <h2 class="chapter__title doodle__title" data-reveal>
+      <!-- A finished page lying over a photograph. Without JavaScript its
+           corner is already cut, and the photograph is described in its alt;
+           fold.js lets the reader fold the corner back as far as they choose. -->
+      <section class="fold" id="your-turn" data-fold>
+        <h2 class="chapter__title fold__title" data-reveal>
           Take One Corner Off
           <span class="chapter__index" aria-hidden="true">(05)</span>
         </h2>
 
-        <div class="doodle__intro">
-          <div class="chapter__body" data-reveal>
-            <p>
-              Every garment Yee started from was already finished. The work was deciding where to
-              interfere with it — and then living with the mark.
-            </p>
-            <p>Here is a length of gauze. Draw on it, then take it back.</p>
-          </div>
+        <div class="fold__intro chapter__body" data-reveal>
+          <p>
+            Every garment Yee started from was already finished. The work was deciding where to
+            interfere with it — and then living with the mark.
+          </p>
+          <p>Here is a finished page. Take one corner off, as far as you like.</p>
         </div>
 
-        <!-- Flat, not nested: each part is placed by name in the section's
-             grid, so the cloth can sit beside its controls on a wide screen.
-             DOM order stays the reading order. -->
-        <div class="doodle__surface" data-doodle-surface>
+        <div class="fold__stage" data-fold-stage>
           <img
-            class="doodle__cloth"
-            src="/images/objects/cloth-drape.png"
+            class="fold__under"
+            src="/images/archive/jacket-assembled.jpg"
             srcset="
-              /images/responsive/objects/cloth-drape-160.webp 160w,
-              /images/responsive/objects/cloth-drape-320.webp 320w,
-              /images/responsive/objects/cloth-drape-480.webp 480w,
-              /images/responsive/objects/cloth-drape-620.webp 620w
+              /images/responsive/archive/jacket-assembled-160.webp 160w,
+              /images/responsive/archive/jacket-assembled-320.webp 320w,
+              /images/responsive/archive/jacket-assembled-480.webp 480w,
+              /images/responsive/archive/jacket-assembled-640.webp 640w,
+              /images/responsive/archive/jacket-assembled-768.webp 768w,
+              /images/responsive/archive/jacket-assembled-800.webp 800w
             "
-            sizes="min(90vw, 30rem)"
-            alt="A length of gauze, photographed and pulled out of shape."
-            width="620"
-            height="681"
+            sizes="(min-width: 64rem) 40rem, 92vw"
+            alt="An M.Y. field jacket held open on a mannequin. Underneath it, a shirt pieced together from checked wool, striped strips and raw-edged scraps."
+            width="800"
+            height="1200"
             loading="lazy"
             decoding="async"
           />
-        </div>
 
-        <!-- Revealed by doodle.js once the canvas exists. -->
-        <div class="doodle__tools" data-doodle-tools hidden>
-          <fieldset class="doodle__marks" data-doodle-marks>
-            <legend>Mark</legend>
-
-            <label class="doodle__mark">
-              <input type="radio" name="mark" value="ink" checked />
-              <span class="doodle__mark-label" data-magnetic>Ink</span>
-            </label>
-
-            <label class="doodle__mark">
-              <input type="radio" name="mark" value="chalk" />
-              <span class="doodle__mark-label" data-magnetic>Chalk</span>
-            </label>
-
-            <label class="doodle__mark">
-              <input type="radio" name="mark" value="thread" />
-              <span class="doodle__mark-label" data-magnetic>Thread</span>
-            </label>
-          </fieldset>
-
-          <div class="doodle__actions">
-            <button class="doodle__action" type="button" data-doodle-undo>Undo</button>
-            <button class="doodle__action" type="button" data-doodle-clear>Take it back</button>
-            <button class="doodle__action" type="button" data-doodle-keep>Keep it</button>
+          <!-- The page itself: one face of it is all it says, so it is
+               hidden from screen readers along with its folded-back flap. -->
+          <div class="fold__sheet" data-fold-sheet aria-hidden="true">
+            <p class="fold__meta">A finished page</p>
+            <p class="fold__words">Already finished</p>
           </div>
 
-          <p class="doodle__status" data-doodle-status role="status"></p>
+          <!-- Revealed by fold.js, which is what makes the corner take. -->
+          <p class="note fold__hint" aria-hidden="true" hidden>take this corner</p>
         </div>
 
-        <p class="doodle__note" data-doodle-note hidden>
+        <p class="fold__note" data-fold-note hidden>
           That is the whole method. Something was already there, you decided where to change it, and
           both are still visible.
         </p>
-
-        <div class="doodle__objects" data-object-pop aria-hidden="true">
-          <div class="doodle__object doodle__object--needle" data-poke-item>
-            <img
-              src="/images/objects/needle-thread.png"
-              srcset="
-                /images/responsive/objects/needle-thread-160.webp 160w,
-                /images/responsive/objects/needle-thread-320.webp 320w,
-                /images/responsive/objects/needle-thread-425.webp 425w
-              "
-              sizes="(min-width: 64rem) 30rem, 70vw"
-              alt=""
-              width="425"
-              height="242"
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-        </div>
       </section>
 
-      <section class="visit" id="visit" data-trail data-theme="dark">
+      <section class="visit" id="visit" data-trail>
         <div class="visit__inner">
           <h2 class="chapter__title visit__title">
             Look
@@ -1290,53 +1599,87 @@
           </p>
         </div>
 
-        <div class="visit__objects" data-object-pop aria-hidden="true">
-          <div class="visit__object visit__object--tape" data-poke-item>
+        <!-- Her work laid out around the invitation, the way a zine spreads
+             its references across a page. -->
+        <div class="visit__prints" data-object-pop aria-hidden="true">
+          <div class="visit__print visit__print--microbook" data-poke-item>
             <img
-              src="/images/objects/measuring-tape.png"
+              src="/images/archive/microbook-laila-tokyo.jpg"
               srcset="
-                /images/responsive/objects/measuring-tape-160.webp 160w,
-                /images/responsive/objects/measuring-tape-320.webp 320w,
-                /images/responsive/objects/measuring-tape-480.webp 480w,
-                /images/responsive/objects/measuring-tape-535.webp 535w
+                /images/responsive/archive/microbook-laila-tokyo-160.webp   160w,
+                /images/responsive/archive/microbook-laila-tokyo-320.webp   320w,
+                /images/responsive/archive/microbook-laila-tokyo-480.webp   480w,
+                /images/responsive/archive/microbook-laila-tokyo-640.webp   640w,
+                /images/responsive/archive/microbook-laila-tokyo-768.webp   768w,
+                /images/responsive/archive/microbook-laila-tokyo-960.webp   960w,
+                /images/responsive/archive/microbook-laila-tokyo-1280.webp 1280w
               "
-              sizes="(min-width: 64rem) clamp(14rem, 26vw, 26rem), 28vw"
+              sizes="(min-width: 64rem) 22vw, 44vw"
               alt=""
-              width="535"
-              height="422"
+              width="1600"
+              height="1126"
               loading="lazy"
               decoding="async"
             />
           </div>
 
-          <div class="visit__object visit__object--needle" data-poke-item>
+          <div class="visit__print visit__print--drawing" data-poke-item>
             <img
-              src="/images/objects/needle-thread.png"
+              src="/images/archive/drawing-golden-spindle.jpg"
               srcset="
-                /images/responsive/objects/needle-thread-160.webp 160w,
-                /images/responsive/objects/needle-thread-320.webp 320w,
-                /images/responsive/objects/needle-thread-425.webp 425w
+                /images/responsive/archive/drawing-golden-spindle-160.webp   160w,
+                /images/responsive/archive/drawing-golden-spindle-320.webp   320w,
+                /images/responsive/archive/drawing-golden-spindle-480.webp   480w,
+                /images/responsive/archive/drawing-golden-spindle-640.webp   640w,
+                /images/responsive/archive/drawing-golden-spindle-768.webp   768w,
+                /images/responsive/archive/drawing-golden-spindle-960.webp   960w,
+                /images/responsive/archive/drawing-golden-spindle-1000.webp 1000w
               "
-              sizes="(min-width: 64rem) clamp(8rem, 13vw, 13rem), 28vw"
+              sizes="(min-width: 64rem) 20vw, 40vw"
               alt=""
-              width="425"
-              height="242"
+              width="1000"
+              height="710"
               loading="lazy"
               decoding="async"
             />
           </div>
 
-          <div class="visit__object visit__object--swatch" data-poke-item>
+          <div class="visit__print visit__print--bomber" data-poke-item>
             <img
-              src="/images/objects/cloth-swatch.png"
+              src="/images/archive/editorial-bomber.jpg"
               srcset="
-                /images/responsive/objects/cloth-swatch-160.webp 160w,
-                /images/responsive/objects/cloth-swatch-265.webp 265w
+                /images/responsive/archive/editorial-bomber-160.webp   160w,
+                /images/responsive/archive/editorial-bomber-320.webp   320w,
+                /images/responsive/archive/editorial-bomber-480.webp   480w,
+                /images/responsive/archive/editorial-bomber-640.webp   640w,
+                /images/responsive/archive/editorial-bomber-768.webp   768w,
+                /images/responsive/archive/editorial-bomber-960.webp   960w,
+                /images/responsive/archive/editorial-bomber-1130.webp 1130w
               "
-              sizes="(min-width: 64rem) clamp(5rem, 8vw, 8rem), 18vw"
+              sizes="(min-width: 64rem) 13vw, 28vw"
               alt=""
-              width="265"
-              height="420"
+              width="1130"
+              height="1386"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+
+          <div class="visit__print visit__print--suit" data-poke-item>
+            <img
+              src="/images/archive/upcycled-collection.jpg"
+              srcset="
+                /images/responsive/archive/upcycled-collection-160.webp 160w,
+                /images/responsive/archive/upcycled-collection-320.webp 320w,
+                /images/responsive/archive/upcycled-collection-480.webp 480w,
+                /images/responsive/archive/upcycled-collection-640.webp 640w,
+                /images/responsive/archive/upcycled-collection-768.webp 768w,
+                /images/responsive/archive/upcycled-collection-844.webp 844w
+              "
+              sizes="(min-width: 64rem) 12vw, 26vw"
+              alt=""
+              width="844"
+              height="1172"
               loading="lazy"
               decoding="async"
             />

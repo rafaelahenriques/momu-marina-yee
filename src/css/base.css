@@ -36,13 +36,13 @@ body {
   color: var(--color-ink);
   background-color: var(--color-bg);
 
-  /* Knocked objects and scattered letters can end up past the right edge.
+  /* Knocked objects and drifting prints can end up past the right edge.
      clip, not hidden: hidden would make the body a scroll container and
      break every pinned section on the page. */
   overflow-x: clip;
 }
 
-/* A component that sets its own display (.doodle__tools is a grid) would
+/* A component that sets its own display (.button is inline-flex) would
    otherwise outrank the browser's [hidden] rule and stay on screen. */
 [hidden] {
   display: none !important;
@@ -92,11 +92,16 @@ h3 {
 /* ============================================================
    TYPOGRAPHY
 ============================================================ */
+
+/* Headlines as a zine sets them: the narrowest, heaviest cut of the face,
+   in capitals, packed tight. */
 h1,
 h2 {
   font-family: var(--font-display);
-  font-weight: 400;
-  line-height: var(--leading-tight);
+  font-stretch: var(--stretch-display);
+  font-weight: var(--weight-display);
+  line-height: var(--leading-display);
+  text-transform: uppercase;
   text-wrap: balance;
 }
 
@@ -110,9 +115,10 @@ h2 {
 
 h3 {
   font-family: var(--font-body);
-  font-size: var(--step-2);
-  font-weight: 500;
-  line-height: 1.2;
+  font-size: var(--step-1);
+  font-weight: 700;
+  line-height: 1.1;
+  text-transform: uppercase;
 }
 
 p {
@@ -138,20 +144,76 @@ figcaption {
   color: var(--color-ink-muted);
 }
 
+/* The lines the argument turns on, pulled out in the headline cut. */
 .beat {
   font-family: var(--font-display);
-  font-size: var(--step-1);
-  line-height: 1.3;
-  max-width: 26ch;
+  font-stretch: 75%;
+  font-weight: 700;
+  font-size: var(--step-2);
+  line-height: 0.98;
+  text-transform: uppercase;
+  max-width: 22ch;
   margin-block: var(--space-l);
 }
 
 .question {
   font-family: var(--font-display);
-  font-size: var(--step-3);
-  line-height: var(--leading-tight);
-  max-width: 20ch;
+  font-stretch: var(--stretch-display);
+  font-weight: var(--weight-display);
+  font-size: var(--step-4);
+  line-height: var(--leading-display);
+  text-transform: uppercase;
+  max-width: 14ch;
   margin-block: var(--space-2xl);
+}
+
+/* Written on the page in biro: a note, a label, a correction. Larger than
+   the type it sits beside, because the hand runs small. */
+.note {
+  max-width: none;
+  font-family: var(--font-hand);
+  font-size: var(--step-hand);
+  line-height: 1;
+  color: var(--color-pen);
+}
+
+/* The scanned hand marks are black strokes on transparency. The #pen filter
+   (an inline SVG in index.html) floods them with the pen's colour, read from
+   the tokens, so there is one blue on the page, not one per scan. */
+.scribble {
+  filter: url('#pen');
+}
+
+[data-theme='dark'] .scribble {
+  filter: url('#pen-on-dark');
+}
+
+/* The shared SVG defs. Not display: none, which in some browsers switches
+   off the filters inside it: rendered, at no size, out of the way. */
+.defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.defs__pen {
+  flood-color: var(--color-pen);
+}
+
+.defs__pen--on-dark {
+  flood-color: var(--color-dark-pen);
+}
+
+/* A paper clip, drawn from the #clip symbol, holding a print to the page. */
+.clip {
+  position: absolute;
+  z-index: 1;
+  width: 1.1rem;
+  height: auto;
+  aspect-ratio: 24 / 64;
+  stroke: var(--color-clip);
+  pointer-events: none;
 }
 
 .visually-hidden:not(:focus):not(:active) {
@@ -172,9 +234,9 @@ figcaption {
 .chapter__body--standalone p {
   max-width: none;
   font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: 500;
   font-size: var(--step-1);
-  line-height: var(--leading-tight);
+  line-height: 1.15;
 }
 
 .chapter__body--standalone p + p {
@@ -216,140 +278,161 @@ figcaption {
   transform: translateY(0);
 }
 
-/* The opening, set like a cover: the title split in two around a window
-   onto one of her collages, with the name brushed across both. This is the
-   whole composition without script; hero-scene.js only opens the window. */
+/* The cover, set like a magazine spread: the title on a black page with
+   its top corner cut away, the name and three prints on the paper beside
+   it. Complete without script; hero.js cuts the corner on arrival, lets a
+   pointer pick it up, and pulls the spread apart as the reader leaves. */
 .hero {
+  --hero-cut: clamp(3.5rem, 12vw, 8.5rem);
+
   position: relative;
-
-  /* The first screen, less the breadcrumb and bar above it (nav.js measures
-     them), so the whole cover is in view on arrival. */
-  min-height: calc(100dvh - var(--masthead-height, 7rem));
   display: grid;
-  place-items: center;
-  padding: var(--space-l) var(--gutter);
-
-  /* Not clipped: pinned, the cover is shorter than the screen, and the two
-     halves of the title part past its edges into the space below. */
-  overflow: visible;
-
-  /* Painted here rather than left to the page: the name below blends with
-     whatever is behind it in its stacking context, and once pinned this
-     section can become that context. */
+  grid-template-areas:
+    'name'
+    'note'
+    'title'
+    'prints'
+    'meta';
+  min-height: calc(100dvh - var(--masthead-height, 7rem));
   background: var(--color-bg);
+
+  /* The fallen corner and the knocked prints must not widen the page. */
+  overflow: clip;
+}
+
+.hero__name {
+  grid-area: name;
+  padding: var(--space-m) var(--gutter) var(--space-2xs);
+}
+
+.hero__wordmark {
+  display: block;
+  width: min(100%, 24rem);
+  height: auto;
+}
+
+.hero__note {
+  grid-area: note;
+  padding-inline: var(--gutter);
+  rotate: -3deg;
+}
+
+/* Each word its own line, as large as the page allows: about 3em wide for
+   "CORNER" in this cut. */
+.hero__title {
+  grid-area: title;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  max-width: none;
+  margin: 0;
+  padding: calc(var(--hero-cut) * 0.6) var(--gutter) var(--space-m);
+  font-family: var(--font-display);
+  font-stretch: var(--stretch-display);
+  font-weight: var(--weight-display);
+  font-size: min(30vw, 16vh);
+  line-height: var(--leading-display);
+  text-transform: uppercase;
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--hero-cut)) 0,
+    100% var(--hero-cut),
+    100% 100%,
+    0 100%
+  );
+}
+
+.hero__word {
+  display: block;
+}
+
+/* Lying on the paper where it fell. Sits on the title's top corner, the
+   notch it came from, and is moved out of it by transform, so hero.js can
+   read where it rests and play the cut from the notch to there. */
+.hero__corner {
+  grid-area: title;
+  justify-self: end;
+  align-self: start;
+  z-index: 1;
+  width: var(--hero-cut);
+  aspect-ratio: 1;
+  background: var(--color-ink);
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+  transform: translate(-30%, -70%) rotate(-18deg);
+}
+
+.hero__prints {
+  grid-area: prints;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2xs);
+  padding: var(--space-s) var(--gutter) 0;
+}
+
+.hero__prints img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
 }
 
 .hero__meta {
-  position: absolute;
-  top: var(--space-m);
-  inset-inline: var(--gutter);
-  z-index: 2;
+  grid-area: meta;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   gap: var(--space-2xs) var(--space-m);
   max-width: none;
+  padding: var(--space-s) var(--gutter) var(--space-m);
   font-family: var(--font-utility);
-  font-size: var(--step--1);
-  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-}
-
-/* No z-index, on purpose: one would make this a stacking context with no
-   paper of its own, and the name would blend against nothing. It sits above
-   the scattered pieces by coming after them. */
-.hero__inner {
-  position: relative;
-}
-
-/* On a phone "One Corner" breaks in two, which lets the type nearly double:
-   the title is meant to be the size of the screen, not of its longest line. */
-.hero__headline {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: none;
-  font-family: var(--font-display);
-
-  /* Sized to "CORNER", about 4em in these capitals, across a phone. */
-  font-size: min(20vw, 11vh);
-  line-height: var(--leading-display);
-  letter-spacing: 0.01em;
-  text-align: center;
-  text-transform: uppercase;
-}
-
-.hero__line {
-  display: block;
 }
 
 @media (min-width: 48rem) {
-  /* "ONE CORNER" runs to about 6.4em in capitals: this keeps it inside the
-     gutters at any width. */
-  .hero__headline {
-    font-size: min(13.5vw, 22vh);
+  .hero {
+    grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+    grid-template-rows: auto auto 1fr auto;
+    grid-template-areas:
+      'title name'
+      'title note'
+      'title prints'
+      'title meta';
+    column-gap: var(--space-l);
+    padding-right: var(--gutter);
   }
 
-  .hero__line {
-    white-space: nowrap;
+  .hero__name,
+  .hero__note,
+  .hero__prints,
+  .hero__meta {
+    padding-inline: 0;
   }
-}
 
-/* The window is cut to a band across her eyes: 69% of the scan's width and
-   26% of its height, from 4% down. The scan itself is laid out at the size
-   it opens to, so opening it is only a matter of widening the cut. */
-.hero__window {
-  --opened: min(58dvh, 92vw);
+  .hero__name {
+    padding-top: var(--space-l);
+  }
 
-  position: relative;
-  display: block;
-  width: calc(var(--opened) * 0.69);
-  height: calc(var(--opened) * 1273 / 900 * 0.26);
-  margin-block: var(--space-xs);
-  overflow: hidden;
-}
+  /* "CORNER" is about 3.1em in this cut, and the black page about three
+     fifths of the screen: this keeps it on one line from tablet width up. */
+  .hero__title {
+    padding-inline: var(--space-m);
+    font-size: min(14vw, 26vh);
+  }
 
-.hero__window img {
-  position: absolute;
-  top: calc(-4% / 0.26);
-  left: 0;
-  width: var(--opened);
-  max-width: none;
-  height: auto;
-}
+  /* Out over the gutter and onto the white page, below the name. */
+  .hero__corner {
+    transform: translate(75%, 150%) rotate(24deg);
+  }
 
-/* Enhanced, the cut moves onto the scan itself as a clip-path, so the window
-   stops clipping and the scan can open past it. */
-.hero.is-enhanced .hero__window {
-  overflow: visible;
-}
+  .hero__note {
+    padding-left: calc(var(--hero-cut) * 0.9);
+  }
 
-.hero.is-enhanced .hero__window img {
-  will-change: transform, clip-path;
-}
-
-/* Brushed across the title and the window, the way a name is signed over a
-   proof. Inverted and set to difference, it reads as black on the paper and
-   turns pale wherever it crosses the collage or the type. The blend sits on
-   the heading, not the image: the z-index makes the heading its own group,
-   and a blend inside that group would only see the heading. */
-.hero__name {
-  position: absolute;
-  top: 62%;
-  left: 54%;
-  z-index: 1;
-  width: min(84vw, 48rem);
-  translate: -50% -50%;
-  rotate: -6deg;
-  mix-blend-mode: difference;
-  pointer-events: none;
-}
-
-.hero__wordmark {
-  display: block;
-  width: 100%;
-  height: auto;
-  filter: invert(1);
+  .hero__prints {
+    align-self: end;
+    padding-top: var(--space-m);
+  }
 }
 
 .chapter {
@@ -365,18 +448,45 @@ figcaption {
   margin-inline: auto;
 }
 
-/* The opening statement, set as a headline: the label it strikes out and the
-   phrase it marks have to read from across the room. After .chapter__body, which it
-   widens at equal specificity. */
+/* Room under the sentence for the house lights to go down: the foot of the
+   section shades into the black of the spotlight that follows, so the two
+   meet without an edge. Two classes, to outrank the padding every
+   standalone chapter gets above. */
+.chapter.lede {
+  padding-bottom: 55vh;
+  background: linear-gradient(
+    to bottom,
+    transparent calc(100% - 55vh),
+    var(--color-dark-bg)
+  );
+}
+
+/* The opening, set like the paragraphs that turn over later in the story:
+   one calm sentence, centred, with a screen to itself. After
+   .chapter__body--standalone, which it widens at equal specificity. */
 .chapter__body--lede {
-  max-width: var(--width-wide);
+  max-width: 40rem;
+  min-height: 70dvh;
+  display: grid;
+  place-content: center;
 }
 
 .chapter__body--lede p {
-  font-size: var(--step-4);
-  line-height: 1.04;
-  letter-spacing: -0.015em;
+  font-weight: 400;
+  font-size: var(--step-3);
+  line-height: 1.12;
   text-wrap: balance;
+}
+
+/* The label her name is filed under, cut in the cover's capitals: the
+   spotlight that follows is on these words. */
+.chapter__body--lede strong {
+  font-stretch: var(--stretch-display);
+  font-weight: var(--weight-display);
+  text-transform: uppercase;
+
+  /* The condensed cut's word space is narrow enough to read as none. */
+  word-spacing: 0.12em;
 }
 
 /* Poster scale, in capitals, the way a title is cut into a museum wall.
@@ -388,7 +498,6 @@ figcaption {
   margin-bottom: var(--space-l);
   font-size: var(--step-5);
   line-height: var(--leading-display);
-  letter-spacing: 0.01em;
   text-transform: uppercase;
   text-wrap: balance;
 }
@@ -404,22 +513,18 @@ figcaption {
   vertical-align: top;
 }
 
-/* A drawn underline rather than a fill: no colour to bring, it takes the
-   ink of whatever scene it is in, and cloned across a line break.
-   scribble.js pulls it along the line.
-
-   The stroke is placed within the font's own box, not the line's, so where
-   the baseline falls depends on the face: 79% down in Roobert, 74% in Bodoni
-   Moda. Each gets a stroke just under its baseline, clear of the next line
-   even in the tight leading of a title. */
+/* Underlined in biro: the editor's mark on the printed line, cloned across
+   a line break and pulled along it by scribble.js. The stroke sits in the
+   font's own box, just under the baseline (measured for Archivo), and
+   closer still in the tight leading of a headline. */
 mark {
-  --mark-from: 84%;
-  --mark-to: 88%;
+  --mark-from: 86%;
+  --mark-to: 92%;
 
   color: inherit;
   background: linear-gradient(
       transparent var(--mark-from),
-      currentColor var(--mark-from) var(--mark-to),
+      var(--color-pen) var(--mark-from) var(--mark-to),
       transparent var(--mark-to)
     )
     no-repeat 0 0 / 100% 100%;
@@ -427,16 +532,14 @@ mark {
   -webkit-box-decoration-break: clone;
 }
 
-.chapter__title mark,
-.chapter__body--lede mark {
-  --mark-from: 78%;
-  --mark-to: 81%;
+.chapter__title mark {
+  --mark-from: 84%;
+  --mark-to: 89%;
 }
 
 /* Black scenes take their colours from the tokens (see tokens.css). What the
-   tokens cannot reach are the black artwork files — the logo, the wordmark,
-   the scanned hand marks — so those are inverted to match. */
-[data-theme='dark'] .scribble,
+   tokens cannot reach are the black artwork files — the logo and the
+   wordmark — so those are inverted to match. */
 [data-theme='dark'] .site-header__logo img,
 [data-theme='dark'] .site-footer__wordmark {
   filter: invert(1);

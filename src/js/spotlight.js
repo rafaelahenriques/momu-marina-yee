@@ -2,25 +2,26 @@ import { gsap, SCRUB } from './motion.js';
 
 /**
  * "Move away from the spotlight, and her practice becomes easier to see."
- * Played as a camera pulling back. The black opening runs straight on into a
- * dark room, where a single light holds the label her name is usually filed
- * under. Pinned,
- * scrolling backs away from it: the light shrinks into the distance, the
- * house lights come up, and her practice comes into frame from beyond the
- * edges, the way a room does when you step back from the one thing lit in it.
- * The second half of the sentence arrives with it.
+ * Played as a camera pulling back, on a black page like the cover. A single
+ * light holds the label her name is usually filed under, set as large as the
+ * cover's title. Pinned, scrolling backs away from it: the light shrinks into
+ * the distance and her practice comes into frame from beyond the edges, the
+ * way a room does when you step back from the one thing lit in it. The second
+ * half of the sentence arrives with it.
  *
  * The stage is built here and aria-hidden. Without it, the line and her
  * practice simply sit on the page together.
  */
 
-// The name the spotlight is usually on. The lede has just scattered it.
+// The name the spotlight is usually on, as the lede has just set it.
 const LABEL = 'The Antwerp Six';
 
 export function initSpotlight() {
   const section = document.querySelector('[data-spotlight]');
   const line = section?.querySelector('.statement__text');
   if (!section || !line) return;
+
+  lightsDown(document.querySelector('[data-lights-down]'));
 
   const rest = line.querySelector('[data-spotlight-rest]');
   const pieces = gsap.utils.toArray(
@@ -58,7 +59,7 @@ export function initSpotlight() {
         pin: true,
         scrub: SCRUB,
         invalidateOnRefresh: true,
-        // Second of the seven pins, top to bottom — see main.js.
+        // First of the six pins, top to bottom — see main.js.
         refreshPriority: 6,
       },
     })
@@ -75,17 +76,6 @@ export function initSpotlight() {
       0,
     )
     .to(light, { autoAlpha: 0, duration: 0.15, ease: 'none' }, 0.55)
-    // The house lights: the room's own background, from ink to paper.
-    .fromTo(
-      section,
-      { backgroundColor: token('--color-ink') },
-      {
-        backgroundColor: token('--color-bg'),
-        duration: 0.45,
-        ease: 'power1.inOut',
-      },
-      0.3,
-    )
     .fromTo(
       pieces,
       {
@@ -118,6 +108,46 @@ export function initSpotlight() {
     .to({}, { duration: 0.2 });
 }
 
+/**
+ * The house lights go down before the spotlight comes on. The stylesheet
+ * already shades the foot of the lede into the stage's black; this fades the
+ * rest of it after, sentence and all, as it scrolls away, so the reader is in
+ * the dark when the light appears.
+ */
+function lightsDown(room) {
+  if (!room) return;
+
+  const root = getComputedStyle(document.documentElement);
+  const token = (name) => root.getPropertyValue(name).trim();
+
+  // Faded in on its own alpha: from plain `transparent`, which is black at
+  // zero, the midpoint would be a cold grey, not a warm one.
+  const [r, g, b] = gsap.utils.splitColor(token('--color-dark-bg'));
+
+  gsap.fromTo(
+    room,
+    {
+      backgroundColor: `rgba(${r}, ${g}, ${b}, 0)`,
+      color: token('--color-ink'),
+      '--color-pen': token('--color-pen'),
+    },
+    {
+      backgroundColor: `rgba(${r}, ${g}, ${b}, 1)`,
+      color: token('--color-dark-ink'),
+      '--color-pen': token('--color-dark-pen'),
+      ease: 'power1.in',
+      scrollTrigger: {
+        trigger: room,
+        // From the sentence sitting in the middle of the screen to the
+        // moment the stage's top edge comes up from below.
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: SCRUB,
+      },
+    },
+  );
+}
+
 function buildStage() {
   const stage = document.createElement('div');
   stage.className = 'spotlight__stage';
@@ -133,11 +163,4 @@ function buildStage() {
   light.append(label);
   stage.append(light);
   return { stage, light };
-}
-
-// Read from the tokens rather than written down a second time.
-function token(name) {
-  return getComputedStyle(document.documentElement)
-    .getPropertyValue(name)
-    .trim();
 }
