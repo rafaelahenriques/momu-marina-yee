@@ -1030,10 +1030,12 @@
   color: var(--color-ink-muted);
 }
 
+/* A size down from the other chapter titles, so the title and the film
+   are on screen together. */
 .film__title {
-  max-width: none;
+  max-width: 10ch;
   margin: 0 0 var(--space-m);
-  font-size: var(--step-5);
+  font-size: var(--step-4);
   line-height: var(--leading-display);
 }
 
@@ -1136,6 +1138,29 @@
   color: var(--color-ink-muted);
 }
 
+/* Wide: the title beside the film rather than above it, and the film held
+   to the screen's height, so both can be seen without scrolling. */
+@media (min-width: 56rem) {
+  .film {
+    grid-template-columns: minmax(0, 0.6fr) minmax(0, 1.4fr);
+    grid-template-rows: auto 1fr;
+    align-items: start;
+    column-gap: var(--space-xl);
+  }
+
+  .film__figure {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    justify-self: end;
+    max-width: calc((100dvh - 12rem) * 16 / 9);
+    margin-top: var(--space-l);
+  }
+
+  .film__title {
+    margin: 0;
+  }
+}
+
 /* Above the film's top corner, never on it: the whole frame is the link. */
 .film__note {
   position: absolute;
@@ -1158,7 +1183,7 @@
 
 .picker {
   /* The height every look stands at; the panels' floor is measured from it. */
-  --look-height: min(56vh, 30rem);
+  --look-height: min(48vh, 26rem);
 
   display: grid;
 
@@ -1231,7 +1256,7 @@
   font-family: var(--font-display);
   font-stretch: var(--stretch-display);
   font-weight: var(--weight-display);
-  font-size: clamp(2.4rem, 1rem + 7vw, 7rem);
+  font-size: clamp(2.2rem, 0.8rem + 6.5vw, 6rem);
   line-height: var(--leading-display);
   text-transform: uppercase;
   word-spacing: 0.12em;
@@ -1395,10 +1420,11 @@
    under them, the look itself standing the full height beside both. The
    panels share the section's grid (subgrid), so a panel's copy can sit
    under the index while its figure sits beside it. Only with script, which
-   shows one panel at a time; without it they stack as above. */
-@media (min-width: 64rem) {
+   shows one panel at a time; without it they stack as above. From a small
+   laptop up: below that the names would wrap beside the figure. */
+@media (min-width: 56rem) {
   .js .picker {
-    --look-height: min(76vh, 44rem);
+    --look-height: min(62vh, 36rem);
 
     /* One width for every look, about the narrowest a standing figure is
        at this height: sized by its content, the column would change with
@@ -1419,7 +1445,7 @@
   }
 
   .looks__name {
-    font-size: min(6.2vw, 11vh);
+    font-size: min(5.4vw, 10vh);
   }
 
   .js .picker__panels {
@@ -1441,9 +1467,15 @@
     pointer-events: none;
   }
 
+  /* A little below the first name, and held in view (under the header)
+     while the names and the story beside it scroll past, so the whole look
+     and its name are always on screen together. */
   .js .picker__look {
     grid-area: 1 / 2 / -1 / 3;
     align-self: start;
+    position: sticky;
+    top: 7rem;
+    margin-top: var(--space-l);
     pointer-events: auto;
   }
 
