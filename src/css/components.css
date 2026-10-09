@@ -519,6 +519,10 @@
   );
 }
 
+/* The beam runs from the pool up to the stage's top edge (the pool sits
+   40% down a screen-high stage) and has faded to nothing by the time it
+   gets there. Any taller and the edge would cut it while still lit, which
+   draws a line across the dark the lede has just faded into. */
 .spotlight__light::before {
   content: '';
   position: absolute;
@@ -526,14 +530,14 @@
   left: 50%;
   z-index: -1;
   width: 60%;
-  height: 120vh;
+  height: 40dvh;
   translate: -50% 0;
   background: linear-gradient(
     to top,
     color-mix(in srgb, var(--color-dark-ink) 24%, transparent),
-    transparent 85%
+    transparent 95%
   );
-  clip-path: polygon(44% 0, 56% 0, 100% 100%, 0 100%);
+  clip-path: polygon(40% 0, 60% 0, 100% 100%, 0 100%);
 }
 
 /* "THE ANTWERP SIX" is about 6.4em in the condensed capitals, so 14vw
